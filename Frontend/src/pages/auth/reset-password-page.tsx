@@ -1,28 +1,53 @@
-import { useState } from "react";
-import { ChevronLeft, MessageCircle } from 'lucide-react';
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { ChevronLeft, MessageCircle } from "lucide-react"
+import { Link } from "react-router-dom"
+import { useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card } from "@/components/ui/card"
+import { Spinner } from "@/components/ui/spinner"
+import { useResetPassword } from "@/provider/auth"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { resetPasswordSchema, ResetPasswordFormValues } from "@/schemas/resetPasswordSchema"
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 
 export default function ResetPasswordPage() {
-  const [email, setEmail] = useState("");
+  const { mutateAsync, isPending } = useResetPassword()
+  
+  const form = useForm<ResetPasswordFormValues>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
+    mode: "onChange",
+  })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Reset password for:", email);
-  };
+  const handleSubmit = async (data: ResetPasswordFormValues) => {
+    try {
+      const res = await mutateAsync(data)
+    }
+    catch (error) {
+      console.error("Error in reset password page in: ", error)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background flex">
       {/* LEFT SIDE */}
       <div className="w-full lg:w-1/2 min-h-screen flex flex-col p-6 lg:p-8">
         <div className="flex items-center gap-2">
-          {/* <img src="/icons/message.svg" alt="ButterChat" className="w-7 h-7" /> */}
-          <MessageCircle className="text-primary text-2xl"/>
-          <span className="text-primary text-2xl font-medium">ButterChat</span>
+          <MessageCircle className="text-primary text-2xl" />
+          <span className="text-primary text-2xl font-medium">
+            ButterChat
+          </span>
         </div>
-        {/*CENTERED FORM */}
+
+        {/* CENTERED FORM */}
         <div className="flex-1 md:p-16 flex items-center justify-center">
           <div className="w-full max-w-md">
             <Card className="bg-transparent border-0 shadow-none">
@@ -31,33 +56,48 @@ export default function ResetPasswordPage() {
                 <h1 className="text-primary text-3xl font-bold">
                   Reset Password
                 </h1>
-                <p className="text-muted-foreground text-lg text-center">
+                <p className="text-muted-foreground text-lg text-center ">
                   Enter your email and we'll send you instructions to reset your
                   password
                 </p>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1">
-                  <label className="text-primary font-semibold">Email</label>
-                  <Input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="user@xyzcorp.com"
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(handleSubmit)}
+                  className="flex flex-col gap-4"
+                >
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-1">
+                        <FormLabel className="text-primary text-base font-semibold">
+                          Email
+                        </FormLabel>
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder="user@xyzcorp.com"
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
 
-                <Button className="rounded-lg font-medium">Send password reset link</Button>
-              </form>
+                  <Button className="rounded-lg font-medium" disabled={isPending}>
+                    {isPending ? <> <Spinner /> Please wait... </>: <> Send password reset link </>}
+                  </Button>
+                </form>
+              </Form>
 
-              {/*Back to login */}
+              {/* Back to login */}
               <Link
                 to="/login"
                 className="mt-4 flex items-center justify-center gap-2 text-md text-muted-foreground hover:text-primary"
               >
-                <ChevronLeft/>
+                <ChevronLeft />
                 Back to login
               </Link>
             </Card>
@@ -74,5 +114,5 @@ export default function ResetPasswordPage() {
         />
       </div>
     </div>
-  );
+  )
 }

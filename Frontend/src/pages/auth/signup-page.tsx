@@ -10,7 +10,7 @@ import { useEffect, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signupSchema, SignupFormValues} from "@/schemas/signupSchema"
 import { Spinner } from "@/components/ui/spinner"
-import { useSignup } from "@/provider/auth/auth.queries"
+import { useSignup } from "@/provider/auth"
 import { useNavigate } from "react-router-dom"
 import {
   InputGroup,
@@ -61,7 +61,7 @@ export default function SignupPage() {
       }
     }
     catch (error){
-      console.error("Error signing up: ", error)
+      console.error("Error in signup page: ", error)
     }
   }
 
@@ -99,8 +99,8 @@ export default function SignupPage() {
                 <h1 className="text-primary text-3xl font-bold text-center">
                   Create your account
                 </h1>
-                <p className="text-muted-foreground text-lg text-center">
-                  Fill in the form below to create your account.
+                <p className="text-muted-foreground text-lg text-center ">
+                  Fill in the form below to create your account
                 </p>
               </div>
 

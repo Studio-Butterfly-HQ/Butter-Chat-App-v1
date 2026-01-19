@@ -10,9 +10,12 @@ export interface SignupPayload {
   password: string
 }
 
-export interface AuthResponse {
+export interface ResetPasswordPayload {
+  email: string
+}
+
+export interface ApiResponse<T = null> {
   success: boolean
   message: string
-  token?: string
-  user?: any
+  data: T
 }

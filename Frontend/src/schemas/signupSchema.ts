@@ -20,7 +20,7 @@ export const signupSchema = z
 
     password: z
       .string()
-      .min(8, "Password must be at least 8 characters"),
+      .min(8, "Must be at least 8 characters"),
 
     confirmPassword: z
       .string()

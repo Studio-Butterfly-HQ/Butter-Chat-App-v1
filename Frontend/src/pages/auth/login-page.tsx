@@ -9,7 +9,7 @@ import { Eye, EyeOff, MessageCircle } from "lucide-react"
 import { loginSchema, LoginFormValues } from "@/schemas/loginSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useNavigate } from "react-router-dom"
-import { useLogin } from "@/provider/auth/auth.queries"
+import { useLogin } from "@/provider/auth"
 import { Spinner } from "@/components/ui/spinner"
 import {
   InputGroup,
@@ -46,7 +46,7 @@ export default function LoginPage() {
     }
   }
   catch (error) {
-    console.error("Error logging in: ", error)
+    console.error("Error in login page: ", error)
   }
 }
 
@@ -68,7 +68,7 @@ export default function LoginPage() {
                   Login to your account
                 </h1>
                 <p className="text-muted-foreground text-lg text-center">
-                  Login to your account.
+                  Enter your credentials to access your account
                 </p>
               </div>
 
