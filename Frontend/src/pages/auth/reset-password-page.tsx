@@ -40,7 +40,7 @@ export default function ResetPasswordPage() {
               {/* Form */}
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <label className="text-primary font-bold">Email</label>
+                  <label className="text-primary font-semibold">Email</label>
                   <Input
                     type="email"
                     value={email}

@@ -11,7 +11,7 @@ export default function Header() {
     navigate("/");
   };
   return (
-    <header className="flex items-center justify-between">
+    <header className="flex sticky top-0 z-50 w-full pt-6 lg:pt-8 items-center justify-between">
       <div className="flex items-center gap-2">
         <MessageCircle className="text-primary text-2xl"/>
         <span className="text-primary text-2xl font-medium">

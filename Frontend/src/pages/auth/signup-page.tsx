@@ -65,7 +65,7 @@ export default function SignupPage() {
               >
                 {/* Company Name */}
                 <div className="flex flex-col gap-1">
-                  <label className="text-primary font-bold">Company Name</label>
+                  <label className="text-primary font-semibold">Company Name</label>
                   <Input
                     name="companyName"
                     value={formData.companyName}
@@ -74,7 +74,7 @@ export default function SignupPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-primary font-bold">Subdomain</label>
+                  <label className="text-primary font-semibold">Subdomain</label>
                   <ButtonGroup className="w-full">
                     <InputGroup>
                       <InputGroupInput
@@ -93,7 +93,7 @@ export default function SignupPage() {
 
                 {/* Email */}
                 <div className="flex flex-col gap-1">
-                  <label className="text-primary font-bold">Email</label>
+                  <label className="text-primary font-semibold">Email</label>
                   <Input
                     name="email"
                     type="email"
@@ -105,7 +105,7 @@ export default function SignupPage() {
 
                 {/* Password */}
                 <div className="flex flex-col gap-1">
-                  <label className="text-primary font-bold">Password</label>
+                  <label className="text-primary font-semibold">Password</label>
                   <InputGroup>
                     <InputGroupInput
                       name="password"
@@ -125,7 +125,7 @@ export default function SignupPage() {
 
                 {/* Confirm Password */}
                 <div className="flex flex-col gap-1">
-                  <label className="text-primary font-bold">
+                  <label className="text-primary font-semibold">
                     Confirm Password
                   </label>
                   <InputGroup>
