@@ -4,7 +4,8 @@ export interface LoginPayload {
 }
 
 export interface SignupPayload {
-  name: string
+  companyName: string
+  subdomain: string
   email: string
   password: string
 }

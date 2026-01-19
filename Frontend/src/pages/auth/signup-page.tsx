@@ -1,54 +1,100 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 import { Eye, EyeOff, MessageCircle } from "lucide-react"
+import { useEffect, useRef } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { signupSchema, SignupFormValues} from "@/schemas/signupSchema"
+import { Spinner } from "@/components/ui/spinner"
+import { useSignup } from "@/provider/auth/auth.queries"
+import { useNavigate } from "react-router-dom"
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components/ui/input-group";
-import { ButtonGroup, ButtonGroupText } from "@/components/ui/button-group";
+} from "@/components/ui/input-group"
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
+  ButtonGroup,
+  ButtonGroupText,
+} from "@/components/ui/button-group"
 
 
 export default function SignupPage() {
-  const [formData, setFormData] = useState({
-    companyName: "",
-    subdomain: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
   const [showPassword, setShowPassword] = useState(false)
+  const subdomainTouched = useRef(false)
+  const { mutateAsync, isPending } = useSignup()
+  const navigate = useNavigate()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const form = useForm<SignupFormValues>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      companyName: "",
+      subdomain: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    mode: "onChange",
+  })
+  const companyName = form.watch("companyName")
+  const password = form.watch("password")
+  const confirmPassword = form.watch("confirmPassword")
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Signup data:", formData);
-  };
+  const passwordsMatch = password && confirmPassword && password === confirmPassword
+
+  const handleSubmit = async (data: SignupFormValues) => {
+    try{
+      const res = await mutateAsync(data)
+      if (res.success){
+        navigate("/onboarding")
+      }
+    }
+    catch (error){
+      console.error("Error signing up: ", error)
+    }
+  }
+
+  useEffect(() => {
+    if (!companyName){
+      form.setValue("subdomain", "")
+      return
+    }
+    if (subdomainTouched.current) return
+    
+    const generatedSubdomain = companyName
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")        // spaces → hyphen
+      .replace(/[^a-z0-9-]/g, "")  // remove symbols like @ # $
+      .replace(/-+/g, "-")         // collapse multiple hyphens
+      .replace(/^-+|-+$/g, "")
+    form.setValue("subdomain", generatedSubdomain)
+  }, [companyName, form])
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* LEFT SIDE */}
       <div className="w-full lg:w-1/2 min-h-screen flex flex-col p-6 lg:p-8">
-        {/* LOGO */}
         <div className="flex items-center gap-2">
-          {/* <img src="/icons/message.svg" alt="ButterChat" className="w-7 h-7" /> */}
-          <MessageCircle className="text-primary text-2xl"/>
-          <span className="text-primary text-2xl font-medium">ButterChat</span>
+          <MessageCircle className="text-primary text-2xl" />
+          <span className="text-primary text-2xl font-medium">
+            ButterChat
+          </span>
         </div>
 
-        {/* CENTERED FORM */}
         <div className="flex-1 md:p-16 pt-16 flex items-center justify-center">
           <div className="w-full max-w-md">
             <Card className="bg-transparent border-0 shadow-none">
-              {/* Header */}
               <div className="flex flex-col items-center gap-2 mb-6">
                 <h1 className="text-primary text-3xl font-bold text-center">
                   Create your account
@@ -58,94 +104,147 @@ export default function SignupPage() {
                 </p>
               </div>
 
-              {/* Form */}
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col gap-4 mb-6"
-              >
-                {/* Company Name */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-primary font-semibold">Company Name</label>
-                  <Input
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(handleSubmit)}
+                  className="flex flex-col gap-4 mb-6"
+                >
+                  {/* Company Name */}
+                  <FormField
+                    control={form.control}
                     name="companyName"
-                    value={formData.companyName}
-                    onChange={handleChange}
-                    placeholder="XYZ Corporation"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-1">
+                        <FormLabel className="text-primary text-base font-semibold">
+                          Company Name
+                        </FormLabel>
+                        <Input
+                          {...field}
+                          placeholder="XYZ Corporation"
+                        />
+                        <FormMessage className="text-sm" />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-primary font-semibold">Subdomain</label>
-                  <ButtonGroup className="w-full">
-                    <InputGroup>
-                      <InputGroupInput
-                        name="subdomain"
-                        value={formData.subdomain}
-                        onChange={handleChange}
-                        placeholder="xyzcorp"
-                      />
-                      {/* <InputGroupAddon align="inline-end">
-                        <Link2Icon />
-                      </InputGroupAddon> */}
-                    </InputGroup>
-                    <ButtonGroupText>.butterchat.io</ButtonGroupText>
-                  </ButtonGroup>
-                </div>
 
-                {/* Email */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-primary font-semibold">Email</label>
-                  <Input
+                  {/* Subdomain */}
+                  <FormField
+                    control={form.control}
+                    name="subdomain"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-1">
+                        <FormLabel className="text-primary text-base font-semibold">
+                          Subdomain
+                        </FormLabel>
+                        <ButtonGroup className="w-full">
+                          <InputGroup>
+                            <InputGroupInput
+                              {...field}
+                              onChange={(e) => {
+                                subdomainTouched.current = true
+                                field.onChange(e)
+                              }}
+                              placeholder="xyzcorp"
+                            />
+                          </InputGroup>
+                          <ButtonGroupText>
+                            .butterchat.io
+                          </ButtonGroupText>
+                        </ButtonGroup>
+                        <FormMessage className="text-sm" />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Email */}
+                  <FormField
+                    control={form.control}
                     name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="user@xyzcorp.com"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-1">
+                        <FormLabel className="text-primary text-base font-semibold">
+                          Email
+                        </FormLabel>
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder="user@xyzcorp.com"
+                        />
+                        <FormMessage  className="text-sm"/>
+                      </FormItem>
+                    )}
                   />
-                </div>
 
-                {/* Password */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-primary font-semibold">Password</label>
-                  <InputGroup>
-                    <InputGroupInput
-                      name="password"
-                      type={showPassword ? "text" : "password"}
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="••••••••••••"
-                    />
-                    <InputGroupAddon align="inline-end" className="cursor-pointer bg-background h-full rounded-r-md" onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <EyeOff /> : <Eye />}
-                    </InputGroupAddon>
-                  </InputGroup>
-                  <p className="text-muted-foreground text-sm">
-                    Must be at least 8 characters
-                  </p>
-                </div>
+                  {/* Password */}
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-1">
+                        <FormLabel className="text-primary font-semibold">
+                          Password
+                        </FormLabel>
+                        <InputGroup>
+                          <InputGroupInput
+                            {...field}
+                            type={showPassword ? "text" : "password"}
+                            placeholder="••••••••••••"
+                          />
+                          <InputGroupAddon
+                            align="inline-end"
+                            className="cursor-pointer bg-background h-full rounded-r-md"
+                            onClick={() =>
+                              setShowPassword(!showPassword)
+                            }
+                          >
+                            {showPassword ? <EyeOff /> : <Eye />}
+                          </InputGroupAddon>
+                        </InputGroup>
+                        {/* <p className="text-muted-foreground text-sm">
+                          Must be at least 8 characters
+                        </p> */}
+                        <FormMessage  className="text-sm"/>
+                      </FormItem>
+                    )}
+                  />
 
-                {/* Confirm Password */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-primary font-semibold">
-                    Confirm Password
-                  </label>
-                  <InputGroup>
-                    <InputGroupInput
-                      name="confirmPassword"
-                      type={showPassword ? "text" : "password"}
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      placeholder="••••••••••••"
-                    />
-                    <InputGroupAddon align="inline-end" className="cursor-pointer bg-background h-full rounded-r-md" onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <EyeOff /> : <Eye />}
-                    </InputGroupAddon>
-                  </InputGroup>
-                </div>
+                  {/* Confirm Password */}
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-1">
+                        <FormLabel className="text-primary text-base font-semibold">
+                          Confirm Password
+                        </FormLabel>
+                        <InputGroup>
+                          <InputGroupInput
+                            {...field}
+                            type={showPassword ? "text" : "password"}
+                            placeholder="••••••••••••"
+                          />
+                          <InputGroupAddon
+                            align="inline-end"
+                            className="cursor-pointer bg-background h-full rounded-r-md"
+                            onClick={() =>
+                              setShowPassword(!showPassword)
+                            }
+                          >
+                            {showPassword ? <EyeOff /> : <Eye />}
+                          </InputGroupAddon>
+                        </InputGroup>
+                        <FormMessage className="text-sm"/>
+                        {/* {form.formState.errors.confirmPassword && passwordsMatch && (<p className="text-green-500 text-sm">Passwords match</p>)} */}
+                      </FormItem>
+                    )}
+                  />
 
-                <Button className="rounded-lg font-medium">Create Account</Button>
-              </form>
+                  <Button className="rounded-lg font-medium" disabled={isPending}>
+                    {isPending ? <> <Spinner /> Please wait... </>: <> Create Account </>}
+                  </Button>
+                </form>
+              </Form>
 
-              {/* Divider */}
               <div className="flex items-center gap-3 mb-4">
                 <Separator className="flex-1" />
                 <span className="text-md text-muted-foreground">
@@ -154,7 +253,6 @@ export default function SignupPage() {
                 <Separator className="flex-1" />
               </div>
 
-              {/* Social buttons */}
               <div className="flex gap-4 mb-4">
                 <Button variant="outline" className="flex-1 rounded-xl">
                   <img
@@ -179,10 +277,12 @@ export default function SignupPage() {
                 </Button>
               </div>
 
-              {/* Footer */}
               <p className="text-center text-muted-foreground mb-4">
                 Already have an account?{" "}
-                <Link to="/login" className="underline text-muted-foreground">
+                <Link
+                  to="/login"
+                  className="underline text-muted-foreground"
+                >
                   Sign in
                 </Link>
               </p>
@@ -191,16 +291,19 @@ export default function SignupPage() {
 
               <p className="text-center text-muted-foreground text-sm">
                 By clicking continue, you agree to our{" "}
-                <span className="underline cursor-pointer">Terms</span> and{" "}
-                <span className="underline cursor-pointer">Privacy Policy</span>
-                .
+                <span className="underline cursor-pointer">
+                  Terms
+                </span>{" "}
+                and{" "}
+                <span className="underline cursor-pointer">
+                  Privacy Policy
+                </span>.
               </p>
             </Card>
           </div>
         </div>
       </div>
 
-      {/* RIGHT IMAGE */}
       <div className="hidden lg:flex w-1/2 p-2">
         <img
           src="/auth/signup.jpg"
@@ -209,5 +312,5 @@ export default function SignupPage() {
         />
       </div>
     </div>
-  );
+  )
 }
