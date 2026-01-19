@@ -5,8 +5,6 @@ import { useAppDispatch } from "@/store/hooks"
 import { setUser } from "@/store/slices/auth/auth-slice"
 
 export const useLogin = () => {
-  const dispatch = useAppDispatch()
-
   return useMutation({
     mutationFn: loginApi,
 

@@ -1,6 +1,11 @@
 import type React from "react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Plus } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "sonner"
+import { Spinner } from "@/components/ui/spinner"
+
 import {
   Card,
   CardHeader,
@@ -20,120 +25,77 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form"
 
-interface CountryAPI {
-  name?: { common: string }
-  cca2?: string
-  languages?: Record<string, string>
-  timezones?: string[]
-}
-
-interface Option {
-  value: string
-  label: string
-}
+import { useProfileMeta, useUpdateProfile } from "@/provider/profile"
+import { ProfileFormValues, profileSchema } from "@/schemas/profileSchema"
 
 export default function ProfileUpdateCard() {
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    country: "",
-    language: "",
-    timezone: "",
+  const [profilePhoto, setProfilePhoto] = useState("/placeholder.svg?height=112&width=112")
+
+  const { data, isLoading } = useProfileMeta()
+  const { mutateAsync, isPending } = useUpdateProfile()
+
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      name: "",
+      category: "",
+      country: "",
+      language: "",
+      timezone: "",
+    },
+    mode: "onChange",
   })
 
-  const [countries, setCountries] = useState<Option[]>([])
-  const [languages, setLanguages] = useState<Option[]>([])
-  const [timezones, setTimezones] = useState<Option[]>([])
-  const [profilePhoto, setProfilePhoto] = useState("/placeholder.svg?height=112&width=112")
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchAllData = async () => {
-      setLoading(true)
-
-      const res = await fetch(
-        "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones"
-      )
-      const data: CountryAPI[] = await res.json()
-
-      if (!Array.isArray(data)) return
-
-      const countryOptions: Option[] = []
-      const languageMap = new Map<string, string>()
-      const timezoneSet = new Set<string>()
-
-      data.forEach((c) => {
-        if (c.name?.common && c.cca2) {
-          countryOptions.push({
-            value: c.cca2,
-            label: c.name.common,
-          })
-        }
-
-        if (c.languages) {
-          Object.entries(c.languages).forEach(([code, name]) => {
-            languageMap.set(code, name)
-          })
-        }
-
-        if (c.timezones) {
-          c.timezones.forEach((tz) => timezoneSet.add(tz))
-        }
-      })
-
-      setCountries(
-        countryOptions.sort((a, b) => a.label.localeCompare(b.label))
-      )
-
-      setLanguages(
-        Array.from(languageMap.entries())
-          .map(([value, label]) => ({ value, label }))
-          .sort((a, b) => a.label.localeCompare(b.label))
-      )
-
-      setTimezones(
-        Array.from(timezoneSet)
-          .map((tz) => ({ value: tz, label: tz }))
-          .sort((a, b) => a.label.localeCompare(b.label))
-      )
-
-      setLoading(false)
-    }
-
-    fetchAllData()
-  }, [])
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((p) => ({ ...p, [name]: value }))
-  }
-
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData((p) => ({ ...p, [name]: value }))
-  }
+  const { watch, setValue } = form
+  const values = watch()
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (!file) return
-
+    if (!file){
+      setProfilePhoto("/placeholder.svg?height=112&width=112")
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Please select an image smaller than 5MB")
+      return
+    }
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file")
+      return
+    }
     const reader = new FileReader()
     reader.onload = (ev) =>
       setProfilePhoto(ev.target?.result as string)
     reader.readAsDataURL(file)
   }
 
+  const handleSubmit = async (data: ProfileFormValues) => {
+    await mutateAsync({
+      ...data,
+      avatar: profilePhoto,
+    })
+  }
+
   return (
     <Card className="bg-background border-0 shadow-none">
       <CardHeader className="flex flex-col items-center text-center">
-        <CardTitle className="text-3xl font-bold">Update Profile</CardTitle>
+        <CardTitle className="text-3xl font-bold">
+          Update Profile
+        </CardTitle>
         <CardDescription className="text-lg">
           Add additional info to complete your profile
         </CardDescription>
 
         <div className="relative mt-8 mb-4">
           <Avatar className="h-36 mt-2 w-36">
-            <AvatarImage src={profilePhoto} />
+            <AvatarImage src={profilePhoto} className="h-full w-full object-cover"/>
             <AvatarFallback>YN</AvatarFallback>
           </Avatar>
 
@@ -153,105 +115,189 @@ export default function ProfileUpdateCard() {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-6">
-        <Field orientation="vertical">
-          <FieldLabel>Your Name</FieldLabel>
-          <Input name="name" placeholder="Joh Doe" value={formData.name} onChange={handleInputChange} />
-        </Field>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <CardContent className="space-y-6">
 
-        <Field orientation="vertical">
-          <FieldLabel htmlFor="category">Company Category</FieldLabel>
-          <Select value={formData.category} onValueChange={(value) => handleSelectChange("category", value)}>
-            <SelectTrigger id="category">
-              <SelectValue placeholder="Select a category..." />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="tech">Technology</SelectItem>
-              <SelectItem value="finance">Finance</SelectItem>
-              <SelectItem value="health">Healthcare</SelectItem>
-              <SelectItem value="retail">Retail</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
+            {/* Name */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <Field orientation="vertical">
+                    <FieldLabel>Your Name</FieldLabel>
+                    <Input {...field} placeholder="Joh Doe" />
+                  </Field>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <Field orientation="vertical">
-          <FieldLabel>Country</FieldLabel>
-          <Select
-            value={formData.country}
-            onValueChange={(v) => handleSelectChange("country", v)}
-          >
-            <SelectTrigger disabled={loading}>
-              <SelectValue
-                placeholder={
-                  loading
-                    ? "Loading countries..."
-                    : "Select a country..."
-                }
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {countries.map((c) => (
-                <SelectItem key={c.value} value={c.value}>
-                  {c.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
+            {/* Category */}
+            <FormField
+              control={form.control}
+              name="category"
+              render={() => (
+                <FormItem>
+                  <Field orientation="vertical">
+                    <FieldLabel>Company Category</FieldLabel>
+                    <Select
+                      value={values.category}
+                      onValueChange={(v) =>
+                        setValue("category", v)
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="tech">Technology</SelectItem>
+                        <SelectItem value="finance">Finance</SelectItem>
+                        <SelectItem value="health">Healthcare</SelectItem>
+                        <SelectItem value="retail">Retail</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <Field orientation="vertical">
-          <FieldLabel>Language</FieldLabel>
-          <Select
-            value={formData.language}
-            onValueChange={(v) => handleSelectChange("language", v)}
-          >
-            <SelectTrigger disabled={loading}>
-              <SelectValue placeholder={
-                loading
-                  ? "Loading languages..."
-                  : "Select a language..."
-              } />
-            </SelectTrigger>
-            <SelectContent>
-              {languages.map((l) => (
-                <SelectItem key={l.value} value={l.value}>
-                  {l.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
+            {/* Country */}
+            <FormField
+              control={form.control}
+              name="country"
+              render={() => (
+                <FormItem>
+                  <Field orientation="vertical">
+                    <FieldLabel>Country</FieldLabel>
+                    <Select
+                      value={values.country}
+                      onValueChange={(v) =>
+                        setValue("country", v)
+                      }
+                    >
+                      <SelectTrigger disabled={isLoading}>
+                        <SelectValue
+                          placeholder={
+                            isLoading
+                              ? "Loading countries..."
+                              : "Select a country..."
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {data?.countries.map((c) => (
+                          <SelectItem
+                            key={c.value}
+                            value={c.value}
+                          >
+                            {c.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <Field orientation="vertical">
-          <FieldLabel>Timezone</FieldLabel>
-          <Select
-            value={formData.timezone}
-            onValueChange={(v) => handleSelectChange("timezone", v)}
-          >
-            <SelectTrigger disabled={loading}>
-              <SelectValue placeholder={
-                loading
-                  ? "Loading timezones..."
-                  : "Select a timezone..."
-              } />
-            </SelectTrigger>
-            <SelectContent>
-              {timezones.map((t) => (
-                <SelectItem key={t.value} value={t.value}>
-                  {t.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
-      </CardContent>
+            {/* Language */}
+            <FormField
+              control={form.control}
+              name="language"
+              render={() => (
+                <FormItem>
+                  <Field orientation="vertical">
+                    <FieldLabel>Language</FieldLabel>
+                    <Select
+                      value={values.language}
+                      onValueChange={(v) =>
+                        setValue("language", v)
+                      }
+                    >
+                      <SelectTrigger disabled={isLoading}>
+                        <SelectValue
+                          placeholder={
+                            isLoading
+                              ? "Loading languages..."
+                              : "Select a language..."
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {data?.languages.map((l) => (
+                          <SelectItem
+                            key={l.value}
+                            value={l.value}
+                          >
+                            {l.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      <CardFooter>
-        <Button className="w-full font-medium" disabled={loading}>
-          Complete Profile
-        </Button>
-      </CardFooter>
+            {/* Timezone */}
+            <FormField
+              control={form.control}
+              name="timezone"
+              render={() => (
+                <FormItem>
+                  <Field orientation="vertical">
+                    <FieldLabel>Timezone</FieldLabel>
+                    <Select
+                      value={values.timezone}
+                      onValueChange={(v) =>
+                        setValue("timezone", v)
+                      }
+                    >
+                      <SelectTrigger disabled={isLoading}>
+                        <SelectValue
+                          placeholder={
+                            isLoading
+                              ? "Loading timezones..."
+                              : "Select a timezone..."
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {data?.timezones.map((t) => (
+                          <SelectItem
+                            key={t.value}
+                            value={t.value}
+                          >
+                            {t.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+          </CardContent>
+
+          <CardFooter>
+            <Button
+              className="w-full font-medium"
+              disabled={isLoading || isPending}
+              type="submit"
+            >
+              {isPending ? <> <Spinner /> Please wait... </>: <> Complete Profile </>}
+            </Button>
+          </CardFooter>
+        </form>
+      </Form>
     </Card>
   )
 }

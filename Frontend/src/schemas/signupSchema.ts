@@ -4,7 +4,7 @@ export const signupSchema = z
   .object({
     companyName: z
       .string()
-      .min(2, "Company name must be at least 2 characters"),
+      .min(3, "Must be at least 3 characters"),
 
     subdomain: z
       .string()
