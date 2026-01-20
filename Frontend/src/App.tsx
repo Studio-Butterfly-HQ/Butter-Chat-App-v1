@@ -18,6 +18,7 @@ export default function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         {/* 404 fallback */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
