@@ -72,7 +72,7 @@ export default function ResetPasswordPage() {
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
+                      <FormItem>
                         <FormLabel className="text-primary text-base font-semibold">
                           Email
                         </FormLabel>

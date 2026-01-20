@@ -82,7 +82,7 @@ export default function LoginPage() {
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
+                      <FormItem>
                         <FormLabel className="text-primary text-base font-semibold">
                           Email
                         </FormLabel>
@@ -101,7 +101,7 @@ export default function LoginPage() {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
+                      <FormItem>
                         <div className="flex items-center justify-between">
                           <FormLabel className="text-primary text-base font-semibold">
                             Password

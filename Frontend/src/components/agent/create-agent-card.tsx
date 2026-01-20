@@ -1,103 +1,175 @@
-import * as React from "react"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
+  CardFooter,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group"
-import { BotMessageSquare  } from "lucide-react"
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { BotMessageSquare } from "lucide-react";
+
+import {
+  createAgentSchema,
+  CreateAgentFormValues,
+} from "@/schemas/createAgentSchema";
+import { useCreateAgent } from "@/provider/agent";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function CreateAgentCard() {
-  const [personality, setPersonality] = React.useState("friendly")
+  const { mutateAsync, isPending } = useCreateAgent();
 
-  const handleSubmit = () => {
-    console.log({
+  const form = useForm<CreateAgentFormValues>({
+    resolver: zodResolver(createAgentSchema),
+    defaultValues: {
       name: "",
-      personality,
-    })
-  }
+      personality: "friendly",
+      instructions: "",
+    },
+    mode: "onChange",
+  });
+
+  const { watch, setValue } = form;
+  const personality = watch("personality");
+
+  const handleSubmit = async (data: CreateAgentFormValues) => {
+    try {
+      console.log(data);
+      const res = await mutateAsync(data);
+    } 
+    catch (error) {
+      console.error("Error in create agent card: ", error);
+    }
+  };
 
   return (
-      <Card className="bg-background border-0 shadow-none">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <BotMessageSquare size={34}/>
-          </div>
+    <Card className="bg-background border-0 shadow-none">
+      <CardHeader className="text-center">
+        <div className="flex justify-center mb-4">
+          <BotMessageSquare size={34} />
+        </div>
 
-          <CardTitle className="text-3xl">
-            Create AI Agent
-          </CardTitle>
+        <CardTitle className="text-3xl">Create AI Agent</CardTitle>
 
-          <CardDescription className="text-lg">
-            Add additional info to complete your profile
-          </CardDescription>
-        </CardHeader>
+        <CardDescription className="text-lg">
+          Add additional info to complete your profile
+        </CardDescription>
+      </CardHeader>
 
-        <CardContent className="space-y-4">
-          {/* AI Agent Name */}
-          <div className="space-y-2">
-            <label className="text-base font-semibold">
-              AI Agent Name
-            </label>
-            <Input placeholder="John Doe" />
-          </div>
-
-          {/* Personality */}
-          <div className="space-y-2">
-            <label className="text-base font-semibold">
-              Personality
-            </label>
-
-            <ToggleGroup
-              type="single"
-              value={personality}
-              onValueChange={(value) =>
-                value && setPersonality(value)
-              }
-              className="flex flex-wrap justify-between gap-x-0 gap-y-2"
-            >
-              <ToggleGroupItem className="rounded-2xl border text-muted-foreground px-4" value="friendly">
-                Friendly
-              </ToggleGroupItem>
-              <ToggleGroupItem className="rounded-2xl border text-muted-foreground px-4" value="neutral">
-                Neutral
-              </ToggleGroupItem>
-              <ToggleGroupItem className="rounded-2xl border text-muted-foreground px-4"  value="professional">
-                Professional
-              </ToggleGroupItem>
-              <ToggleGroupItem className="rounded-2xl border text-muted-foreground px-4"  value="humorous">
-                Humorous
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-
-          {/* General Instructions */}
-          <div className="space-y-2">
-            <label className="font-semibold text-primary text-base">
-              General Instructions
-            </label>
-            <Textarea
-              placeholder="Give instructions for the AI agent..."
-              className="min-h-[80px]"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <CardContent className="space-y-4">
+            {/* AI Agent Name */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary text-base font-semibold">
+                    AI Agent Name
+                  </FormLabel>
+                  <Input {...field} placeholder="John Doe" />
+                  <FormMessage className="text-sm" />
+                </FormItem>
+              )}
             />
-          </div>
 
-          {/* Submit */}
-          <Button
-            className="w-full font-medium"
-            onClick={handleSubmit}
-          >
-            Create AI Agent
-          </Button>
-        </CardContent>
-      </Card>
-  )
+            {/* Personality */}
+            <FormField
+              control={form.control}
+              name="personality"
+              render={() => (
+                <FormItem>
+                  <FormLabel className="text-primary text-base font-semibold">
+                    Personality
+                  </FormLabel>
+
+                  <ToggleGroup
+                    type="single"
+                    value={personality}
+                    onValueChange={(value: "friendly" | "neutral" | "professional" | "humorous") =>
+                      value && setValue("personality", value)
+                    }
+                    className="flex flex-wrap justify-between gap-x-0 gap-y-2"
+                  >
+                    <ToggleGroupItem
+                      className="rounded-2xl border text-muted-foreground px-4"
+                      value="friendly"
+                    >
+                      Friendly
+                    </ToggleGroupItem>
+
+                    <ToggleGroupItem
+                      className="rounded-2xl border text-muted-foreground px-4"
+                      value="neutral"
+                    >
+                      Neutral
+                    </ToggleGroupItem>
+
+                    <ToggleGroupItem
+                      className="rounded-2xl border text-muted-foreground px-4"
+                      value="professional"
+                    >
+                      Professional
+                    </ToggleGroupItem>
+
+                    <ToggleGroupItem
+                      className="rounded-2xl border text-muted-foreground px-4"
+                      value="humorous"
+                    >
+                      Humorous
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+
+                  <FormMessage className="text-sm" />
+                </FormItem>
+              )}
+            />
+
+            {/* General Instructions */}
+            <FormField
+              control={form.control}
+              name="instructions"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary font-semibold text-base">
+                    General Instructions
+                  </FormLabel>
+                  <Textarea
+                    {...field}
+                    placeholder="Give instructions for the AI agent..."
+                    className="min-h-[80px]"
+                  />
+                  <FormMessage className="text-sm" />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full font-medium"
+              type="submit"
+              disabled={isPending}
+            >
+              {isPending ? <> <Spinner /> Please wait... </>: <> Create AI Agent </>}
+            </Button>
+          </CardFooter>
+        </form>
+      </Form>
+    </Card>
+  );
 }

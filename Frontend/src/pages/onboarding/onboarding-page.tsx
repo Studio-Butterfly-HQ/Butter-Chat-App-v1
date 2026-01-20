@@ -55,7 +55,7 @@ export default function Onboarding() {
   return (
     <div className="min-h-screen flex flex-col p-6 lg:p-8 lg:pt-0 pt-0">
       <Header/>
-      <main className="flex-1 flex items-center justify-center lg:p-8 py-4">
+      <main className="flex-1 flex items-center justify-center lg:p-4">
         <div className="w-full max-w-md">
           <CurrentPage
             isFirst={currentPage === 1}

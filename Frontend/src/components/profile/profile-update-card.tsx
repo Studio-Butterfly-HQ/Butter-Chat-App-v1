@@ -6,31 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
 import { Spinner } from "@/components/ui/spinner"
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Field, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form"
+import {Form, FormField, FormItem, FormMessage,} from "@/components/ui/form"
 
 import { useProfileMeta, useUpdateProfile } from "@/provider/profile"
 import { ProfileFormValues, profileSchema } from "@/schemas/profileSchema"
@@ -77,10 +59,15 @@ export default function ProfileUpdateCard() {
   }
 
   const handleSubmit = async (data: ProfileFormValues) => {
-    await mutateAsync({
-      ...data,
-      avatar: profilePhoto,
-    })
+    try {
+      const res = await mutateAsync({
+        ...data,
+        avatar: profilePhoto,
+      })
+    } 
+    catch (error) {
+      console.error("Error in profile update card: ", error);
+    }
   }
 
   return (
@@ -117,7 +104,7 @@ export default function ProfileUpdateCard() {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-4">
 
             {/* Name */}
             <FormField
@@ -126,10 +113,10 @@ export default function ProfileUpdateCard() {
               render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel>Your Name</FieldLabel>
+                    <FieldLabel className="font-semibold text-base">Your Name</FieldLabel>
                     <Input {...field} placeholder="Joh Doe" />
                   </Field>
-                  <FormMessage />
+                  <FormMessage className="text-sm"/>
                 </FormItem>
               )}
             />
@@ -141,7 +128,7 @@ export default function ProfileUpdateCard() {
               render={() => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel>Company Category</FieldLabel>
+                    <FieldLabel className="font-semibold text-base" >Company Category</FieldLabel>
                     <Select
                       value={values.category}
                       onValueChange={(v) =>
@@ -160,7 +147,7 @@ export default function ProfileUpdateCard() {
                       </SelectContent>
                     </Select>
                   </Field>
-                  <FormMessage />
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -172,7 +159,7 @@ export default function ProfileUpdateCard() {
               render={() => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel>Country</FieldLabel>
+                    <FieldLabel className="font-semibold text-base">Country</FieldLabel>
                     <Select
                       value={values.country}
                       onValueChange={(v) =>
@@ -200,7 +187,7 @@ export default function ProfileUpdateCard() {
                       </SelectContent>
                     </Select>
                   </Field>
-                  <FormMessage />
+                  <FormMessage className="text-sm"/>
                 </FormItem>
               )}
             />
@@ -212,7 +199,7 @@ export default function ProfileUpdateCard() {
               render={() => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel>Language</FieldLabel>
+                    <FieldLabel className="font-semibold text-base">Language</FieldLabel>
                     <Select
                       value={values.language}
                       onValueChange={(v) =>
@@ -240,7 +227,7 @@ export default function ProfileUpdateCard() {
                       </SelectContent>
                     </Select>
                   </Field>
-                  <FormMessage />
+                  <FormMessage className="text-sm"/>
                 </FormItem>
               )}
             />
@@ -252,7 +239,7 @@ export default function ProfileUpdateCard() {
               render={() => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel>Timezone</FieldLabel>
+                    <FieldLabel className="font-semibold text-base">Timezone</FieldLabel>
                     <Select
                       value={values.timezone}
                       onValueChange={(v) =>
@@ -280,7 +267,7 @@ export default function ProfileUpdateCard() {
                       </SelectContent>
                     </Select>
                   </Field>
-                  <FormMessage />
+                  <FormMessage className="text-sm"/>
                 </FormItem>
               )}
             />

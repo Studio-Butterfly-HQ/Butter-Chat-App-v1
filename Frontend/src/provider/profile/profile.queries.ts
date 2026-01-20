@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { updateProfileApi } from "./profile.api"
-import type { ApiResponse, Profile, ProfilePayload } from "./profile.types"
+import { ApiResponse, Profile, ProfilePayload } from "./profile.types"
 import { useQuery } from "@tanstack/react-query"
 import { fetchProfileMetaApi } from "./profile.api"
-import type { ProfileMetaResponse } from "./profile.types"
+import { ProfileMetaResponse } from "./profile.types"
 import { toast } from "sonner"
 
 

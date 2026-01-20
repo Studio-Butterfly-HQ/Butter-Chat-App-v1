@@ -114,7 +114,7 @@ export default function SignupPage() {
                     control={form.control}
                     name="companyName"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
+                      <FormItem>
                         <FormLabel className="text-primary text-base font-semibold">
                           Company Name
                         </FormLabel>
@@ -132,7 +132,7 @@ export default function SignupPage() {
                     control={form.control}
                     name="subdomain"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
+                      <FormItem>
                         <FormLabel className="text-primary text-base font-semibold">
                           Subdomain
                         </FormLabel>
@@ -161,7 +161,7 @@ export default function SignupPage() {
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
+                      <FormItem>
                         <FormLabel className="text-primary text-base font-semibold">
                           Email
                         </FormLabel>
@@ -180,7 +180,7 @@ export default function SignupPage() {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
+                      <FormItem>
                         <FormLabel className="text-primary font-semibold">
                           Password
                         </FormLabel>
@@ -213,7 +213,7 @@ export default function SignupPage() {
                     control={form.control}
                     name="confirmPassword"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
+                      <FormItem>
                         <FormLabel className="text-primary text-base font-semibold">
                           Confirm Password
                         </FormLabel>
