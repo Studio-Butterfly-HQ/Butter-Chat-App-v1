@@ -12,6 +12,7 @@ import { signupSchema, SignupFormValues} from "@/schemas/signupSchema"
 import { Spinner } from "@/components/ui/spinner"
 import { useSignup } from "@/provider/auth"
 import { useNavigate } from "react-router-dom"
+import { EmailInput } from "@/components/auth/email-input"
 import {
   InputGroup,
   InputGroupAddon,
@@ -165,10 +166,10 @@ export default function SignupPage() {
                         <FormLabel className="text-primary text-base font-semibold">
                           Email
                         </FormLabel>
-                        <Input
-                          {...field}
-                          type="email"
-                          placeholder="user@xyzcorp.com"
+                        <EmailInput
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={field.onBlur}
                         />
                         <FormMessage  className="text-sm"/>
                       </FormItem>
