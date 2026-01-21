@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom"
 import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar"
 import {
   Breadcrumb,
@@ -14,7 +15,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-export default function DashboardPage() {
+export default function DashboardLayout() {
   return (
     <SidebarProvider >
       <AppSidebar />
@@ -41,14 +42,9 @@ export default function DashboardPage() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-2 pt-0">
-          <div className="grid auto-rows-min gap-2 md:grid-cols-3">
-            <div className="bg-[#0A0A0A] aspect-video rounded-xl" />
-            <div className="bg-[#0A0A0A] aspect-video rounded-xl" />
-            <div className="bg-[#0A0A0A] aspect-video rounded-xl" />
-          </div>
-          <div className="bg-[#0A0A0A] min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
-        </div>
+        <main className="flex-1 overflow-y-auto scrollbar-hide">
+          <Outlet />
+        </main>
       </SidebarInset>
     </SidebarProvider>
   )

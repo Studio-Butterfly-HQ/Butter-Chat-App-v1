@@ -8,6 +8,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { useResetPassword } from "@/provider/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { resetPasswordSchema, ResetPasswordFormValues } from "@/schemas/resetPasswordSchema"
+import { EmailInput } from "@/components/auth/email-input"
 import {
   Form,
   FormField,
@@ -76,10 +77,10 @@ export default function ResetPasswordPage() {
                         <FormLabel className="text-primary text-base font-semibold">
                           Email
                         </FormLabel>
-                        <Input
-                          {...field}
-                          type="email"
-                          placeholder="user@xyzcorp.com"
+                        <EmailInput
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={field.onBlur}
                         />
                         <FormMessage />
                       </FormItem>

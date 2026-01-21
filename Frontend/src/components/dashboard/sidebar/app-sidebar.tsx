@@ -57,7 +57,7 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: LayoutDashboard,
       isActive: true,
     },
@@ -122,7 +122,7 @@ const data = {
     },
     {
       title: "Audiences",
-      url: "#",
+      url: "/dashboard/Audiences",
       icon: Users ,
     },
     {
@@ -132,7 +132,7 @@ const data = {
     },
     {
       title: "Bots",
-      url: "#",
+      url: "/dashboard/Bots",
       icon: BotMessageSquare ,
     },
   ],

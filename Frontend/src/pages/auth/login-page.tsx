@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState} from "react"
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useNavigate } from "react-router-dom"
 import { useLogin } from "@/provider/auth"
 import { Spinner } from "@/components/ui/spinner"
+import { EmailInput } from "@/components/auth/email-input"
 import {
   InputGroup,
   InputGroupAddon,
@@ -39,16 +40,17 @@ export default function LoginPage() {
   })
 
   const handleSubmit = async (data: LoginFormValues) => {
-  try {
-    const res = await mutateAsync(data)
-    if (res.success) {
-      navigate("/dashboard")
+    try {
+      console.log(data);
+      const res = await mutateAsync(data)
+        if (res.success) {
+          navigate("/dashboard")
+        }
+    }
+    catch (error) {
+      console.error("Error in login page: ", error)
     }
   }
-  catch (error) {
-    console.error("Error in login page: ", error)
-  }
-}
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -86,10 +88,10 @@ export default function LoginPage() {
                         <FormLabel className="text-primary text-base font-semibold">
                           Email
                         </FormLabel>
-                        <Input
-                          {...field}
-                          type="email"
-                          placeholder="user@xyzcorp.com"
+                        <EmailInput
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={field.onBlur}
                         />
                         <FormMessage className="text-sm" />
                       </FormItem>
