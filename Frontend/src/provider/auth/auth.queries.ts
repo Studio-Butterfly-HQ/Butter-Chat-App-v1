@@ -2,24 +2,30 @@ import { useMutation, } from "@tanstack/react-query"
 import { loginApi, signupApi, resetPasswordApi} from "./auth.api"
 import { toast } from "sonner"
 import { useAppDispatch } from "@/store/hooks"
-import { setUser } from "@/store/slices/auth/auth-slice"
+import { setAuth } from "@/store/slices/auth/auth-slice"
+import { DUMMY_TOKEN } from "@/constants"
 
 
 export const useLogin = () => {
+  const dispatch = useAppDispatch()
   return useMutation({
     mutationFn: loginApi,
-
+    
     onSuccess: (res) => {
       if (!res.success) {
         toast.error(res.message)
       }
-      //useAppDispatch(setUser(res.user)) //todo
-        // todo: localStorage.setItem("token", res.token)
+      dispatch(
+        setAuth({
+          token: res.data.accessToken,
+        })
+      )
       toast.success(res.message)
     },
     
-    onError: (e: Error) => {
-      toast.error(e.message)
+    onError: (error: any) => {
+      console.error("login error details:", error?.error?.details);
+      toast.error(error.message);
     },
   })
 }
@@ -36,10 +42,12 @@ export const useSignup = () =>
       toast.success(res.message)
     },
 
-    onError: (e: Error) => {
-      toast.error(e.message)
+    onError: (error: any) => {
+      console.error("Signup error details:", error?.error?.details)
+      toast.error(error.message);
     },
   })
+
 
 export const useResetPassword = () =>
   useMutation({
