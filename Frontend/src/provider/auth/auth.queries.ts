@@ -4,6 +4,7 @@ import { toast } from "sonner"
 import { useAppDispatch } from "@/store/hooks"
 import { setUser } from "@/store/slices/auth/auth-slice"
 
+
 export const useLogin = () => {
   return useMutation({
     mutationFn: loginApi,
@@ -12,7 +13,7 @@ export const useLogin = () => {
       if (!res.success) {
         toast.error(res.message)
       }
-      //dispatch(setUser(res.user)) //todo
+      //useAppDispatch(setUser(res.user)) //todo
         // todo: localStorage.setItem("token", res.token)
       toast.success(res.message)
     },

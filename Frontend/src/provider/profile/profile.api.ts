@@ -1,5 +1,6 @@
 import type { CountryAPI, Option, ProfileMetaResponse } from "./profile.types";
 import type { ProfilePayload, ApiResponse, Profile } from "./profile.types"
+import {COUNTRY_API_URL} from "@/constants"
 
 
 
@@ -22,7 +23,7 @@ export const updateProfileApi = async (payload: ProfilePayload) => {
 
 
 export const fetchProfileMetaApi = async (): Promise<ProfileMetaResponse> => {
-  const res = await fetch("https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones");
+  const res = await fetch(`${COUNTRY_API_URL}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch countries data");
