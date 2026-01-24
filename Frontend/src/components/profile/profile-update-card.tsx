@@ -26,8 +26,7 @@ export default function ProfileUpdateCard() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: "",
-      category: "",
+      company_category: "",
       country: "",
       language: "",
       timezone: "",
@@ -59,11 +58,9 @@ export default function ProfileUpdateCard() {
   }
 
   const handleSubmit = async (data: ProfileFormValues) => {
+    console.log("Submitting profile update with data: ", data);
     try {
-      const res = await mutateAsync({
-        ...data,
-        avatar: profilePhoto,
-      })
+      const res = await mutateAsync(data)
     } 
     catch (error) {
       console.error("Error in profile update card: ", error);
@@ -105,34 +102,18 @@ export default function ProfileUpdateCard() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <CardContent className="space-y-4">
-
-            {/* Name */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base">Your Name</FieldLabel>
-                    <Input {...field} placeholder="Joh Doe" />
-                  </Field>
-                  <FormMessage className="text-sm"/>
-                </FormItem>
-              )}
-            />
-
             {/* Category */}
             <FormField
               control={form.control}
-              name="category"
+              name="company_category"
               render={() => (
                 <FormItem>
                   <Field orientation="vertical">
                     <FieldLabel className="font-semibold text-base" >Company Category</FieldLabel>
                     <Select
-                      value={values.category}
+                      value={values.company_category}
                       onValueChange={(v) =>
-                        setValue("category", v)
+                        setValue("company_category", v)
                       }
                     >
                       <SelectTrigger>

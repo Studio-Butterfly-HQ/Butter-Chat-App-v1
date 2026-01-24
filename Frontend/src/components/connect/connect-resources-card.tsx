@@ -9,18 +9,22 @@ interface Connection {
   icon: React.ReactNode
   connected: boolean
   category: "social" | "ecommerce"
+  url: string
 }
 
 export default function ConnectResourcesCard() {
   const [connections, setConnections] = useState<Connection[]>([
-    { id: "facebook", name: "Connect Facebook", icon: <Facebook className="text-primary-foreground" />, connected: true, category: "social" },
-    { id: "instagram", name: "Connect Instagram", icon: <Instagram className="text-primary-foreground" />, connected: false, category: "social" },
-    { id: "whatsapp", name: "Connect Whatsapp", icon: <MessageCircle className="text-primary-foreground" />, connected: false, category: "social" },
-    { id: "woocommerce", name: "Integrate WooCommerce", icon: <Handbag className="text-primary-foreground" />, connected: true, category: "ecommerce" },
-    { id: "shopify", name: "Connect Shopify", icon: <Handbag className="text-primary-foreground" />, connected: false, category: "ecommerce" },
+    { id: "facebook", name: "Connect Facebook", icon: <Facebook className="text-primary-foreground" />, connected: false, category: "social", url: "https://api.studiobutterfly.io/auth/meta/login" },
+    { id: "instagram", name: "Connect Instagram", icon: <Instagram className="text-primary-foreground" />, connected: false, category: "social", url: "" },
+    { id: "whatsapp", name: "Connect Whatsapp", icon: <MessageCircle className="text-primary-foreground" />, connected: false, category: "social", url: "" },
+    { id: "woocommerce", name: "Integrate WooCommerce", icon: <Handbag className="text-primary-foreground" />, connected: false, category: "ecommerce", url: "" },
+    { id: "shopify", name: "Connect Shopify", icon: <Handbag className="text-primary-foreground" />, connected: false, category: "ecommerce", url: "" },
   ])
 
-  const toggleConnection = (id: string) => {
+  const toggleConnection = (id: string, url: string) => {
+    if (url) {
+      window.open(url, "_blank");
+    }
     setConnections(connections.map((conn) => (conn.id === id ? { ...conn, connected: !conn.connected } : conn)))
   }
 
@@ -56,7 +60,7 @@ export default function ConnectResourcesCard() {
                     <span className="text-sm text-primary-foreground">{connection.name}</span>
                   </div>
                   <button
-                    onClick={() => toggleConnection(connection.id)}
+                    onClick={() => toggleConnection(connection.id, connection.url)}
                     className={`rounded-full flex items-center justify-center transition-all ${
                       connection.connected ? "bg-green-500" : ""
                     }`}
@@ -86,7 +90,7 @@ export default function ConnectResourcesCard() {
                     <span className="text-sm text-primary-foreground">{connection.name}</span>
                   </div>
                   <button
-                    onClick={() => toggleConnection(connection.id)}
+                    onClick={() => toggleConnection(connection.id, connection.url)}
                     className={`rounded-full flex items-center justify-center transition-all ${
                       connection.connected ? "bg-green-500" : ""
                     }`}

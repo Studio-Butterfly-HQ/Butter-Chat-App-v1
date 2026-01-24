@@ -1,10 +1,8 @@
 export interface ProfilePayload {
-  name: string
-  category: string
+  company_category: string
   country: string
   language: string
   timezone: string
-  avatar?: string
 }
 
 export interface ApiResponse<T> {
@@ -14,13 +12,10 @@ export interface ApiResponse<T> {
 }
 
 export interface Profile {
-  id: string
-  name: string
-  category: string
+  company_category: string
   country: string
   language: string
   timezone: string
-  avatar?: string
 }
 
 

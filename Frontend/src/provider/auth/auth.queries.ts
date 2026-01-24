@@ -14,13 +14,15 @@ export const useLogin = () => {
     onSuccess: (res) => {
       if (!res.success) {
         toast.error(res.message)
+      } 
+      else {
+        dispatch(
+          setAuth({
+            token: res.data.accessToken,
+            })
+          )
+        toast.success(res.message)
       }
-      dispatch(
-        setAuth({
-          token: res.data.accessToken,
-        })
-      )
-      toast.success(res.message)
     },
     
     onError: (error: any) => {
@@ -31,15 +33,24 @@ export const useLogin = () => {
 }
 
 
-export const useSignup = () =>
-  useMutation({
+export const useSignup = () => {
+  const dispatch = useAppDispatch()
+
+  return useMutation({
     mutationFn: signupApi,
 
     onSuccess: (res) => {
       if (!res.success) {
         toast.error(res.message)
       }
-      toast.success(res.message)
+      else {
+        dispatch(
+          setAuth({
+            token: res.data.accessToken,
+            })
+          )
+        toast.success(res.message)
+      }
     },
 
     onError: (error: any) => {
@@ -47,22 +58,22 @@ export const useSignup = () =>
       toast.error(error.message);
     },
   })
+}
 
-
-export const useResetPassword = () =>
-  useMutation({
+export const useResetPassword = () => {
+  return useMutation({
     mutationFn: resetPasswordApi,
 
     onSuccess: (res) => {
       if (!res.success) {
         toast.error(res.message)
-        return
       }
-      toast.success(res.message)
+      else {
+        toast.success(res.message)
+      }
     },
-
     onError: (error) => {
       toast.error(error.message)
     },
   })
-
+}

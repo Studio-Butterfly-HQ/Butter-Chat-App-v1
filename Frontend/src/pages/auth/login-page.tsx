@@ -41,7 +41,6 @@ export default function LoginPage() {
 
   const handleSubmit = async (data: LoginFormValues) => {
     try {
-      console.log(data);
       const res = await mutateAsync(data)
         if (res.success) {
           navigate("/dashboard")
