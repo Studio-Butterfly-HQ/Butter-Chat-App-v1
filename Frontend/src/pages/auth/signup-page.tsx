@@ -59,7 +59,7 @@ export default function SignupPage() {
       const { confirm_password, ...payload } = data
       const res = await mutateAsync(payload)
       if (res.success){
-        navigate("/onboarding")
+        navigate("/onboarding", { replace: true })
       }
     }
     catch (error){
