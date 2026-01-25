@@ -123,7 +123,7 @@ export function EmployeeTable() {
         },
       },
       {
-        accessorKey: "assignedConversations",
+        accessorKey: "assigned_conversations",
         header: "Assigned Conversation",
         cell: ({ row }) => (
           <span className="text-foreground">
@@ -135,9 +135,8 @@ export function EmployeeTable() {
           skeleton: <Skeleton className="h-4 w-10" />,
           headerClassName: "text-primary",
         },
-      },
-      {
-        accessorKey: "lastUpdated",
+      },      {
+        accessorKey: "last_updated",
         header: "Last Updated",
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
@@ -163,8 +162,7 @@ export function EmployeeTable() {
           skeleton: <Skeleton className="h-4 w-36" />,
           headerClassName: "text-primary",
         },
-      },
-    ],
+      },    ],
     [],
   );
 

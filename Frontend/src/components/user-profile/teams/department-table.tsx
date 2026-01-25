@@ -51,106 +51,127 @@ export function DepartmentTable() {
   }, []);
 
   const columns: ColumnDef<DepartmentRow>[] = [
-    {
-      accessorKey: "department_name",
-      header: "Department",
-      cell: ({ row }) => {
-        const dept = row.original;
-        return (
-          <div className="flex items-center gap-3">
-            <Avatar className="h-11 w-11 bg-secondary">
-                <AvatarFallback className="text-lg font-medium">
-                  {dept.department_name[0]}
+  {
+    accessorKey: "department_name",
+    header: "Department",
+    size: 300,
+    minSize: 260,
+    cell: ({ row }) => {
+      const dept = row.original;
+      return (
+        <div className="flex items-center gap-3">
+          <Avatar className="h-11 w-11 bg-secondary">
+            <AvatarFallback className="text-lg font-medium">
+              {dept.department_name[0]}
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <div className="font-medium text-primary">
+              {dept.department_name}
+            </div>
+            <div className="text-xs text-muted-foreground">
+              {dept.employees.length} Employees
+            </div>
+          </div>
+        </div>
+      );
+    },
+    meta: {
+      skeleton: (
+        <div className="flex items-center gap-3 h-[41px]">
+          <Skeleton className="h-11 w-11 rounded-full" />
+          <div className="space-y-1">
+            <Skeleton className="h-4 w-28" />
+            <Skeleton className="h-3 w-20" />
+          </div>
+        </div>
+      ),
+      headerClassName: "text-primary",
+    },
+  },
+
+  {
+    id: "employees",
+    header: "Employees",
+    size: 280,
+    minSize: 240,
+    cell: ({ row }) => {
+      const employees = row.original.employees;
+      return (
+        <div className="flex items-center">
+          <div className="flex -space-x-2 overflow-hidden">
+            {employees.slice(0, 3).map((emp, idx) => (
+              <Avatar
+                key={idx}
+                className="h-11 w-11 border-2 bg-secondary border-background"
+              >
+                <AvatarImage
+                  src={emp.profile_uri}
+                  alt={emp.user_name}
+                />
+                <AvatarFallback className="text-sm font-medium">
+                  {emp.user_name
+                    ? emp.user_name.charAt(0).toUpperCase()
+                    : "U"}
                 </AvatarFallback>
-            </Avatar>
-            <div>
-              <div className="font-medium text-primary">{dept.department_name}</div>
-              <div className="text-xs text-muted-foreground">
-                {dept.employees.length} Employees
-              </div>
-            </div>
+              </Avatar>
+            ))}
           </div>
-        );
-      },
-      meta: {
-        skeleton: (
-          <div className="flex items-center gap-3 h-[41px]">
-            <Skeleton className="h-11 w-11 rounded-full" />
-            <div className="space-y-1">
-              <Skeleton className="h-4 w-28" />
-              <Skeleton className="h-3 w-20" />
-            </div>
-          </div>
-        ),
-        headerClassName: "text-primary",
-      },
-    },
-    {
-      id: "employees",
-      header: "Employees",
-      cell: ({ row }) => {
-        const employees = row.original.employees;
-        return (
-          <div className="flex items-center">
-            <div className="flex -space-x-2 overflow-hidden">
-              {employees.slice(0, 3).map((emp, idx) => (
-                <Avatar key={idx} className="h-11 w-11 border-2 bg-secondary border-background">
-                  <AvatarImage src={emp.profile_uri} alt={emp.user_name} />
-                  <AvatarFallback className="text-sm font-medium">
-                    {emp.user_name 
-                      ? emp.user_name.charAt(0).toUpperCase() 
-                      : "U"}
-                  </AvatarFallback>
-                </Avatar>
-              ))}
-            </div>
 
-            {employees.length > 3 && (
-              <span className="ml-3 text-sm text-muted-foreground font-medium">
-                +{employees.length - 3} more
-              </span>
-            )}
-          </div>
-        );
-      },
-      meta: {
-        skeleton: (
-          <div className="flex -space-x-2">
-            <Skeleton className="h-11 w-11 rounded-full" />
-            <Skeleton className="h-11 w-11 rounded-full" />
-            <Skeleton className="h-11 w-11 rounded-full" />
-          </div>
-        ),
-        headerClassName: "text-primary",
-      },
-    },
-    {
-      id: "status",
-      header: "Status",
-      cell: ({ row }) => {
-        const employees = row.original.employees;
-        const onlineCount = employees.filter((emp) => emp.status === "ACTIVE").length;
-        const totalCount = employees.length;
-
-        return (
-          <div className="flex items-center gap-2 text-sm">
-            <span
-              className={`h-2 w-2 rounded-full ${
-                onlineCount > 0 ? "bg-green-500" : "bg-muted-foreground"
-              }`}
-            />
-            <span className="text-muted-foreground">
-              {onlineCount} of {totalCount} Online
+          {employees.length > 3 && (
+            <span className="ml-3 text-sm text-muted-foreground font-medium">
+              +{employees.length - 3} more
             </span>
-          </div>
-        );
-      },
-      meta: {
-        skeleton: <Skeleton className="h-4 w-28" />,
-        headerClassName: "text-primary",
-      },
+          )}
+        </div>
+      );
     },
-  ];
+    meta: {
+      skeleton: (
+        <div className="flex -space-x-2">
+          <Skeleton className="h-11 w-11 rounded-full" />
+          <Skeleton className="h-11 w-11 rounded-full" />
+          <Skeleton className="h-11 w-11 rounded-full" />
+        </div>
+      ),
+      headerClassName: "text-primary",
+    },
+  },
+
+  {
+    id: "status",
+    header: "Status",
+    size: 200,
+    minSize: 180,
+    cell: ({ row }) => {
+      const employees = row.original.employees;
+      const onlineCount = employees.filter(
+        (emp) => emp.status === "ACTIVE"
+      ).length;
+      const totalCount = employees.length;
+
+      return (
+        <div className="flex items-center gap-2 text-sm">
+          <span
+            className={`h-2 w-2 rounded-full ${
+              onlineCount > 0
+                ? "bg-green-500"
+                : "bg-muted-foreground"
+            }`}
+          />
+          <span className="text-muted-foreground">
+            {onlineCount} of {totalCount} Online
+          </span>
+        </div>
+      );
+    },
+    meta: {
+      skeleton: <Skeleton className="h-4 w-28" />,
+      headerClassName: "text-primary",
+    },
+  },
+];
+
 
   const table = useReactTable({
     data: allDepartments,
