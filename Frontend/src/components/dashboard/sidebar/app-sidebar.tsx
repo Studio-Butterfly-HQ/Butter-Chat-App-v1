@@ -14,7 +14,8 @@ import {
   LayoutDashboard,
   Sparkles,
   Inbox,
-  ShoppingBag
+  ShoppingBag,
+  BellRing 
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/sidebar/nav-main"
@@ -148,9 +149,9 @@ const data = {
       icon: Settings ,
     },
     {
-      name: "Log out",
+      name: "Notifications",
       url: "#",
-      icon: LogOut ,
+      icon: BellRing,
     },
   ],
 }

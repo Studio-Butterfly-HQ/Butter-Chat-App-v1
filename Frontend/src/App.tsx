@@ -6,8 +6,8 @@ import ResetPasswordPage from "./pages/auth/reset-password-page";
 import OnboardingPage from "./pages/onboarding/onboarding-page";
 import DashboardLayout from "./pages/dashboard/dashboard-layout";
 import DashboardHome from "./pages/dashboard/home/dashboard-home";
-import Audiences from "./pages/dashboard/user-profile/teams-page";
 import Bots from "./pages/dashboard/bots/bots";
+import TeamsPage from "./pages/dashboard/user-profile/teams-page";
 
 import ProtectedRoute from "./routes/protected-route";
 import AuthRoute from "./routes/auth-route";
@@ -29,8 +29,8 @@ export default function App() {
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
-            <Route path="audiences" element={<Audiences />} />
             <Route path="bots" element={<Bots />} />
+            <Route path="teams" element={<TeamsPage />} />
           </Route>
         </Route>
         {/* 404 */}

@@ -4,7 +4,7 @@ import {EmployeeTable}  from '@/components/user-profile/teams/employee-table';
 import {DepartmentTable}  from '@/components/user-profile/teams/department-table';
 import {ShiftTable}  from '@/components/user-profile/teams/shift-table';
 
-const AudiencesPage = () => {
+const TeamsPage = () => {
   const [activeTab, setActiveTab] = useState('employees');
 
   return (
@@ -49,4 +49,4 @@ const AudiencesPage = () => {
   );
 };
 
-export default AudiencesPage;
+export default TeamsPage;
