@@ -1,12 +1,14 @@
 import {
-  BadgeCheck,
-  Bell,
   ChevronsUpDown,
   CreditCard,
   LogOut,
-  Sparkles,
-  EllipsisVertical
+  Crown,
+  Sun,
+  User,
+  Users,
+  Activity,
 } from "lucide-react"
+import { NavLink, useNavigate } from "react-router-dom"
 
 import {
   Avatar,
@@ -29,6 +31,23 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
+import { useAppDispatch } from "@/store/hooks"
+import { logout } from "@/store/slices/auth/auth-slice"
+import { persistor } from "@/store"
+
+const menuItems = {
+  primary: [
+    { label: "Upgrade to Pro", icon: Crown, url: "#" },
+    { label: "Light Mode", icon: Sun, url: "#" },
+  ],
+  account: [
+    { label: "Account", icon: User, url: "#" },
+    { label: "Billing", icon: CreditCard, url: "#" },
+    { label: "Team", icon: Users, url: "/dashboard/teams" },
+    { label: "Activity", icon: Activity, url: "#" },
+  ],
+}
+
 export function NavUser({
   user,
 }: {
@@ -39,24 +58,37 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    dispatch(logout())
+    await persistor.purge()
+    navigate("/login", { replace: true })
+  }
 
   return (
     <SidebarMenu>
-      <SidebarMenuItem >
+      <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+                <AvatarFallback className="rounded-lg">
+                  {user.name?.[0] ?? "U"}
+                </AvatarFallback>
+              </Avatar>              <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-popover"
             side={isMobile ? "bottom" : "right"}
@@ -64,42 +96,53 @@ export function NavUser({
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+              <div className="flex items-center gap-2 px-1 py-1.5">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">C</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {user.name?.[0] ?? "U"}
+                  </AvatarFallback>
                 </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
+                <div className="grid text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
+              {menuItems.primary.map((item) => (
+                <DropdownMenuItem key={item.label} asChild>
+                  <NavLink to={item.url} className="flex items-center gap-2 w-full">
+                    <item.icon className="h-4 w-4" />
+                    {item.label}
+                  </NavLink>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
+              {menuItems.account.map((item) => (
+                <DropdownMenuItem key={item.label} asChild>
+                  <NavLink to={item.url} className="flex items-center gap-2 w-full">
+                    <item.icon className="h-4 w-4" />
+                    {item.label}
+                  </NavLink>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
+
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <LogOut className="h-4 w-4" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
