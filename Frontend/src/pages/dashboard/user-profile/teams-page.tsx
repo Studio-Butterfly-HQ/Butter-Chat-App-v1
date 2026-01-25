@@ -9,7 +9,7 @@ const TeamsPage = () => {
 
   return (
     <div className="min-h-screen bg-popover rounded-b-xl">
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 mb-4">
             <TabsTrigger 

@@ -8,22 +8,7 @@ import { DataGridPagination } from "@/components/ui/data-grid-pagination";
 import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Plus, Search, ChevronLeft, ChevronRight, SearchIcon } from "lucide-react";
+import { Plus, Search} from "lucide-react";
 import {
   ColumnDef,
   flexRender,
@@ -35,7 +20,6 @@ import {
 } from "@tanstack/react-table";
 
 import employees from "@/constants/employees.json";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 
 interface IEmployee {
   user_name: string;
@@ -46,6 +30,7 @@ interface IEmployee {
   last_updated: string;
   is_online: boolean;
 }
+
 
 export function EmployeeTable() {
   const [globalFilter, setGlobalFilter] = useState("");
@@ -64,8 +49,9 @@ export function EmployeeTable() {
   const columns = useMemo<ColumnDef<IEmployee>[]>(
     () => [
       {
-        accessorKey: "user_name",
+        id: "user",
         header: "Customer",
+        accessorFn: (row) => `${row.user_name} ${row.email}`,
         cell: ({ row }) => (
           <div className="flex items-center gap-3">
             <Avatar className="h-11 w-11 bg-secondary">
@@ -101,8 +87,9 @@ export function EmployeeTable() {
         },
       },
       {
-        accessorKey: "departments",
+        id: "departments",
         header: "Department",
+        accessorFn: (row) => row.departments.join(" "),
         cell: ({ row }) => (
           <div className="flex flex-wrap gap-2">
             {row.original.departments.map((dept) => (
@@ -135,9 +122,14 @@ export function EmployeeTable() {
           skeleton: <Skeleton className="h-4 w-10" />,
           headerClassName: "text-primary",
         },
-      },      {
-        accessorKey: "last_updated",
+      },      
+      {
+        id: "status",
         header: "Last Updated",
+        accessorFn: (row) =>
+          row.is_online
+            ? "accepting conversation online"
+            : `last seen ${row.last_updated}`,
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
             <span className="text-muted-foreground">
@@ -181,16 +173,13 @@ export function EmployeeTable() {
     getSortedRowModel: getSortedRowModel(),
   });
 
-  const pageCount = table.getPageCount();
-  const currentPage = pagination.pageIndex + 1;
-
   return (
     <div className="space-y-8 p-4">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search Employees"
+            placeholder="Search..."
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             className="pl-10 h-10"

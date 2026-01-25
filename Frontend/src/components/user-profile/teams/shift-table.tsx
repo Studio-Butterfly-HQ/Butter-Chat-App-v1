@@ -22,6 +22,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface ShiftEmployee {
   name: string;
   avatar: string;
+  email: string;
+  role: "EMPLOYEE";
   status: "ACTIVE" | "INACTIVE";
 }
 
@@ -89,6 +91,7 @@ export function ShiftTable() {
       id: "duration",
       header: "Duration",
       size: 220,
+      accessorFn: (row) => `${row.start_time} ${row.end_time}`,
       cell: ({ row }) => (
         <span className="text-muted-foreground">
           {row.original.start_time} - {row.original.end_time}
@@ -104,6 +107,11 @@ export function ShiftTable() {
       id: "employees",
       header: "Employees",
       size: 260,
+      accessorFn: (row) => {
+        const count = row.employees.length;
+        const emails = row.employees.map(e => e.email).join(" ");
+        return `${count} employees ${emails}`;
+      },
       cell: ({ row }) => {
         const employees = row.original.employees;
 
@@ -194,7 +202,7 @@ export function ShiftTable() {
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search shift"
+            placeholder="Search..."
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             className="pl-10 h-10"

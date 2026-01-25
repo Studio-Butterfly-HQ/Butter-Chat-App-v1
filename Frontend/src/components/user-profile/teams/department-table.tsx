@@ -95,6 +95,11 @@ export function DepartmentTable() {
     header: "Employees",
     size: 280,
     minSize: 240,
+    accessorFn: (row) => {
+      const count = row.employees.length;
+      const emails = row.employees.map(e => e.email).join(" ");
+      return `${count} employees ${emails}`;
+    },
     cell: ({ row }) => {
       const employees = row.original.employees;
       return (
@@ -194,7 +199,7 @@ export function DepartmentTable() {
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search Department"
+            placeholder="Search..."
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             className="pl-10 h-10"
