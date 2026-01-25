@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {EmployeeTable}  from '@/components/dashboard/audiences/employee-table';
+import {DepartmentTable}  from '@/components/dashboard/audiences/department-table';
 
 const AudiencesPage = () => {
   const [activeTab, setActiveTab] = useState('employees');
@@ -35,7 +36,7 @@ const AudiencesPage = () => {
           </TabsContent>
           
           <TabsContent value="departments" className="mt-0">
-            <EmployeeTable />
+            <DepartmentTable />
           </TabsContent>
           
           <TabsContent value="shifts" className="mt-0">

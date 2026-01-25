@@ -38,9 +38,9 @@ import employees from "@/constants/employees.json";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 
 interface IEmployee {
-  name: string;
+  user_name: string;
   email: string;
-  avatar: string;
+  profile_uri: string;
   departments: string[];
   assigned_conversations: number;
   last_updated: string;
@@ -64,22 +64,21 @@ export function EmployeeTable() {
   const columns = useMemo<ColumnDef<IEmployee>[]>(
     () => [
       {
-        accessorKey: "name",
+        accessorKey: "user_name",
         header: "Customer",
         cell: ({ row }) => (
           <div className="flex items-center gap-3">
             <Avatar className="h-11 w-11 bg-secondary">
-              <AvatarImage src={row.original.avatar} alt={row.original.name} />
+              <AvatarImage src={row.original.profile_uri} alt={row.original.user_name} />
               <AvatarFallback className="bg-secondary text-foreground">
-                {row.original.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
+                {row.original.user_name 
+                  ? row.original.user_name.charAt(0).toUpperCase() 
+                  : "U"}
               </AvatarFallback>
             </Avatar>
             <div>
               <div className="font-medium text-primary">
-                {row.original.name}
+                {row.original.user_name}
               </div>
               <div className="text-sm text-muted-foreground">
                 {row.original.email}
@@ -188,119 +187,6 @@ export function EmployeeTable() {
   const currentPage = pagination.pageIndex + 1;
 
   return (
-    //manually table and pagination
-    // <div className="space-y-8 p-4">
-    //   {/* Controls */}
-    //   <div className="flex items-center justify-between gap-4">
-    //     <div className="relative flex-1 max-w-sm">
-    //       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-    //       <Input
-    //         placeholder="Search Employees"
-    //         value={globalFilter}
-    //         onChange={e => setGlobalFilter(e.target.value)}
-    //         className="pl-10 bg-transparent border-border"
-    //       />
-    //     </div>
-    //     <Button className="bg-transparent border border-border hover:bg-secondary text-foreground">
-    //       <Plus className="h-4 w-4 mr-2" />
-    //       Invite Employee
-    //     </Button>
-    //   </div>
-
-    //   {/* Table */}
-    //   <div className="rounded-lg border border-border overflow-hidden">
-    //     <Table>
-    //       <TableHeader>
-    //         <TableRow className="border-border hover:bg-transparent">
-    //           {table.getHeaderGroups().map(headerGroup =>
-    //             headerGroup.headers.map(header => (
-    //               <TableHead
-    //                 key={header.id}
-    //                 className="text-muted-foreground font-normal"
-    //               >
-    //                 {flexRender(
-    //                   header.column.columnDef.header,
-    //                   header.getContext()
-    //                 )}
-    //               </TableHead>
-    //             ))
-    //           )}
-    //         </TableRow>
-    //       </TableHeader>
-    //       <TableBody>
-    //         {table.getRowModel().rows.map(row => (
-    //           <TableRow
-    //             key={row.id}
-    //             className="border-border hover:bg-secondary/50"
-    //           >
-    //             {row.getVisibleCells().map(cell => (
-    //               <TableCell key={cell.id}>
-    //                 {flexRender(
-    //                   cell.column.columnDef.cell,
-    //                   cell.getContext()
-    //                 )}
-    //               </TableCell>
-    //             ))}
-    //           </TableRow>
-    //         ))}
-    //       </TableBody>
-    //     </Table>
-    //   </div>
-
-    //   {/* Pagination */}
-    //   <div className="flex items-center justify-between">
-    //     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-    //       <span>Rows per page:</span>
-    //       <Select
-    //         value={String(pagination.pageSize)}
-    //         onValueChange={value =>
-    //           setPagination({
-    //             ...pagination,
-    //             pageSize: Number(value),
-    //             pageIndex: 0,
-    //           })
-    //         }
-    //       >
-    //         <SelectTrigger className="w-[70px] h-8 bg-transparent border-border">
-    //           <SelectValue />
-    //         </SelectTrigger>
-    //         <SelectContent>
-    //           <SelectItem value="10">10</SelectItem>
-    //           <SelectItem value="20">20</SelectItem>
-    //           <SelectItem value="50">50</SelectItem>
-    //           <SelectItem value="100">100</SelectItem>
-    //         </SelectContent>
-    //       </Select>
-    //     </div>
-
-    //     <div className="flex items-center gap-4">
-    //       <span className="text-sm text-muted-foreground">
-    //         Page {currentPage} of {pageCount}
-    //       </span>
-    //       <div className="flex items-center gap-1">
-    //         <Button
-    //           variant="ghost"
-    //           size="icon"
-    //           className="h-8 w-8"
-    //           onClick={() => table.previousPage()}
-    //           disabled={!table.getCanPreviousPage()}
-    //         >
-    //           <ChevronLeft className="h-4 w-4" />
-    //         </Button>
-    //         <Button
-    //           variant="ghost"
-    //           size="icon"
-    //           className="h-8 w-8"
-    //           onClick={() => table.nextPage()}
-    //           disabled={!table.getCanNextPage()}
-    //         >
-    //           <ChevronRight className="h-4 w-4" />
-    //         </Button>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-
     <div className="space-y-8 p-4">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-sm">
