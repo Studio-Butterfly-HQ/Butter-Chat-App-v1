@@ -1,0 +1,453 @@
+[
+  {
+    "name": "Stefan Lang",
+    "email": "stefan.lang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Stefan Lang",
+    "departments": ["Marketing", "Tech Support"],
+    "assigned_conversations": 4,
+    "last_updated": "5 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Maya Tran",
+    "email": "maya.tran@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya Tran",
+    "departments": ["Design", "Customer Service"],
+    "assigned_conversations": 2,
+    "last_updated": "10 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Leo Chen",
+    "email": "leo.chen@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Leo Chen",
+    "departments": ["Development", "Technical Support"],
+    "assigned_conversations": 7,
+    "last_updated": "20 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Aisha Patel",
+    "email": "aisha.patel@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Aisha Patel",
+    "departments": ["Sales", "Billing"],
+    "assigned_conversations": 5,
+    "last_updated": "30 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Rajesh Kumar",
+    "email": "rajesh.kumar@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Rajesh Kumar",
+    "departments": ["Human Resources", "Recruitment"],
+    "assigned_conversations": 1,
+    "last_updated": "12 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Nina Brooks",
+    "email": "nina.brooks@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brooks",
+    "departments": ["Operations", "Logistics"],
+    "assigned_conversations": 6,
+    "last_updated": "8 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Carlos Vega",
+    "email": "carlos.vega@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos Vega",
+    "departments": ["Finance", "Accounting"],
+    "assigned_conversations": 3,
+    "last_updated": "18 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Emily Zhang",
+    "email": "emily.zhang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily Zhang",
+    "departments": ["Product", "Quality Assurance"],
+    "assigned_conversations": 9,
+    "last_updated": "1 hour ago",
+    "is_online": false
+  },
+  {
+    "name": "Jordan Smith",
+    "email": "jordan.smith@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan Smith",
+    "departments": ["Analytics", "Data Management"],
+    "assigned_conversations": 2,
+    "last_updated": "2 hours ago",
+    "is_online": false
+  },
+  {
+    "name": "Alex Johnson",
+    "email": "alex.johnson@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex Johnson",
+    "departments": ["Engineering", "DevOps"],
+    "assigned_conversations": 8,
+    "last_updated": "15 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Stefan Lang",
+    "email": "stefan.lang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Stefan Lang",
+    "departments": ["Marketing", "Tech Support"],
+    "assigned_conversations": 4,
+    "last_updated": "5 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Maya Tran",
+    "email": "maya.tran@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya Tran",
+    "departments": ["Design", "Customer Service"],
+    "assigned_conversations": 2,
+    "last_updated": "10 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Leo Chen",
+    "email": "leo.chen@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Leo Chen",
+    "departments": ["Development", "Technical Support"],
+    "assigned_conversations": 7,
+    "last_updated": "20 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Aisha Patel",
+    "email": "aisha.patel@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Aisha Patel",
+    "departments": ["Sales", "Billing"],
+    "assigned_conversations": 5,
+    "last_updated": "30 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Rajesh Kumar",
+    "email": "rajesh.kumar@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Rajesh Kumar",
+    "departments": ["Human Resources", "Recruitment"],
+    "assigned_conversations": 1,
+    "last_updated": "12 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Nina Brooks",
+    "email": "nina.brooks@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brooks",
+    "departments": ["Operations", "Logistics"],
+    "assigned_conversations": 6,
+    "last_updated": "8 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Carlos Vega",
+    "email": "carlos.vega@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos Vega",
+    "departments": ["Finance", "Accounting"],
+    "assigned_conversations": 3,
+    "last_updated": "18 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Emily Zhang",
+    "email": "emily.zhang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily Zhang",
+    "departments": ["Product", "Quality Assurance"],
+    "assigned_conversations": 9,
+    "last_updated": "1 hour ago",
+    "is_online": false
+  },
+  {
+    "name": "Jordan Smith",
+    "email": "jordan.smith@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan Smith",
+    "departments": ["Analytics", "Data Management"],
+    "assigned_conversations": 2,
+    "last_updated": "2 hours ago",
+    "is_online": false
+  },
+  {
+    "name": "Alex Johnson",
+    "email": "alex.johnson@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex Johnson",
+    "departments": ["Engineering", "DevOps"],
+    "assigned_conversations": 8,
+    "last_updated": "15 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Stefan Lang",
+    "email": "stefan.lang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Stefan Lang",
+    "departments": ["Marketing", "Tech Support"],
+    "assigned_conversations": 4,
+    "last_updated": "5 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Maya Tran",
+    "email": "maya.tran@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya Tran",
+    "departments": ["Design", "Customer Service"],
+    "assigned_conversations": 2,
+    "last_updated": "10 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Leo Chen",
+    "email": "leo.chen@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Leo Chen",
+    "departments": ["Development", "Technical Support"],
+    "assigned_conversations": 7,
+    "last_updated": "20 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Aisha Patel",
+    "email": "aisha.patel@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Aisha Patel",
+    "departments": ["Sales", "Billing"],
+    "assigned_conversations": 5,
+    "last_updated": "30 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Rajesh Kumar",
+    "email": "rajesh.kumar@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Rajesh Kumar",
+    "departments": ["Human Resources", "Recruitment"],
+    "assigned_conversations": 1,
+    "last_updated": "12 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Nina Brooks",
+    "email": "nina.brooks@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brooks",
+    "departments": ["Operations", "Logistics"],
+    "assigned_conversations": 6,
+    "last_updated": "8 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Carlos Vega",
+    "email": "carlos.vega@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos Vega",
+    "departments": ["Finance", "Accounting"],
+    "assigned_conversations": 3,
+    "last_updated": "18 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Emily Zhang",
+    "email": "emily.zhang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily Zhang",
+    "departments": ["Product", "Quality Assurance"],
+    "assigned_conversations": 9,
+    "last_updated": "1 hour ago",
+    "is_online": false
+  },
+  {
+    "name": "Jordan Smith",
+    "email": "jordan.smith@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan Smith",
+    "departments": ["Analytics", "Data Management"],
+    "assigned_conversations": 2,
+    "last_updated": "2 hours ago",
+    "is_online": false
+  },
+  {
+    "name": "Alex Johnson",
+    "email": "alex.johnson@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex Johnson",
+    "departments": ["Engineering", "DevOps"],
+    "assigned_conversations": 8,
+    "last_updated": "15 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Stefan Lang",
+    "email": "stefan.lang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Stefan Lang",
+    "departments": ["Marketing", "Tech Support"],
+    "assigned_conversations": 4,
+    "last_updated": "5 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Maya Tran",
+    "email": "maya.tran@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya Tran",
+    "departments": ["Design", "Customer Service"],
+    "assigned_conversations": 2,
+    "last_updated": "10 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Leo Chen",
+    "email": "leo.chen@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Leo Chen",
+    "departments": ["Development", "Technical Support"],
+    "assigned_conversations": 7,
+    "last_updated": "20 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Aisha Patel",
+    "email": "aisha.patel@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Aisha Patel",
+    "departments": ["Sales", "Billing"],
+    "assigned_conversations": 5,
+    "last_updated": "30 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Rajesh Kumar",
+    "email": "rajesh.kumar@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Rajesh Kumar",
+    "departments": ["Human Resources", "Recruitment"],
+    "assigned_conversations": 1,
+    "last_updated": "12 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Nina Brooks",
+    "email": "nina.brooks@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brooks",
+    "departments": ["Operations", "Logistics"],
+    "assigned_conversations": 6,
+    "last_updated": "8 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Carlos Vega",
+    "email": "carlos.vega@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos Vega",
+    "departments": ["Finance", "Accounting"],
+    "assigned_conversations": 3,
+    "last_updated": "18 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Emily Zhang",
+    "email": "emily.zhang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily Zhang",
+    "departments": ["Product", "Quality Assurance"],
+    "assigned_conversations": 9,
+    "last_updated": "1 hour ago",
+    "is_online": false
+  },
+  {
+    "name": "Jordan Smith",
+    "email": "jordan.smith@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan Smith",
+    "departments": ["Analytics", "Data Management"],
+    "assigned_conversations": 2,
+    "last_updated": "2 hours ago",
+    "is_online": false
+  },
+  {
+    "name": "Alex Johnson",
+    "email": "alex.johnson@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex Johnson",
+    "departments": ["Engineering", "DevOps"],
+    "assigned_conversations": 8,
+    "last_updated": "15 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Stefan Lang",
+    "email": "stefan.lang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Stefan Lang",
+    "departments": ["Marketing", "Tech Support"],
+    "assigned_conversations": 4,
+    "last_updated": "5 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Maya Tran",
+    "email": "maya.tran@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya Tran",
+    "departments": ["Design", "Customer Service"],
+    "assigned_conversations": 2,
+    "last_updated": "10 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Leo Chen",
+    "email": "leo.chen@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Leo Chen",
+    "departments": ["Development", "Technical Support"],
+    "assigned_conversations": 7,
+    "last_updated": "20 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Aisha Patel",
+    "email": "aisha.patel@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Aisha Patel",
+    "departments": ["Sales", "Billing"],
+    "assigned_conversations": 5,
+    "last_updated": "30 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Rajesh Kumar",
+    "email": "rajesh.kumar@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Rajesh Kumar",
+    "departments": ["Human Resources", "Recruitment"],
+    "assigned_conversations": 1,
+    "last_updated": "12 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Nina Brooks",
+    "email": "nina.brooks@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brooks",
+    "departments": ["Operations", "Logistics"],
+    "assigned_conversations": 6,
+    "last_updated": "8 minutes ago",
+    "is_online": true
+  },
+  {
+    "name": "Carlos Vega",
+    "email": "carlos.vega@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos Vega",
+    "departments": ["Finance", "Accounting"],
+    "assigned_conversations": 3,
+    "last_updated": "18 minutes ago",
+    "is_online": false
+  },
+  {
+    "name": "Emily Zhang",
+    "email": "emily.zhang@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily Zhang",
+    "departments": ["Product", "Quality Assurance"],
+    "assigned_conversations": 9,
+    "last_updated": "1 hour ago",
+    "is_online": false
+  },
+  {
+    "name": "Jordan Smith",
+    "email": "jordan.smith@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan Smith",
+    "departments": ["Analytics", "Data Management"],
+    "assigned_conversations": 2,
+    "last_updated": "2 hours ago",
+    "is_online": false
+  },
+  {
+    "name": "Alex Johnson",
+    "email": "alex.johnson@drinkstryker.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex Johnson",
+    "departments": ["Engineering", "DevOps"],
+    "assigned_conversations": 8,
+    "last_updated": "15 minutes ago",
+    "is_online": true
+  }
+  
+]

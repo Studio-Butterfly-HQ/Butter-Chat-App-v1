@@ -6,7 +6,7 @@ import ResetPasswordPage from "./pages/auth/reset-password-page";
 import OnboardingPage from "./pages/onboarding/onboarding-page";
 import DashboardLayout from "./pages/dashboard/dashboard-layout";
 import DashboardHome from "./pages/dashboard/home/dashboard-home";
-import Audiences from "./pages/dashboard/audiences/audiences";
+import Audiences from "./pages/dashboard/audiences/audiences-page";
 import Bots from "./pages/dashboard/bots/bots";
 
 import ProtectedRoute from "./routes/protected-route";
