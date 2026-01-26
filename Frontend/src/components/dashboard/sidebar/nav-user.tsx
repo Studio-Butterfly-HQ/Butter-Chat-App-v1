@@ -4,6 +4,7 @@ import {
   LogOut,
   Crown,
   Sun,
+  Moon,
   User,
   Users,
   Activity,
@@ -29,54 +30,40 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-import { useAppDispatch } from "@/store/hooks"
-import { logout } from "@/store/slices/auth/auth-slice"
-import { persistor } from "@/store"
+import { useAppDispatch } from "@/store/hooks";
+import { logout } from "@/store/slices/auth/auth-slice";
+import { persistor } from "@/store";
+import { useTheme } from "@/provider/theme-provider";
 
-const menuItems = {
-  primary: [
-    { label: "Upgrade to Pro", icon: Crown, url: "#" },
-    { label: "Light Mode", icon: Sun, url: "#" },
-  ],
-  account: [
-    { label: "Account", icon: User, url: "#" },
-    { label: "Billing", icon: CreditCard, url: "#" },
-    { label: "Team", icon: Users, url: "/dashboard/teams" },
-    { label: "Activity", icon: Activity, url: "#" },
-  ],
-}
-
-export function NavUser({
-  user,
-}: {
+type NavUserProps = {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
-  const { isMobile } = useSidebar()
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+    name: string;
+    email: string;
+    avatar: string;
+  };
+};
+
+export function NavUser({user}: NavUserProps) {
+  const { isMobile } = useSidebar();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { setTheme, theme } = useTheme();
 
   const handleLogout = async () => {
-    dispatch(logout())
-    await persistor.purge()
-    navigate("/login", { replace: true })
-  }
+    dispatch(logout());
+    await persistor.purge();
+    navigate("/login", { replace: true });
+  };
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Avatar className="h-8 w-8 rounded-lg">
+            <SidebarMenuButton size="lg"className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+              <Avatar className="h-8 w-8 rounded-sm">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg">
                   {user.name?.[0] ?? "U"}
@@ -97,7 +84,7 @@ export function NavUser({
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5">
-                <Avatar className="h-8 w-8 rounded-lg">
+                <Avatar className="h-8 w-8 rounded-sm">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">
                     {user.name?.[0] ?? "U"}
@@ -112,36 +99,71 @@ export function NavUser({
 
             <DropdownMenuSeparator />
 
+            {/* THEME TOGGLE (ACTION, NOT LINK) */}
             <DropdownMenuGroup>
-              {menuItems.primary.map((item) => (
-                <DropdownMenuItem key={item.label} asChild>
-                  <NavLink to={item.url} className="flex items-center gap-2 w-full">
-                    <item.icon className="h-4 w-4" />
-                    {item.label}
-                  </NavLink>
-                </DropdownMenuItem>
-              ))}
+              <DropdownMenuItem asChild>
+                <NavLink to="#">
+                  <Crown className="h-4 w-4" />
+                  Premium Features
+                </NavLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.preventDefault()
+                  setTheme(theme === "dark" ? "light" : "dark");
+                }}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                {theme === "dark" ? (
+                  <>
+                    <Sun className="h-4 w-4" />
+                    Light Mode
+                  </>
+                ) : (
+                  <>
+                    <Moon className="h-4 w-4" />
+                    Dark Mode
+                  </>
+                )}
+              </DropdownMenuItem>
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
 
+            {/* ACCOUNT LINKS */}
             <DropdownMenuGroup>
-              {menuItems.account.map((item) => (
-                <DropdownMenuItem key={item.label} asChild>
-                  <NavLink to={item.url} className="flex items-center gap-2 w-full">
-                    <item.icon className="h-4 w-4" />
-                    {item.label}
-                  </NavLink>
-                </DropdownMenuItem>
-              ))}
+              <DropdownMenuItem asChild>
+                <NavLink to="#">
+                  <User className="h-4 w-4" />
+                  Account
+                </NavLink>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <NavLink to="#">
+                  <CreditCard className="h-4 w-4" />
+                  Billing
+                </NavLink>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <NavLink to="/dashboard/teams">
+                  <Users className="h-4 w-4" />
+                  Team
+                </NavLink>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <NavLink to="#">
+                  <Activity className="h-4 w-4" />
+                  Activity
+                </NavLink>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem
-              onClick={handleLogout}
-              className="flex items-center gap-2 cursor-pointer"
-            >
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="h-4 w-4" />
               Log out
             </DropdownMenuItem>
@@ -149,5 +171,5 @@ export function NavUser({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
