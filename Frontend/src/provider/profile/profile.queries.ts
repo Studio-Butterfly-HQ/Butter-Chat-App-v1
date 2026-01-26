@@ -64,7 +64,7 @@ export const useCompanyProfile = () => {
     gcTime: 1000 * 60 * 10,
   })
 
-  /* ✅ Handle SUCCESS (including success:false) */
+  /* Handle SUCCESS (including success:false) */
   useEffect(() => {
     if (!query.isSuccess) return
 
@@ -77,10 +77,9 @@ export const useCompanyProfile = () => {
       return
     }
     dispatch(setCompany(query.data.data))
-    toast.success(query.data.message);
   }, [query.isSuccess, query.data, dispatch, navigate])
 
-  /* ✅ Handle HTTP / Network errors */
+  /* Handle HTTP / Network errors */
   useEffect( () => {
     if (!query.isError) return
 
