@@ -235,7 +235,7 @@ export function ShiftTable() {
           Add new Shift
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="bg-popover max-w-sm">
+          <DialogContent className="bg-popover max-w-md">
             <DialogHeader>
               <DialogTitle className="text-xl font-normal text-primary">
                 Add Shift

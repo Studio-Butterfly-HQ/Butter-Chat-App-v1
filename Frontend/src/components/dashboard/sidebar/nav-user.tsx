@@ -37,15 +37,15 @@ import { logout } from "@/store/slices/auth/auth-slice";
 import { persistor } from "@/store";
 import { useTheme } from "@/provider/theme-provider";
 
-export function NavUser({
-  user,
-}: {
+type NavUserProps = {
   user: {
     name: string;
     email: string;
     avatar: string;
   };
-}) {
+};
+
+export function NavUser({user}: NavUserProps) {
   const { isMobile } = useSidebar();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -62,10 +62,7 @@ export function NavUser({
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
+            <SidebarMenuButton size="lg"className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               <Avatar className="h-8 w-8 rounded-sm">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg">

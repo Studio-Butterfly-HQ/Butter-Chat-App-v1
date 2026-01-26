@@ -1,12 +1,10 @@
 import type { CountryAPI, Option, ProfileMetaResponse } from "./profile.types";
 import type { ProfilePayload, ApiResponse, Profile } from "./profile.types"
 import {COUNTRY_API_URL} from "@/constants"
-import { PROFILE_API } from "@/constants/api";
-
-
+import { COMPANY_API  } from "@/constants/api";
 
 export const updateProfileApi = async (payload: ProfilePayload, token: string) => {
-  const res = await fetch(`${PROFILE_API.UPDATE_PROFILE}`, {
+  const res = await fetch(`${COMPANY_API.UPDATE_PROFILE}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -20,6 +18,25 @@ export const updateProfileApi = async (payload: ProfilePayload, token: string) =
   }
   return data
 }
+
+export const fetchCompanyProfileApi = async (token: string) => {
+  const res = await fetch(COMPANY_API.GET_PROFILE, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const data = await res.json()
+
+  if (!res.ok) {
+    throw data;
+  }
+
+  return data
+}
+
 
 
 export const fetchProfileMetaApi = async (): Promise<ProfileMetaResponse> => {

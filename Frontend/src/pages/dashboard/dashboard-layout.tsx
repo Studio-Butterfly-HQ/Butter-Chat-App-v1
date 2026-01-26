@@ -14,8 +14,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { useCompanyProfile } from "@/provider/profile/profile.queries"
 
 export default function DashboardLayout() {
+  const { data: user } = useCompanyProfile();
   return (
     <SidebarProvider >
       <AppSidebar />

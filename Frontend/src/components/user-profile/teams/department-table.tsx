@@ -218,7 +218,7 @@ export function DepartmentTable() {
           Add new Department
         </Button>
         <Dialog open={open} onOpenChange={setOpen} >
-          <DialogContent className="bg-popover max-w-sm">
+          <DialogContent className="bg-popover max-w-md">
             <DialogHeader>
               <DialogTitle className="text-xl font-medium text-primary">
                 Add Department

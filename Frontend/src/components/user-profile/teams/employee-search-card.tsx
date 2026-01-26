@@ -32,6 +32,7 @@ export function EmployeeSearchCard() {
           placeholder="Search employees"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="pr-10"
         />
       </div>
       <ScrollArea className="h-60">

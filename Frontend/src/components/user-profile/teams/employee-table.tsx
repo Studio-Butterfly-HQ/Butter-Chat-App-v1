@@ -238,7 +238,7 @@ export function EmployeeTable() {
         </Button>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="bg-popover max-w-sm">
+          <DialogContent className="bg-popover max-w-md">
             <DialogHeader>
               <DialogTitle className="text-xl font-medium text-primary">
                 Invite New Employee

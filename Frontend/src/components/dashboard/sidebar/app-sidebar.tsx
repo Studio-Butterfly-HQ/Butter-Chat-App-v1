@@ -30,14 +30,11 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { useAppSelector } from "@/store/hooks"
+import { useCompanyProfile } from "@/provider/profile/profile.queries"
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "Acme Inc",
@@ -157,6 +154,8 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const company = useAppSelector((state) => state.auth.company)
+  const user = company?.users?.find((u) => u.role === "OWNER") ?? company?.users?.[0] ?? null
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -169,7 +168,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <div className="px-4"><Separator /></div>
       <SidebarFooter >
-        <NavUser user={data.user} />
+        {user && <NavUser user={{
+          name: user.user_name,
+          email: user.email,
+          avatar: user.profile_uri || "",
+        }} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

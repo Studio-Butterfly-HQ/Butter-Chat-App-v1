@@ -6,8 +6,9 @@ export const AUTH_API = {
     SIGNUP: `${BACKEND_BASE_URL}/auth/register`,
     RESET_PASSWORD: `${BACKEND_BASE_URL}/auth/reset-password`,
 }
-export const PROFILE_API = {
+export const COMPANY_API = {
     UPDATE_PROFILE: `${BACKEND_BASE_URL}/company/update`,
+    GET_PROFILE: `${BACKEND_BASE_URL}/company/profile`,
 }
 
 export const COUNTRY_API_URL = "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones"
