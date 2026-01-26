@@ -60,7 +60,7 @@ export function DepartmentTable() {
       const dept = row.original;
       return (
         <div className="flex items-center gap-3">
-          <Avatar className="h-11 w-11 bg-secondary">
+          <Avatar className="h-10 w-10 bg-secondary">
             <AvatarFallback className="text-lg font-medium">
               {dept.department_name[0]}
             </AvatarFallback>
@@ -79,7 +79,7 @@ export function DepartmentTable() {
     meta: {
       skeleton: (
         <div className="flex items-center gap-3 h-[41px]">
-          <Skeleton className="h-11 w-11 rounded-full" />
+          <Skeleton className="h-10 w-10 rounded-full" />
           <div className="space-y-1">
             <Skeleton className="h-4 w-28" />
             <Skeleton className="h-3 w-20" />
@@ -108,7 +108,7 @@ export function DepartmentTable() {
             {employees.slice(0, 3).map((emp, idx) => (
               <Avatar
                 key={idx}
-                className="h-11 w-11 border-2 bg-secondary border-background"
+                className="h-10 w-10 border-2 bg-secondary border-background"
               >
                 <AvatarImage
                   src={emp.profile_uri}
@@ -134,9 +134,9 @@ export function DepartmentTable() {
     meta: {
       skeleton: (
         <div className="flex -space-x-2">
-          <Skeleton className="h-11 w-11 rounded-full" />
-          <Skeleton className="h-11 w-11 rounded-full" />
-          <Skeleton className="h-11 w-11 rounded-full" />
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <Skeleton className="h-10 w-10 rounded-full" />
         </div>
       ),
       headerClassName: "text-primary",

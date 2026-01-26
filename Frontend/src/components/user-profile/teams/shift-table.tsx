@@ -59,7 +59,7 @@ export function ShiftTable() {
 
         return (
           <div className="flex items-center gap-3">
-            <Avatar className="h-11 w-11 bg-secondary">
+            <Avatar className="h-10 w-10 bg-secondary">
               <AvatarFallback className="text-lg font-medium">
                 {shift.shift_name[0]}
               </AvatarFallback>
@@ -76,7 +76,7 @@ export function ShiftTable() {
       meta: {
         skeleton: (
           <div className="flex items-center gap-3 h-[44px]">
-            <Skeleton className="h-11 w-11 rounded-full" />
+            <Skeleton className="h-10 w-10 rounded-full" />
             <div className="space-y-1">
               <Skeleton className="h-4 w-32" />
               <Skeleton className="h-3 w-20" />
@@ -224,7 +224,7 @@ export function ShiftTable() {
           rowRounded: false,
         }}
       >
-        <div className="w-full space-y-2.5">
+        <div className="w-full space-y-2.5 ">
           <DataGridContainer border={false}>
             <ScrollArea>
               <DataGridTable />

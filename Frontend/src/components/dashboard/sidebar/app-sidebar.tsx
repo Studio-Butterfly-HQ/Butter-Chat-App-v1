@@ -145,7 +145,7 @@ const data = {
     },
     {
       name: "Settings",
-      url: "#",
+      url: "/dashboard/settings",
       icon: Settings ,
     },
     {
@@ -168,7 +168,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <div className="px-4"><Separator /></div>
-      <SidebarFooter>
+      <SidebarFooter >
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />

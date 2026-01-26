@@ -54,7 +54,7 @@ export function EmployeeTable() {
         accessorFn: (row) => `${row.user_name} ${row.email}`,
         cell: ({ row }) => (
           <div className="flex items-center gap-3">
-            <Avatar className="h-11 w-11 bg-secondary">
+            <Avatar className="h-10 w-10 bg-secondary">
               <AvatarImage src={row.original.profile_uri} alt={row.original.user_name} />
               <AvatarFallback className="bg-secondary text-foreground">
                 {row.original.user_name 
@@ -76,7 +76,7 @@ export function EmployeeTable() {
         meta: {
           skeleton: (
             <div className="flex items-center gap-3 h-[41px]">
-              <Skeleton className="h-11 w-11 rounded-full" />
+              <Skeleton className="h-10 w-10 rounded-full" />
               <div className="space-y-1">
                 <Skeleton className="h-4 w-28" />
                 <Skeleton className="h-3 w-20" />
