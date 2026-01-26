@@ -27,7 +27,23 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { useForm } from "react-hook-form"
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+
 
 import employees from "@/constants/employees.json";
 
@@ -39,6 +55,12 @@ interface IEmployee {
   assigned_conversations: number;
   last_updated: string;
   is_online: boolean;
+}
+interface InviteEmployeeFormValues {
+  name: string;
+  email: string;
+  department: string;
+  shift: string;
 }
 
 export function EmployeeTable() {
@@ -55,6 +77,16 @@ export function EmployeeTable() {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  const inviteForm = useForm<InviteEmployeeFormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      department: "",
+      shift: "",
+    },
+    mode: "onBlur",
+  })
 
   const columns = useMemo<ColumnDef<IEmployee>[]>(
     () => [
@@ -199,13 +231,15 @@ export function EmployeeTable() {
             className="pl-10 h-10"
           />
         </div>
+
         <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
           <Plus />
           Invite Employee
         </Button>
+
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="bg-popover max-w-sm">
-            <DialogHeader >
+            <DialogHeader>
               <DialogTitle className="text-xl font-medium text-primary">
                 Invite New Employee
               </DialogTitle>
@@ -214,65 +248,124 @@ export function EmployeeTable() {
                 receive an invitation email.
               </DialogDescription>
             </DialogHeader>
+            <Form {...inviteForm}>
+              <form
+                onSubmit={inviteForm.handleSubmit((data) => {
+                  console.log("Invite employee:", data);
+                  setIsDialogOpen(false);
+                  inviteForm.reset();
+                })}
+              >
+                <div className="space-y-5 mt-2">
+                  {/* Employee Name */}
+                  <FormField
+                    control={inviteForm.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-sm text-primary">
+                          Employee Name <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <Input
+                          {...field}
+                          placeholder="John Doe"
+                          className="h-10"
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <div className="space-y-5 mt-2">
-              <div className="space-y-2">
-                <label className="text-sm text-primary">
-                  Employee Name <span className="text-red-500">*</span>
-                </label>
-                <Input placeholder="John Doe" className="h-10" />
-              </div>
+                  {/* Employee Email */}
+                  <FormField
+                    control={inviteForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-sm text-primary">
+                          Employee Email <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder="user@example.com"
+                          className="h-10"
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <div className="space-y-2">
-                <label className="text-sm text-primary">
-                  Employee Email <span className="text-red-500">*</span>
-                </label>
-                <Input placeholder="user@example.com" className="h-10" />
-              </div>
+                  {/* Department */}
+                  <FormField
+                    control={inviteForm.control}
+                    name="department"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-sm text-primary">
+                          Department <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger className="h-10">
+                            <SelectValue placeholder="Select a Department" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="engineering">
+                              Engineering
+                            </SelectItem>
+                            <SelectItem value="support">Support</SelectItem>
+                            <SelectItem value="hr">HR</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <div className="space-y-2">
-                <label className="text-sm  text-primary">
-                  Department <span className="text-red-500">*</span>
-                </label>
-                <Select>
-                  <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Select a Department" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="engineering">Engineering</SelectItem>
-                    <SelectItem value="support">Support</SelectItem>
-                    <SelectItem value="hr">HR</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm text-primary">
-                  Shift <span className="text-red-500">*</span>
-                </label>
-                <Select>
-                  <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Select a Shift" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="morning">Morning</SelectItem>
-                    <SelectItem value="evening">Evening</SelectItem>
-                    <SelectItem value="night">Night</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <DialogFooter className="flex gap-2 md:gap-0">
-              <DialogClose asChild>
-                <Button variant="outline" className="bg-transparent">
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button>Send Invitation</Button>
-            </DialogFooter>
+                  {/* Shift */}
+                  <FormField
+                    control={inviteForm.control}
+                    name="shift"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-sm text-primary">
+                          Shift <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger className="h-10">
+                            <SelectValue placeholder="Select a Shift" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="morning">Morning</SelectItem>
+                            <SelectItem value="evening">Evening</SelectItem>
+                            <SelectItem value="night">Night</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <DialogFooter className="flex gap-2 md:gap-0 mt-6">
+                  <DialogClose asChild>
+                    <Button variant="outline" className="bg-transparent">
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button type="submit">Send Invitation</Button>
+                </DialogFooter>
+              </form>
+            </Form>
           </DialogContent>
         </Dialog>
       </div>
+
       <DataGrid
         table={table}
         isLoading={isLoading}
