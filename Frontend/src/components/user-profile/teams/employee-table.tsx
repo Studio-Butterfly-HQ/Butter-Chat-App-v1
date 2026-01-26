@@ -8,16 +8,26 @@ import { DataGridPagination } from "@/components/ui/data-grid-pagination";
 import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, Search} from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import {
   ColumnDef,
-  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import employees from "@/constants/employees.json";
 
@@ -31,12 +41,12 @@ interface IEmployee {
   is_online: boolean;
 }
 
-
 export function EmployeeTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [allEmployees, setAllEmployees] = useState<IEmployee[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,10 +65,13 @@ export function EmployeeTable() {
         cell: ({ row }) => (
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10 bg-secondary">
-              <AvatarImage src={row.original.profile_uri} alt={row.original.user_name} />
+              <AvatarImage
+                src={row.original.profile_uri}
+                alt={row.original.user_name}
+              />
               <AvatarFallback className="bg-secondary text-foreground">
-                {row.original.user_name 
-                  ? row.original.user_name.charAt(0).toUpperCase() 
+                {row.original.user_name
+                  ? row.original.user_name.charAt(0).toUpperCase()
                   : "U"}
               </AvatarFallback>
             </Avatar>
@@ -122,7 +135,7 @@ export function EmployeeTable() {
           skeleton: <Skeleton className="h-4 w-10" />,
           headerClassName: "text-primary",
         },
-      },      
+      },
       {
         id: "status",
         header: "Last Updated",
@@ -154,7 +167,8 @@ export function EmployeeTable() {
           skeleton: <Skeleton className="h-4 w-36" />,
           headerClassName: "text-primary",
         },
-      },    ],
+      },
+    ],
     [],
   );
 
@@ -185,10 +199,79 @@ export function EmployeeTable() {
             className="pl-10 h-10"
           />
         </div>
-        <Button className="h-10">
+        <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
           <Plus />
           Invite Employee
         </Button>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="bg-popover max-w-sm">
+            <DialogHeader >
+              <DialogTitle className="text-xl font-medium text-primary">
+                Invite New Employee
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground">
+                Enter the email of the person you want to invite. They will
+                receive an invitation email.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-5 mt-2">
+              <div className="space-y-2">
+                <label className="text-sm text-primary">
+                  Employee Name <span className="text-red-500">*</span>
+                </label>
+                <Input placeholder="John Doe" className="h-10" />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm text-primary">
+                  Employee Email <span className="text-red-500">*</span>
+                </label>
+                <Input placeholder="user@example.com" className="h-10" />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm  text-primary">
+                  Department <span className="text-red-500">*</span>
+                </label>
+                <Select>
+                  <SelectTrigger className="h-10">
+                    <SelectValue placeholder="Select a Department" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="engineering">Engineering</SelectItem>
+                    <SelectItem value="support">Support</SelectItem>
+                    <SelectItem value="hr">HR</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm text-primary">
+                  Shift <span className="text-red-500">*</span>
+                </label>
+                <Select>
+                  <SelectTrigger className="h-10">
+                    <SelectValue placeholder="Select a Shift" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="morning">Morning</SelectItem>
+                    <SelectItem value="evening">Evening</SelectItem>
+                    <SelectItem value="night">Night</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter className="flex gap-2 md:gap-0">
+              <DialogClose asChild>
+                <Button variant="outline" className="bg-transparent">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button>Send Invitation</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       <DataGrid
         table={table}

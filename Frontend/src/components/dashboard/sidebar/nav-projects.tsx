@@ -32,7 +32,7 @@ export function NavProjects({
                 className={
                   isActive
                     ? "font-medium text-foreground bg-muted"
-                    : "text-muted-foreground"
+                    : ""
                 }
               >
                 <NavLink to={item.url} className="flex items-center gap-2">
