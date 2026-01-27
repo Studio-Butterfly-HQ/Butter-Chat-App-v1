@@ -3,7 +3,7 @@ import Header from "@/components/onboarding/header"
 import PaginationDots from "@/components/onboarding/pagination-dots"
 import ProfileUpdateCard from "@/components/profile/profile-update-card"
 import ConnectResourcesCard from "@/components/connect/connect-resources-card"
-import CreateAgentCard from "@/components/agent/create-agent-card"
+import CreateAgentCard from "@/components/dashboard/agent/create-agent-card"
 import Footer from "@/components/onboarding/footer"
 import { useNavigate } from "react-router-dom"
 

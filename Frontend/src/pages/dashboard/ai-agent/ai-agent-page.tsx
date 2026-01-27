@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {EmployeeTable}  from '@/components/user-profile/teams/employee-table';
-import {DepartmentTable}  from '@/components/user-profile/teams/department-table';
-import {ShiftTable}  from '@/components/user-profile/teams/shift-table';
+import Configure from '@/components/dashboard/agent/configure';
+import KnowledgeBase from '@/components/dashboard/agent/knowledge-base';
+import Flow from '@/components/dashboard/agent/flow';
+import Tool from '@/components/dashboard/agent/tool';
+import { DepartmentTable } from '@/components/user-profile/teams/department-table';
+import { ShiftTable } from '@/components/user-profile/teams/shift-table';
 
 const TeamsPage = () => {
-  const [activeTab, setActiveTab] = useState('employees');
+  const [activeTab, setActiveTab] = useState('configure');
 
   return (
     <div className="min-h-[calc(100vh-90px)] bg-popover rounded-b-xl">
@@ -13,35 +16,44 @@ const TeamsPage = () => {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 pl-4 mb-4">
             <TabsTrigger 
-              value="employees" 
+              value="configure" 
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
             >
-              Employees
+              Configure
             </TabsTrigger>
             <TabsTrigger 
-              value="departments"
+              value="knowledgeBase"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
             >
-              Departments
+              KnowledgeBase
             </TabsTrigger>
             <TabsTrigger 
-              value="shifts"
+              value="flow"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
             >
-              Shifts
+              Flow
+            </TabsTrigger>
+            <TabsTrigger 
+              value="tools"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+            >
+              Tools
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="employees" className="mt-0">
-            <EmployeeTable />
+          <TabsContent value="configure" className="mt-0">
+            <Configure />
           </TabsContent>
           
-          <TabsContent value="departments" className="mt-0">
-            <DepartmentTable />
+          <TabsContent value="knowledgeBase" className="mt-0">
+            <KnowledgeBase />
           </TabsContent>
-          
-          <TabsContent value="shifts" className="mt-0">
-            <ShiftTable />
+          <TabsContent value="flow" className="mt-0">
+            <Flow />
+          </TabsContent>
+
+          <TabsContent value="tools" className="mt-0">
+            <Tool />
           </TabsContent>
         </Tabs>
       </div>

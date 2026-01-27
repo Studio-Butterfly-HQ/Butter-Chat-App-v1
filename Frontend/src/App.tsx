@@ -6,7 +6,7 @@ import ResetPasswordPage from "./pages/auth/reset-password-page";
 import OnboardingPage from "./pages/onboarding/onboarding-page";
 import DashboardLayout from "./pages/dashboard/dashboard-layout";
 import DashboardHome from "./pages/dashboard/home/dashboard-home";
-import Bots from "./pages/dashboard/bots/bots";
+import AiAgentPage from "./pages/dashboard/ai-agent/ai-agent-page";
 import TeamsPage from "./pages/dashboard/user-profile/teams-page";
 import SettingsLayout from "./pages/dashboard/settings/settings-layout";
 import SettingsGeneral from "./pages/dashboard/settings/general/general-page";
@@ -38,7 +38,7 @@ export default function App() {
               <Route path="security" element={<SettingsSecurity />} />
               <Route path="notifications" element={<SettingsNotifications />} />
             </Route>
-            <Route path="bots" element={<Bots />} />
+            <Route path="ai-agent" element={<AiAgentPage />} />
             <Route path="teams" element={<TeamsPage />} />
           </Route>
         </Route>

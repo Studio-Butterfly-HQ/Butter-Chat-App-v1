@@ -29,6 +29,7 @@ export function NavProjects({
             <SidebarMenuItem key={item.name}>
               <SidebarMenuButton
                 asChild
+                tooltip={item.name}
                 className={
                   isActive
                     ? "font-medium text-foreground bg-muted"
