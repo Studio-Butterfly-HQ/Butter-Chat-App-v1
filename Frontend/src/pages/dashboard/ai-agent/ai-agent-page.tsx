@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Configure from '@/components/dashboard/agent/configure';
-import KnowledgeBase from '@/components/dashboard/agent/knowledge-base';
+import {Configure} from '@/components/dashboard/agent/configure';
+import {KnowledgeBase} from '@/components/dashboard/agent/knowledge-base';
 import Flow from '@/components/dashboard/agent/flow';
 import Tool from '@/components/dashboard/agent/tool';
 import { DepartmentTable } from '@/components/user-profile/teams/department-table';
@@ -25,7 +25,7 @@ const TeamsPage = () => {
               value="knowledgeBase"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
             >
-              KnowledgeBase
+              Knowledge Base
             </TabsTrigger>
             <TabsTrigger 
               value="flow"
