@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CircleCheck, Link, Plus, Facebook, Instagram, MessageCircle, Handbag  } from 'lucide-react';
+import { useToggleConnection } from "@/provider/connections"
 
 interface Connection {
   id: string
@@ -13,6 +14,7 @@ interface Connection {
 }
 
 export default function ConnectResourcesCard() {
+  const { mutateAsync } = useToggleConnection()
   const [connections, setConnections] = useState<Connection[]>([
     { id: "facebook", name: "Connect Facebook", icon: <Facebook className="text-primary-foreground" />, connected: false, category: "social", url: "https://api.studiobutterfly.io/auth/meta/login" },
     { id: "instagram", name: "Connect Instagram", icon: <Instagram className="text-primary-foreground" />, connected: false, category: "social", url: "" },
@@ -21,12 +23,27 @@ export default function ConnectResourcesCard() {
     { id: "shopify", name: "Connect Shopify", icon: <Handbag className="text-primary-foreground" />, connected: false, category: "ecommerce", url: "" },
   ])
 
-  const toggleConnection = (id: string, url: string) => {
-    if (url) {
-      window.open(url, "_blank");
-    }
-    setConnections(connections.map((conn) => (conn.id === id ? { ...conn, connected: !conn.connected } : conn)))
+  const handleToggleConnection = (id: string) => {
+    setConnections((prevConnections) =>
+      prevConnections.map((connection) =>
+        connection.id === id ? { ...connection, connected: !connection.connected } : connection
+      )
+    )
   }
+
+  const toggleConnection = async (id: string, url: string) => {
+  if(id === "facebook") {
+    try {
+      await mutateAsync()
+      handleToggleConnection(id);
+    } 
+    catch (error) {
+      console.error("Error in facebook toggleConnection function: ", error)
+    }
+  }
+  
+}
+
 
   const handleComplete = () => {
     console.log("Connections completed:", connections)
