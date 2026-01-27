@@ -14,7 +14,8 @@ import {
   LayoutDashboard,
   Sparkles,
   Inbox,
-  ShoppingBag
+  ShoppingBag,
+  BellRing 
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/sidebar/nav-main"
@@ -29,14 +30,11 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { useAppSelector } from "@/store/hooks"
+import { useCompanyProfile } from "@/provider/profile/profile.queries"
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "Acme Inc",
@@ -144,18 +142,20 @@ const data = {
     },
     {
       name: "Settings",
-      url: "#",
+      url: "/dashboard/settings",
       icon: Settings ,
     },
     {
-      name: "Log out",
+      name: "Notifications",
       url: "#",
-      icon: LogOut ,
+      icon: BellRing,
     },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const company = useAppSelector((state) => state.auth.company)
+  const user = company?.users?.find((u) => u.role === "OWNER") ?? company?.users?.[0] ?? null
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -167,8 +167,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <div className="px-4"><Separator /></div>
-      <SidebarFooter>
-        <NavUser user={data.user} />
+      <SidebarFooter >
+        {user && <NavUser user={{
+          name: user.user_name,
+          email: user.email,
+          avatar: user.profile_uri || "",
+        }} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

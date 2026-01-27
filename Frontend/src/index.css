@@ -44,6 +44,17 @@ button:focus-visible {
   }
 } */
 
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input[type="time"]::-webkit-clear-button {
+  display: none;
+}
+
+input[type="time"] {
+  appearance: none;
+}
 
 
 @layer base {
