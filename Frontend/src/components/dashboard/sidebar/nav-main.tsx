@@ -53,6 +53,7 @@ export function NavMain({
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton
                     asChild
+                    tooltip={item.title}
                     className={isParentActive ? "bg-muted font-medium" : ""}
                   >
                     <NavLink to={item.url}>

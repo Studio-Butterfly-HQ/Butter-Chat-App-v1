@@ -66,7 +66,7 @@ const data = {
       isActive: true,
     },
     {
-      title: "Conversations",
+      title: "Inbox",
       url: "#",
       icon: Inbox,
       isActive: true,
@@ -129,8 +129,8 @@ const data = {
       icon: Lightbulb ,
     },
     {
-      title: "Bots",
-      url: "/dashboard/Bots",
+      title: "AI Agent",
+      url: "/dashboard/ai-agent",
       icon: BotMessageSquare ,
     },
   ],
