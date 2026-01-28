@@ -31,7 +31,7 @@ export default function ProfileUpdateCard() {
       language: "",
       timezone: "",
     },
-    mode: "onChange",
+    mode: "onBlur",
   })
 
   const { watch, setValue } = form

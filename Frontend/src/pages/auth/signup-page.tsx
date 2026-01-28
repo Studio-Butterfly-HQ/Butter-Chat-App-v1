@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Eye, EyeOff, MessageCircle } from "lucide-react"
 import { useEffect, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -46,7 +47,7 @@ export default function SignupPage() {
       password: "",
       confirm_password: "",
     },
-    mode: "onChange",
+    mode: "onBlur",
   })
   const company_name = form.watch("company_name")
   const password = form.watch("password")
@@ -85,18 +86,21 @@ export default function SignupPage() {
   }, [company_name, form])
 
   return (
-    <div className="min-h-screen bg-background flex">
-      <div className="w-full lg:w-1/2 min-h-screen flex flex-col p-6 lg:p-8">
-        <div className="flex items-center gap-2">
+    <div className="h-screen bg-background flex overflow-hidden">
+      <div className="w-full lg:w-1/2 h-screen flex flex-col">
+        <div className="flex items-center gap-2 p-6 lg:p-8">
           <MessageCircle className="text-primary text-2xl" />
           <span className="text-primary text-2xl font-medium">
             ButterChat
           </span>
         </div>
 
-        <div className="flex-1 md:p-16 pt-16 flex items-center justify-center">
-          <div className="w-full max-w-md">
-            <Card className="bg-transparent border-0 shadow-none">
+        <div className="flex-1 h-0 min-h-0 pb-6 lg:pb-8">
+          <ScrollArea className="h-full">
+          <div className="px-6 lg:px-8 pb-6 lg:pb-8">
+            <div className="md:p-8 pt-8 flex items-center justify-center min-h-full">
+              <div className="w-full max-w-md">
+              <Card className="bg-transparent border-0 shadow-none">
               <div className="flex flex-col items-center gap-2 mb-6">
                 <h1 className="text-primary text-3xl font-bold text-center">
                   Create your account
@@ -301,8 +305,11 @@ export default function SignupPage() {
                   Privacy Policy
                 </span>.
               </p>
-            </Card>
+              </Card>
+              </div>
+            </div>
           </div>
+          </ScrollArea>
         </div>
       </div>
 

@@ -72,7 +72,7 @@ export function ShiftTable() {
     shift_start_time: "",
     shift_end_time: "",
   },
-  mode: "onChange",
+  mode: "onBlur",
 })
 
 const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
