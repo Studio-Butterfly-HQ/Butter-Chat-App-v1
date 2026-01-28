@@ -1,5 +1,3 @@
-import { Facebook } from "lucide-react"
-
 export const BACKEND_BASE_URL_LOCAL = "http://localhost:5599"
 export const BACKEND_BASE_URL = "https://api.studiobutterfly.io"
 
@@ -15,6 +13,9 @@ export const COMPANY_API = {
 
 export const CONNECTIONS_API = {
     FACEBOOK_LOGIN: `${BACKEND_BASE_URL}/auth/meta/login`,
+}
+export const SHIFT_API = {
+    CREATE_SHIFT: `${BACKEND_BASE_URL}/shift`
 }
 
 export const COUNTRY_API_URL = "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones"

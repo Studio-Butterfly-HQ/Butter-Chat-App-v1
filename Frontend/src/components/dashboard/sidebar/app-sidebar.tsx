@@ -120,7 +120,7 @@ const data = {
     },
     {
       title: "Audiences",
-      url: "/dashboard/Audiences",
+      url: "/audiences",
       icon: Users ,
     },
     {
@@ -130,7 +130,7 @@ const data = {
     },
     {
       title: "AI Agent",
-      url: "/dashboard/ai-agent",
+      url: "/ai-agent",
       icon: BotMessageSquare ,
     },
   ],
@@ -142,7 +142,7 @@ const data = {
     },
     {
       name: "Settings",
-      url: "/dashboard/settings",
+      url: "/settings",
       icon: Settings ,
     },
     {

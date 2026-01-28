@@ -147,7 +147,7 @@ export function NavUser({user}: NavUserProps) {
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
-                <NavLink to="/dashboard/teams">
+                <NavLink to="/teams">
                   <Users className="h-4 w-4" />
                   Team
                 </NavLink>

@@ -120,7 +120,7 @@ export function AddWebsiteDialog({
           </Accordion>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="flex gap-2 md:gap-0">
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}

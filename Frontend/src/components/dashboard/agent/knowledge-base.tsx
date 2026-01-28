@@ -1,109 +1,153 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Earth, Code2, Plus, ArrowUpRight, Table, FileUp} from "lucide-react"
-import { useState } from "react"
-import { AddWebsiteDialog } from "./add-website-dialog"
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Earth,
+  Scissors,
+  Plus,
+  ArrowUpRight,
+  Table,
+  FileUp,
+} from "lucide-react";
+import { useState } from "react";
+import { AddWebsiteDialog } from "./add-website-dialog";
+import { UploadDocumentsDialog } from "./upload-documents-dialog";
+import { Link } from "react-router-dom";
 
 export function KnowledgeBase() {
-  const [open, setOpen] = useState(false)
+  const [openAddWebsiteDialog, setOpenAddWebsiteDialog] = useState(false);
+  const [openUploadDocumentsDialog, setOpenUploadDocumentsDialog] =
+    useState(false);
+
   return (
     <div className="p-4 pt-0 space-y-3">
       {/* Website */}
       <Card className="border border-border rounded-xl">
-        <CardContent className="flex items-center justify-between p-3.5">
-          <div className="flex items-center gap-4">
-              <Earth  className="h-6 w-6" />
-            <div>
-              <div className="font-medium text-primary">Website</div>
-              <div className="text-sm font-normal text-muted-foreground">
-                Sync content from a public website.
+        <CardContent className="p-3.5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center  gap-3">
+              <Earth className="h-6 w-6 shrink-0" />
+              <div>
+                <div className="font-medium text-primary">Website</div>
+                <div className="text-sm text-muted-foreground">
+                  Sync content from a public website.
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              className="rounded-full gap-2 px-4"
-              onClick={() => setOpen(true)}
-            >
-              <Plus className="h-4 w-4" />
-              Add website
-            </Button>
-            <AddWebsiteDialog open={open} onOpenChange={setOpen} />
-            <Button
-              size="icon"
-              className="rounded-full h-9 w-9"
-            >
-              <ArrowUpRight className="h-4 w-4" />
-            </Button>
+
+            <div className="flex w-full items-center justify-end gap-2 md:w-auto">
+              <Button
+                size="sm"
+                className="rounded-full gap-2"
+                onClick={() => setOpenAddWebsiteDialog(true)}
+              >
+                <Plus className="h-4 w-4" />
+                Add website
+              </Button>
+
+              <AddWebsiteDialog
+                open={openAddWebsiteDialog}
+                onOpenChange={setOpenAddWebsiteDialog}
+              />
+              <Link to="/ai-agent/websites">
+                <Button size="icon" className="rounded-full h-9 w-9 px-4">
+                  <ArrowUpRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Documents */}
       <Card className="border border-border rounded-xl">
-        <CardContent className="flex items-center justify-between p-3.5">
-          <div className="flex items-center gap-4">
-              <FileUp  className="h-6 w-6" />
-            <div>
-              <div className="font-medium text-primary">Documents</div>
-              <div className="text-sm font-normal text-muted-foreground">
-                Import content from documents that are not available publicly.
+        <CardContent className="p-3.5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-3">
+              <FileUp className="h-6 w-6 shrink-0" />
+              <div>
+                <div className="font-medium text-primary">Documents</div>
+                <div className="text-sm text-muted-foreground">
+                  Import content from documents that are not available publicly.
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex items-center gap-2">
-            <Button size="sm" className="rounded-full gap-2 px-4">
-              <Plus className="h-4 w-4" />
-              Upload Document
-            </Button>
-            <Button size="icon" className="rounded-full h-9 w-9">
-              <ArrowUpRight className="h-4 w-4" />
-            </Button>
+            <div className="flex w-full items-center justify-end gap-2 md:w-auto">
+              <Button
+                size="sm"
+                className="rounded-full gap-2"
+                onClick={() => setOpenUploadDocumentsDialog(true)}
+              >
+                <Plus className="h-4 w-4" />
+                Upload Document
+              </Button>
+
+              <UploadDocumentsDialog
+                open={openUploadDocumentsDialog}
+                onOpenChange={setOpenUploadDocumentsDialog}
+              />
+
+              <Button size="icon" className="rounded-full h-9 w-9 px-4">
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Form */}
       <Card className="border border-border rounded-xl">
-        <CardContent className="flex items-center justify-between p-3.5">
-          <div className="flex items-center gap-4">
-              <Table  className="h-6 w-6 " />
-            <div>
-              <div className="font-medium text-primary">Form</div>
-              <div className="text-sm font-normal text-muted-foreground">
-                Create and manage structured data forms for your AI agent.
+        <CardContent className="p-3.5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-3">
+              <Table className="h-6 w-6 shrink-0" />
+              <div>
+                <div className="font-medium text-primary">Form</div>
+                <div className="text-sm text-muted-foreground">
+                  Create and manage structured data forms for your AI agent.
+                </div>
               </div>
             </div>
+            <div className="flex justify-end">
+              <Button
+                size="sm"
+                variant="secondary"
+                className="rounded-full gap-2 px-4"
+              >
+                Manage Forms
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-
-          <Button size="sm" variant="secondary" className="rounded-full gap-2 px-4">
-            Manage Forms
-            <ArrowUpRight className="h-4 w-4" />
-          </Button>
         </CardContent>
       </Card>
 
       {/* Snippets */}
       <Card className="border border-border rounded-xl">
-        <CardContent className="flex items-center justify-between p-3.5">
-          <div className="flex items-center gap-4">
-              <Code2 className="h-6 w-6" />
-            <div>
-              <div className="font-medium text-primary">Snippets</div>
-              <div className="text-sm font-normal text-muted-foreground">
-                Add custom FAQs, answers or other snippets.
+        <CardContent className="p-3.5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-3">
+              <Scissors className="h-6 w-6 shrink-0" />
+              <div>
+                <div className="font-medium text-primary">Snippets</div>
+                <div className="text-sm text-muted-foreground">
+                  Add custom FAQs, answers or other snippets.
+                </div>
               </div>
             </div>
+            <div className="flex justify-end">
+              <Button
+                size="sm"
+                variant="secondary"
+                className="rounded-full gap-2"
+              >
+                Manage Snippets
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-
-          <Button size="sm" variant="secondary" className="rounded-full gap-2 px-4">
-            Manage Snippets
-            <ArrowUpRight className="h-4 w-4" />
-          </Button>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

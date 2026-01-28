@@ -4,10 +4,8 @@ import {Configure} from '@/components/dashboard/agent/configure';
 import {KnowledgeBase} from '@/components/dashboard/agent/knowledge-base';
 import Flow from '@/components/dashboard/agent/flow';
 import Tool from '@/components/dashboard/agent/tool';
-import { DepartmentTable } from '@/components/user-profile/teams/department-table';
-import { ShiftTable } from '@/components/user-profile/teams/shift-table';
 
-const TeamsPage = () => {
+const AiAgentPage = () => {
   const [activeTab, setActiveTab] = useState('configure');
 
   return (
@@ -61,4 +59,4 @@ const TeamsPage = () => {
   );
 };
 
-export default TeamsPage;
+export default AiAgentPage;
