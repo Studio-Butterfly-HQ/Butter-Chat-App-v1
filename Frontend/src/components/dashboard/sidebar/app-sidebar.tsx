@@ -120,7 +120,7 @@ const data = {
     },
     {
       title: "Audiences",
-      url: "/Audiences",
+      url: "/audiences",
       icon: Users ,
     },
     {

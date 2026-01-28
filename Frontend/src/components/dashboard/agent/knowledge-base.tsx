@@ -25,10 +25,10 @@ export function KnowledgeBase() {
               </div>
             </div>
 
-            <div className="flex w-full items-center gap-2 md:w-auto">
+            <div className="flex w-full items-center justify-end gap-2 md:w-auto">
               <Button
                 size="sm"
-                className="rounded-full gap-2 w-full md:w-auto"
+                className="rounded-full gap-2"
                 onClick={() => setOpenAddWebsiteDialog(true)}
               >
                 <Plus className="h-4 w-4" />
@@ -65,10 +65,10 @@ export function KnowledgeBase() {
               </div>
             </div>
 
-            <div className="flex w-full items-center gap-2 md:w-auto">
+            <div className="flex w-full items-center justify-end gap-2 md:w-auto">
               <Button
                 size="sm"
-                className="rounded-full gap-2 w-full md:w-auto"
+                className="rounded-full gap-2"
                 onClick={() => setOpenUploadDocumentsDialog(true)}
               >
                 <Plus className="h-4 w-4" />
@@ -82,7 +82,7 @@ export function KnowledgeBase() {
 
               <Button
                 size="icon"
-                className="rounded-full h-9 w-9 hidden md:flex"
+                className="rounded-full h-9 w-9 px-4"
               >
                 <ArrowUpRight className="h-4 w-4" />
               </Button>
@@ -104,15 +104,16 @@ export function KnowledgeBase() {
                 </div>
               </div>
             </div>
-
+            <div className="flex justify-end">
             <Button
               size="sm"
               variant="secondary"
-              className="rounded-full gap-2 px-4 w-full md:w-auto"
+              className="rounded-full gap-2 px-4"
             >
               Manage Forms
-              <ArrowUpRight className="h-4 w-4 hidden md:block" />
+              <ArrowUpRight className="h-4 w-4" />
             </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -130,15 +131,16 @@ export function KnowledgeBase() {
                 </div>
               </div>
             </div>
-
+            <div className="flex justify-end">
             <Button
               size="sm"
               variant="secondary"
-              className="rounded-full gap-2 px-4 w-full md:w-auto"
+              className="rounded-full gap-2"
             >
               Manage Snippets
-              <ArrowUpRight className="h-4 w-4 hidden md:block" />
+              <ArrowUpRight className="h-4 w-4" />
             </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

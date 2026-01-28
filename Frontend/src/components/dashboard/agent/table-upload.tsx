@@ -214,7 +214,7 @@ export default function TableUpload({
             <TableBody>
               {uploadFiles.map((file) => (
                 <TableRow key={file.id}>
-                  <TableCell className="flex items-center gap-2 w-[200px] py-4">
+                  <TableCell className="flex items-center gap-2 w-[180px] py-4">
                     <div className="flex-shrink-0 flex items-center justify-center w-5 h-5">
                       {getFileIcon(file.file)}
                     </div>
@@ -276,7 +276,7 @@ export default function TableUpload({
 
       {errors.length > 0 && (
         <Alert variant="destructive">
-          <CheckCircle2Icon />
+          <TriangleAlert />
           <AlertTitle>Upload error</AlertTitle>
           <AlertDescription>
             {errors.map((e, i) => (
