@@ -36,7 +36,11 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => {
           const isParentActive =
+            // exact match
             location.pathname === item.url ||
+            // any nested route under the parent (e.g. /ai-agent/websites)
+            location.pathname.startsWith(item.url) ||
+            // or any explicit sub-item match
             item.items?.some((sub) =>
               location.pathname.startsWith(sub.url)
             )

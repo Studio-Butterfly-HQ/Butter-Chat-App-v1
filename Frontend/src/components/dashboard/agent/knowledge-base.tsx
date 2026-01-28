@@ -1,13 +1,22 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Earth, Code2, Plus, ArrowUpRight, Table, FileUp} from "lucide-react"
-import { useState } from "react"
-import { AddWebsiteDialog } from "./add-website-dialog"
-import { UploadDocumentsDialog } from "./upload-documents-dialog"
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Earth,
+  Scissors,
+  Plus,
+  ArrowUpRight,
+  Table,
+  FileUp,
+} from "lucide-react";
+import { useState } from "react";
+import { AddWebsiteDialog } from "./add-website-dialog";
+import { UploadDocumentsDialog } from "./upload-documents-dialog";
+import { Link } from "react-router-dom";
 
 export function KnowledgeBase() {
-  const [openAddWebsiteDialog, setOpenAddWebsiteDialog] = useState(false)
-  const [openUploadDocumentsDialog, setOpenUploadDocumentsDialog] = useState(false)
+  const [openAddWebsiteDialog, setOpenAddWebsiteDialog] = useState(false);
+  const [openUploadDocumentsDialog, setOpenUploadDocumentsDialog] =
+    useState(false);
 
   return (
     <div className="p-4 pt-0 space-y-3">
@@ -39,13 +48,11 @@ export function KnowledgeBase() {
                 open={openAddWebsiteDialog}
                 onOpenChange={setOpenAddWebsiteDialog}
               />
-
-              <Button
-                size="icon"
-                className="rounded-full h-9 w-9 px-4"
-              >
-                <ArrowUpRight className="h-4 w-4" />
-              </Button>
+              <Link to="/ai-agent/websites">
+                <Button size="icon" className="rounded-full h-9 w-9 px-4">
+                  <ArrowUpRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           </div>
         </CardContent>
@@ -80,10 +87,7 @@ export function KnowledgeBase() {
                 onOpenChange={setOpenUploadDocumentsDialog}
               />
 
-              <Button
-                size="icon"
-                className="rounded-full h-9 w-9 px-4"
-              >
+              <Button size="icon" className="rounded-full h-9 w-9 px-4">
                 <ArrowUpRight className="h-4 w-4" />
               </Button>
             </div>
@@ -105,14 +109,14 @@ export function KnowledgeBase() {
               </div>
             </div>
             <div className="flex justify-end">
-            <Button
-              size="sm"
-              variant="secondary"
-              className="rounded-full gap-2 px-4"
-            >
-              Manage Forms
-              <ArrowUpRight className="h-4 w-4" />
-            </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="rounded-full gap-2 px-4"
+              >
+                Manage Forms
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -123,7 +127,7 @@ export function KnowledgeBase() {
         <CardContent className="p-3.5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
-              <Code2 className="h-6 w-6 shrink-0" />
+              <Scissors className="h-6 w-6 shrink-0" />
               <div>
                 <div className="font-medium text-primary">Snippets</div>
                 <div className="text-sm text-muted-foreground">
@@ -132,19 +136,18 @@ export function KnowledgeBase() {
               </div>
             </div>
             <div className="flex justify-end">
-            <Button
-              size="sm"
-              variant="secondary"
-              className="rounded-full gap-2"
-            >
-              Manage Snippets
-              <ArrowUpRight className="h-4 w-4" />
-            </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="rounded-full gap-2"
+              >
+                Manage Snippets
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

@@ -11,4 +11,8 @@ export const COMPANY_API = {
     GET_PROFILE: `${BACKEND_BASE_URL}/company/profile`,
 }
 
+export const SHIFT_API = {
+    CREATE_SHIFT: `${BACKEND_BASE_URL}/shift`
+}
+
 export const COUNTRY_API_URL = "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones"

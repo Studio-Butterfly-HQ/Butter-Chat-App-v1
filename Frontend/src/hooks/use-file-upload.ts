@@ -128,11 +128,14 @@ export const useFileUpload = (options: FileUploadOptions = {}): [FileUploadState
     setState((prev) => {
       // Clean up object URLs
       for (const file of prev.files) {
-        if (file.preview && file.file instanceof File && file.file.type.startsWith('image/')) {
-          URL.revokeObjectURL(file.preview);
+        if (file.preview && file.file instanceof File) {
+          try {
+            URL.revokeObjectURL(file.preview);
+          } catch (e) {
+            // ignore errors from revoke
+          }
         }
       }
-
       if (inputRef.current) {
         inputRef.current.value = '';
       }
@@ -252,13 +255,12 @@ export const useFileUpload = (options: FileUploadOptions = {}): [FileUploadState
     (id: string) => {
       setState((prev) => {
         const fileToRemove = prev.files.find((file) => file.id === id);
-        if (
-          fileToRemove &&
-          fileToRemove.preview &&
-          fileToRemove.file instanceof File &&
-          fileToRemove.file.type.startsWith('image/')
-        ) {
-          URL.revokeObjectURL(fileToRemove.preview);
+        if (fileToRemove && fileToRemove.preview && fileToRemove.file instanceof File) {
+          try {
+            URL.revokeObjectURL(fileToRemove.preview);
+          } catch (e) {
+            // ignore errors from revoke
+          }
         }
 
         const newFiles = prev.files.filter((file) => file.id !== id);

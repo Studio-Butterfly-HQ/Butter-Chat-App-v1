@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLocation, Outlet } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {Configure} from '@/components/dashboard/agent/configure';
 import {KnowledgeBase} from '@/components/dashboard/agent/knowledge-base';
@@ -8,12 +7,6 @@ import Tool from '@/components/dashboard/agent/tool';
 
 const AiAgentPage = () => {
   const [activeTab, setActiveTab] = useState('configure');
-  const location = useLocation();
-  const isSubRoute = location.pathname !== '/ai-agent';
-
-  if (isSubRoute) {
-    return <Outlet />;
-  }
 
   return (
     <div className="min-h-[calc(100vh-90px)] bg-popover rounded-b-xl">
