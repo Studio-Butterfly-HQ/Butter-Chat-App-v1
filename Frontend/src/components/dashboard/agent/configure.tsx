@@ -22,14 +22,24 @@ interface PersonalityTrait {
 }
 
 export const Configure = () => {
-  const [businessName, setBusinessName] = useState('XYZ Corporation');
+  const [businessName, setBusinessName] = useState('');
   const [generalInstruction, setGeneralInstruction] = useState('');
-  const [personalityTraits, setPersonalityTraits] = useState<PersonalityTrait[]>([
+
+  const initialPersonalityTraits: PersonalityTrait[] = [
     { id: 'friendly', label: 'Friendly', icon: <Smile className="h-4 w-4" />, selected: true },
     { id: 'supportive', label: 'Supportive', icon: <Smile className="h-4 w-4" />, selected: true },
     { id: 'approachable', label: 'Approachable', icon: <Smile className="h-4 w-4" />, selected: false },
     { id: 'compassionate', label: 'Compassionate', icon: <Smile className="h-4 w-4" />, selected: false },
-  ]);
+  ];
+
+  const [personalityTraits, setPersonalityTraits] = useState<PersonalityTrait[]>(initialPersonalityTraits);
+  const [openItems, setOpenItems] = useState<string[]>(['identity']);
+
+  // Additional controlled fields for other sections so cancel can revert
+  const [aiFallback, setAiFallback] = useState('transfer');
+  const [aiFallbackCustom, setAiFallbackCustom] = useState(`I may not have that information at the moment, but one of our human agents will be happy to assist you. If you'd like to connect to our human agents, press yes, or if you have a specific product in mind, you can directly contact our customer service team at +88 09 678 444 777 or email customerservice.aerong@brac.net`);
+  const [aiFallbackWait, setAiFallbackWait] = useState(false);
+  const [humanTransferMessage, setHumanTransferMessage] = useState('I am connecting you to a human agent.');
 
   const toggleTrait = (id: string) => {
     setPersonalityTraits(traits =>
@@ -39,9 +49,37 @@ export const Configure = () => {
     );
   };
 
+  const handleCancel = (section: string) => {
+    // Revert changes for specific sections
+    if (section === 'identity') {
+      setBusinessName('');
+    }
+
+    if (section === 'personality') {
+      setPersonalityTraits(initialPersonalityTraits);
+    }
+
+    if (section === 'general-instruction') {
+      setGeneralInstruction('');
+    }
+
+    if (section === 'ai-unable') {
+      setAiFallback('transfer');
+      setAiFallbackCustom(`I may not have that information at the moment, but one of our human agents will be happy to assist you. If you'd like to connect to our human agents, press yes, or if you have a specific product in mind, you can directly contact our customer service team at +88 09 678 444 777 or email customerservice.aerong@brac.net`);
+      setAiFallbackWait(false);
+    }
+
+    if (section === 'human-agent') {
+      setHumanTransferMessage('I am connecting you to a human agent.');
+    }
+
+    // Close the accordion item
+    setOpenItems(prev => prev.filter(v => v !== section));
+  };
+
   return (
     <div className="p-4 pt-0  space-y-3">
-      <Accordion type="multiple" defaultValue={['identity']} className="space-y-3">
+      <Accordion type="multiple" value={openItems} onValueChange={setOpenItems} className="space-y-3">
         {/* Identity Section */}
         <AccordionItem value="identity" className="border border-border rounded-xl">
           <AccordionTrigger className="hover:no-underline p-4">
@@ -76,7 +114,7 @@ export const Configure = () => {
               <Button size="sm" >
                 <Check /> Save
               </Button>
-              <Button variant="outline" size="sm" className="bg-transparent">
+              <Button variant="outline" size="sm" className="bg-transparent" onClick={() => handleCancel('identity')}>
                 <X /> Cancel
               </Button>
             </div>
@@ -114,7 +152,7 @@ export const Configure = () => {
               <Button size="sm">
                 <Check /> Save
               </Button>
-              <Button variant="outline" size="sm" className="bg-transparent">
+              <Button variant="outline" size="sm" className="bg-transparent" onClick={() => handleCancel('personality')}>
                 <X /> Cancel
               </Button>
             </div>
@@ -143,7 +181,7 @@ export const Configure = () => {
               <Button size="sm" className="gap-1.5">
                 <Check /> Save
               </Button>
-              <Button variant="outline" size="sm" className="bg-transparent">
+              <Button variant="outline" size="sm" className="bg-transparent" onClick={() => handleCancel('general-instruction')}>
                 <X /> Cancel
               </Button>
             </div>
@@ -168,7 +206,7 @@ export const Configure = () => {
 
         <AccordionContent className="border-t border-border p-4 space-y-4">
           <Label className='text-muted-foreground'>If AI agent is unable to assist user</Label>
-          <Select defaultValue="transfer">
+          <Select value={aiFallback} onValueChange={(v) => setAiFallback(String(v))}>
             <SelectTrigger className="w-full h-10">
               <SelectValue placeholder="Select fallback behavior" />
             </SelectTrigger>
@@ -187,12 +225,13 @@ export const Configure = () => {
             <Textarea
               className="min-h-[120px] bg-transparent"
               placeholder="Define fallback behavior..."
-              defaultValue={`I may not have that information at the moment, but one of our human agents will be happy to assist you. If you'd like to connect to our human agents, press yes, or if you have a specific product in mind, you can directly contact our customer service team at +88 09 678 444 777 or email customerservice.aerong@brac.net`}
+              value={aiFallbackCustom}
+              onChange={(e) => setAiFallbackCustom(e.target.value)}
             />
           </div>
 
           <div className="flex items-center gap-4">
-            <Switch />
+            <Switch checked={aiFallbackWait} onCheckedChange={(v) => setAiFallbackWait(!!v)} />
             <div className="space-y-0.5">
               <Label>Wait for customer confirmation before transferring</Label>
             </div>
@@ -203,7 +242,7 @@ export const Configure = () => {
               <Check className="h-4 w-4 mr-1" />
               Save
             </Button>
-            <Button size="sm" variant="outline">
+            <Button size="sm" variant="outline" onClick={() => handleCancel('ai-unable')}>
               <X className="h-4 w-4 mr-1" />
               Cancel
             </Button>
@@ -227,14 +266,15 @@ export const Configure = () => {
             <Textarea
               placeholder="Define transfer behavior..."
               className="bg-transparent border-border min-h-[100px]"
-              defaultValue={`I am connecting you to a human agent.`}
+              value={humanTransferMessage}
+              onChange={(e) => setHumanTransferMessage(e.target.value)}
             />
             <div className="flex gap-2">
               <Button size="sm">
                 <Check />
                 Save
               </Button>
-              <Button variant="outline" size="sm" className="bg-transparent">
+              <Button variant="outline" size="sm" className="bg-transparent" onClick={() => handleCancel('human-agent')}>
                 <X /> Cancel
               </Button>
             </div>

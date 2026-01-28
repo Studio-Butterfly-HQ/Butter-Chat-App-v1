@@ -14,6 +14,7 @@ import SettingsSecurity from "./pages/dashboard/settings/security/security-page"
 import SettingsNotifications from "./pages/dashboard/settings/notifications/notifications-page";
 import ProtectedRoute from "./routes/protected-route";
 import AuthRoute from "./routes/auth-route";
+import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
 
 export default function App() {
   return (
@@ -30,15 +31,19 @@ export default function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/onboarding" element={<OnboardingPage />} />
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardHome />} />
+          <Route path="/" element={<DashboardLayout />}>
+            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="dashboard" element={<DashboardHome />} />
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingsGeneral />} />
               <Route path="security" element={<SettingsSecurity />} />
               <Route path="notifications" element={<SettingsNotifications />} />
             </Route>
-            <Route path="ai-agent" element={<AiAgentPage />} />
+            <Route path="ai-agent" element={<AiAgentPage />}>
+              <Route index element={<AiAgentPage />} />
+              <Route path="websites" element={<WebsitePage />} />
+            </Route>
             <Route path="teams" element={<TeamsPage />} />
           </Route>
         </Route>
