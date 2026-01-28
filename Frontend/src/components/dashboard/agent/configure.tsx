@@ -167,11 +167,7 @@ export const Configure = () => {
         </AccordionTrigger>
 
         <AccordionContent className="border-t border-border p-4 space-y-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Info className="h-6 w-6" />
-            <span>If AI agent is unable to assist user</span>
-          </div>
-
+          <Label className='text-muted-foreground'>If AI agent is unable to assist user</Label>
           <Select defaultValue="transfer">
             <SelectTrigger className="w-full h-10">
               <SelectValue placeholder="Select fallback behavior" />
