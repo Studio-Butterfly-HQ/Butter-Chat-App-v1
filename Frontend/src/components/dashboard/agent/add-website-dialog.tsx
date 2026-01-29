@@ -45,14 +45,14 @@ export function AddWebsiteDialog({
       <DialogContent className="max-w-md bg-popover">
         <DialogHeader>
           <DialogTitle className="text-xl text-primary">Add Website</DialogTitle>
-          <DialogDescription className="text-base text-muted-foreground">
+          <DialogDescription className=" text-muted-foreground">
             Enter the URL of the site you want to sync.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-5 mt-2">
           <div className="space-y-2">
-            <Label className="text-base">
+            <Label>
               Website URL <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -61,30 +61,30 @@ export function AddWebsiteDialog({
               onChange={(e) => setWebsiteUrl(e.target.value)}
               className="h-10"
             />
-            <p className="text-base text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Only publicly accessible URLs are supported.
             </p>
           </div>
 
           <div className="space-y-3">
             <RadioGroup value={scanOption} onValueChange={setScanOption}>
-              <div className="flex gap-3">
+              <div className="flex items-center gap-3">
                 <RadioGroupItem value="child-pages" id="child-pages" />
                 <Label htmlFor="child-pages" className="font-normal text-muted-foreground">
                   Scan only child pages of specified url
                 </Label>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex items-center   gap-3">
                 <RadioGroupItem value="all-pages" id="all-pages" />
                 <Label htmlFor="all-pages" className="font-normal text-muted-foreground">
                   Scan all pages of specified url
                 </Label>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex items-center gap-3">
                 <RadioGroupItem value="specified-url" id="specified-url" />
-                <Label htmlFor="specified-url" className="font-normal text-muted-foreground">
+                <Label htmlFor="specified-url" className=" font-normal text-muted-foreground">
                   Scan only specified url
                 </Label>
               </div>
@@ -93,7 +93,7 @@ export function AddWebsiteDialog({
 
           <Accordion type="single"  collapsible>
             <AccordionItem value="advanced" className="border-none">
-              <AccordionTrigger className="text-base hover:no-underline">
+              <AccordionTrigger className="hover:no-underline">
                 Advanced options
               </AccordionTrigger>
               <AccordionContent className="space-y-4 border-t pt-4 pb-2 border-border ">

@@ -263,7 +263,7 @@ export function EmployeeTable() {
                     name="name"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-sm text-primary">
+                        <FormLabel className="text-primary">
                           Employee Name <span className="text-red-500">*</span>
                         </FormLabel>
                         <Input
@@ -282,7 +282,7 @@ export function EmployeeTable() {
                     name="email"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-sm text-primary">
+                        <FormLabel className="text-primary">
                           Employee Email <span className="text-red-500">*</span>
                         </FormLabel>
                         <Input
@@ -302,7 +302,7 @@ export function EmployeeTable() {
                     name="department"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-sm text-primary">
+                        <FormLabel className="text-primary">
                           Department <span className="text-red-500">*</span>
                         </FormLabel>
                         <Select
@@ -331,7 +331,7 @@ export function EmployeeTable() {
                     name="shift"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-sm text-primary">
+                        <FormLabel className="text-primary">
                           Shift <span className="text-red-500">*</span>
                         </FormLabel>
                         <Select
