@@ -36,6 +36,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { logout } from "@/store/slices/auth/auth-slice";
 import { persistor } from "@/store";
 import { useTheme } from "@/provider/theme-provider";
+import { useQueryClient } from "@tanstack/react-query";
 
 type NavUserProps = {
   user: {
@@ -50,8 +51,11 @@ export function NavUser({user}: NavUserProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { setTheme, theme } = useTheme();
+  const queryClient = useQueryClient();
 
   const handleLogout = async () => {
+    // Clear all React Query cache to prevent old user data from persisting
+    queryClient.clear();
     dispatch(logout());
     await persistor.purge();
     navigate("/login", { replace: true });
