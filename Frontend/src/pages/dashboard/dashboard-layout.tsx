@@ -22,7 +22,7 @@ export default function DashboardLayout() {
     <SidebarProvider >
       <AppSidebar />
       <SidebarInset className="rounded-xl m-3">
-        <header className="flex bg-popover rounded-t-xl mb-0.5 h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        {/* <header className="flex bg-popover rounded-t-xl mb-0.5 h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator
@@ -43,7 +43,7 @@ export default function DashboardLayout() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-        </header>
+        </header> */}
         <main className="flex-1 overflow-y-auto scrollbar-hide">
           <Outlet />
         </main>
