@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -5,30 +6,53 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import TableUpload from '@/components/dashboard/agent/table-upload'
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import TableUpload from "@/components/dashboard/agent/table-upload";
+import { useUploadDocuments } from "@/provider/document/document.queries";
+import type { FileWithPreview } from "@/hooks/use-file-upload";
 
 interface UploadDocumentsDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export function UploadDocumentsDialog({ open, onOpenChange }: UploadDocumentsDialogProps) {
+export function UploadDocumentsDialog({
+  open,
+  onOpenChange,
+}: UploadDocumentsDialogProps) {
+  const [selectedFiles, setSelectedFiles] = useState<FileWithPreview[]>([]);
+  const { mutateAsync, isPending } = useUploadDocuments();
 
+  const handleSync = async () => {
+    if (selectedFiles.length === 0) {
+      return;
+    }
 
-  const handleSync = () => {
-    // API call here
+    try {
+      // Extract File objects from FileWithPreview (filter out FileMetadata)
+      const files = selectedFiles
+        .filter((f) => f.file instanceof File)
+        .map((f) => f.file as File);
 
-    onOpenChange(false)
-  }
+      if (files.length === 0) {
+        return;
+      }
+
+      await mutateAsync(files);
+      setSelectedFiles([]);
+      onOpenChange(false);
+    } catch (error) {
+      console.error("Upload error:", error);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md bg-popover">
         <DialogHeader>
-          <DialogTitle>Upload documents</DialogTitle>
-          <DialogDescription className="text-base text-muted-foreground">
+          <DialogTitle className="text-xl font-medium">Upload documents</DialogTitle>
+          <DialogDescription className=" text-muted-foreground">
             Provide files and we’ll fetch all the text data inside.
           </DialogDescription>
         </DialogHeader>
@@ -39,6 +63,8 @@ export function UploadDocumentsDialog({ open, onOpenChange }: UploadDocumentsDia
           maxSize={40 * 1024 * 1024} // 40MB
           accept=".pdf,.doc,.docx,.txt,.csv,.json,.md,.xml"
           multiple
+          onFilesChange={setSelectedFiles}
+          simulateUpload={false}
         />
 
         <DialogFooter className="flex gap-2 md:gap-0">
@@ -49,11 +75,14 @@ export function UploadDocumentsDialog({ open, onOpenChange }: UploadDocumentsDia
           >
             Cancel
           </Button>
-          <Button onClick={handleSync}>
-            Sync
+          <Button
+            onClick={handleSync}
+            disabled={isPending || selectedFiles.length === 0}
+          >
+            {isPending ? "Uploading..." : "Upload"}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

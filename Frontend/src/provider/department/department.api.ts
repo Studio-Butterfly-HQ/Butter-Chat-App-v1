@@ -6,7 +6,6 @@ import type {
 import { DEPARTMENT_API } from "@/constants/api";
 
 export const getDepartmentsApi = async (token: string): Promise<ApiResponse<Department[]>> => {
-  console.log("api request");
   const res = await fetch(`${DEPARTMENT_API.GET_DEPARTMENTS}`, {
     method: "GET",
     headers: {

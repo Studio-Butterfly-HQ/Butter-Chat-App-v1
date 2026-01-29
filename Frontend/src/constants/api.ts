@@ -24,4 +24,10 @@ export const DEPARTMENT_API = {
   GET_DEPARTMENTS: `${BACKEND_BASE_URL}/department`,
 };
 
-export const COUNTRY_API_URL = "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones"
+export const DOCUMENT_API = {
+  GET_DOCUMENTS: `${BACKEND_BASE_URL}/documents/list`,
+  UPLOAD_DOCUMENTS: `${BACKEND_BASE_URL}/documents/upload-multiple`,
+};
+
+export const COUNTRY_API_URL =
+  "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones";

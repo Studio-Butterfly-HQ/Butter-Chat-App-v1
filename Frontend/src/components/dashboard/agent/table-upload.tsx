@@ -201,8 +201,8 @@ export default function TableUpload({
         >
             <Upload className="h-6 w-6" />
             <div className="flex flex-col items-center">
-                <h3 className="text-base font-medium text-muted-foreground">Click to upload or drag and drop</h3>
-                <p className="text-sm text-muted-foreground">PDF, Word, TXT, CSV, JSON, MD, XML (MAX. 40MB) file</p>
+                <h3 className="text-sm font-medium text-muted-foreground">Click to upload or drag and drop</h3>
+                <p className="text-xs text-muted-foreground">PDF, Word, TXT, CSV, JSON, MD, XML (MAX. 40MB) file</p>
             </div>
         </div>      </div>
 

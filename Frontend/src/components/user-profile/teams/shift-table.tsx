@@ -108,7 +108,6 @@ export function ShiftTable() {
         shift_start_time: parseTo24(data.shift_start_time),
         shift_end_time: parseTo24(data.shift_end_time),
       };
-      console.log("data: ", payload);
       await mutateAsync(payload);
       shiftForm.reset();
       setIsDialogOpen(false);
@@ -184,7 +183,7 @@ export function ShiftTable() {
       accessorFn: (row) => {
         const count = row.users.length;
         const emails = row.users.map((e) => e.email).join(" ");
-        const employeeText = count === 0 ? "0 employees" : `${count} employees`;
+        const employeeText = count === 1 ? "1 employee" : `${count} employees`;
         return `${employeeText} ${emails}`;
       },
       cell: ({ row }) => {
