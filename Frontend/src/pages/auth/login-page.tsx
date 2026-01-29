@@ -62,9 +62,9 @@ export default function LoginPage() {
           </span>
         </div>
 
-        <div className="flex-1 h-0 min-h-0 pb-6 lg:pb-8">
+        <div className="flex-1 h-0 min-h-0 pb-3">
           <ScrollArea className="h-full">
-          <div className="px-6 lg:px-8 ">
+          <div className="px-6 lg:px-8 pb-6 lg:pb-8">
             <div className="md:p-8 pt-8 flex items-center justify-center min-h-full">
               <div className="w-full max-w-md">
               <Card className="bg-transparent border-0 shadow-none">

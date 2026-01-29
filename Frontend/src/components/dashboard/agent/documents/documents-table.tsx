@@ -8,7 +8,7 @@ import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Search, Eye, RefreshCcw, Trash2 } from "lucide-react";
-import { AddWebsiteDialog } from "@/components/dashboard/agent/add-website-dialog";
+import  {UploadDocumentsDialog}  from "@/components/dashboard/agent/upload-documents-dialog";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -16,7 +16,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from "@tanstack/react-table";;
 
 import websites from "@/constants/dummy/websites.json";
 
@@ -27,9 +27,10 @@ export interface WebsiteRow {
   website_url: string;
   status: SyncStatus;
   last_updated: string;
+  document_name: string;
 }
 
-export function WebsitesTable() {
+export function DocumentsTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [allWebsites, setAllWebsites] = useState<WebsiteRow[]>([]);
@@ -45,30 +46,27 @@ export function WebsitesTable() {
   }, []);
 
   const StatusBadge = ({ status }: { status: SyncStatus }) => {
-      if (status === "SYNCED") {
-        return <Badge className="bg-green-300 rounded-xl text-green-800">Synced</Badge>;
-      }
-  
-      if (status === "FAILED") {
-        return <Badge className="bg-red-300 rounded-xl text-red-800">Failed</Badge>;
-      }
-  
-      return <Badge className="bg-blue-300 rounded-xl text-blue-800">Queued</Badge>;
-    };
+    if (status === "SYNCED") {
+      return <Badge className="bg-green-300 rounded-xl text-green-800">Synced</Badge>;
+    }
+
+    if (status === "FAILED") {
+      return <Badge className="bg-red-300 rounded-xl text-red-800">Failed</Badge>;
+    }
+
+    return <Badge className="bg-blue-300 rounded-xl text-blue-800">Queued</Badge>;
+  };
 
 const websiteColumns: ColumnDef<WebsiteRow>[] = [
   // ================= Website =================
   {
-    accessorKey: "website_name",
-    header: "Website URL",
+    accessorKey: "document_name",
+    header: "Document",
     size: 420,
     cell: ({ row }) => (
       <div>
         <div className="font-medium">
-          {row.original.website_name}
-        </div>
-        <div className="text-sm text-muted-foreground">
-          {row.original.website_url}
+          {row.original.document_name}
         </div>
       </div>
     ),
@@ -169,9 +167,9 @@ const websiteColumns: ColumnDef<WebsiteRow>[] = [
         </div>
         <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
           <Plus />
-          Add Website
+          Upload Document
         </Button>
-        <AddWebsiteDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
+        <UploadDocumentsDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
       </div>
 
       <DataGrid

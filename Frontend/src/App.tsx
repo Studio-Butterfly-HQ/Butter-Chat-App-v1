@@ -16,6 +16,7 @@ import SettingsNotifications from "./pages/dashboard/settings/notifications/noti
 import ProtectedRoute from "./routes/protected-route";
 import AuthRoute from "./routes/auth-route";
 import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
+import DocumentsPage from "./pages/dashboard/ai-agent/documents/documents-page";
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
             <Route path="ai-agent" element={<AiAgentLayout />}>
               <Route index element={<AiAgentPage />} />
               <Route path="websites" element={<WebsitePage />} />
+              <Route path="documents" element={<DocumentsPage />} />  
             </Route>
             <Route path="teams" element={<TeamsPage />} />
           </Route>

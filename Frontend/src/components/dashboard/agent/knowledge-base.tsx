@@ -86,10 +86,11 @@ export function KnowledgeBase() {
                 open={openUploadDocumentsDialog}
                 onOpenChange={setOpenUploadDocumentsDialog}
               />
-
-              <Button size="icon" className="rounded-full h-9 w-9 px-4">
-                <ArrowUpRight className="h-4 w-4" />
-              </Button>
+              <Link to="/ai-agent/documents">
+                <Button size="icon" className="rounded-full h-9 w-9 px-4">
+                  <ArrowUpRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           </div>
         </CardContent>
