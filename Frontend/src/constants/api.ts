@@ -15,7 +15,8 @@ export const CONNECTIONS_API = {
     FACEBOOK_LOGIN: `${BACKEND_BASE_URL}/auth/meta/login`,
 }
 export const SHIFT_API = {
-    CREATE_SHIFT: `${BACKEND_BASE_URL}/shift`
+    CREATE_SHIFT: `${BACKEND_BASE_URL}/shift`,
+    GET_SHIFTS: `${BACKEND_BASE_URL}/shift`
 }
 
 export const COUNTRY_API_URL = "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones"

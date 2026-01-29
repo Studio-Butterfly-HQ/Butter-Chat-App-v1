@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -34,36 +34,20 @@ import {
 import { useForm } from "react-hook-form";
 import { createShiftSchema, CreateShiftFormValues} from "@/schemas/createShiftSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateShift } from "@/provider/shift/shift.queries";
-
-
-import shifts from "@/constants/shifts.json";
+import { useCreateShift, useGetShifts } from "@/provider/shift/shift.queries";
+import type { Shift } from "@/provider/shift/shift.types";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface ShiftEmployee {
-  name: string;
-  avatar: string;
-  email: string;
-  role: "EMPLOYEE";
-  status: "ACTIVE" | "INACTIVE";
-}
-
-interface ShiftRow {
-  shift_name: string;
-  start_time: string;
-  end_time: string;
-  employees: ShiftEmployee[];
-}
+// Using Shift type directly from API - no transformation needed
 
 export function ShiftTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
-  const [allShifts, setAllShifts] = useState<ShiftRow[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { mutateAsync } = useCreateShift();
+  const { data: shiftsResponse, isLoading } = useGetShifts();
+
 
   const shiftForm = useForm<CreateShiftFormValues>({
   resolver: zodResolver(createShiftSchema),
@@ -117,16 +101,10 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
   }
 };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAllShifts(shifts as ShiftRow[]);
-      setIsLoading(false);
-    }, 1000);
+  // Use API data directly without transformation
+  const shifts = shiftsResponse?.data || [];
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  const shiftColumns: ColumnDef<ShiftRow>[] = [
+  const shiftColumns: ColumnDef<Shift>[] = [
     {
       accessorKey: "shift_name",
       header: "Shift",
@@ -144,7 +122,10 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
             <div>
               <div className="font-medium">{shift.shift_name}</div>
               <div className="text-xs text-muted-foreground">
-                {shift.employees.length} Employees
+                {
+                  shift.users.length > 0 ? 
+                  <> {shift.users.length > 1 ? shift.users.length + " Employees" : "1 Employee"} </>: <>No Employees</> 
+                }
               </div>
             </div>
           </div>
@@ -160,7 +141,7 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
             </div>
           </div>
         ),
-        headerClassName: "text-primary",
+        headerClassName: "text-primary font-medium",
       },
     },
 
@@ -168,15 +149,15 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
       id: "duration",
       header: "Duration",
       size: 220,
-      accessorFn: (row) => `${row.start_time} ${row.end_time}`,
+      accessorFn: (row) => `${row.shift_start_time} ${row.shift_end_time}`,
       cell: ({ row }) => (
         <span className="text-muted-foreground">
-          {row.original.start_time} - {row.original.end_time}
+          {row.original.shift_start_time} - {row.original.shift_end_time}
         </span>
       ),
       meta: {
         skeleton: <Skeleton className="h-4 w-36" />,
-        headerClassName: "text-primary",
+        headerClassName: "text-primary font-medium",
       },
     },
 
@@ -185,34 +166,40 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
       header: "Employees",
       size: 260,
       accessorFn: (row) => {
-        const count = row.employees.length;
-        const emails = row.employees.map((e) => e.email).join(" ");
+        const count = row.users.length;
+        const emails = row.users.map((e) => e.email).join(" ");
         return `${count} employees ${emails}`;
       },
       cell: ({ row }) => {
-        const employees = row.original.employees;
+        const users = row.original.users;
+
+        if (users.length === 0) {
+          return (
+            <span className="text-sm text-muted-foreground">No Employees</span>
+          );
+        }
 
         return (
           <div className="flex items-center">
             <div className="flex -space-x-2 overflow-hidden">
-              {employees.slice(0, 3).map((emp, idx) => (
+              {users.slice(0, 3).map((user, idx) => (
                 <Avatar
                   key={idx}
                   className="h-11 w-11 border-2 border-background bg-secondary"
                 >
-                  {emp.avatar ? (
-                    <AvatarImage src={emp.avatar} alt={emp.name} />
+                  {user.profile_uri ? (
+                    <AvatarImage src={user.profile_uri} alt={user.user_name} />
                   ) : null}
                   <AvatarFallback className="text-sm font-medium">
-                    {emp.name ? emp.name.charAt(0).toUpperCase() : "U"}
+                    {user.user_name ? user.user_name.charAt(0).toUpperCase() : "U"}
                   </AvatarFallback>
                 </Avatar>
               ))}
             </div>
 
-            {employees.length > 3 && (
+            {users.length > 3 && (
               <span className="ml-3 text-sm text-muted-foreground font-medium">
-                +{employees.length - 3} more
+                +{users.length - 3} more
               </span>
             )}
           </div>
@@ -226,7 +213,7 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
             <Skeleton className="h-11 w-11 rounded-full" />
           </div>
         ),
-        headerClassName: "text-primary",
+        headerClassName: "text-primary font-medium",
       },
     },
 
@@ -235,8 +222,8 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
       header: "Status",
       size: 180,
       cell: ({ row }) => {
-        const employees = row.original.employees;
-        const online = employees.filter((e) => e.status === "ACTIVE").length;
+        const users = row.original.users;
+        const online = users.filter((e) => e.status === "ACTIVE").length;
 
         return (
           <div className="flex items-center gap-2 text-sm">
@@ -246,20 +233,20 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
               }`}
             />
             <span className="text-muted-foreground">
-              {online} of {employees.length} Online
+              {online} of {users.length} Online
             </span>
           </div>
         );
       },
       meta: {
         skeleton: <Skeleton className="h-4 w-28" />,
-        headerClassName: "text-primary",
+        headerClassName: "text-primary font-medium",
       },
     },
   ];
 
   const table = useReactTable({
-    data: allShifts,
+    data: shifts,
     columns: shiftColumns,
     state: {
       globalFilter,
@@ -392,7 +379,7 @@ const onShiftFormSubmit = async (data: CreateShiftFormValues) => {
     <DataGrid
       table={table}
       isLoading={isLoading}
-      recordCount={allShifts.length}
+      recordCount={shifts.length}
       tableLayout={{
         headerBackground: false,
         rowBorder: true,

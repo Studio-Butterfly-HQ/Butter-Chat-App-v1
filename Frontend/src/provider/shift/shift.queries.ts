@@ -1,9 +1,26 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { createShiftApi } from "./shift.api"
+import { createShiftApi, getShiftsApi } from "./shift.api"
 import type { CreateShiftPayload } from "./shift.types"
 import { useAppSelector } from "@/store/hooks"
 
+export const useGetShifts = () => {
+  const token = useAppSelector((state) => state.auth.token);
+  
+  return useQuery({
+    queryKey: ["shifts"],
+    queryFn: () => {
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      return getShiftsApi(token);
+    },
+    enabled: !!token,
+    staleTime: 5 * 60 * 1000, // Data stays fresh for 5 minutes
+    refetchOnWindowFocus: false, // Don't refetch when window regains focus
+    refetchOnMount: true, // Only refetch on component mount
+  }); 
+};
 
 export const useCreateShift = () => {
   const queryClient = useQueryClient()
