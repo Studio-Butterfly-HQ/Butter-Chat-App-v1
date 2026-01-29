@@ -12,8 +12,8 @@ const TeamsPage = () => {
   const [activeTab, setActiveTab] = useState('employees');
 
   return (
-    <div className="min-h-[calc(100vh-90px)] bg-popover rounded-b-xl">
-      <header className="flex bg-popover rounded-t-xl mb-0.5 h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+    <div className="min-h-[calc(100vh-25px)] bg-popover rounded-xl">
+      <header className="flex mb-0.5 h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator
@@ -21,7 +21,7 @@ const TeamsPage = () => {
             className="mr-2 data-[orientation=vertical]:h-6"
           />
           <div className="flex items-center gap-4">
-            <span className="text-base font-semibold">AI Agent</span>
+            <span className="text-base font-semibold">Team</span>
           </div>
         </div>
         <div className="flex items-center gap-2 px-4">
