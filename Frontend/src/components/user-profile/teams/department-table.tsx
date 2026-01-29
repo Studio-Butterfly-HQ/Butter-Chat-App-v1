@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,46 +27,59 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmployeeSearchCard } from "./employee-search-card";
 
-import departments from "@/constants/departments.json";
-
-interface Employee {
-  user_name: string;
-  email: string;
-  profile_uri: string;
-  role: "EMPLOYEE";
-  status: "ACTIVE" | "INACTIVE";
-  shift_start: string;
-  shift_end: string;
-}
-
-interface DepartmentRow {
-  department_name: string;
-  description: string;
-  employees: Employee[];
-}
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  createDepartmentSchema,
+  CreateDepartmentFormValues,
+} from "@/schemas/departmentSchema";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  useCreateDepartment,
+  useGetDepartments,
+} from "@/provider/department/department.queries";
+import type { Department } from "@/provider/department/department.types";
 
 export function DepartmentTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
-  const [allDepartments, setAllDepartments] = useState<DepartmentRow[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
   const [open, setOpen] = useState(false);
-  const [departmentName, setDepartmentName] = useState("");
-  const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
-  
 
+  const { mutateAsync } = useCreateDepartment();
+  const { data: departmentsResponse, isLoading } = useGetDepartments();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAllDepartments(departments as DepartmentRow[]);
-      setIsLoading(false);
-    }, 1000);
+  const departmentForm = useForm<CreateDepartmentFormValues>({
+    defaultValues: {
+      department_name: "",
+    },
+    resolver: zodResolver(createDepartmentSchema),
+    mode: "onChange",
+  });
 
-    return () => clearTimeout(timer);
-  }, []);
+  const onDepartmentFormSubmit = async (data: CreateDepartmentFormValues) => {
+    try {
+      const payload: CreateDepartmentFormValues = {
+        department_name: data.department_name,
+      };
+      console.log("Department data: ", payload);
+      await mutateAsync(payload);
+      departmentForm.reset();
+      setOpen(false);
+    } catch (error) {
+      console.error("Error in department page: ", error);
+    }
+  };
 
-  const columns: ColumnDef<DepartmentRow>[] = [
+  // Use API data directly
+  const allDepartments = departmentsResponse?.data || [];
+
+  const columns: ColumnDef<Department>[] = [
     {
       accessorKey: "department_name",
       header: "Department",
@@ -86,7 +99,8 @@ export function DepartmentTable() {
                 {dept.department_name}
               </div>
               <div className="text-xs text-muted-foreground">
-                {dept.employees.length} Employees
+                {dept.employee_count}{" "}
+                {dept.employee_count > 1 ? "Employees" : "Employee"}
               </div>
             </div>
           </div>
@@ -102,43 +116,53 @@ export function DepartmentTable() {
             </div>
           </div>
         ),
-        headerClassName: "text-primary",
+        headerClassName: "text-primary font-medium",
       },
     },
 
     {
       id: "employees",
       header: "Employees",
-      size: 280,
+      size: 260,
       minSize: 240,
       accessorFn: (row) => {
-        const count = row.employees.length;
-        const emails = row.employees.map((e) => e.email).join(" ");
-        return `${count} employees ${emails}`;
+        const count = row.users.length;
+        const emails = row.users.map((e) => e.email).join(" ");
+        const employeeText = count === 0 ? "0 employees" : `${count} employees`;
+        return `${employeeText} ${emails}`;
       },
       cell: ({ row }) => {
-        const employees = row.original.employees;
+        const users = row.original.users;
+
+        if (users.length === 0) {
+          return (
+            <span className="text-sm text-muted-foreground">No Employees</span>
+          );
+        }
+
         return (
           <div className="flex items-center">
             <div className="flex -space-x-2 overflow-hidden">
-              {employees.slice(0, 3).map((emp, idx) => (
+              {users.slice(0, 3).map((user, idx) => (
                 <Avatar
                   key={idx}
                   className="h-10 w-10 border-2 bg-secondary border-background"
                 >
-                  <AvatarImage src={emp.profile_uri} alt={emp.user_name} />
+                  {user.profile_uri ? (
+                    <AvatarImage src={user.profile_uri} alt={user.user_name} />
+                  ) : null}
                   <AvatarFallback className="text-sm font-medium">
-                    {emp.user_name
-                      ? emp.user_name.charAt(0).toUpperCase()
+                    {user.user_name
+                      ? user.user_name.charAt(0).toUpperCase()
                       : "U"}
                   </AvatarFallback>
                 </Avatar>
               ))}
             </div>
 
-            {employees.length > 3 && (
+            {users.length > 3 && (
               <span className="ml-3 text-sm text-muted-foreground font-medium">
-                +{employees.length - 3} more
+                +{users.length - 3} more
               </span>
             )}
           </div>
@@ -152,38 +176,34 @@ export function DepartmentTable() {
             <Skeleton className="h-10 w-10 rounded-full" />
           </div>
         ),
-        headerClassName: "text-primary",
+        headerClassName: "text-primary font-medium",
       },
     },
 
     {
       id: "status",
       header: "Status",
-      size: 200,
-      minSize: 180,
+      size: 180,
       cell: ({ row }) => {
-        const employees = row.original.employees;
-        const onlineCount = employees.filter(
-          (emp) => emp.status === "ACTIVE",
-        ).length;
-        const totalCount = employees.length;
+        const users = row.original.users;
+        const online = users.filter((e) => e.status === "ACTIVE").length;
 
         return (
           <div className="flex items-center gap-2 text-sm">
             <span
               className={`h-2 w-2 rounded-full ${
-                onlineCount > 0 ? "bg-green-500" : "bg-muted-foreground"
+                online > 0 ? "bg-green-500" : "bg-muted-foreground"
               }`}
             />
             <span className="text-muted-foreground">
-              {onlineCount} of {totalCount} Online
+              {online} of {users.length} Online
             </span>
           </div>
         );
       },
       meta: {
         skeleton: <Skeleton className="h-4 w-28" />,
-        headerClassName: "text-primary",
+        headerClassName: "text-primary font-medium",
       },
     },
   ];
@@ -215,64 +235,69 @@ export function DepartmentTable() {
             className="pl-10 h-10"
           />
         </div>
+
         <Button className="h-10" onClick={() => setOpen(true)}>
           <Plus />
           Add new Department
         </Button>
-        <Dialog open={open} onOpenChange={setOpen} >
+
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="bg-popover max-w-md">
             <DialogHeader>
               <DialogTitle className="text-xl font-medium text-primary">
                 Add Department
               </DialogTitle>
-              <DialogDescription className="text-sm text-muted-foreground">
+              <DialogDescription>
                 Create a new department for organizing employees. Click save
                 when you're done.
               </DialogDescription>
             </DialogHeader>
 
-            {/* FORM */}
-            <div className="space-y-5 mt-2">
-
-              <div className="space-y-2">
-                <label className="text-sm text-primary">
-                  Department Name <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  placeholder="Sales Department"
-                  value={departmentName}
-                  onChange={(e) => setDepartmentName(e.target.value)}
-                  className="h-10"
-                />
-              </div>
-
-              {/* Add Employees */}
-              <div className="space-y-2">
-                <label className="text-sm text-primary">
-                  Add Employees
-                </label>
-                <EmployeeSearchCard />
-              </div>
-            </div>
-
-            {/* FOOTER */}
-            <DialogFooter className="flex gap-2 md:gap-0">
-              <DialogClose asChild>
-                <Button variant="outline" className="bg-transparent">
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button
-                onClick={() => {
-                  console.log({
-                    departmentName,
-                    employees: selectedEmails,
-                  });
-                }}
+            <Form {...departmentForm}>
+              <form
+                onSubmit={departmentForm.handleSubmit(onDepartmentFormSubmit)}
               >
-                Save Department
-              </Button>
-            </DialogFooter>
+                <div className="space-y-5 mt-2">
+                  {/* Department Name */}
+                  <FormField
+                    control={departmentForm.control}
+                    name="department_name"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-base font-normal text-primary">
+                          Department Name{" "}
+                          <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <Input
+                          {...field}
+                          placeholder="Sales Department"
+                          className="h-10"
+                        />
+                        <FormMessage className="text-sm" />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Add Employees */}
+                  <div className="space-y-2">
+                    <label className="text-base font-normal text-primary">
+                      Add Employees
+                    </label>
+                    <EmployeeSearchCard />
+                  </div>
+                </div>
+
+                <DialogFooter className="flex gap-2 md:gap-0 mt-6">
+                  <DialogClose asChild>
+                    <Button variant="outline" className="bg-transparent">
+                      Cancel
+                    </Button>
+                  </DialogClose>
+
+                  <Button type="submit">Save Department</Button>
+                </DialogFooter>
+              </form>
+            </Form>
           </DialogContent>
         </Dialog>
       </div>
