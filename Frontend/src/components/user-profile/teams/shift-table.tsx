@@ -40,6 +40,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateShift, useGetShifts } from "@/provider/shift/shift.queries";
 import type { Shift } from "@/provider/shift/shift.types";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 // Helper function to convert 24-hour time to 12-hour format with AM/PM
 const formatTo12Hour = (time24: string): string => {
@@ -318,7 +319,7 @@ export function ShiftTable() {
                     name="shift_name"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-base font-normal text-primary">
+                        <FormLabel className="font-normal text-primary">
                           Shift Name <span className="text-red-500">*</span>
                         </FormLabel>
                         <Input
@@ -337,7 +338,7 @@ export function ShiftTable() {
                     name="shift_start_time"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-base font-normal text-primary">
+                        <FormLabel className="font-normal text-primary">
                           Start Time <span className="text-red-500">*</span>
                         </FormLabel>
                         <div className="relative">
@@ -360,7 +361,7 @@ export function ShiftTable() {
                     name="shift_end_time"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-base font-normal text-primary">
+                        <FormLabel className="font-normal text-primary">
                           End Time <span className="text-red-500">*</span>
                         </FormLabel>
                         <div className="relative">
@@ -384,8 +385,15 @@ export function ShiftTable() {
                       Cancel
                     </Button>
                   </DialogClose>
-                <Button type="submit">
-                  Save Shift
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Spinner />
+                      Saving...
+                    </>
+                  ) : (
+                    <>Save Shift</>
+                  )}
                 </Button>
                 </DialogFooter>
               </form>

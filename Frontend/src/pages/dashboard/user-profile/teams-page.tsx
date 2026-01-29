@@ -12,7 +12,7 @@ const TeamsPage = () => {
   const [activeTab, setActiveTab] = useState('employees');
 
   return (
-    <div className="min-h-[calc(100vh-25px)] bg-popover rounded-xl">
+    <div className="min-h-[calc(100vh-1.5rem)] bg-popover rounded-xl">
       <header className="flex mb-0.5 h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />

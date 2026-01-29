@@ -6,7 +6,7 @@ import { DataGrid, DataGridContainer } from "@/components/ui/data-grid";
 import { DataGridPagination } from "@/components/ui/data-grid-pagination";
 import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Plus, Search } from "lucide-react";
+import { Loader2, Plus, Search } from "lucide-react";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -45,6 +45,7 @@ import {
   useGetDepartments,
 } from "@/provider/department/department.queries";
 import type { Department } from "@/provider/department/department.types";
+import { Spinner } from "@/components/ui/spinner";
 
 export function DepartmentTable() {
   const [globalFilter, setGlobalFilter] = useState("");
@@ -264,7 +265,7 @@ export function DepartmentTable() {
                     name="department_name"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-base font-normal text-primary">
+                        <FormLabel className="font-normal text-primary">
                           Department Name{" "}
                           <span className="text-red-500">*</span>
                         </FormLabel>
@@ -280,7 +281,7 @@ export function DepartmentTable() {
 
                   {/* Add Employees */}
                   <div className="space-y-2">
-                    <label className="text-base font-normal text-primary">
+                    <label className="text-sm text-primary">
                       Add Employees
                     </label>
                     <EmployeeSearchCard />
@@ -294,7 +295,16 @@ export function DepartmentTable() {
                     </Button>
                   </DialogClose>
 
-                  <Button type="submit">Save Department</Button>
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Spinner />
+                        Saving...
+                      </>
+                    ) : (
+                      <>Save Department </>
+                    )}
+                  </Button>
                 </DialogFooter>
               </form>
             </Form>

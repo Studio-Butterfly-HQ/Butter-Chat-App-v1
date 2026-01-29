@@ -152,20 +152,43 @@ export default function TableUpload({
   const getFileIcon = (file: File | FileMetadata) => {
     const type = file.type;
     const name = file.name.toLowerCase();
-    if (type.includes("pdf") || name.endsWith(".pdf")) return <FileTextIcon size={22}/>;
-    if (type.includes("word") || name.endsWith(".doc") || name.endsWith(".docx")) return <FileTextIcon size={22}/>;
-    if (type.includes("excel") || type.includes("sheet") || name.endsWith(".csv")) return <FileSpreadsheetIcon size={22}/>;
-    if (type.includes("zip") || name.endsWith(".zip")) return <FileArchiveIcon size={22}/>;
-    if (name.endsWith(".json") || name.endsWith(".xml") || name.endsWith(".md") || name.endsWith(".txt")) return <FileTextIcon size={22}/>;
-    return <FileTextIcon size={22}/>;
+    if (type.includes("pdf") || name.endsWith(".pdf"))
+      return <FileTextIcon size={22} />;
+    if (
+      type.includes("word") ||
+      name.endsWith(".doc") ||
+      name.endsWith(".docx")
+    )
+      return <FileTextIcon size={22} />;
+    if (
+      type.includes("excel") ||
+      type.includes("sheet") ||
+      name.endsWith(".csv")
+    )
+      return <FileSpreadsheetIcon size={22} />;
+    if (type.includes("zip") || name.endsWith(".zip"))
+      return <FileArchiveIcon size={22} />;
+    if (
+      name.endsWith(".json") ||
+      name.endsWith(".xml") ||
+      name.endsWith(".md") ||
+      name.endsWith(".txt")
+    )
+      return <FileTextIcon size={22} />;
+    return <FileTextIcon size={22} />;
   };
 
   const getFileTypeLabel = (file: File | FileMetadata) => {
     const type = file.type;
     const name = file.name.toLowerCase();
-    
+
     if (type.includes("pdf") || name.endsWith(".pdf")) return "PDF";
-    if (type.includes("word") || name.endsWith(".doc") || name.endsWith(".docx")) return "Word";
+    if (
+      type.includes("word") ||
+      name.endsWith(".doc") ||
+      name.endsWith(".docx")
+    )
+      return "Word";
     if (type.includes("json") || name.endsWith(".json")) return "JSON";
     if (type.includes("text") || name.endsWith(".txt")) return "Text";
     if (type.includes("csv") || name.endsWith(".csv")) return "CSV";
@@ -176,10 +199,10 @@ export default function TableUpload({
   };
 
   return (
-    <div className={cn("w-full space-y-4 overflow-hidden", className)}>
+    <div className={cn("w-full space-y-4", className)}>
       <div
         className={cn(
-          "rounded-lg border border-dashed p-6 text-center",
+          "rounded-lg border-2 border-dashed p-8 text-center",
           isDragging
             ? "border-primary bg-primary/5"
             : "border-muted-foreground/25 hover:border-muted-foreground/50",
@@ -191,21 +214,27 @@ export default function TableUpload({
       >
         <input {...getInputProps()} className="sr-only" />
 
-        <div 
-          className="flex flex-col items-center gap-4 cursor-pointer" 
+        <div
+          className="flex flex-col items-center gap-4 cursor-pointer"
           onClick={openFileDialog}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') openFileDialog(); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") openFileDialog();
+          }}
           tabIndex={0}
           role="button"
           aria-label="Upload files"
         >
-            <Upload className="h-6 w-6" />
-            <div className="flex flex-col items-center">
-                <h3 className="text-sm font-medium text-muted-foreground">Click to upload or drag and drop</h3>
-                <p className="text-xs text-muted-foreground">PDF, Word, TXT, CSV, JSON, MD, XML (MAX. 40MB) file</p>
-            </div>
-        </div>      </div>
-
+          <Upload className="h-6 w-6" />
+          <div className="flex flex-col items-center">
+            <h3 className="text-sm font-medium text-muted-foreground">
+              Click to upload or drag and drop
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              PDF, Word, TXT, CSV, JSON, MD, XML (MAX. 40MB) file
+            </p>
+          </div>
+        </div>
+      </div>
       {uploadFiles.length > 0 && (
         <div className="rounded-lg border">
           <Table className="w-full">
@@ -227,7 +256,9 @@ export default function TableUpload({
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className="truncate text-sm">{file.file.name}</span>
+                          <span className="truncate text-sm">
+                            {file.file.name}
+                          </span>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>{file.file.name}</p>
@@ -268,7 +299,7 @@ export default function TableUpload({
                           variant="ghost"
                           onClick={() => removeUploadFile(file.id)}
                         >
-                          <Trash2 className="text-red-500"/>
+                          <Trash2 className="text-red-500" />
                         </Button>
                       )}
                     </div>
