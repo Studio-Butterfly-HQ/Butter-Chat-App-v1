@@ -31,7 +31,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { useAppSelector } from "@/store/hooks"
-import { useCompanyProfile } from "@/provider/profile/profile.queries"
 
 // This is sample data.
 const data = {
@@ -154,8 +153,8 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const company = useAppSelector((state) => state.auth.company)
-  const user = company?.users?.find((u) => u.role === "OWNER") ?? company?.users?.[0] ?? null
+  const company = useAppSelector((state) => state.auth.company);
+  const user = useAppSelector((state) => state.auth.user);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -166,15 +165,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
-      <div className="px-4"><Separator /></div>
-      <SidebarFooter >
-        {user && <NavUser user={{
-          name: user.user_name,
-          email: user.email,
-          avatar: user.profile_uri || "",
-        }} />}
+      <div className="px-4">
+        <Separator />
+      </div>
+      <SidebarFooter>
+        {user && (
+          <NavUser
+            user={{
+              name: user.user_name,
+              email: user.email,
+              avatar: user.profile_uri || "",
+            }}
+          />
+        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

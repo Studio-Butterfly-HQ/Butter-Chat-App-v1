@@ -43,47 +43,53 @@ export const useUpdateProfile = () => {
 }
 
 export const useCompanyProfile = () => {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const token = useAppSelector((state) => state.auth.token)
+  const token = useAppSelector((state) => state.auth.token);
 
   const query = useQuery({
-    queryKey: ["company-profile"],
+    queryKey: ["company-profile", token],
     enabled: !!token,
 
     queryFn: async () => {
       if (!token) {
-        throw { message: "No auth token found" }
+        throw { message: "No auth token found" };
       }
-      return fetchCompanyProfileApi(token)
+      return fetchCompanyProfileApi(token);
     },
 
     retry: false,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
-  })
+  });
 
   /* Handle SUCCESS (including success:false) */
   useEffect(() => {
     if (!query.isSuccess) return
 
     if (!query.data?.success) {
-      console.error( "Company profile error details:", query.data?.error?.details)
-      dispatch(logout())
+      console.error(
+        "Company profile error details:",
+        query.data?.error?.details,
+      );
+      dispatch(logout());
       persistor.purge().then(() => {
-        navigate("/login", { replace: true })
-      })
-      return
+        navigate("/login", { replace: true });
+      });
+      return;
     }
-    dispatch(setCompany(query.data.data))
-  }, [query.isSuccess, query.data, dispatch, navigate])
+    dispatch(setCompany(query.data.data));
+  }, [query.isSuccess, query.data, dispatch, navigate]);
 
   /* Handle HTTP / Network errors */
-  useEffect( () => {
-    if (!query.isError) return
+  useEffect(() => {
+    if (!query.isError) return;
 
-    console.error("Company profile request failed:", (query.error as any)?.error?.details ?? query.error)
+    console.error(
+      "Company profile request failed:",
+      (query.error as any)?.error?.details ?? query.error,
+    );
 
     dispatch(logout())
     persistor.purge().then(() => {
