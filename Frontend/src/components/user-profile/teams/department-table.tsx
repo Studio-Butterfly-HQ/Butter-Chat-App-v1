@@ -54,6 +54,8 @@ export function DepartmentTable() {
   const [open, setOpen] = useState(false);
   const [departmentName, setDepartmentName] = useState("");
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
+  
+
 
   useEffect(() => {
     const timer = setTimeout(() => {

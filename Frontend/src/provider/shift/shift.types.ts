@@ -4,6 +4,14 @@ export interface CreateShiftPayload {
   shift_end_time: string;
 }
 
+export interface User {
+  id: string;
+  user_name: string;
+  email: string;
+  profile_uri?: string;
+  status: string;
+}
+
 export interface Shift {
   id: string;
   shift_name: string;
@@ -12,6 +20,7 @@ export interface Shift {
   company_id: string;
   created_date: string;
   updated_date: string;
+  users: User[];
 }
 
 export interface ApiResponse<T> {
