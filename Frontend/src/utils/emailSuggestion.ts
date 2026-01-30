@@ -4,21 +4,29 @@ import { levenshtein } from "./levenshtein"
 export const getEmailSuggestions = (value: string) => {
   if (!value.includes("@")) return []
 
-  const [, domainPart] = value.split("@")
+  const [, rawDomainPart] = value.split("@")
+  const domainPart = rawDomainPart?.trim().toLowerCase()
+
   if (!domainPart) return EMAIL_DOMAINS.slice(0, 4)
 
-  return EMAIL_DOMAINS
-    .map(domain => {
-      const distance = levenshtein(domainPart, domain)
+  if (EMAIL_DOMAINS.some(d => d.toLowerCase() === domainPart)) return []
 
-      const isPrefixMatch = domain.startsWith(domainPart)
-      const prefixBonus = isPrefixMatch ? -5 : 0
+  const scoredDomains = EMAIL_DOMAINS.map(domain => ({
+    domain,
+    score: levenshtein(domainPart, domain.toLowerCase()),
+    isPrefix: domain.toLowerCase().startsWith(domainPart),
+  }))
 
-      return {
-        domain,
-        score: distance + prefixBonus,
-      }
-    })
+  const prefixMatches = scoredDomains.filter(item => item.isPrefix)
+
+  if (prefixMatches.length > 0) {
+    return prefixMatches
+      .sort((a, b) => a.score - b.score)
+      .slice(0, 4)
+      .map(item => item.domain)
+  }
+
+  return scoredDomains
     .sort((a, b) => a.score - b.score)
     .slice(0, 4)
     .map(item => item.domain)

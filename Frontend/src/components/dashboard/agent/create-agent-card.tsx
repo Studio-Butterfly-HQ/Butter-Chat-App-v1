@@ -40,7 +40,7 @@ export default function CreateAgentCard() {
       personality: "friendly",
       instructions: "",
     },
-    mode: "onChange",
+    mode: "onBlur",
   });
 
   const { watch, setValue } = form;

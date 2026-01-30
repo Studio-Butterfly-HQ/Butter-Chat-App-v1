@@ -1,0 +1,452 @@
+[
+  {
+    "shift_name": "Morning",
+    "start_time": "06:00 AM",
+    "end_time": "12:00 PM",
+    "employees": [
+      { "name": "Steve Long", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Steve Long", "status": "INACTIVE" },
+      { "name": "Ariful Islam", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ariful Islam", "status": "INACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Afternoon",
+    "start_time": "12:00 PM",
+    "end_time": "08:00 PM",
+    "employees": [
+      { "name": "Maria Chen", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria Chen", "status": "ACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Sarah Lee", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah Lee", "status": "INACTIVE" },
+      { "name": "Ahmed Khan", "avatar": "", "status": "INACTIVE" },
+      { "name": "Chris Evans", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Evans", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Evening",
+    "start_time": "06:00 PM",
+    "end_time": "12:00 AM",
+    "employees": [
+      { "name": "Tom Baker", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Tom Baker", "status": "ACTIVE" },
+      { "name": "Emily Clark", "avatar": "", "status": "ACTIVE" },
+      { "name": "Dave Wilson", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dave Wilson", "status": "INACTIVE" },
+      { "name": "Nora Allen", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Night",
+    "start_time": "12:00 AM",
+    "end_time": "06:00 AM",
+    "employees": [
+      { "name": "Michael Smith", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael Smith", "status": "INACTIVE" },
+      { "name": "Rachel Adams", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Morning",
+    "start_time": "07:00 AM",
+    "end_time": "01:00 PM",
+    "employees": [
+      { "name": "Kathy Young", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kathy Young", "status": "ACTIVE" },
+      { "name": "Jeff Green", "avatar": "", "status": "INACTIVE" },
+      { "name": "Nina Brown", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brown", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Afternoon",
+    "start_time": "01:00 PM",
+    "end_time": "07:00 PM",
+    "employees": [
+      { "name": "Alan Grant", "avatar": "", "status": "ACTIVE" },
+      { "name": "Zoe King", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe King", "status": "ACTIVE" },
+      { "name": "Emma Stone", "avatar": "", "status": "ACTIVE" },
+      { "name": "Luke Shaw", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Luke Shaw", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Holiday Shift",
+    "start_time": "08:00 AM",
+    "end_time": "04:00 PM",
+    "employees": [
+      { "name": "Chris Paul", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Paul", "status": "ACTIVE" },
+      { "name": "Dwayne Wade", "avatar": "", "status": "ACTIVE" },
+      { "name": "Kevin Durant", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kevin Durant", "status": "ACTIVE" },
+      { "name": "James Harden", "avatar": "", "status": "INACTIVE" },
+      { "name": "Russell Westbrook", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Special Event",
+    "start_time": "09:00 AM",
+    "end_time": "05:00 PM",
+    "employees": [
+      { "name": "Jane Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Mark Twain", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mark Twain", "status": "ACTIVE" },
+      { "name": "Alice Wonderland", "avatar": "", "status": "INACTIVE" },
+      { "name": "Bob Marley", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Bob Marley", "status": "INACTIVE" },
+      { "name": "Elon Musk", "avatar": "", "status": "INACTIVE" },
+      { "name": "Ada Lovelace", "avatar": "", "status": "INACTIVE" },
+      { "name": "Grace Hopper", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Grace Hopper", "status": "INACTIVE" },
+      { "name": "Alan Turing", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Morning",
+    "start_time": "06:00 AM",
+    "end_time": "12:00 PM",
+    "employees": [
+      { "name": "Steve Long", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Steve Long", "status": "INACTIVE" },
+      { "name": "Ariful Islam", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ariful Islam", "status": "INACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Afternoon",
+    "start_time": "12:00 PM",
+    "end_time": "08:00 PM",
+    "employees": [
+      { "name": "Maria Chen", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria Chen", "status": "ACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Sarah Lee", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah Lee", "status": "INACTIVE" },
+      { "name": "Ahmed Khan", "avatar": "", "status": "INACTIVE" },
+      { "name": "Chris Evans", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Evans", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Evening",
+    "start_time": "06:00 PM",
+    "end_time": "12:00 AM",
+    "employees": [
+      { "name": "Tom Baker", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Tom Baker", "status": "ACTIVE" },
+      { "name": "Emily Clark", "avatar": "", "status": "ACTIVE" },
+      { "name": "Dave Wilson", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dave Wilson", "status": "INACTIVE" },
+      { "name": "Nora Allen", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Night",
+    "start_time": "12:00 AM",
+    "end_time": "06:00 AM",
+    "employees": [
+      { "name": "Michael Smith", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael Smith", "status": "INACTIVE" },
+      { "name": "Rachel Adams", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Morning",
+    "start_time": "07:00 AM",
+    "end_time": "01:00 PM",
+    "employees": [
+      { "name": "Kathy Young", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kathy Young", "status": "ACTIVE" },
+      { "name": "Jeff Green", "avatar": "", "status": "INACTIVE" },
+      { "name": "Nina Brown", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brown", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Afternoon",
+    "start_time": "01:00 PM",
+    "end_time": "07:00 PM",
+    "employees": [
+      { "name": "Alan Grant", "avatar": "", "status": "ACTIVE" },
+      { "name": "Zoe King", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe King", "status": "ACTIVE" },
+      { "name": "Emma Stone", "avatar": "", "status": "ACTIVE" },
+      { "name": "Luke Shaw", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Luke Shaw", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Holiday Shift",
+    "start_time": "08:00 AM",
+    "end_time": "04:00 PM",
+    "employees": [
+      { "name": "Chris Paul", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Paul", "status": "ACTIVE" },
+      { "name": "Dwayne Wade", "avatar": "", "status": "ACTIVE" },
+      { "name": "Kevin Durant", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kevin Durant", "status": "ACTIVE" },
+      { "name": "James Harden", "avatar": "", "status": "INACTIVE" },
+      { "name": "Russell Westbrook", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Special Event",
+    "start_time": "09:00 AM",
+    "end_time": "05:00 PM",
+    "employees": [
+      { "name": "Jane Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Mark Twain", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mark Twain", "status": "ACTIVE" },
+      { "name": "Alice Wonderland", "avatar": "", "status": "INACTIVE" },
+      { "name": "Bob Marley", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Bob Marley", "status": "INACTIVE" },
+      { "name": "Elon Musk", "avatar": "", "status": "INACTIVE" },
+      { "name": "Ada Lovelace", "avatar": "", "status": "INACTIVE" },
+      { "name": "Grace Hopper", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Grace Hopper", "status": "INACTIVE" },
+      { "name": "Alan Turing", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Morning",
+    "start_time": "06:00 AM",
+    "end_time": "12:00 PM",
+    "employees": [
+      { "name": "Steve Long", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Steve Long", "status": "INACTIVE" },
+      { "name": "Ariful Islam", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ariful Islam", "status": "INACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Afternoon",
+    "start_time": "12:00 PM",
+    "end_time": "08:00 PM",
+    "employees": [
+      { "name": "Maria Chen", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria Chen", "status": "ACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Sarah Lee", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah Lee", "status": "INACTIVE" },
+      { "name": "Ahmed Khan", "avatar": "", "status": "INACTIVE" },
+      { "name": "Chris Evans", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Evans", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Evening",
+    "start_time": "06:00 PM",
+    "end_time": "12:00 AM",
+    "employees": [
+      { "name": "Tom Baker", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Tom Baker", "status": "ACTIVE" },
+      { "name": "Emily Clark", "avatar": "", "status": "ACTIVE" },
+      { "name": "Dave Wilson", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dave Wilson", "status": "INACTIVE" },
+      { "name": "Nora Allen", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Night",
+    "start_time": "12:00 AM",
+    "end_time": "06:00 AM",
+    "employees": [
+      { "name": "Michael Smith", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael Smith", "status": "INACTIVE" },
+      { "name": "Rachel Adams", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Morning",
+    "start_time": "07:00 AM",
+    "end_time": "01:00 PM",
+    "employees": [
+      { "name": "Kathy Young", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kathy Young", "status": "ACTIVE" },
+      { "name": "Jeff Green", "avatar": "", "status": "INACTIVE" },
+      { "name": "Nina Brown", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brown", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Afternoon",
+    "start_time": "01:00 PM",
+    "end_time": "07:00 PM",
+    "employees": [
+      { "name": "Alan Grant", "avatar": "", "status": "ACTIVE" },
+      { "name": "Zoe King", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe King", "status": "ACTIVE" },
+      { "name": "Emma Stone", "avatar": "", "status": "ACTIVE" },
+      { "name": "Luke Shaw", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Luke Shaw", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Holiday Shift",
+    "start_time": "08:00 AM",
+    "end_time": "04:00 PM",
+    "employees": [
+      { "name": "Chris Paul", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Paul", "status": "ACTIVE" },
+      { "name": "Dwayne Wade", "avatar": "", "status": "ACTIVE" },
+      { "name": "Kevin Durant", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kevin Durant", "status": "ACTIVE" },
+      { "name": "James Harden", "avatar": "", "status": "INACTIVE" },
+      { "name": "Russell Westbrook", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Special Event",
+    "start_time": "09:00 AM",
+    "end_time": "05:00 PM",
+    "employees": [
+      { "name": "Jane Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Mark Twain", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mark Twain", "status": "ACTIVE" },
+      { "name": "Alice Wonderland", "avatar": "", "status": "INACTIVE" },
+      { "name": "Bob Marley", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Bob Marley", "status": "INACTIVE" },
+      { "name": "Elon Musk", "avatar": "", "status": "INACTIVE" },
+      { "name": "Ada Lovelace", "avatar": "", "status": "INACTIVE" },
+      { "name": "Grace Hopper", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Grace Hopper", "status": "INACTIVE" },
+      { "name": "Alan Turing", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Morning",
+    "start_time": "06:00 AM",
+    "end_time": "12:00 PM",
+    "employees": [
+      { "name": "Steve Long", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Steve Long", "status": "INACTIVE" },
+      { "name": "Ariful Islam", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ariful Islam", "status": "INACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Afternoon",
+    "start_time": "12:00 PM",
+    "end_time": "08:00 PM",
+    "employees": [
+      { "name": "Maria Chen", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria Chen", "status": "ACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Sarah Lee", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah Lee", "status": "INACTIVE" },
+      { "name": "Ahmed Khan", "avatar": "", "status": "INACTIVE" },
+      { "name": "Chris Evans", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Evans", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Evening",
+    "start_time": "06:00 PM",
+    "end_time": "12:00 AM",
+    "employees": [
+      { "name": "Tom Baker", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Tom Baker", "status": "ACTIVE" },
+      { "name": "Emily Clark", "avatar": "", "status": "ACTIVE" },
+      { "name": "Dave Wilson", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dave Wilson", "status": "INACTIVE" },
+      { "name": "Nora Allen", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Night",
+    "start_time": "12:00 AM",
+    "end_time": "06:00 AM",
+    "employees": [
+      { "name": "Michael Smith", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael Smith", "status": "INACTIVE" },
+      { "name": "Rachel Adams", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Morning",
+    "start_time": "07:00 AM",
+    "end_time": "01:00 PM",
+    "employees": [
+      { "name": "Kathy Young", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kathy Young", "status": "ACTIVE" },
+      { "name": "Jeff Green", "avatar": "", "status": "INACTIVE" },
+      { "name": "Nina Brown", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brown", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Afternoon",
+    "start_time": "01:00 PM",
+    "end_time": "07:00 PM",
+    "employees": [
+      { "name": "Alan Grant", "avatar": "", "status": "ACTIVE" },
+      { "name": "Zoe King", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe King", "status": "ACTIVE" },
+      { "name": "Emma Stone", "avatar": "", "status": "ACTIVE" },
+      { "name": "Luke Shaw", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Luke Shaw", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Holiday Shift",
+    "start_time": "08:00 AM",
+    "end_time": "04:00 PM",
+    "employees": [
+      { "name": "Chris Paul", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Paul", "status": "ACTIVE" },
+      { "name": "Dwayne Wade", "avatar": "", "status": "ACTIVE" },
+      { "name": "Kevin Durant", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kevin Durant", "status": "ACTIVE" },
+      { "name": "James Harden", "avatar": "", "status": "INACTIVE" },
+      { "name": "Russell Westbrook", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Special Event",
+    "start_time": "09:00 AM",
+    "end_time": "05:00 PM",
+    "employees": [
+      { "name": "Jane Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Mark Twain", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mark Twain", "status": "ACTIVE" },
+      { "name": "Alice Wonderland", "avatar": "", "status": "INACTIVE" },
+      { "name": "Bob Marley", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Bob Marley", "status": "INACTIVE" },
+      { "name": "Elon Musk", "avatar": "", "status": "INACTIVE" },
+      { "name": "Ada Lovelace", "avatar": "", "status": "INACTIVE" },
+      { "name": "Grace Hopper", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Grace Hopper", "status": "INACTIVE" },
+      { "name": "Alan Turing", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Morning",
+    "start_time": "06:00 AM",
+    "end_time": "12:00 PM",
+    "employees": [
+      { "name": "Steve Long", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Steve Long", "status": "INACTIVE" },
+      { "name": "Ariful Islam", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ariful Islam", "status": "INACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Afternoon",
+    "start_time": "12:00 PM",
+    "end_time": "08:00 PM",
+    "employees": [
+      { "name": "Maria Chen", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria Chen", "status": "ACTIVE" },
+      { "name": "John Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Sarah Lee", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah Lee", "status": "INACTIVE" },
+      { "name": "Ahmed Khan", "avatar": "", "status": "INACTIVE" },
+      { "name": "Chris Evans", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Evans", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Evening",
+    "start_time": "06:00 PM",
+    "end_time": "12:00 AM",
+    "employees": [
+      { "name": "Tom Baker", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Tom Baker", "status": "ACTIVE" },
+      { "name": "Emily Clark", "avatar": "", "status": "ACTIVE" },
+      { "name": "Dave Wilson", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dave Wilson", "status": "INACTIVE" },
+      { "name": "Nora Allen", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Night",
+    "start_time": "12:00 AM",
+    "end_time": "06:00 AM",
+    "employees": [
+      { "name": "Michael Smith", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael Smith", "status": "INACTIVE" },
+      { "name": "Rachel Adams", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Morning",
+    "start_time": "07:00 AM",
+    "end_time": "01:00 PM",
+    "employees": [
+      { "name": "Kathy Young", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kathy Young", "status": "ACTIVE" },
+      { "name": "Jeff Green", "avatar": "", "status": "INACTIVE" },
+      { "name": "Nina Brown", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Nina Brown", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Weekend Afternoon",
+    "start_time": "01:00 PM",
+    "end_time": "07:00 PM",
+    "employees": [
+      { "name": "Alan Grant", "avatar": "", "status": "ACTIVE" },
+      { "name": "Zoe King", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe King", "status": "ACTIVE" },
+      { "name": "Emma Stone", "avatar": "", "status": "ACTIVE" },
+      { "name": "Luke Shaw", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Luke Shaw", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Holiday Shift",
+    "start_time": "08:00 AM",
+    "end_time": "04:00 PM",
+    "employees": [
+      { "name": "Chris Paul", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris Paul", "status": "ACTIVE" },
+      { "name": "Dwayne Wade", "avatar": "", "status": "ACTIVE" },
+      { "name": "Kevin Durant", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Kevin Durant", "status": "ACTIVE" },
+      { "name": "James Harden", "avatar": "", "status": "INACTIVE" },
+      { "name": "Russell Westbrook", "avatar": "", "status": "INACTIVE" }
+    ]
+  },
+  {
+    "shift_name": "Special Event",
+    "start_time": "09:00 AM",
+    "end_time": "05:00 PM",
+    "employees": [
+      { "name": "Jane Doe", "avatar": "", "status": "ACTIVE" },
+      { "name": "Mark Twain", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mark Twain", "status": "ACTIVE" },
+      { "name": "Alice Wonderland", "avatar": "", "status": "INACTIVE" },
+      { "name": "Bob Marley", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Bob Marley", "status": "INACTIVE" },
+      { "name": "Elon Musk", "avatar": "", "status": "INACTIVE" },
+      { "name": "Ada Lovelace", "avatar": "", "status": "INACTIVE" },
+      { "name": "Grace Hopper", "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Grace Hopper", "status": "INACTIVE" },
+      { "name": "Alan Turing", "avatar": "", "status": "INACTIVE" }
+    ]
+  }
+]

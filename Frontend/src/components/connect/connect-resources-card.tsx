@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CircleCheck, Link, Plus, Facebook, Instagram, MessageCircle, Handbag  } from 'lucide-react';
+import { useToggleConnection } from "@/provider/connections"
 
 interface Connection {
   id: string
@@ -9,20 +10,40 @@ interface Connection {
   icon: React.ReactNode
   connected: boolean
   category: "social" | "ecommerce"
+  url: string
 }
 
 export default function ConnectResourcesCard() {
+  const { mutateAsync } = useToggleConnection()
   const [connections, setConnections] = useState<Connection[]>([
-    { id: "facebook", name: "Connect Facebook", icon: <Facebook className="text-primary-foreground" />, connected: true, category: "social" },
-    { id: "instagram", name: "Connect Instagram", icon: <Instagram className="text-primary-foreground" />, connected: false, category: "social" },
-    { id: "whatsapp", name: "Connect Whatsapp", icon: <MessageCircle className="text-primary-foreground" />, connected: false, category: "social" },
-    { id: "woocommerce", name: "Integrate WooCommerce", icon: <Handbag className="text-primary-foreground" />, connected: true, category: "ecommerce" },
-    { id: "shopify", name: "Connect Shopify", icon: <Handbag className="text-primary-foreground" />, connected: false, category: "ecommerce" },
+    { id: "facebook", name: "Connect Facebook", icon: <Facebook className="text-primary-foreground" />, connected: false, category: "social", url: "https://api.studiobutterfly.io/auth/meta/login" },
+    { id: "instagram", name: "Connect Instagram", icon: <Instagram className="text-primary-foreground" />, connected: false, category: "social", url: "" },
+    { id: "whatsapp", name: "Connect Whatsapp", icon: <MessageCircle className="text-primary-foreground" />, connected: false, category: "social", url: "" },
+    { id: "woocommerce", name: "Integrate WooCommerce", icon: <Handbag className="text-primary-foreground" />, connected: false, category: "ecommerce", url: "" },
+    { id: "shopify", name: "Connect Shopify", icon: <Handbag className="text-primary-foreground" />, connected: false, category: "ecommerce", url: "" },
   ])
 
-  const toggleConnection = (id: string) => {
-    setConnections(connections.map((conn) => (conn.id === id ? { ...conn, connected: !conn.connected } : conn)))
+  const handleToggleConnection = (id: string) => {
+    setConnections((prevConnections) =>
+      prevConnections.map((connection) =>
+        connection.id === id ? { ...connection, connected: !connection.connected } : connection
+      )
+    )
   }
+
+  const toggleConnection = async (id: string, url: string) => {
+  if(id === "facebook") {
+    try {
+      await mutateAsync()
+      handleToggleConnection(id);
+    } 
+    catch (error) {
+      console.error("Error in facebook toggleConnection function: ", error)
+    }
+  }
+  
+}
+
 
   const handleComplete = () => {
     console.log("Connections completed:", connections)
@@ -56,7 +77,7 @@ export default function ConnectResourcesCard() {
                     <span className="text-sm text-primary-foreground">{connection.name}</span>
                   </div>
                   <button
-                    onClick={() => toggleConnection(connection.id)}
+                    onClick={() => toggleConnection(connection.id, connection.url)}
                     className={`rounded-full flex items-center justify-center transition-all ${
                       connection.connected ? "bg-green-500" : ""
                     }`}
@@ -86,7 +107,7 @@ export default function ConnectResourcesCard() {
                     <span className="text-sm text-primary-foreground">{connection.name}</span>
                   </div>
                   <button
-                    onClick={() => toggleConnection(connection.id)}
+                    onClick={() => toggleConnection(connection.id, connection.url)}
                     className={`rounded-full flex items-center justify-center transition-all ${
                       connection.connected ? "bg-green-500" : ""
                     }`}

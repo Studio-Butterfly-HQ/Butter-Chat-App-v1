@@ -8,11 +8,8 @@ export const loginApi = async (payload: LoginPayload) => {
     body: JSON.stringify(payload),
   })
   const data = await res.json();
-  if (res.status === 401) {
-    throw new Error(data.message);
-  }
-  if (res.status !== 201) {
-    throw new Error(data.message);
+  if (!res.ok) {
+    throw data;
   }
   return data
 }
@@ -24,11 +21,8 @@ export const signupApi = async (payload: SignupPayload) => {
     body: JSON.stringify(payload),
   })
   const data = await res.json();
-  if (res.status === 401) {
-    throw new Error(data.message);
-  }
-  if (res.status !== 201) {
-    throw new Error(data.message);
+  if (!res.ok) {
+    throw data;
   }
   return data
 }
@@ -39,11 +33,11 @@ export const resetPasswordApi = async (payload: ResetPasswordPayload) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   })
-
+  const data = await res.json();
   if (!res.ok) {
-    throw new Error("Failed to send reset link")
+    throw data;
   }
 
-  return res.json()
+  return data;
 }
 

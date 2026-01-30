@@ -44,6 +44,17 @@ button:focus-visible {
   }
 } */
 
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input[type="time"]::-webkit-clear-button {
+  display: none;
+}
+
+input[type="time"] {
+  appearance: none;
+}
 
 
 @layer base {
@@ -126,7 +137,7 @@ button:focus-visible {
     @apply border-border;
   }
   body {
-    font-family: Inter, system-ui, sans-serif;
+    font-family: system-ui, sans-serif;
     @apply bg-background text-foreground;
   }
 }

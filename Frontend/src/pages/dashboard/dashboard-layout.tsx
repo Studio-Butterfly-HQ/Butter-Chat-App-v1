@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom"
-import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar"
+import { Outlet } from "react-router-dom";
+import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,20 +7,22 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { useCompanyProfile } from "@/provider/profile/profile.queries";
 
 export default function DashboardLayout() {
+  const { isLoading } = useCompanyProfile();
   return (
-    <SidebarProvider >
-      <AppSidebar />
-      <SidebarInset className=" rounded-xl m-3">
-        <header className="flex bg-popover rounded-t-xl mb-0.5 h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+    <SidebarProvider>
+      <AppSidebar isLoading={isLoading} />
+      <SidebarInset className="rounded-xl m-3">
+        {/* <header className="flex bg-popover rounded-t-xl mb-0.5 h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator
@@ -41,11 +43,11 @@ export default function DashboardLayout() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-        </header>
+        </header> */}
         <main className="flex-1 overflow-y-auto scrollbar-hide">
           <Outlet />
         </main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

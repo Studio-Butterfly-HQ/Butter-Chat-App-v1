@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Spinner } from "@/components/ui/spinner"
 import { useResetPassword } from "@/provider/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -25,7 +26,7 @@ export default function ResetPasswordPage() {
     defaultValues: {
       email: "",
     },
-    mode: "onChange",
+    mode: "onBlur",
   })
 
   const handleSubmit = async (data: ResetPasswordFormValues) => {
@@ -38,10 +39,10 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="h-screen bg-background flex overflow-hidden">
       {/* LEFT SIDE */}
-      <div className="w-full lg:w-1/2 min-h-screen flex flex-col p-6 lg:p-8">
-        <div className="flex items-center gap-2">
+      <div className="w-full lg:w-1/2 h-screen flex flex-col">
+        <div className="flex items-center gap-2 p-6 lg:p-8">
           <MessageCircle className="text-primary text-2xl" />
           <span className="text-primary text-2xl font-medium">
             ButterChat
@@ -49,9 +50,11 @@ export default function ResetPasswordPage() {
         </div>
 
         {/* CENTERED FORM */}
-        <div className="flex-1 md:p-16 flex items-center justify-center">
-          <div className="w-full max-w-md">
-            <Card className="bg-transparent border-0 shadow-none">
+        <ScrollArea className="flex-1">
+          <div className="px-6 lg:px-8 pb-6 lg:pb-8">
+            <div className="md:p-28 pt-40 flex items-center justify-center min-h-full">
+              <div className="w-full max-w-md">
+              <Card className="bg-transparent border-0 shadow-none">
               {/* Header */}
               <div className="flex flex-col items-center gap-2 mb-6">
                 <h1 className="text-primary text-3xl font-bold">
@@ -101,9 +104,11 @@ export default function ResetPasswordPage() {
                 <ChevronLeft />
                 Back to login
               </Link>
-            </Card>
+              </Card>
+              </div>
+            </div>
           </div>
-        </div>
+        </ScrollArea>
       </div>
 
       {/* RIGHT IMAGE */}

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Eye, EyeOff, MessageCircle } from "lucide-react"
 import { useEffect, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -40,25 +41,26 @@ export default function SignupPage() {
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      companyName: "",
+      company_name: "",
       subdomain: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      confirm_password: "",
     },
-    mode: "onChange",
+    mode: "onBlur",
   })
-  const companyName = form.watch("companyName")
+  const company_name = form.watch("company_name")
   const password = form.watch("password")
-  const confirmPassword = form.watch("confirmPassword")
+  const confirm_password = form.watch("confirm_password")
 
-  const passwordsMatch = password && confirmPassword && password === confirmPassword
+  const passwordsMatch = password && confirm_password && password === confirm_password
 
   const handleSubmit = async (data: SignupFormValues) => {
     try{
-      const res = await mutateAsync(data)
+      const { confirm_password, ...payload } = data
+      const res = await mutateAsync(payload)
       if (res.success){
-        navigate("/onboarding")
+        navigate("/onboarding", { replace: true })
       }
     }
     catch (error){
@@ -67,13 +69,13 @@ export default function SignupPage() {
   }
 
   useEffect(() => {
-    if (!companyName){
+    if (!company_name){
       form.setValue("subdomain", "")
       return
     }
     if (subdomainTouched.current) return
     
-    const generatedSubdomain = companyName
+    const generatedSubdomain = company_name
       .toLowerCase()
       .trim()
       .replace(/\s+/g, "-")        // spaces → hyphen
@@ -81,21 +83,24 @@ export default function SignupPage() {
       .replace(/-+/g, "-")         // collapse multiple hyphens
       .replace(/^-+|-+$/g, "")
     form.setValue("subdomain", generatedSubdomain)
-  }, [companyName, form])
+  }, [company_name, form])
 
   return (
-    <div className="min-h-screen bg-background flex">
-      <div className="w-full lg:w-1/2 min-h-screen flex flex-col p-6 lg:p-8">
-        <div className="flex items-center gap-2">
+    <div className="h-screen bg-background flex overflow-hidden">
+      <div className="w-full lg:w-1/2 h-screen flex flex-col">
+        <div className="flex items-center gap-2 p-6 lg:p-8">
           <MessageCircle className="text-primary text-2xl" />
           <span className="text-primary text-2xl font-medium">
             ButterChat
           </span>
         </div>
 
-        <div className="flex-1 md:p-16 pt-16 flex items-center justify-center">
-          <div className="w-full max-w-md">
-            <Card className="bg-transparent border-0 shadow-none">
+        <div className="flex-1 h-0 min-h-0 pb-3">
+          <ScrollArea className="h-full">
+          <div className="px-6 lg:px-8 pb-6 lg:pb-8">
+            <div className="md:p-8 pt-8 flex items-center justify-center min-h-full">
+              <div className="w-full max-w-md">
+              <Card className="bg-transparent border-0 shadow-none">
               <div className="flex flex-col items-center gap-2 mb-6">
                 <h1 className="text-primary text-3xl font-bold text-center">
                   Create your account
@@ -113,7 +118,7 @@ export default function SignupPage() {
                   {/* Company Name */}
                   <FormField
                     control={form.control}
-                    name="companyName"
+                    name="company_name"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-primary text-base font-semibold">
@@ -212,7 +217,7 @@ export default function SignupPage() {
                   {/* Confirm Password */}
                   <FormField
                     control={form.control}
-                    name="confirmPassword"
+                    name="confirm_password"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-primary text-base font-semibold">
@@ -235,7 +240,7 @@ export default function SignupPage() {
                           </InputGroupAddon>
                         </InputGroup>
                         <FormMessage className="text-sm"/>
-                        {/* {form.formState.errors.confirmPassword && passwordsMatch && (<p className="text-green-500 text-sm">Passwords match</p>)} */}
+                        {/* {form.formState.errors.confirm_password && passwordsMatch && (<p className="text-green-500 text-sm">Passwords match</p>)} */}
                       </FormItem>
                     )}
                   />
@@ -300,8 +305,11 @@ export default function SignupPage() {
                   Privacy Policy
                 </span>.
               </p>
-            </Card>
+              </Card>
+              </div>
+            </div>
           </div>
+          </ScrollArea>
         </div>
       </div>
 

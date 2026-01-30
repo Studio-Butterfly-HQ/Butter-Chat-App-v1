@@ -1,0 +1,506 @@
+[
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "CRM Policy.pdf"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Sales Report Q1.xlsx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "User Feedback Summary.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Marketing Strategy 2023.pptx"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Product Roadmap.pdf"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Budget Allocation.xlsx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "Team Meeting Notes.txt"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Competitor Analysis.docx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "Client Proposal.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Training Manual.pdf"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Design Mockup V2.fig"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Legal Agreement.docx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "CRM Policy.pdf"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Sales Report Q1.xlsx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "User Feedback Summary.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Marketing Strategy 2023.pptx"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Product Roadmap.pdf"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Budget Allocation.xlsx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "Team Meeting Notes.txt"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Competitor Analysis.docx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "Client Proposal.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Training Manual.pdf"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Design Mockup V2.fig"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Legal Agreement.docx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "CRM Policy.pdf"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Sales Report Q1.xlsx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "User Feedback Summary.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Marketing Strategy 2023.pptx"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Product Roadmap.pdf"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Budget Allocation.xlsx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "Team Meeting Notes.txt"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Competitor Analysis.docx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "Client Proposal.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Training Manual.pdf"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Design Mockup V2.fig"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Legal Agreement.docx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "CRM Policy.pdf"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Sales Report Q1.xlsx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "User Feedback Summary.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Marketing Strategy 2023.pptx"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Product Roadmap.pdf"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Budget Allocation.xlsx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "Team Meeting Notes.txt"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Competitor Analysis.docx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "Client Proposal.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Training Manual.pdf"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Design Mockup V2.fig"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Legal Agreement.docx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "CRM Policy.pdf"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Sales Report Q1.xlsx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "User Feedback Summary.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Marketing Strategy 2023.pptx"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Product Roadmap.pdf"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Budget Allocation.xlsx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "Team Meeting Notes.txt"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Competitor Analysis.docx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "Client Proposal.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Training Manual.pdf"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Design Mockup V2.fig"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Legal Agreement.docx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "CRM Policy.pdf"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Sales Report Q1.xlsx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "User Feedback Summary.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Marketing Strategy 2023.pptx"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Product Roadmap.pdf"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Budget Allocation.xlsx"
+  },
+  {
+    "website_name": "Stryker - Homepage",
+    "website_url": "https://drinkstryker.com",
+    "status": "SYNCED",
+    "last_updated": "11 days ago",
+    "document_name": "Team Meeting Notes.txt"
+  },
+  {
+    "website_name": "Stryker - About Us",
+    "website_url": "https://drinkstryker.com/about",
+    "status": "FAILED",
+    "last_updated": "2 days ago",
+    "document_name": "Competitor Analysis.docx"
+  },
+  {
+    "website_name": "Stryker - Blog",
+    "website_url": "https://drinkstryker.com/blog",
+    "status": "SYNCED",
+    "last_updated": "1 month ago",
+    "document_name": "Client Proposal.docx"
+  },
+  {
+    "website_name": "Stryker - Products",
+    "website_url": "https://drinkstryker.com/products",
+    "status": "FAILED",
+    "last_updated": "5 days ago",
+    "document_name": "Training Manual.pdf"
+  },
+  {
+    "website_name": "Stryker - FAQ",
+    "website_url": "https://drinkstryker.com/faq",
+    "status": "QUEUED",
+    "last_updated": "",
+    "document_name": "Design Mockup V2.fig"
+  },
+  {
+    "website_name": "Stryker - Contact",
+    "website_url": "https://drinkstryker.com/contact",
+    "status": "SYNCED",
+    "last_updated": "6 days ago",
+    "document_name": "Legal Agreement.docx"
+  }
+]

@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   AudioWaveform,
   Command,
@@ -10,33 +10,36 @@ import {
   Lightbulb,
   BotMessageSquare,
   TrendingUp,
-  CalendarCheck2 ,
+  CalendarCheck2,
   LayoutDashboard,
   Sparkles,
   Inbox,
-  ShoppingBag
-} from "lucide-react"
+  ShoppingBag,
+  BellRing,
+} from "lucide-react";
 
-import { NavMain } from "@/components/dashboard/sidebar/nav-main"
-import { NavProjects } from "@/components/dashboard/sidebar/nav-projects"
-import { NavUser } from "@/components/dashboard/sidebar/nav-user"
-import { TeamSwitcher } from "@/components/dashboard/sidebar/team-switcher"
-import { Separator } from "@/components/ui/separator"
+import { NavMain } from "@/components/dashboard/sidebar/nav-main";
+import { NavProjects } from "@/components/dashboard/sidebar/nav-projects";
+import { NavUser } from "@/components/dashboard/sidebar/nav-user";
+import { TeamSwitcher } from "@/components/dashboard/sidebar/team-switcher";
+import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { useAppSelector } from "@/store/hooks";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+} from "@/components/ui/sidebar";
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "Acme Inc",
@@ -64,11 +67,11 @@ const data = {
     {
       title: "Ask Butter AI",
       url: "#",
-      icon: Sparkles ,
+      icon: Sparkles,
       isActive: true,
     },
     {
-      title: "Conversations",
+      title: "Inbox",
       url: "#",
       icon: Inbox,
       isActive: true,
@@ -95,7 +98,7 @@ const data = {
     {
       title: "Appointments",
       url: "#",
-      icon: CalendarCheck2 ,
+      icon: CalendarCheck2,
       items: [
         {
           title: "Introduction",
@@ -118,59 +121,88 @@ const data = {
     {
       title: "Analytics",
       url: "#",
-      icon: TrendingUp ,
+      icon: TrendingUp,
     },
     {
       title: "Audiences",
-      url: "/dashboard/Audiences",
-      icon: Users ,
+      url: "/audiences",
+      icon: Users,
     },
     {
       title: "Training Center",
       url: "#",
-      icon: Lightbulb ,
+      icon: Lightbulb,
     },
     {
-      title: "Bots",
-      url: "/dashboard/Bots",
-      icon: BotMessageSquare ,
+      title: "AI Agent",
+      url: "/ai-agent",
+      icon: BotMessageSquare,
     },
   ],
   projects: [
     {
       name: "Help",
       url: "#",
-      icon: Info ,
+      icon: Info,
     },
     {
       name: "Settings",
-      url: "#",
-      icon: Settings ,
+      url: "/settings",
+      icon: Settings,
     },
     {
-      name: "Log out",
+      name: "Notifications",
       url: "#",
-      icon: LogOut ,
+      icon: BellRing,
     },
   ],
-}
+};
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  isLoading,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { isLoading?: boolean }) {
+  const company = useAppSelector((state) => state.auth.company);
+  const user = useAppSelector((state) => state.auth.user);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
-      </SidebarHeader >
-      <div className="px-4"><Separator /></div>
+      </SidebarHeader>
+      <div className="px-4">
+        <Separator />
+      </div>
       <SidebarContent className="overflow-y-auto scrollbar-hide flex justify-between">
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
-      <div className="px-4"><Separator /></div>
+      <div className="px-4">
+        <Separator />
+      </div>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {isLoading ? (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton size="lg" className="cursor-default">
+                <Skeleton className="h-8 w-8 rounded-sm" />
+                <div className="grid flex-1 gap-1.5 text-left text-sm leading-tight">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-3 w-32" />
+                </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        ) : user && (
+          <NavUser
+            user={{
+              name: user.user_name,
+              email: user.email,
+              avatar: user.profile_uri || "",
+            }}
+          />
+        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
