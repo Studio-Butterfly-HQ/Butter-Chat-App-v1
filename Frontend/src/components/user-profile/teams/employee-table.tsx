@@ -376,7 +376,7 @@ export function EmployeeTable() {
           rowRounded: false,
         }}
       >
-        <div className="w-full space-y-2.5">
+        <div className="w-full flex flex-col justify-between min-h-[calc(100vh-16.1rem)] space-y-2.5">
           <DataGridContainer border={false}>
             <ScrollArea>
               <DataGridTable />

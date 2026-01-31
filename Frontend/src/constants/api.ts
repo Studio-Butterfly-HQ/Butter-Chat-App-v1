@@ -1,5 +1,5 @@
-export const BACKEND_BASE_URL_LOCAL = "http://localhost:5599"
-export const BACKEND_BASE_URL = "https://api.studiobutterfly.io"
+export const BACKEND_BASE_URL_LOCAL = "http://localhost:5599";
+export const BACKEND_BASE_URL = "https://api.studiobutterfly.io";
 
 export const AUTH_API = {
   LOGIN: `${BACKEND_BASE_URL}/auth/login`,
@@ -27,6 +27,11 @@ export const DEPARTMENT_API = {
 export const DOCUMENT_API = {
   GET_DOCUMENTS: `${BACKEND_BASE_URL}/documents/list`,
   UPLOAD_DOCUMENTS: `${BACKEND_BASE_URL}/documents/upload-multiple`,
+};
+
+export const WEBURI_API = {
+  CREATE_WEBURI: `${BACKEND_BASE_URL}/weburi-resources`,
+  GET_WEBURIS: `${BACKEND_BASE_URL}/weburi-resources`,
 };
 
 export const COUNTRY_API_URL =

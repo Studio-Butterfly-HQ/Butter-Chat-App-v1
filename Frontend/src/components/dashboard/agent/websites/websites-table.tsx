@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,131 +17,140 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
-import websites from "@/constants/dummy/websites.json";
+import { useGetWeburis } from "@/provider/weburi/weburi.queries";
+import type { Weburi } from "@/provider/weburi/weburi.types";
 
 export type SyncStatus = "SYNCED" | "FAILED" | "QUEUED";
-
-export interface WebsiteRow {
-  website_name: string;
-  website_url: string;
-  status: SyncStatus;
-  last_updated: string;
-}
 
 export function WebsitesTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
-  const [allWebsites, setAllWebsites] = useState<WebsiteRow[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAllWebsites(websites as WebsiteRow[]);
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  const { data: weburisResponse, isLoading } = useGetWeburis();
 
   const StatusBadge = ({ status }: { status: SyncStatus }) => {
-      if (status === "SYNCED") {
-        return <Badge className="bg-green-300 rounded-xl text-green-800">Synced</Badge>;
-      }
-  
-      if (status === "FAILED") {
-        return <Badge className="bg-red-300 rounded-xl text-red-800">Failed</Badge>;
-      }
-  
-      return <Badge className="bg-blue-300 rounded-xl text-blue-800">Queued</Badge>;
-    };
+    if (status === "SYNCED") {
+      return (
+        <Badge className="bg-green-300 rounded-xl text-green-800">Synced</Badge>
+      );
+    }
 
-const websiteColumns: ColumnDef<WebsiteRow>[] = [
-  // ================= Website =================
-  {
-    accessorKey: "website_name",
-    header: "Website URL",
-    size: 420,
-    cell: ({ row }) => (
-      <div>
-        <div className="font-medium">
-          {row.original.website_name}
-        </div>
-        <div className="text-sm text-muted-foreground">
-          {row.original.website_url}
-        </div>
-      </div>
-    ),
-    meta: {
-      skeleton: (
-        <div className="space-y-1">
-          <Skeleton className="h-4 w-48" />
-          <Skeleton className="h-3 w-64" />
-        </div>
-      ),
-      headerClassName: "text-primary font-medium",
-    },
-  },
+    if (status === "FAILED") {
+      return (
+        <Badge className="bg-red-300 rounded-xl text-red-800">Failed</Badge>
+      );
+    }
 
-  // ================= Status =================
-  {
-    accessorKey: "status",
-    header: "Status",
-    size: 140,
-    cell: ({ row }) => (
-      <StatusBadge status={row.original.status} />
-    ),
-    meta: {
-      skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
-      headerClassName: "text-primary font-medium",
-    },
-    
-  },
+    return (
+      <Badge className="bg-blue-300 rounded-xl text-blue-800">Queued</Badge>
+    );
+  };
 
-  // ================= Last Updated =================
-  {
-    accessorKey: "last_updated",
-    header: "Last Updated",
-    size: 180,
-    cell: ({ row }) => (
-      <span className="text-muted-foreground">
-        {row.original.last_updated || "—"}
-      </span>
-    ),
-    meta: {
-      skeleton: <Skeleton className="h-4 w-24" />,
-      headerClassName: "text-primary font-medium",
-    },
-  },
+  // Use API data directly
+  const allWeburis = weburisResponse?.data || [];
 
-  // ================= Actions =================
-  {
-    id: "actions",
-    header: "Actions",
-    size: 120,
-    cell: () => (
-      <div className="flex items-center gap-4 justify-start">
-        <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-        <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-        <Trash2 className="h-4 w-4 cursor-pointer text-red-500" />
-      </div>
-    ),
-    meta: {
-      skeleton: (
-        <div className="flex gap-3 justify-start">
-          <Skeleton className="h-4 w-4 rounded-full" />
-          <Skeleton className="h-4 w-4 rounded-full" />
-          <Skeleton className="h-4 w-4 rounded-full" />
-        </div>
-      ),
+  const websiteColumns: ColumnDef<Weburi>[] = [
+    // ================= Website =================
+    {
+      accessorKey: "uri",
+      header: "Website URL",
+      size: 420,
+      cell: ({ row }) => {
+        // Extract domain name from URI for display
+        const getDomainName = (uri: string) => {
+          try {
+            const url = new URL(uri);
+            return url.hostname.replace("www.", "");
+          } catch {
+            return uri;
+          }
+        };
+
+        return (
+          <div>
+            <div className="font-medium">{getDomainName(row.original.uri)}</div>
+            <div className="text-sm text-muted-foreground">
+              {row.original.uri}
+            </div>
+          </div>
+        );
+      },
+      meta: {
+        skeleton: (
+          <div className="space-y-1">
+            <Skeleton className="h-4 w-48" />
+            <Skeleton className="h-3 w-64" />
+          </div>
+        ),
         headerClassName: "text-primary font-medium",
+      },
     },
-  },
-]
 
+    // ================= Status =================
+    {
+      accessorKey: "status",
+      header: "Status",
+      size: 140,
+      cell: ({ row }) => (
+        <StatusBadge status={row.original.status as SyncStatus} />
+      ),
+      meta: {
+        skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
+        headerClassName: "text-primary font-medium",
+      },
+    },
+
+    // ================= Last Updated =================
+    {
+      accessorKey: "updatedDate",
+      header: "Last Updated",
+      size: 180,
+      cell: ({ row }) => {
+        const date = new Date(row.original.updatedDate);
+        return (
+          <span className="text-muted-foreground">
+            {date.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </span>
+        );
+      },
+      meta: {
+        skeleton: <Skeleton className="h-4 w-24" />,
+        headerClassName: "text-primary font-medium",
+      },
+    },
+
+    // ================= Actions =================
+    {
+      id: "actions",
+      header: "Actions",
+      size: 120,
+      cell: () => (
+        <div className="flex items-center gap-4 justify-start">
+          <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+          <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+          <Trash2 className="h-4 w-4 cursor-pointer text-red-500" />
+        </div>
+      ),
+      meta: {
+        skeleton: (
+          <div className="flex gap-3 justify-start">
+            <Skeleton className="h-4 w-4 rounded-full" />
+            <Skeleton className="h-4 w-4 rounded-full" />
+            <Skeleton className="h-4 w-4 rounded-full" />
+          </div>
+        ),
+        headerClassName: "text-primary font-medium",
+      },
+    },
+  ];
 
   const table = useReactTable({
-    data: allWebsites,
+    data: allWeburis,
     columns: websiteColumns,
     state: {
       globalFilter,
@@ -177,13 +186,14 @@ const websiteColumns: ColumnDef<WebsiteRow>[] = [
       <DataGrid
         table={table}
         isLoading={isLoading}
-        recordCount={allWebsites.length}
+        recordCount={allWeburis.length}
         tableLayout={{
           headerBackground: false,
           rowBorder: true,
           rowRounded: false,
         }}
-      >        <div className="w-full space-y-2.5">
+      >
+        <div className="w-full flex flex-col justify-between min-h-[calc(100vh-12.11rem)] space-y-2.5">
           <DataGridContainer border={false}>
             <ScrollArea>
               <DataGridTable />

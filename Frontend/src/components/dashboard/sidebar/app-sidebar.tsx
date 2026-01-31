@@ -15,7 +15,9 @@ import {
   Sparkles,
   Inbox,
   ShoppingBag,
+  ListChecks,
   BellRing,
+  FileText
 } from "lucide-react";
 
 import { NavMain } from "@/components/dashboard/sidebar/nav-main";
@@ -76,47 +78,57 @@ const data = {
       icon: Inbox,
       isActive: true,
     },
+    // {
+    //   title: "Ecommerce",
+    //   url: "#",
+    //   icon: ShoppingBag,
+    //   items: [
+    //     {
+    //       title: "Genesis",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Explorer",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Quantum",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Appointments",
+    //   url: "#",
+    //   icon: CalendarCheck2,
+    //   items: [
+    //     {
+    //       title: "Introduction",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Get Started",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Tutorials",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Changelog",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
     {
-      title: "Ecommerce",
+      title: "Save Replies",
       url: "#",
-      icon: ShoppingBag,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      icon: FileText,
     },
     {
-      title: "Appointments",
+      title: "Tasks",
       url: "#",
-      icon: CalendarCheck2,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      icon: ListChecks,
     },
     {
       title: "Analytics",
@@ -124,15 +136,15 @@ const data = {
       icon: TrendingUp,
     },
     {
-      title: "Audiences",
-      url: "/audiences",
+      title: "Customers",
+      url: "#",
       icon: Users,
     },
-    {
-      title: "Training Center",
-      url: "#",
-      icon: Lightbulb,
-    },
+    // {
+    //   title: "Training Center",
+    //   url: "#",
+    //   icon: Lightbulb,
+    // },
     {
       title: "AI Agent",
       url: "/ai-agent",
@@ -165,13 +177,10 @@ export function AppSidebar({
   const company = useAppSelector((state) => state.auth.company);
   const user = useAppSelector((state) => state.auth.user);
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar className="py-1" collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <div className="px-4">
-        <Separator />
-      </div>
       <SidebarContent className="overflow-y-auto scrollbar-hide flex justify-between">
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />

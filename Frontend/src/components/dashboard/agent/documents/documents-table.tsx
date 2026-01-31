@@ -80,7 +80,7 @@ export function DocumentsTable() {
       id: "status",
       header: "Status",
       size: 140,
-      cell: () => <StatusBadge status="SYNCED" />,
+      cell: () => <StatusBadge status="SYNCED" />, //todo: fix this
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
         headerClassName: "text-primary font-medium",
@@ -151,7 +151,8 @@ export function DocumentsTable() {
   });
 
   return (
-    <div className="space-y-8 p-4">
+    <>
+    <div className="space-y-8  p-4">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -182,16 +183,17 @@ export function DocumentsTable() {
           rowRounded: false,
         }}
       >  
-      <div className="w-full space-y-2.5">
-          <DataGridContainer border={false}>
+      <div className="w-full flex flex-col justify-between min-h-[calc(100vh-12.11rem)] space-y-2.5">
+          <DataGridContainer className="" border={false}>
             <ScrollArea>
               <DataGridTable />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </DataGridContainer>
-          <DataGridPagination />
+          <DataGridPagination className="" />
         </div>
       </DataGrid>
     </div>
+    </>
   );
 }
