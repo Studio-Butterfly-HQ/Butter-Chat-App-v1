@@ -9,6 +9,9 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Search, Eye, RefreshCcw, Trash2 } from "lucide-react";
 import { UploadDocumentsDialog } from "@/components/dashboard/agent/upload-documents-dialog";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { BookOpen } from "lucide-react";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -151,7 +154,26 @@ export function DocumentsTable() {
   });
 
   return (
-    <div className="space-y-8 p-4">
+    <>
+    <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-6"
+          />
+          <div className="flex items-center gap-4">
+            <span className="text-base font-semibold">Team</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 px-4">
+          <Badge variant="outline" className="cursor-pointer rounded-full hover:bg-accent px-3 py-1.5 text-xs font-normal">
+            <BookOpen className="h-3 w-3 mr-1.5" />
+            Learn More
+          </Badge>
+        </div>
+      </header>
+    <div className="space-y-8  p-4">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -182,16 +204,17 @@ export function DocumentsTable() {
           rowRounded: false,
         }}
       >  
-      <div className="w-full space-y-2.5">
-          <DataGridContainer border={false}>
+      <div className="w-full flex flex-col justify-between min-h-[calc(100vh-12.11rem)] space-y-2.5">
+          <DataGridContainer className="" border={false}>
             <ScrollArea>
               <DataGridTable />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </DataGridContainer>
-          <DataGridPagination />
+          <DataGridPagination className="" />
         </div>
       </DataGrid>
     </div>
+    </>
   );
 }

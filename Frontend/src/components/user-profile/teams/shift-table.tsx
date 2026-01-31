@@ -412,7 +412,7 @@ export function ShiftTable() {
           rowRounded: false,
         }}
       >
-        <div className="w-full space-y-2.5">
+        <div className="w-full flex flex-col gap-2 justify-between min-h-[calc(100vh-16.1rem)] space-y.5">
           <DataGridContainer border={false}>
             <ScrollArea>
               <DataGridTable />
