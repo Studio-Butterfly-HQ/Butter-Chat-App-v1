@@ -13,6 +13,7 @@ import SettingsLayout from "./pages/dashboard/settings/settings-layout";
 import SettingsGeneral from "./pages/dashboard/settings/general/general-page";
 import SettingsSecurity from "./pages/dashboard/settings/security/security-page";
 import SettingsNotifications from "./pages/dashboard/settings/notifications/notifications-page";
+import SettingsConnectAccounts from "./pages/dashboard/settings/connect-accounts/connect-accounts-page";
 import ProtectedRoute from "./routes/protected-route";
 import AuthRoute from "./routes/auth-route";
 import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
@@ -39,13 +40,17 @@ export default function App() {
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingsGeneral />} />
-              <Route path="security" element={<SettingsSecurity />} />
+              <Route
+                path="connect-accounts"
+                element={<SettingsConnectAccounts />}
+              />
               <Route path="notifications" element={<SettingsNotifications />} />
+              <Route path="security" element={<SettingsSecurity />} />
             </Route>
             <Route path="ai-agent" element={<AiAgentLayout />}>
               <Route index element={<AiAgentPage />} />
               <Route path="websites" element={<WebsitePage />} />
-              <Route path="documents" element={<DocumentsPage />} />  
+              <Route path="documents" element={<DocumentsPage />} />
             </Route>
             <Route path="teams" element={<TeamsPage />} />
           </Route>
