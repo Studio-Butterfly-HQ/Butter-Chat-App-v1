@@ -80,7 +80,7 @@ export function DocumentsTable() {
       id: "status",
       header: "Status",
       size: 140,
-      cell: () => <StatusBadge status="SYNCED" />,
+      cell: () => <StatusBadge status="SYNCED" />, //todo: fix this
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
         headerClassName: "text-primary font-medium",

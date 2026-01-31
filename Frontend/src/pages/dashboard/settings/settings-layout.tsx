@@ -3,8 +3,6 @@ import { Outlet, NavLink } from "react-router-dom";
 import { Settings, User, Bell, Shield, Link2 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 import {
@@ -12,9 +10,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
 export default function SettingsLayout() {
@@ -57,12 +52,13 @@ export default function SettingsLayout() {
             </div>
           </div>
         </header>
-
         <nav className="flex-1 overflow-auto">
           <SidebarGroup className="p-4">
             <SidebarMenu>
               {navigationItems.map((item) => {
-                const isActive = location.pathname.includes(`/settings/${item.path}`);
+                const isActive =
+                  location.pathname === `/settings/${item.path}` ||
+                  location.pathname.startsWith(`/settings/${item.path}/`);
                 return (
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton

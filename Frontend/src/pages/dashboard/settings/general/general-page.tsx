@@ -127,7 +127,7 @@ export default function GeneralSettings() {
               </label>
               <Select value={timezone} onValueChange={setTimezone}>
                 <SelectTrigger className="w-full h-10">
-                  <SelectValue placeholder="Select a Category" />
+                  <SelectValue placeholder="Select a Timezone" />
                 </SelectTrigger>
                 <SelectContent>
                   {timezones.map((tz) => (
@@ -146,7 +146,7 @@ export default function GeneralSettings() {
               </label>
               <Select value={language} onValueChange={setLanguage}>
                 <SelectTrigger className="w-full h-10">
-                  <SelectValue placeholder="Select a Category" />
+                  <SelectValue placeholder="Select a Language" />
                 </SelectTrigger>
                 <SelectContent>
                   {languages.map((lang) => (
