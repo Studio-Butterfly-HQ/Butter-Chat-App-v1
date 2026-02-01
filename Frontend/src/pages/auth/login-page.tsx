@@ -207,13 +207,23 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="hidden lg:flex w-1/2 p-2">
+      {/* <div className="hidden lg:flex w-1/2 p-2">
         <img
-          src="/auth/login.jpg"
+          src="/auth/butter-register.jpeg"
           alt="Login"
           className="w-full h-full object-cover rounded-2xl"
         />
-      </div>
+      </div> */}
+      <div className="hidden lg:flex w-1/2 p-2">
+        <video
+          src="/auth/butter-login-1.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover rounded-2xl"
+        />
+    </div>
     </div>
   )
 }
