@@ -214,6 +214,7 @@ export default function LoginPage() {
             </div>
           </ScrollArea>
         </div>
+        {/* <div className="h-3"></div> */}
       </div>
 
       <div className="hidden lg:flex w-1/2 p-2">

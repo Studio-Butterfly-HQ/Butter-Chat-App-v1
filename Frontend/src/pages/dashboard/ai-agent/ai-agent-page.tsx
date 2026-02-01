@@ -10,15 +10,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BookOpen, Play, Bot } from "lucide-react";
+import { BookOpen, Play, BotMessageSquare } from "lucide-react";
 import { Configure } from "@/components/dashboard/agent/configure";
 import { KnowledgeBase } from "@/components/dashboard/agent/knowledge-base";
 import Flow from "@/components/dashboard/agent/flow";
 import Tool from "@/components/dashboard/agent/tool";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  openTestAiAgent,
+  setActiveAiAgentTab,
+} from "@/store/slices/ui/ui-slice";
 
 const AiAgentPage = () => {
-  const [activeTab, setActiveTab] = useState("configure");
   const [selectedAgent, setSelectedAgent] = useState("aarong-agent");
+  const dispatch = useAppDispatch();
+  const isOpen = useAppSelector((state) => state.ui.isTestAiAgentOpen);
+  const activeTab = useAppSelector((state) => state.ui.activeAiAgentTab);
+  console.log("activeTab", activeTab);
+
+  const handleTabChange = (value: string) => {
+    dispatch(setActiveAiAgentTab(value));
+  };
 
   return (
     <div className="rounded-xl">
@@ -60,9 +72,10 @@ const AiAgentPage = () => {
           </Badge>
           <Badge
             variant="outline"
-            className="cursor-pointer rounded-full hover:bg-accent px-3 py-1.5 text-xs font-normal whitespace-nowrap"
+            className={`cursor-pointer rounded-full hover:bg-accent px-3 py-1.5 text-xs font-normal whitespace-nowrap ${isOpen ? "bg-accent" : ""}`}
+            onClick={() => dispatch(openTestAiAgent())}
           >
-            <Bot className="h-3 w-3 mr-1.5" />
+            <BotMessageSquare className="h-3.5 w-3.5 mr-1.5" />
             <span>Test AI Agent</span>
           </Badge>
           <Badge className="cursor-pointer rounded-full px-2 md:px-3 py-1.5 text-xs font-normal whitespace-nowrap">
@@ -72,7 +85,11 @@ const AiAgentPage = () => {
         </div>
       </header>
       <div className="mx-auto">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs
+          value={activeTab}
+          onValueChange={handleTabChange}
+          className="w-full"
+        >
           <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 pl-4 mb-4">
             <TabsTrigger
               value="configure"
