@@ -15,6 +15,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useCompanyProfile } from "@/provider/profile/profile.queries";
+import { SidebarRight } from "@/components/sidebar-right";
 
 export default function DashboardLayout() {
   const { isLoading } = useCompanyProfile();
@@ -48,6 +49,7 @@ export default function DashboardLayout() {
           <Outlet />
         </main>
       </SidebarInset>
+      <SidebarRight />
     </SidebarProvider>
   );
 }
