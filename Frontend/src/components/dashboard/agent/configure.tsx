@@ -145,13 +145,14 @@ export const Configure = () => {
             </div>
           </AccordionTrigger>
           <AccordionContent className="p-4 border-t border-border space-y-4">
+            <Label className="text-muted-foreground text-sm">Agent Name</Label>
             <div className="space-y-2">
               <Input
                 id="agentName"
                 value={agentName}
                 placeholder="Enter agent name"
                 onChange={(e) => setAgentName(e.target.value)}
-              />{" "}
+              />
             </div>
             <div className="space-y-2">
               <Label className="text-muted-foreground text-sm">Avatar</Label>

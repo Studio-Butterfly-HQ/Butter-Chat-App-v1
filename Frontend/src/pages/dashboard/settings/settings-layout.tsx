@@ -39,7 +39,7 @@ export default function SettingsLayout() {
   return (
     <div className="flex min-h-[calc(100vh-1.5rem)] gap-3 bg-background">
       {/* Left Sidebar Navigation */}
-      <div className="w-1/5  md:rounded-xl bg-popover flex flex-col">
+      <div className="w-1/5  md:rounded-xl bg-popover flex flex-col border dark:border-0">
         <header className="flex border-b border-border mb-0.5 h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger />
@@ -79,7 +79,7 @@ export default function SettingsLayout() {
         </nav>
       </div>
       {/* Right Side */}
-      <div className="flex-1 md:rounded-xl bg-popover overflow-auto">
+      <div className="flex-1 border dark:border-0 md:rounded-xl bg-popover overflow-auto">
         <Outlet />
       </div>
     </div>

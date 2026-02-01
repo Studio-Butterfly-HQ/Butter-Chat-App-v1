@@ -14,6 +14,7 @@ import SettingsGeneral from "./pages/dashboard/settings/general/general-page";
 import SettingsSecurity from "./pages/dashboard/settings/security/security-page";
 import SettingsNotifications from "./pages/dashboard/settings/notifications/notifications-page";
 import SettingsConnectAccounts from "./pages/dashboard/settings/connect-accounts/connect-accounts-page";
+import InvitationPage from "./pages/invitation/invitation-page";
 import ProtectedRoute from "./routes/protected-route";
 import AuthRoute from "./routes/auth-route";
 import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
@@ -25,6 +26,8 @@ export default function App() {
       <Routes>
         {/* Default */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+        <Route path="/invitation" element={<InvitationPage />} />
 
         <Route element={<AuthRoute />}>
           <Route path="/login" element={<LoginPage />} />
