@@ -7,6 +7,7 @@ import { TestAiAgentWrapper } from "@/components/dashboard/agent/test-ai-agent/t
 import { SettingsSidebarWrapper } from "@/components/dashboard/settings/settings-sidebar-wrapper";
 import { InboxSidebarWrapper } from "@/components/dashboard/inbox/inbox-sidebar-wrapper";
 import { useAppDispatch } from "@/store/hooks";
+import { UserSidebarWrapper } from "@/components/dashboard/inbox/user-sidebar-wrapper";
 import {
   closeTestAiAgent,
   resetTeamsTabs,
@@ -44,6 +45,7 @@ export default function DashboardLayout() {
         </main>
       </SidebarInset>
       <TestAiAgentWrapper />
+      <UserSidebarWrapper />
     </SidebarProvider>
   );
 }

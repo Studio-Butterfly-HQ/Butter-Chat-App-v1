@@ -2,8 +2,6 @@ import YourInboxTable from "@/components/dashboard/inbox/your-inbox/your-inbox-t
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SlidersHorizontal, Layout } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
@@ -35,12 +33,6 @@ export default function YourInboxPage() {
           </div>
         </div>
         <div className="flex items-center gap-4 px-4">
-          <div className="flex items-center gap-2">
-            <Switch id="training-mode" />
-            <Label htmlFor="training-mode" className="text-sm font-medium">
-              Training Mode
-            </Label>
-          </div>
           <div className="flex items-center gap-2">
             <Button variant="secondary" size="sm" className="h-7 gap-1.5 px-2">
               <SlidersHorizontal className="h-3.5 w-3.5" />

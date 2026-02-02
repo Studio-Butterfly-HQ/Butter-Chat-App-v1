@@ -76,7 +76,7 @@ export const StatusBadge = ({ status }: { status: TicketStatus }) => {
   return (
     <Badge
       className={cn(
-        "rounded-lg px-2.5 py-0.5 text-[11px] font-medium",
+        "rounded-xl px-2.5 py-0.5 text-[11px] font-medium",
         colorMap[status],
       )}
     >
@@ -220,7 +220,7 @@ export default function YourInboxTable() {
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
       meta: {
         headerClassName: "text-primary font-medium",
-        skeleton: <Skeleton className="h-6 w-20 rounded-lg" />,
+        skeleton: <Skeleton className="h-6 w-20 rounded-xl" />,
       },
     },
     {
