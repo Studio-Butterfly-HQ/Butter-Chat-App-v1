@@ -33,7 +33,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 export function InboxSidebar() {
-  const location = useLocation(); 
+  const location = useLocation();
 
   const navigationItems = [
     {
@@ -107,7 +107,7 @@ export function InboxSidebar() {
   ];
 
   return (
-    <div className="flex bg-popover rounded-xl h-full flex-col">
+    <div className="flex bg-popover rounded-xl border border-border dark:border-none h-full flex-col">
       <SidebarHeader className="border-b border-border h-16 justify-center">
         <div className="flex items-center gap-2 px-2">
           <SidebarTrigger />
@@ -125,11 +125,12 @@ export function InboxSidebar() {
             {navigationItems.map((item, index) => {
               const isActive =
                 location.pathname === item.url ||
-                (item.items?.some((sub) =>
+                // any nested route under the parent (e.g. /ai-agent/websites)
+                location.pathname.startsWith(item.url) ||
+                // or any explicit sub-item match
+                item.items?.some((sub) =>
                   location.pathname.startsWith(sub.url),
-                ) ??
-                  false);
-
+                );
               return (
                 <Collapsible
                   key={index}
@@ -137,7 +138,9 @@ export function InboxSidebar() {
                   defaultOpen={isActive}
                   className="group/collapsible"
                 >
-                  <SidebarMenuItem className={`${item?.title === "Categories" ? "pt-4" : ""}`}>
+                  <SidebarMenuItem
+                    className={`${item?.title === "Categories" ? "pt-4" : ""}`}
+                  >
                     <CollapsibleTrigger asChild>
                       <SidebarMenuButton
                         asChild
@@ -145,7 +148,7 @@ export function InboxSidebar() {
                         tooltip={item.title}
                       >
                         <NavLink to={item.url}>
-                          {item.icon && <item.icon className="h-4 w-4 mr-2" />}
+                          {item.icon && <item.icon className="h-4 w-4" />}
                           <span>{item.title}</span>
                           {item.items && (
                             <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
@@ -154,9 +157,10 @@ export function InboxSidebar() {
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     {item.badge && !item.items && (
-                      <SidebarMenuBadge className="text-muted-foreground">{item.badge}</SidebarMenuBadge>
+                      <SidebarMenuBadge className="text-xs text-muted-foreground">
+                        {item.badge}
+                      </SidebarMenuBadge>
                     )}
-
                     {item.items && (
                       <CollapsibleContent>
                         <SidebarMenuSub>
@@ -171,7 +175,7 @@ export function InboxSidebar() {
                                       : "w-full flex justify-between pr-2"
                                   }
                                 >
-                                  <span>{subItem.title}</span>
+                                  <span className="font-normal">{subItem.title}</span>
                                   {subItem.badge && (
                                     <span className="text-xs text-muted-foreground">
                                       {subItem.badge}

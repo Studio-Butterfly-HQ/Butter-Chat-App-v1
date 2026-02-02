@@ -20,7 +20,7 @@ import AuthRoute from "./routes/auth-route";
 import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
 import DocumentsPage from "./pages/dashboard/ai-agent/documents/documents-page";
 import InboxLayout from "./pages/dashboard/inbox/inbox-layout";
-import YourInboxPage from "./pages/dashboard/inbox/your-inbox/you-inbox-page";
+import YourInboxPage from "./pages/dashboard/inbox/your-inbox/your-inbox-page";
 import UnassignedPage from "./pages/dashboard/inbox/unassigned/unassigned-page";
 
 export default function App() {
@@ -38,7 +38,8 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Route>
 
-        <Route element={<ProtectedRoute />}>
+        {/* <Route element={<ProtectedRoute />}> */}
+        <Route>
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
@@ -46,7 +47,10 @@ export default function App() {
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingsGeneral />} />
-              <Route path="connect-accounts" element={<SettingsConnectAccounts />} />
+              <Route
+                path="connect-accounts"
+                element={<SettingsConnectAccounts />}
+              />
               <Route path="notifications" element={<SettingsNotifications />} />
               <Route path="security" element={<SettingsSecurity />} />
             </Route>
