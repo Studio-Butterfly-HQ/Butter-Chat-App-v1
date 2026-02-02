@@ -19,6 +19,9 @@ import ProtectedRoute from "./routes/protected-route";
 import AuthRoute from "./routes/auth-route";
 import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
 import DocumentsPage from "./pages/dashboard/ai-agent/documents/documents-page";
+import InboxLayout from "./pages/dashboard/inbox/inbox-layout";
+import YourInboxPage from "./pages/dashboard/inbox/your-inbox/you-inbox-page";
+import UnassignedPage from "./pages/dashboard/inbox/unassigned/unassigned-page";
 
 export default function App() {
   return (
@@ -43,10 +46,7 @@ export default function App() {
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingsGeneral />} />
-              <Route
-                path="connect-accounts"
-                element={<SettingsConnectAccounts />}
-              />
+              <Route path="connect-accounts" element={<SettingsConnectAccounts />} />
               <Route path="notifications" element={<SettingsNotifications />} />
               <Route path="security" element={<SettingsSecurity />} />
             </Route>
@@ -54,6 +54,11 @@ export default function App() {
               <Route index element={<AiAgentPage />} />
               <Route path="websites" element={<WebsitePage />} />
               <Route path="documents" element={<DocumentsPage />} />
+            </Route>
+            <Route path="inbox" element={<InboxLayout />}>
+              <Route index element={<Navigate to="your-inbox" replace />} />
+              <Route path="your-inbox" element={<YourInboxPage />} />
+              <Route path="unassigned" element={<UnassignedPage />} />
             </Route>
             <Route path="teams" element={<TeamsPage />} />
           </Route>

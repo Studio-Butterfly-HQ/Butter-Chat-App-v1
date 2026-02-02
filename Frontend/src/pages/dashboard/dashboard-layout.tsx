@@ -5,6 +5,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useCompanyProfile } from "@/provider/profile/profile.queries";
 import { TestAiAgentWrapper } from "@/components/dashboard/agent/test-ai-agent/test-ai-agent-wrapper";
 import { SettingsSidebarWrapper } from "@/components/dashboard/settings/settings-sidebar-wrapper";
+import { InboxSidebarWrapper } from "@/components/dashboard/inbox/inbox-sidebar-wrapper";
 import { useAppDispatch } from "@/store/hooks";
 import {
   closeTestAiAgent,
@@ -34,6 +35,7 @@ export default function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar isLoading={isLoading} />
       <SettingsSidebarWrapper />
+      <InboxSidebarWrapper />
       <SidebarInset>
         <main
           className={`min-h-[calc(100vh-1.5rem)] md:m-3 md:ml-0 border dark:border-0 md:rounded-xl bg-popover flex-1 overflow-y-auto scrollbar-hide`}
