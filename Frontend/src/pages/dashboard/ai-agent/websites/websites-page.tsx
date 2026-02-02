@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom'
 
 export default function WebsitePage() {
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger />
@@ -26,14 +26,14 @@ export default function WebsitePage() {
           />
           <div className="flex items-center gap-4">
             <Breadcrumb>
-              <BreadcrumbList className="text-sm md:text-base font-semibold">
-                <BreadcrumbItem className="hidden md:block">
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block text-sm md:text-base font-semibold">
                   <BreadcrumbLink asChild>
                     <Link to="/ai-agent">AI Agent</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
+                <BreadcrumbItem className="text-sm md:text-base font-semibold">
                   <BreadcrumbPage>Websites</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>

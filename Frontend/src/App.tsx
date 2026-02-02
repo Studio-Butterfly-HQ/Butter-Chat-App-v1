@@ -19,6 +19,10 @@ import ProtectedRoute from "./routes/protected-route";
 import AuthRoute from "./routes/auth-route";
 import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
 import DocumentsPage from "./pages/dashboard/ai-agent/documents/documents-page";
+import InboxLayout from "./pages/dashboard/inbox/inbox-layout";
+import YourInboxPage from "./pages/dashboard/inbox/your-inbox/your-inbox-page";
+import UnassignedPage from "./pages/dashboard/inbox/unassigned/unassigned-page";
+import AskButterAiPage from "./pages/dashboard/ask-butter-ai/ask-butter-ai-page";
 
 export default function App() {
   return (
@@ -36,9 +40,10 @@ export default function App() {
         </Route>
 
         <Route element={<ProtectedRoute />}>
+        {/* <Route> */}
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/" element={<DashboardLayout />}>
-            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route index element={<Navigate to="/ask-butter-ai" replace />} />
             <Route path="dashboard" element={<DashboardHome />} />
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
@@ -55,6 +60,12 @@ export default function App() {
               <Route path="websites" element={<WebsitePage />} />
               <Route path="documents" element={<DocumentsPage />} />
             </Route>
+            <Route path="inbox" element={<InboxLayout />}>
+              <Route index element={<Navigate to="your-inbox" replace />} />
+              <Route path="your-inbox" element={<YourInboxPage />} />
+              <Route path="unassigned" element={<UnassignedPage />} />
+            </Route>
+            <Route path="ask-butter-ai" element={<AskButterAiPage />} />
             <Route path="teams" element={<TeamsPage />} />
           </Route>
         </Route>
