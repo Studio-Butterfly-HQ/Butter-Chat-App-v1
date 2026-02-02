@@ -129,7 +129,7 @@ export default function AIAgentChat() {
       </div>
 
       {/* Messages */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 ">
         <div className="space-y-4 p-4">
           {messages.map((message) => (
             <div
@@ -152,7 +152,9 @@ export default function AIAgentChat() {
                         : "bg-muted text-foreground"
                     }`}
                   >
-                    <p className="text-balance">{message.content}</p>
+                    <p className="break-all whitespace-pre-wrap">
+                      {message.content}
+                    </p>
                   </div>
                   <div className="flex items-center justify-between gap-2 px-1 text-xs text-muted-foreground">
                     <span>{message.timestamp}</span>
