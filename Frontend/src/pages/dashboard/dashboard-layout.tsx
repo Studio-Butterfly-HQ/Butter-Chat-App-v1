@@ -7,7 +7,8 @@ import { TestAiAgentWrapper } from "@/components/dashboard/agent/test-ai-agent/t
 import { SettingsSidebarWrapper } from "@/components/dashboard/settings/settings-sidebar-wrapper";
 import { InboxSidebarWrapper } from "@/components/dashboard/inbox/inbox-sidebar-wrapper";
 import { useAppDispatch } from "@/store/hooks";
-import { UserSidebarWrapper } from "@/components/dashboard/inbox/user-sidebar-wrapper";
+import { UserSidebarWrapper } from "@/components/dashboard/inbox/user-details/user-sidebar-wrapper";
+import { CustomerChatWrapper } from "@/components/dashboard/inbox/chat/customer-chat-wrapper";
 import {
   closeTestAiAgent,
   resetTeamsTabs,
@@ -31,6 +32,7 @@ export default function DashboardLayout() {
   return (
     <SidebarProvider>
       <AppSidebar isLoading={isLoading} />
+      <InboxSidebarWrapper />
       <SettingsSidebarWrapper />
       <SidebarInset>
         <main
@@ -40,7 +42,7 @@ export default function DashboardLayout() {
         </main>
       </SidebarInset>
       <TestAiAgentWrapper />
-      <InboxSidebarWrapper />
+      <CustomerChatWrapper />
       <UserSidebarWrapper />
     </SidebarProvider>
   );

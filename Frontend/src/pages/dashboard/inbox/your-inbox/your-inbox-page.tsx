@@ -34,12 +34,12 @@ export default function YourInboxPage() {
         </div>
         <div className="flex items-center gap-4 px-4">
           <div className="flex items-center gap-2">
-            <Button variant="secondary" size="sm" className="h-7 gap-1.5 px-2">
-              <SlidersHorizontal className="h-3.5 w-3.5" />
+            <Button variant="outline" size="sm" className="h-7 gap-1.5 px-2">
+              <SlidersHorizontal className="h-3 w-3" />
               Filter
             </Button>
-            <Button variant="secondary" size="sm" className="h-7 gap-1.5 px-2">
-              <Layout className="h-3.5 w-3.5" />
+            <Button variant="outline" size="sm" className="h-7 gap-1.5 px-2">
+              <Layout className="h-3 w-3" />
               View
             </Button>
           </div>

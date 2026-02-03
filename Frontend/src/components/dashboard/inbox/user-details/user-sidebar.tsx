@@ -5,7 +5,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { closeUserSidebar } from "@/store/slices/ui/ui-slice";
+import {
+  closeUserSidebar,
+  closeCustomerChat,
+} from "@/store/slices/ui/ui-slice";
 import {
   Collapsible,
   CollapsibleContent,
@@ -50,9 +53,8 @@ const CollapsibleSection = ({
 const Tag = ({ label }: { label: string }) => (
   <Badge
     variant="secondary"
-    className="bg-muted text-muted-foreground rounded-xl px-2.5 py-1 text-xs font-normal border-none"
+    className="bg-muted text-muted-foreground rounded-xl px-2.5 py-0.5 text-xs font-normal border-none"
   >
-    <span className="h-1.5 w-1.5 rounded-full bg-blue-500 mr-1.5" />
     {label}
   </Badge>
 );
@@ -86,9 +88,12 @@ export function UserSidebar() {
         </div>
         <Button
           variant="ghost"
-          onClick={() => dispatch(closeUserSidebar())}
+          onClick={() => {
+            dispatch(closeUserSidebar());
+            dispatch(closeCustomerChat());
+          }}
           size="icon"
-          className="h-8 w-8"
+          className="h-7 w-7"
         >
           <X className="h-4 w-4" />
         </Button>
@@ -208,7 +213,10 @@ export function UserSidebar() {
                       alt={order.productName}
                       className="object-cover"
                     />
-                    <AvatarFallback className="rounded-lg"> <Users /> </AvatarFallback>
+                    <AvatarFallback className="rounded-lg">
+                      {" "}
+                      <Users />{" "}
+                    </AvatarFallback>
                   </Avatar>
 
                   <div className="flex-1 min-w-0">

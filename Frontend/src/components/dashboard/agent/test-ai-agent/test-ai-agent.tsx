@@ -30,13 +30,6 @@ interface Message {
 export default function AIAgentChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: "1",
-      type: "ai",
-      content:
-        "Hi! I have a question about my recent invoice. It seems higher than usual.",
-      timestamp: "7:48 AM",
-    },
-    {
       id: "2",
       type: "user",
       content:
@@ -113,15 +106,15 @@ export default function AIAgentChat() {
             AI Agent
           </h1>
         </div>
-        <div className="flex items-center">
-          <Button variant="ghost" size="icon" className="h-8 w-8">
+        <div className="flex gap-1 items-center">
+          <Button variant="ghost" size="icon" className="h-7 w-7">
             <RefreshCw className="h-4 w-4" />
           </Button>
           <Button
             variant="ghost"
             onClick={() => dispatch(closeTestAiAgent())}
             size="icon"
-            className="h-8 w-8"
+            className="h-7 w-7"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -136,7 +129,7 @@ export default function AIAgentChat() {
               key={message.id}
               className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
             >
-              <div className="flex max-w-xs gap-2 lg:max-w-md">
+              <div className="flex max-w-xs gap-2">
                 {message.type === "ai" && (
                   <div className="flex-shrink-0">
                     <BotMessageSquare className="h-5 w-6 text-muted-foreground" />
@@ -189,7 +182,7 @@ export default function AIAgentChat() {
             className="flex field-sizing-content min-h-10 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-sm transition-[color,box-shadow] outline-none scrollbar-hide"
           />
           <InputGroupAddon align="block-end">
-            <div className="flex gap-1 w-full justify-between">
+            <div className="flex gap-0 w-full justify-between">
               <div className="flex">
                 <Button variant="ghost" size="icon" className="h-8 w-8">
                   <Paperclip className="h-4 w-4" />

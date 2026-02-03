@@ -9,8 +9,8 @@ import {
   FileUp,
 } from "lucide-react";
 import { useState } from "react";
-import { AddWebsiteDialog } from "./add-website-dialog";
-import { UploadDocumentsDialog } from "./upload-documents-dialog";
+import { AddWebsiteDialog } from "./websites/add-website-dialog";
+import { UploadDocumentsDialog } from "./documents/upload-documents-dialog";
 import { Link } from "react-router-dom";
 
 export function KnowledgeBase() {

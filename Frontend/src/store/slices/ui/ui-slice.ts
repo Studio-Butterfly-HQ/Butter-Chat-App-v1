@@ -38,6 +38,15 @@ const uiSlice = createSlice({
     toggleUserSidebar(state) {
       state.isUserSidebarOpen = !state.isUserSidebarOpen;
     },
+    openCustomerChat(state) {
+      state.isCustomerChatOpen = true;
+    },
+    closeCustomerChat(state) {
+      state.isCustomerChatOpen = false;
+    },
+    toggleCustomerChat(state) {
+      state.isCustomerChatOpen = !state.isCustomerChatOpen;
+    },
   },
 });
 
@@ -53,5 +62,8 @@ export const {
   openUserSidebar,
   closeUserSidebar,
   toggleUserSidebar,
+  openCustomerChat,
+  closeCustomerChat,
+  toggleCustomerChat,
 } = uiSlice.actions;
 export default uiSlice.reducer;

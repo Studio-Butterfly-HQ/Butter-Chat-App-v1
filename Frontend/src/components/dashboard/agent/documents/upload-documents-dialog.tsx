@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import TableUpload from "@/components/dashboard/agent/table-upload";
+import TableUpload from "@/components/dashboard/agent/documents/table-upload";
 import { useUploadDocuments } from "@/provider/document/document.queries";
 import type { FileWithPreview } from "@/hooks/use-file-upload";
 import { Spinner } from "@/components/ui/spinner";

@@ -4,6 +4,7 @@ export type UiState = {
   activeTeamsTab: string;
   selectedInboxUserId: string | null;
   isUserSidebarOpen: boolean;
+  isCustomerChatOpen: boolean;
 };
 
 export const initialState: UiState = {
@@ -12,4 +13,5 @@ export const initialState: UiState = {
   activeTeamsTab: "employees",
   selectedInboxUserId: "1",
   isUserSidebarOpen: false,
+  isCustomerChatOpen: false,
 };

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { Sidebar } from "@/components/ui/sidebar";
 import { useAppSelector } from "@/store/hooks";
-import UserSidebar from "@/components/dashboard/inbox/user-sidebar";
+import UserSidebar from "@/components/dashboard/inbox/user-details/user-sidebar";
 
 export function UserSidebarWrapper({
   ...props
@@ -18,7 +18,8 @@ export function UserSidebarWrapper({
   return (
     <Sidebar
       collapsible="none"
-      className="sticky hidden lg:flex top-0 h-svh p-3 pl-0 w-1/5"
+      side="right"
+      className="sticky hidden lg:flex top-0 h-svh p-3 pl-0 w-[20%]"
       {...props}
     >
       <UserSidebar />

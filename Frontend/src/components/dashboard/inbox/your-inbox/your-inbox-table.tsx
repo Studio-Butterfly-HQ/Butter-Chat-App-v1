@@ -37,6 +37,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   setSelectedInboxUserId,
   openUserSidebar,
+  openCustomerChat,
 } from "@/store/slices/ui/ui-slice";
 
 export type TicketStatus =
@@ -121,8 +122,8 @@ export default function YourInboxTable() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  const isUserSidebarOpen = useAppSelector(
-    (state) => state.ui.isUserSidebarOpen,
+  const isCustomerChatOpen = useAppSelector(
+    (state) => state.ui.isCustomerChatOpen,
   );
 
   useEffect(() => {
@@ -284,6 +285,7 @@ export default function YourInboxTable() {
     {
       accessorKey: "compact",
       header: "",
+      size: 200,
       cell: ({ row }) => {
         const sourceIcon = (source: string) => {
           switch (source.toLowerCase()) {
@@ -301,8 +303,8 @@ export default function YourInboxTable() {
         };
 
         return (
-          <div className="flex items-start gap-3 py-1 pr-2">
-            <Avatar className="h-10 w-10 border border-border">
+          <div className="flex items-center gap-3 py-1 overflow-hidden">
+            <Avatar className="h-7 w-7 border border-border flex-shrink-0">
               <AvatarImage src={row.original.customer.avatar} />
               <AvatarFallback>
                 {row.original.customer.name
@@ -311,30 +313,30 @@ export default function YourInboxTable() {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0 space-y-0.5">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-foreground truncate max-w-[100px]">
+              <div className="flex items-center justify-between gap-1 h-5">
+                <div className="flex items-center min-w-0 flex-1">
+                  <span className="text-sm font-bold text-foreground truncate leading-none">
                     {row.original.customer.name}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1.5">
-                    <Avatar className="h-4 w-4 border border-background">
+                <div className="flex items-center gap-1.5 flex-shrink-0">
+                  <div className="flex items-center gap-1 opacity-60">
+                    <Avatar className="h-4 w-4 border border-background flex-shrink-0">
                       <AvatarImage src={row.original.assignee.avatar} />
                       <AvatarFallback className="text-[6px]">
                         {row.original.assignee.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <Inbox className="h-3.5 w-3.5 text-muted-foreground" />
-                    <ShoppingBag className="h-3.5 w-3.5 text-muted-foreground" />
+                    <Inbox className="h-3 w-3 text-muted-foreground" />
+                    <ShoppingBag className="h-3 w-3 text-muted-foreground" />
                     {sourceIcon(row.original.customer.source)}
                   </div>
-                  <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">
+                  <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
                     {row.original.lastUpdated}
                   </span>
                 </div>
               </div>
-              <div className="text-sm truncate text-muted-foreground line-clamp-1">
+              <div className="text-sm truncate text-muted-foreground leading-none">
                 {row.original.summary}
               </div>
             </div>
@@ -346,7 +348,7 @@ export default function YourInboxTable() {
 
   const table = useReactTable({
     data: dummyInboxData,
-    columns: isUserSidebarOpen ? compactColumns : columns,
+    columns: isCustomerChatOpen ? compactColumns : columns,
     state: {
       pagination,
       rowSelection,
@@ -360,32 +362,40 @@ export default function YourInboxTable() {
   });
 
   return (
-    <div className="h-full p-4">
+    <div className={`h-full ${isCustomerChatOpen ? "p-0.5" : "p-4"}`}>
       <DataGrid
         table={table}
         recordCount={dummyInboxData.length}
         onRowClick={(row: InboxData) => {
           dispatch(setSelectedInboxUserId(row.id));
           dispatch(openUserSidebar());
+          dispatch(openCustomerChat());
         }}
         tableLayout={{
           headerBackground: false,
-          rowBorder: true,
+          rowBorder: isCustomerChatOpen ? false : true,
           rowRounded: false,
-          width: isUserSidebarOpen ? "auto" : "fixed",
+          width: "fixed",
         }}
         tableClassNames={{
-          header: isUserSidebarOpen ? "hidden" : "",
+          header: isCustomerChatOpen ? "hidden" : "",
         }}
       >
-        <div className="w-full h-full flex flex-col justify-between space-y-2.5">
-          <DataGridContainer border={false} className="flex-1">
-            <ScrollArea className="h-full">
+        <div className="w-full h-full flex flex-col justify-between space-y-2.5 overflow-hidden">
+          <DataGridContainer border={false} className="flex-1 overflow-hidden">
+            <ScrollArea
+              className={cn(
+                "h-full w-full",
+                isCustomerChatOpen && "overflow-hidden",
+              )}
+            >
               <DataGridTable />
-              <ScrollBar orientation="horizontal" />
+              <ScrollBar orientation="horizontal"/>
             </ScrollArea>
           </DataGridContainer>
-          <DataGridPagination />
+          <div className={isCustomerChatOpen ? "p-4" : ""}>
+            <DataGridPagination />
+          </div>
         </div>
       </DataGrid>
     </div>

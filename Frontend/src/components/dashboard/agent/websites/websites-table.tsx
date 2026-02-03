@@ -8,7 +8,7 @@ import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Search, Eye, RefreshCcw, Trash2 } from "lucide-react";
-import { AddWebsiteDialog } from "@/components/dashboard/agent/add-website-dialog";
+import { AddWebsiteDialog } from "@/components/dashboard/agent/websites/add-website-dialog";
 import {
   ColumnDef,
   getCoreRowModel,
