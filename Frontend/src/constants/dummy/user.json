@@ -1,76 +1,80 @@
-{
-  "user": {
-    "name": "Mr. Stefan Lang",
-    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
-    "source": "Facebook",
-    "sourceUrl": "#"
+[
+  {
+    "id": "1",
+    "user": {
+      "name": "Stefan Lang",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "source": "Facebook",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "General Chat"
+    },
+    "tags": ["Support", "Shipping", "Demo", "Inquiry", "Products"],
+    "recentConversations": [
+      {
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "message": "Thanks for trying that. I'm going to se I'm going to se"
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 1,
+        "name": "Strawberry Watermelon Flavor",
+        "price": "b1,188.00",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#18756",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "productName": "Strawberry Watermelon Flavor",
+        "image": null,
+        "url": "#"
+      }
+    ]
   },
-  "assignment": {
-    "assignedTo": "Support Agent",
-    "group": "General Chat"
-  },
-  "tags": ["Support", "Shipping", "Demo", "Inquiry", "Products"],
-  "recentConversations": [
-    {
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "message": "Thanks for trying that. I'm going to se I'm going to se"
+  {
+    "id": "2",
+    "user": {
+      "name": "Alex Jordan",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "source": "WhatsApp",
+      "sourceUrl": "#"
     },
-    {
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "message": "Thanks for trying that. I'm going to se I'm going to se"
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Finance"
     },
-    {
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "message": "Thanks for trying that. I'm going to se I'm going to se"
-    }
-  ],
-  "interactedProducts": [
-    {
-      "id": 1,
-      "name": "Strawberry Watermelon Flavor",
-      "price": "b1,188.00",
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
-      "url": "#"
-    },
-    {
-      "id": 2,
-      "name": "Strawberry Watermelon Flavor",
-      "price": "b1,188.00",
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
-      "url": "#"
-    },
-    {
-      "id": 3,
-      "name": "Strawberry Watermelon Flavor",
-      "price": "b1,188.00",
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
-      "url": "#"
-    }
-  ],
-  "recentOrders": [
-    {
-      "id": "#18756",
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "productName": "Strawberry Watermelon Flavor",
-      "image": null,
-      "url": "#"
-    },
-    {
-      "id": "#18756",
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "productName": "Strawberry Watermelon Flavor",
-      "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
-      "url": "#"
-    },
-    {
-      "id": "#18756",
-      "timestamp": "03:05 AM - Dec 17, 2025",
-      "productName": "Strawberry Watermelon Flavor",
-      "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
-      "url": "#"
-    }
-  ]
-}
+    "tags": ["Urgent", "Billing", "VIP"],
+    "recentConversations": [
+      {
+        "timestamp": "10:15 AM - Jan 14, 2026",
+        "message": "I have a question about my last invoice."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 4,
+        "name": "Blueberry Mint",
+        "price": "b1,250.00",
+        "timestamp": "10:20 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#22451",
+        "timestamp": "10:00 AM - Jan 14, 2026",
+        "productName": "Blueberry Mint",
+        "image": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ]
+  }
+]

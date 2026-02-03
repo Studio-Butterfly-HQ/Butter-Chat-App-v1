@@ -39,8 +39,8 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Route>
 
-        <Route element={<ProtectedRoute />}>
-        {/* <Route> */}
+        {/* <Route element={<ProtectedRoute   />}> */}
+        <Route>
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<Navigate to="/ask-butter-ai" replace />} />

@@ -22,6 +22,12 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import userData from "@/constants/dummy/user.json";
+import { useAppDispatch } from "@/store/hooks";
+import {
+  setSelectedInboxUserId,
+  openUserSidebar,
+} from "@/store/slices/ui/ui-slice";
 
 export type TicketStatus =
   | "OPEN"
@@ -85,113 +91,22 @@ export const StatusBadge = ({ status }: { status: TicketStatus }) => {
   );
 };
 
-const dummyInboxData: InboxData[] = [
-  {
-    id: "1",
-    status: "OPEN",
-    customer: { name: "Stefan Lang", avatar: "" },
-    summary: "Yes, I managed to download all of the...",
-    tags: ["query", "commerce"],
-    assignee: { name: "Stefan Lang", avatar: "" },
-    group: "General",
-    lastUpdated: "21m Ago",
-  },
-  {
-    id: "2",
-    status: "IN_PROGRESS",
-    customer: { name: "Alex Jordan", avatar: "" },
-    summary: "I'm currently reviewing the documents...",
-    tags: ["update", "finance"],
-    assignee: { name: "Alex Jordan", avatar: "" },
-    group: "Finance",
-    lastUpdated: "15m Ago",
-  },
-  {
-    id: "3",
-    status: "COMPLETED",
-    customer: { name: "Mia Chen", avatar: "" },
-    summary: "All tasks are complete and submitted f...",
-    tags: ["submission", "operations"],
-    assignee: { name: "Mia Chen", avatar: "" },
-    group: "Operations",
-    lastUpdated: "30m Ago",
-  },
-  {
-    id: "4",
-    status: "PENDING",
-    customer: { name: "Carlos Gomez", avatar: "" },
-    summary: "Waiting on feedback from the team be...",
-    tags: ["feedback", "development"],
-    assignee: { name: "Carlos Gomez", avatar: "" },
-    group: "Development",
-    lastUpdated: "10m Ago",
-  },
-  {
-    id: "5",
-    status: "ON_HOLD",
-    customer: { name: "Lara Smith", avatar: "" },
-    summary: "Temporarily pausing project due to res...",
-    tags: ["resource", "human resources"],
-    assignee: { name: "Lara Smith", avatar: "" },
-    group: "HR",
-    lastUpdated: "5m Ago",
-  },
-  {
-    id: "6",
-    status: "IN_REVIEW",
-    customer: { name: "Nina Patel", avatar: "" },
-    summary: "Documents are under review. I'll provid...",
-    tags: ["review", "legal"],
-    assignee: { name: "Nina Patel", avatar: "" },
-    group: "Legal",
-    lastUpdated: "25m Ago",
-  },
-  {
-    id: "7",
-    status: "NEW",
-    customer: { name: "John Doe", avatar: "" },
-    summary: "Just started the analysis phase. Excite...",
-    tags: ["analysis", "research"],
-    assignee: { name: "John Doe", avatar: "" },
-    group: "Research",
-    lastUpdated: "1m Ago",
-  },
-  {
-    id: "8",
-    status: "RESOLVED",
-    customer: { name: "Emily Turner", avatar: "" },
-    summary: "Issue has been resolved. Thank you for...",
-    tags: ["issue", "support"],
-    assignee: { name: "Emily Turner", avatar: "" },
-    group: "Support",
-    lastUpdated: "35m Ago",
-  },
-  {
-    id: "9",
-    status: "SCHEDULED",
-    customer: { name: "Tom Baker", avatar: "" },
-    summary: "Meeting scheduled for next week to di...",
-    tags: ["meeting", "strategy"],
-    assignee: { name: "Tom Baker", avatar: "" },
-    group: "Strategy",
-    lastUpdated: "40m Ago",
-  },
-  {
-    id: "10",
-    status: "CANCELLED",
-    customer: { name: "Zara Ali", avatar: "" },
-    summary: "The proposed plan has been cancelled...",
-    tags: ["plan", "finance"],
-    assignee: { name: "Zara Ali", avatar: "" },
-    group: "Finance",
-    lastUpdated: "50m Ago",
-  },
-];
+const dummyInboxData: InboxData[] = (userData as any).map((user: any) => ({
+  id: user.id,
+  status: user.id === "1" ? "OPEN" : "IN_PROGRESS",
+  customer: { name: user.user.name, avatar: user.user.avatar },
+  summary: user.recentConversations[0]?.message || "No recent message",
+  tags: user.tags,
+  assignee: { name: user.assignment.assignedTo, avatar: "" },
+  group: user.assignment.group,
+  lastUpdated: "21m Ago",
+}));
 
 export default function YourInboxTable() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const selectedRowIds = Object.keys(rowSelection);
@@ -368,6 +283,10 @@ export default function YourInboxTable() {
       <DataGrid
         table={table}
         recordCount={dummyInboxData.length}
+        onRowClick={(row: InboxData) => {
+          dispatch(setSelectedInboxUserId(row.id));
+          dispatch(openUserSidebar());
+        }}
         tableLayout={{
           headerBackground: false,
           rowBorder: true,
@@ -381,9 +300,7 @@ export default function YourInboxTable() {
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </DataGridContainer>
-          <div className="p-4 pt-0">
-            <DataGridPagination />
-          </div>
+          <DataGridPagination />
         </div>
       </DataGrid>
     </div>

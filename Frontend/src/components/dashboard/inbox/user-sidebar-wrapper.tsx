@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { Sidebar } from "@/components/ui/sidebar";
+import { useAppSelector } from "@/store/hooks";
 import UserSidebar from "@/components/dashboard/inbox/user-sidebar";
 
 export function UserSidebarWrapper({
@@ -8,8 +9,11 @@ export function UserSidebarWrapper({
 }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
   const isInboxPage = location.pathname.startsWith("/inbox");
+  const isUserSidebarOpen = useAppSelector(
+    (state) => state.ui.isUserSidebarOpen,
+  );
 
-  if (!isInboxPage) return null;
+  if (!isInboxPage || !isUserSidebarOpen) return null;
 
   return (
     <Sidebar

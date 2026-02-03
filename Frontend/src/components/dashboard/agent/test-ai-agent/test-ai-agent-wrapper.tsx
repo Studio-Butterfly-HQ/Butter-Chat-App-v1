@@ -13,12 +13,23 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
+import { useAppDispatch } from "@/store/hooks";
+import { closeTestAiAgent } from "@/store/slices/ui/ui-slice";
+import { useLocation } from "react-router-dom";
+
 
 export function TestAiAgentWrapper({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  const isOpen = useAppSelector((state) => state.ui.isTestAiAgentOpen);
-  if (!isOpen) return null;
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const isTestAiAgentPage = location.pathname.startsWith("/ai-agent");
+  
+  const isTestAiAgentOpen = useAppSelector((state) => state.ui.isTestAiAgentOpen);
+  if (!isTestAiAgentPage || !isTestAiAgentOpen) {
+    dispatch(closeTestAiAgent());
+    return null;
+  }
 
   return (
     <Sidebar

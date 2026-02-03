@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -10,6 +8,7 @@ import {
   Smile,
   BotMessageSquare,
   RefreshCw,
+  User,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { closeTestAiAgent } from "@/store/slices/ui/ui-slice";
@@ -19,6 +18,7 @@ import {
   InputGroupButton,
 } from "@/components/ui/input-group";
 import TextareaAutosize from "react-textarea-autosize";
+import { SidebarHeader } from "@/components/ui/sidebar";
 
 interface Message {
   id: string;
@@ -106,7 +106,7 @@ export default function AIAgentChat() {
   return (
     <div className="flex h-full border dark:border-0 flex-col rounded-xl bg-popover">
       {/* Header */}
-      <div className="flex rounded-t-xl items-center justify-between border-b border-border bg-card p-4">
+      <SidebarHeader className="border-b border-border h-16 p-4 flex flex-row items-center justify-between">
         <div className="flex items-center gap-3">
           <BotMessageSquare className="h-6 w-5 " />
           <h1 className="text-sm md:text-base font-semibold text-foreground">
@@ -126,7 +126,7 @@ export default function AIAgentChat() {
             <X className="h-4 w-4" />
           </Button>
         </div>
-      </div>
+      </SidebarHeader>
 
       {/* Messages */}
       <ScrollArea ref={scrollAreaRef} className="flex-1 ">
@@ -139,9 +139,7 @@ export default function AIAgentChat() {
               <div className="flex max-w-xs gap-2 lg:max-w-md">
                 {message.type === "ai" && (
                   <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted">
-                      <BotMessageSquare className="h-4 w-5 text-muted-foreground" />
-                    </div>
+                    <BotMessageSquare className="h-5 w-6 text-muted-foreground" />
                   </div>
                 )}
                 <div className={`flex flex-col gap-1`}>
@@ -161,6 +159,11 @@ export default function AIAgentChat() {
                     <button className="hover:text-foreground">Translate</button>
                   </div>
                 </div>
+                {message.type === "user" && (
+                  <div className="flex-shrink-0">
+                    <User className="h-5 w-6 text-muted-foreground" />
+                  </div>
+                )}
               </div>
             </div>
           ))}

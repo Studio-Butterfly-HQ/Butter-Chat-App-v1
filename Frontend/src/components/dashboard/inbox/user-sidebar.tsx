@@ -1,11 +1,11 @@
-"use client";
-
 import React from "react";
-import { Copy, ChevronDown, ArrowUpRight, User, Users } from "lucide-react";
+import { ChevronDown, ArrowUpRight, User, Users, X } from "lucide-react";
 import messageData from "@/constants/dummy/user.json";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { closeUserSidebar } from "@/store/slices/ui/ui-slice";
 import {
   Collapsible,
   CollapsibleContent,
@@ -18,8 +18,6 @@ import {
   SidebarGroup,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
 
 const CollapsibleSection = ({
   title,
@@ -60,6 +58,17 @@ const Tag = ({ label }: { label: string }) => (
 );
 
 export function UserSidebar() {
+  const selectedInboxUserId = useAppSelector(
+    (state) => state.ui.selectedInboxUserId,
+  );
+  const dispatch = useAppDispatch();
+
+  const selectedUser =
+    (messageData as any[]).find((u) => u.id === selectedInboxUserId) ||
+    (messageData as any[])[0];
+
+  if (!selectedUser) return null;
+
   const {
     user,
     assignment,
@@ -67,14 +76,22 @@ export function UserSidebar() {
     recentConversations,
     interactedProducts,
     recentOrders,
-  } = messageData;
+  } = selectedUser;
 
   return (
     <div className="flex bg-popover rounded-xl border border-border dark:border-none h-full flex-col">
-      <SidebarHeader className="border-b border-border h-16 justify-center">
-        <div className="flex items-center gap-2 px-2">
-          <span className="text-base font-semibold">Customer Details</span>
+      <SidebarHeader className="border-b p-4 border-border h-16 flex flex-row items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-base font-semibold">Customer</span>
         </div>
+        <Button
+          variant="ghost"
+          onClick={() => dispatch(closeUserSidebar())}
+          size="icon"
+          className="h-8 w-8"
+        >
+          <X className="h-4 w-4" />
+        </Button>
       </SidebarHeader>
 
       <SidebarContent className="scrollbar-hide p-4">
@@ -124,7 +141,7 @@ export function UserSidebar() {
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
-              {tags.map((tag, index) => (
+              {tags.map((tag: string, index: number) => (
                 <Tag key={index} label={tag} />
               ))}
             </div>
@@ -132,7 +149,7 @@ export function UserSidebar() {
           {/* Recent Conversation */}
           <CollapsibleSection title="Recent Conversation">
             <div className="space-y-4">
-              {recentConversations.map((conv, index) => (
+              {recentConversations.map((conv: any, index: number) => (
                 <div key={index} className="space-y-1">
                   <p className="text-sm font-medium uppercase">
                     {conv.timestamp}
@@ -148,7 +165,7 @@ export function UserSidebar() {
           {/* Interacted Products */}
           <CollapsibleSection title="Interacted Products">
             <div className="space-y-4">
-              {interactedProducts.map((product) => (
+              {interactedProducts.map((product: any) => (
                 <div key={product.id} className="flex items-center gap-3 group">
                   <Avatar className="h-12 w-12 rounded-lg border border-border">
                     <AvatarImage
@@ -183,22 +200,17 @@ export function UserSidebar() {
           {/* Recent Orders */}
           <CollapsibleSection title="Recent Orders">
             <div className="space-y-4">
-              {recentOrders.map((order, index) => (
+              {recentOrders.map((order: any, index: number) => (
                 <div key={index} className="flex items-center gap-3 group">
-                  {order.image ? (
-                    <Avatar className="h-12 w-12 rounded-lg border border-border">
-                      <AvatarImage
-                        src={order.image}
-                        alt={order.productName}
-                        className="object-cover"
-                      />
-                      <AvatarFallback className="rounded-lg">O</AvatarFallback>
-                    </Avatar>
-                  ) : (
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted border border-border">
-                      <Users className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                  )}
+                  <Avatar className="h-12 w-12 rounded-lg border border-border">
+                    <AvatarImage
+                      src={order.image}
+                      alt={order.productName}
+                      className="object-cover"
+                    />
+                    <AvatarFallback className="rounded-lg"> <Users /> </AvatarFallback>
+                  </Avatar>
+
                   <div className="flex-1 min-w-0">
                     <a
                       href={order.url}

@@ -17,13 +17,9 @@ import {
 export default function DashboardLayout() {
   const { isLoading } = useCompanyProfile();
   const location = useLocation();
-  const isSettingsPage = location.pathname.startsWith("/settings");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!location.pathname.startsWith("/ai-agent")) {
-      dispatch(closeTestAiAgent());
-    }
     if (!location.pathname.startsWith("/ai-agent")) {
       dispatch(resetAiAgentTabs());
     }
@@ -36,7 +32,6 @@ export default function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar isLoading={isLoading} />
       <SettingsSidebarWrapper />
-      <InboxSidebarWrapper />
       <SidebarInset>
         <main
           className={`min-h-[calc(100vh-1.5rem)] md:m-3 md:ml-0 border dark:border-0 md:rounded-xl bg-popover flex-1 overflow-y-auto scrollbar-hide`}
@@ -45,6 +40,7 @@ export default function DashboardLayout() {
         </main>
       </SidebarInset>
       <TestAiAgentWrapper />
+      <InboxSidebarWrapper />
       <UserSidebarWrapper />
     </SidebarProvider>
   );
