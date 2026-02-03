@@ -112,7 +112,7 @@ export function UserSidebar() {
                   className="inline-flex items-center gap-1 text-base font-semibold text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Source: {user.source}
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowUpRight className="h-4 w-4 flex-shrink-0" />
                 </a>
               </div>
             </div>
@@ -181,13 +181,13 @@ export function UserSidebar() {
                       className="flex items-center gap-1 text-base text-foreground font-normal"
                     >
                       <span className="truncate">{product.name}</span>
-                      <ArrowUpRight className="h-5 w-5" />
+                      <ArrowUpRight className="h-4 w-4 flex-shrink-0" />
                     </a>
                     <div className="flex items-center gap-2 text-xs">
                       <span className="text-muted-foreground text-sm font-semibold">
                         {product.price}
                       </span>
-                      <span className="text-muted-foreground">
+                      <span className="truncate text-muted-foreground">
                         {product.timestamp}
                       </span>
                     </div>
@@ -217,13 +217,13 @@ export function UserSidebar() {
                       className="flex items-center gap-1 text-base text-foreground font-normal"
                     >
                       <span className="truncate">{order.productName}</span>
-                      <ArrowUpRight className="h-5 w-5" />
+                      <ArrowUpRight className="h-4 w-4 flex-shrink-0" />
                     </a>
                     <div className="flex items-center gap-2 text-xs">
                       <span className="text-muted-foreground text-sm font-semibold">
                         {order.id}
                       </span>
-                      <span className="text-muted-foreground font-normal ml-1">
+                      <span className="truncate text-muted-foreground font-normal ml-1">
                         {order.timestamp}
                       </span>
                     </div>

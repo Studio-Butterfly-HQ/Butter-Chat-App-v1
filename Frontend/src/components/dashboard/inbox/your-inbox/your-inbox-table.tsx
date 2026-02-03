@@ -12,6 +12,16 @@ import {
 } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Inbox,
+  ShoppingBag,
+  Facebook,
+  Globe,
+  MoreHorizontal,
+  Mail,
+  Instagram,
+  MessageCircle,
+} from "lucide-react";
 import { DataGrid, DataGridContainer } from "@/components/ui/data-grid";
 import { DataGridPagination } from "@/components/ui/data-grid-pagination";
 import {
@@ -23,7 +33,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import userData from "@/constants/dummy/user.json";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   setSelectedInboxUserId,
   openUserSidebar,
@@ -44,7 +54,7 @@ export type TicketStatus =
 interface InboxData {
   id: string;
   status: TicketStatus;
-  customer: { name: string; avatar: string };
+  customer: { name: string; avatar: string; source: string };
   summary: string;
   tags: string[];
   assignee: { name: string; avatar: string };
@@ -94,12 +104,16 @@ export const StatusBadge = ({ status }: { status: TicketStatus }) => {
 const dummyInboxData: InboxData[] = (userData as any).map((user: any) => ({
   id: user.id,
   status: user.id === "1" ? "OPEN" : "IN_PROGRESS",
-  customer: { name: user.user.name, avatar: user.user.avatar },
+  customer: {
+    name: user.user.name,
+    avatar: user.user.avatar,
+    source: user.user.source,
+  },
   summary: user.recentConversations[0]?.message || "No recent message",
   tags: user.tags,
   assignee: { name: user.assignment.assignedTo, avatar: "" },
   group: user.assignment.group,
-  lastUpdated: "21m Ago",
+  lastUpdated: "21m",
 }));
 
 export default function YourInboxTable() {
@@ -107,6 +121,9 @@ export default function YourInboxTable() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const dispatch = useAppDispatch();
+  const isUserSidebarOpen = useAppSelector(
+    (state) => state.ui.isUserSidebarOpen,
+  );
 
   useEffect(() => {
     const selectedRowIds = Object.keys(rowSelection);
@@ -263,9 +280,73 @@ export default function YourInboxTable() {
     },
   ];
 
+  const compactColumns: ColumnDef<InboxData>[] = [
+    {
+      accessorKey: "compact",
+      header: "",
+      cell: ({ row }) => {
+        const sourceIcon = (source: string) => {
+          switch (source.toLowerCase()) {
+            case "facebook":
+              return <Facebook className="h-3.5 w-3.5 text-[#1877F2]" />;
+            case "instagram":
+              return <Instagram className="h-3.5 w-3.5 text-[#E4405F]" />;
+            case "whatsapp":
+              return <MessageCircle className="h-3.5 w-3.5 text-[#25D366]" />;
+            case "messenger":
+              return <MessageCircle className="h-3.5 w-3.5 text-[#0084FF]" />;
+            default:
+              return <Globe className="h-3.5 w-3.5 text-muted-foreground" />;
+          }
+        };
+
+        return (
+          <div className="flex items-start gap-3 py-1 pr-2">
+            <Avatar className="h-10 w-10 border border-border">
+              <AvatarImage src={row.original.customer.avatar} />
+              <AvatarFallback>
+                {row.original.customer.name
+                  ? row.original.customer.name.charAt(0)
+                  : "U"}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0 space-y-0.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-foreground truncate max-w-[100px]">
+                    {row.original.customer.name}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <Avatar className="h-4 w-4 border border-background">
+                      <AvatarImage src={row.original.assignee.avatar} />
+                      <AvatarFallback className="text-[6px]">
+                        {row.original.assignee.name.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <Inbox className="h-3.5 w-3.5 text-muted-foreground" />
+                    <ShoppingBag className="h-3.5 w-3.5 text-muted-foreground" />
+                    {sourceIcon(row.original.customer.source)}
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">
+                    {row.original.lastUpdated}
+                  </span>
+                </div>
+              </div>
+              <div className="text-sm truncate text-muted-foreground line-clamp-1">
+                {row.original.summary}
+              </div>
+            </div>
+          </div>
+        );
+      },
+    },
+  ];
+
   const table = useReactTable({
     data: dummyInboxData,
-    columns,
+    columns: isUserSidebarOpen ? compactColumns : columns,
     state: {
       pagination,
       rowSelection,
@@ -291,6 +372,10 @@ export default function YourInboxTable() {
           headerBackground: false,
           rowBorder: true,
           rowRounded: false,
+          width: isUserSidebarOpen ? "auto" : "fixed",
+        }}
+        tableClassNames={{
+          header: isUserSidebarOpen ? "hidden" : "",
         }}
       >
         <div className="w-full h-full flex flex-col justify-between space-y-2.5">
