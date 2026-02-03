@@ -124,10 +124,20 @@ export default function ResetPasswordPage() {
       </div>
 
       {/* RIGHT IMAGE */}
-      <div className="hidden lg:flex w-1/2 p-2">
+      {/* <div className="hidden lg:flex w-1/2 p-2">
         <img
           src="/auth/reset.jpg"
           alt="Reset"
+          className="w-full h-full object-cover rounded-2xl"
+        />
+      </div> */}
+      <div className="hidden lg:flex w-1/2 p-2">
+        <video
+          src="/auth/butter-register.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
           className="w-full h-full object-cover rounded-2xl"
         />
       </div>

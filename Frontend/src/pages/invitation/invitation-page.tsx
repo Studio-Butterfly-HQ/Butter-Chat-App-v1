@@ -209,13 +209,23 @@ export default function InvitationPage() {
         </div>
       </div>
 
-      <div className="hidden lg:flex w-1/2 p-2">
+      {/* <div className="hidden lg:flex w-1/2 p-2">
         <img
           src="/auth/login.jpg"
           alt="Invitation"
           className="w-full h-full object-cover rounded-2xl"
         />
-      </div>
+      </div> */}
+      <div className="hidden lg:flex w-1/2 p-2">
+        <video
+          src="/auth/butter-register-2.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover rounded-2xl"
+        />
+    </div>
     </div>
   );
 }
