@@ -17,17 +17,17 @@ import { useAppDispatch } from "@/store/hooks";
 import { closeTestAiAgent } from "@/store/slices/ui/ui-slice";
 import { useLocation } from "react-router-dom";
 
-
 export function TestAiAgentWrapper({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const isTestAiAgentPage = location.pathname.startsWith("/ai-agent");
-  
-  const isTestAiAgentOpen = useAppSelector((state) => state.ui.isTestAiAgentOpen);
+
+  const isTestAiAgentOpen = useAppSelector(
+    (state) => state.ui.isTestAiAgentOpen,
+  );
   if (!isTestAiAgentPage || !isTestAiAgentOpen) {
-    dispatch(closeTestAiAgent());
     return null;
   }
 
@@ -39,5 +39,5 @@ export function TestAiAgentWrapper({
     >
       <Testaiagent />
     </Sidebar>
-  )
+  );
 }

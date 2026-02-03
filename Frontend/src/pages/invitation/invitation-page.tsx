@@ -55,8 +55,8 @@ export default function InvitationPage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/users`, {
-        method: "PATCH",
+      const response = await fetch(`${BACKEND_BASE_URL}/users/registration`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

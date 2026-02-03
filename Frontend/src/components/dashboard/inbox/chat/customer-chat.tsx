@@ -7,7 +7,7 @@ import {
   Send,
   Paperclip,
   Smile,
-  EllipsisVertical ,
+  EllipsisVertical,
   Tag,
   Bookmark,
   Image as ImageIcon,
@@ -98,7 +98,6 @@ export default function CustomerChat() {
 
   const handleClose = () => {
     dispatch(closeCustomerChat());
-    dispatch(closeUserSidebar());
   };
 
   if (!selectedUser) return null;
@@ -108,7 +107,11 @@ export default function CustomerChat() {
       {/* Header */}
       <SidebarHeader className="border-b border-border h-16 p-4 flex flex-row items-center justify-between">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 text-muted-foreground"
+          >
             <PanelLeft className="h-4 w-4" />
           </Button>
           <h1 className="text-sm md:text-xl font-semibold text-foreground">
@@ -117,7 +120,7 @@ export default function CustomerChat() {
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" className="h-7 w-7">
-            <EllipsisVertical  className="h-4 w-4" />
+            <EllipsisVertical className="h-4 w-4" />
           </Button>
           <Button variant="ghost" size="icon" className="h-7 w-7">
             <Tag className="h-4 w-4" />
@@ -141,7 +144,9 @@ export default function CustomerChat() {
               key={message.id}
               className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
             >
-              <div className={`flex gap-3 max-w-lg ${message.type === "user" ? "flex-row-reverse" : "flex-row"}`}>
+              <div
+                className={`flex gap-3 max-w-lg ${message.type === "user" ? "flex-row-reverse" : "flex-row"}`}
+              >
                 <Avatar className="h-8 w-8 mt-1 border border-border">
                   <AvatarImage
                     src={
@@ -167,7 +172,9 @@ export default function CustomerChat() {
                         : "bg-muted text-foreground"
                     }`}
                   >
-                    <p className="whitespace-pre-wrap break-all">{message.content}</p>
+                    <p className="whitespace-pre-wrap break-all">
+                      {message.content}
+                    </p>
                   </div>
 
                   <div className="flex items-center gap-3 px-1 text-[11px] font-semibold text-muted-foreground/60 uppercase tracking-tighter">

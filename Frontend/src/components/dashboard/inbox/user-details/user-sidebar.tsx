@@ -90,7 +90,6 @@ export function UserSidebar() {
           variant="ghost"
           onClick={() => {
             dispatch(closeUserSidebar());
-            dispatch(closeCustomerChat());
           }}
           size="icon"
           className="h-7 w-7"

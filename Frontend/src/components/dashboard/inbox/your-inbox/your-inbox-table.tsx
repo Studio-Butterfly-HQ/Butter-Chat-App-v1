@@ -125,6 +125,11 @@ export default function YourInboxTable() {
   const isCustomerChatOpen = useAppSelector(
     (state) => state.ui.isCustomerChatOpen,
   );
+  const isUserSidebarOpen = useAppSelector(
+    (state) => state.ui.isUserSidebarOpen,
+  );
+
+  const isCompactMode = isCustomerChatOpen || isUserSidebarOpen;
 
   useEffect(() => {
     const selectedRowIds = Object.keys(rowSelection);
@@ -348,7 +353,7 @@ export default function YourInboxTable() {
 
   const table = useReactTable({
     data: dummyInboxData,
-    columns: isCustomerChatOpen ? compactColumns : columns,
+    columns: isCompactMode ? compactColumns : columns,
     state: {
       pagination,
       rowSelection,
@@ -362,7 +367,7 @@ export default function YourInboxTable() {
   });
 
   return (
-    <div className={`h-full ${isCustomerChatOpen ? "p-0.5" : "p-4"}`}>
+    <div className={`h-full ${isCompactMode ? "p-0.5" : "p-4"}`}>
       <DataGrid
         table={table}
         recordCount={dummyInboxData.length}
@@ -373,12 +378,12 @@ export default function YourInboxTable() {
         }}
         tableLayout={{
           headerBackground: false,
-          rowBorder: isCustomerChatOpen ? false : true,
+          rowBorder: isCompactMode ? false : true,
           rowRounded: false,
           width: "fixed",
         }}
         tableClassNames={{
-          header: isCustomerChatOpen ? "hidden" : "",
+          header: isCompactMode ? "hidden" : "",
         }}
       >
         <div className="w-full h-full flex flex-col justify-between space-y-2.5 overflow-hidden">
@@ -386,14 +391,14 @@ export default function YourInboxTable() {
             <ScrollArea
               className={cn(
                 "h-full w-full",
-                isCustomerChatOpen && "overflow-hidden",
+                isCompactMode && "overflow-hidden",
               )}
             >
               <DataGridTable />
-              <ScrollBar orientation="horizontal"/>
+              <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </DataGridContainer>
-          <div className={isCustomerChatOpen ? "p-4" : ""}>
+          <div className={isCompactMode ? "p-4" : ""}>
             <DataGridPagination />
           </div>
         </div>
