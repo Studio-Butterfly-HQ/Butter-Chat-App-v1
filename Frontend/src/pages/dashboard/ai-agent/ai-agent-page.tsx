@@ -33,7 +33,7 @@ const AiAgentPage = () => {
   };
 
   return (
-    <div className="rounded-xl">
+    <>
       <header className="flex flex-col md:flex-row mb-0.5 min-h-16 md:h-16 shrink-0 items-start md:items-center justify-between gap-3 md:gap-2 py-3 md:py-0 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4 w-full md:w-auto">
           <SidebarTrigger />
@@ -84,7 +84,7 @@ const AiAgentPage = () => {
           </Badge>{" "}
         </div>
       </header>
-      <div className="mx-auto">
+      <div className="mx-auto w-full">
         <Tabs
           value={activeTab}
           onValueChange={handleTabChange}
@@ -133,7 +133,7 @@ const AiAgentPage = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </>
   );
 };
 

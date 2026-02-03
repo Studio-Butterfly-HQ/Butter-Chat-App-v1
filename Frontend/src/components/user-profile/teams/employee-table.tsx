@@ -92,7 +92,7 @@ export function EmployeeTable() {
     () => [
       {
         id: "user",
-        header: "Customer",
+        header: "Employee",
         accessorFn: (row) => `${row.user_name} ${row.email}`,
         cell: ({ row }) => (
           <div className="flex items-center gap-3">

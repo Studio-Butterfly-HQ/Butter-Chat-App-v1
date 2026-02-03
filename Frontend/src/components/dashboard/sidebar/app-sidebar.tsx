@@ -61,20 +61,20 @@ const data = {
   ],
   navMain: [
     {
+      title: "Ask Butter AI",
+      url: "/ask-butter-ai",
+      icon: Sparkles,
+      isActive: true,
+    },
+    {
       title: "Dashboard",
       url: "/dashboard",
       icon: LayoutDashboard,
       isActive: true,
     },
     {
-      title: "Ask Butter AI",
-      url: "#",
-      icon: Sparkles,
-      isActive: true,
-    },
-    {
       title: "Inbox",
-      url: "#",
+      url: "/inbox",
       icon: Inbox,
       isActive: true,
     },

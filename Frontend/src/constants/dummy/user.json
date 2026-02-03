@@ -1,0 +1,1142 @@
+[
+  {
+    "id": "1",
+    "user": {
+      "name": "Stefan Lang",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "source": "Facebook",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "General Chat"
+    },
+    "tags": ["Support", "Shipping", "Demo", "Inquiry", "Products"],
+    "recentConversations": [
+      {
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "message": "Thanks for trying that. I'm going to check again."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 1,
+        "name": "Strawberry Watermelon Flavor",
+        "price": "b1,188.00",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 2,
+        "name": "Mango Ice",
+        "price": "b1,150.00",
+        "timestamp": "02:40 AM - Dec 16, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 3,
+        "name": "Grape Blast",
+        "price": "b1,200.00",
+        "timestamp": "01:20 AM - Dec 15, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#18756",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "productName": "Strawberry Watermelon Flavor",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18720",
+        "timestamp": "11:30 PM - Dec 16, 2025",
+        "productName": "Mango Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18698",
+        "timestamp": "09:10 PM - Dec 15, 2025",
+        "productName": "Grape Blast",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "user": {
+      "name": "Alex Jordan",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "source": "WhatsApp",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Finance"
+    },
+    "tags": ["Urgent", "Billing", "VIP"],
+    "recentConversations": [
+      {
+        "timestamp": "10:15 AM - Jan 14, 2026",
+        "message": "I have a question about my last invoice."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 4,
+        "name": "Blueberry Mint",
+        "price": "b1,250.00",
+        "timestamp": "10:20 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 5,
+        "name": "Peach Ice",
+        "price": "b1,180.00",
+        "timestamp": "09:45 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 6,
+        "name": "Cola Freeze",
+        "price": "b1,300.00",
+        "timestamp": "09:00 AM - Jan 13, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#22451",
+        "timestamp": "10:00 AM - Jan 14, 2026",
+        "productName": "Blueberry Mint",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22412",
+        "timestamp": "08:30 AM - Jan 13, 2026",
+        "productName": "Peach Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22398",
+        "timestamp": "07:10 PM - Jan 12, 2026",
+        "productName": "Cola Freeze",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "user": {
+      "name": "Emily Watson",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
+      "source": "Instagram",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Returns"
+    },
+    "tags": ["Returns", "Product Issue"],
+    "recentConversations": [
+      {
+        "timestamp": "06:45 PM - Jan 10, 2026",
+        "message": "The product arrived damaged."
+      }
+    ],
+    "interactedProducts": [
+      { "id": 7, "name": "Lemon Ice", "price": "b1,100.00", "timestamp": "06:40 PM - Jan 10, 2026", "image": null, "url": "#" },
+      { "id": 8, "name": "Orange Splash", "price": "b1,120.00", "timestamp": "05:30 PM - Jan 09, 2026", "image": null, "url": "#" },
+      { "id": 9, "name": "Apple Cool", "price": "b1,090.00", "timestamp": "04:10 PM - Jan 08, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21987", "timestamp": "06:45 PM - Jan 10, 2026", "productName": "Lemon Ice", "image": null, "url": "#" },
+      { "id": "#21920", "timestamp": "03:30 PM - Jan 09, 2026", "productName": "Orange Splash", "image": null, "url": "#" },
+      { "id": "#21895", "timestamp": "02:15 PM - Jan 08, 2026", "productName": "Apple Cool", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "4",
+    "user": {
+      "name": "Daniel Kim",
+      "avatar": "https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=100&h=100&fit=crop&crop=face",
+      "source": "Website",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Leads"
+    },
+    "tags": ["Lead", "Pricing"],
+    "recentConversations": [
+      {
+        "timestamp": "01:20 PM - Jan 05, 2026",
+        "message": "Can you explain bulk pricing?"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 10, "name": "Vanilla Ice", "price": "b1,300.00", "timestamp": "01:15 PM - Jan 05, 2026", "image": null, "url": "#" },
+      { "id": 11, "name": "Coffee Chill", "price": "b1,350.00", "timestamp": "12:30 PM - Jan 04, 2026", "image": null, "url": "#" },
+      { "id": 12, "name": "Mint Frost", "price": "b1,280.00", "timestamp": "11:10 AM - Jan 03, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21456", "timestamp": "01:20 PM - Jan 05, 2026", "productName": "Vanilla Ice", "image": null, "url": "#" },
+      { "id": "#21410", "timestamp": "10:00 AM - Jan 04, 2026", "productName": "Coffee Chill", "image": null, "url": "#" },
+      { "id": "#21388", "timestamp": "09:00 AM - Jan 03, 2026", "productName": "Mint Frost", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "5",
+    "user": {
+      "name": "Sophia Martinez",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+      "source": "Messenger",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Feedback"
+    },
+    "tags": ["Feedback", "Experience"],
+    "recentConversations": [
+      {
+        "timestamp": "08:10 PM - Jan 02, 2026",
+        "message": "Loved the product quality!"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 13, "name": "Berry Mix", "price": "b1,220.00", "timestamp": "08:05 PM - Jan 02, 2026", "image": null, "url": "#" },
+      { "id": 14, "name": "Tropical Punch", "price": "b1,260.00", "timestamp": "07:40 PM - Jan 01, 2026", "image": null, "url": "#" },
+      { "id": 15, "name": "Watermelon Ice", "price": "b1,180.00", "timestamp": "06:30 PM - Dec 31, 2025", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21098", "timestamp": "08:10 PM - Jan 02, 2026", "productName": "Berry Mix", "image": null, "url": "#" },
+      { "id": "#21045", "timestamp": "06:00 PM - Jan 01, 2026", "productName": "Tropical Punch", "image": null, "url": "#" },
+      { "id": "#20990", "timestamp": "05:20 PM - Dec 31, 2025", "productName": "Watermelon Ice", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "1",
+    "user": {
+      "name": "Stefan Lang",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "source": "Facebook",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "General Chat"
+    },
+    "tags": ["Support", "Shipping", "Demo", "Inquiry", "Products"],
+    "recentConversations": [
+      {
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "message": "Thanks for trying that. I'm going to check again."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 1,
+        "name": "Strawberry Watermelon Flavor",
+        "price": "b1,188.00",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 2,
+        "name": "Mango Ice",
+        "price": "b1,150.00",
+        "timestamp": "02:40 AM - Dec 16, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 3,
+        "name": "Grape Blast",
+        "price": "b1,200.00",
+        "timestamp": "01:20 AM - Dec 15, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#18756",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "productName": "Strawberry Watermelon Flavor",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18720",
+        "timestamp": "11:30 PM - Dec 16, 2025",
+        "productName": "Mango Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18698",
+        "timestamp": "09:10 PM - Dec 15, 2025",
+        "productName": "Grape Blast",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "user": {
+      "name": "Alex Jordan",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "source": "WhatsApp",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Finance"
+    },
+    "tags": ["Urgent", "Billing", "VIP"],
+    "recentConversations": [
+      {
+        "timestamp": "10:15 AM - Jan 14, 2026",
+        "message": "I have a question about my last invoice."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 4,
+        "name": "Blueberry Mint",
+        "price": "b1,250.00",
+        "timestamp": "10:20 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 5,
+        "name": "Peach Ice",
+        "price": "b1,180.00",
+        "timestamp": "09:45 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 6,
+        "name": "Cola Freeze",
+        "price": "b1,300.00",
+        "timestamp": "09:00 AM - Jan 13, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#22451",
+        "timestamp": "10:00 AM - Jan 14, 2026",
+        "productName": "Blueberry Mint",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22412",
+        "timestamp": "08:30 AM - Jan 13, 2026",
+        "productName": "Peach Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22398",
+        "timestamp": "07:10 PM - Jan 12, 2026",
+        "productName": "Cola Freeze",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "user": {
+      "name": "Emily Watson",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
+      "source": "Instagram",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Returns"
+    },
+    "tags": ["Returns", "Product Issue"],
+    "recentConversations": [
+      {
+        "timestamp": "06:45 PM - Jan 10, 2026",
+        "message": "The product arrived damaged."
+      }
+    ],
+    "interactedProducts": [
+      { "id": 7, "name": "Lemon Ice", "price": "b1,100.00", "timestamp": "06:40 PM - Jan 10, 2026", "image": null, "url": "#" },
+      { "id": 8, "name": "Orange Splash", "price": "b1,120.00", "timestamp": "05:30 PM - Jan 09, 2026", "image": null, "url": "#" },
+      { "id": 9, "name": "Apple Cool", "price": "b1,090.00", "timestamp": "04:10 PM - Jan 08, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21987", "timestamp": "06:45 PM - Jan 10, 2026", "productName": "Lemon Ice", "image": null, "url": "#" },
+      { "id": "#21920", "timestamp": "03:30 PM - Jan 09, 2026", "productName": "Orange Splash", "image": null, "url": "#" },
+      { "id": "#21895", "timestamp": "02:15 PM - Jan 08, 2026", "productName": "Apple Cool", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "4",
+    "user": {
+      "name": "Daniel Kim",
+      "avatar": "https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=100&h=100&fit=crop&crop=face",
+      "source": "Website",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Leads"
+    },
+    "tags": ["Lead", "Pricing"],
+    "recentConversations": [
+      {
+        "timestamp": "01:20 PM - Jan 05, 2026",
+        "message": "Can you explain bulk pricing?"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 10, "name": "Vanilla Ice", "price": "b1,300.00", "timestamp": "01:15 PM - Jan 05, 2026", "image": null, "url": "#" },
+      { "id": 11, "name": "Coffee Chill", "price": "b1,350.00", "timestamp": "12:30 PM - Jan 04, 2026", "image": null, "url": "#" },
+      { "id": 12, "name": "Mint Frost", "price": "b1,280.00", "timestamp": "11:10 AM - Jan 03, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21456", "timestamp": "01:20 PM - Jan 05, 2026", "productName": "Vanilla Ice", "image": null, "url": "#" },
+      { "id": "#21410", "timestamp": "10:00 AM - Jan 04, 2026", "productName": "Coffee Chill", "image": null, "url": "#" },
+      { "id": "#21388", "timestamp": "09:00 AM - Jan 03, 2026", "productName": "Mint Frost", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "5",
+    "user": {
+      "name": "Sophia Martinez",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+      "source": "Messenger",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Feedback"
+    },
+    "tags": ["Feedback", "Experience"],
+    "recentConversations": [
+      {
+        "timestamp": "08:10 PM - Jan 02, 2026",
+        "message": "Loved the product quality!"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 13, "name": "Berry Mix", "price": "b1,220.00", "timestamp": "08:05 PM - Jan 02, 2026", "image": null, "url": "#" },
+      { "id": 14, "name": "Tropical Punch", "price": "b1,260.00", "timestamp": "07:40 PM - Jan 01, 2026", "image": null, "url": "#" },
+      { "id": 15, "name": "Watermelon Ice", "price": "b1,180.00", "timestamp": "06:30 PM - Dec 31, 2025", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21098", "timestamp": "08:10 PM - Jan 02, 2026", "productName": "Berry Mix", "image": null, "url": "#" },
+      { "id": "#21045", "timestamp": "06:00 PM - Jan 01, 2026", "productName": "Tropical Punch", "image": null, "url": "#" },
+      { "id": "#20990", "timestamp": "05:20 PM - Dec 31, 2025", "productName": "Watermelon Ice", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "1",
+    "user": {
+      "name": "Stefan Lang",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "source": "Facebook",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "General Chat"
+    },
+    "tags": ["Support", "Shipping", "Demo", "Inquiry", "Products"],
+    "recentConversations": [
+      {
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "message": "Thanks for trying that. I'm going to check again."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 1,
+        "name": "Strawberry Watermelon Flavor",
+        "price": "b1,188.00",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 2,
+        "name": "Mango Ice",
+        "price": "b1,150.00",
+        "timestamp": "02:40 AM - Dec 16, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 3,
+        "name": "Grape Blast",
+        "price": "b1,200.00",
+        "timestamp": "01:20 AM - Dec 15, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#18756",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "productName": "Strawberry Watermelon Flavor",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18720",
+        "timestamp": "11:30 PM - Dec 16, 2025",
+        "productName": "Mango Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18698",
+        "timestamp": "09:10 PM - Dec 15, 2025",
+        "productName": "Grape Blast",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "user": {
+      "name": "Alex Jordan",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "source": "WhatsApp",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Finance"
+    },
+    "tags": ["Urgent", "Billing", "VIP"],
+    "recentConversations": [
+      {
+        "timestamp": "10:15 AM - Jan 14, 2026",
+        "message": "I have a question about my last invoice."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 4,
+        "name": "Blueberry Mint",
+        "price": "b1,250.00",
+        "timestamp": "10:20 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 5,
+        "name": "Peach Ice",
+        "price": "b1,180.00",
+        "timestamp": "09:45 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 6,
+        "name": "Cola Freeze",
+        "price": "b1,300.00",
+        "timestamp": "09:00 AM - Jan 13, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#22451",
+        "timestamp": "10:00 AM - Jan 14, 2026",
+        "productName": "Blueberry Mint",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22412",
+        "timestamp": "08:30 AM - Jan 13, 2026",
+        "productName": "Peach Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22398",
+        "timestamp": "07:10 PM - Jan 12, 2026",
+        "productName": "Cola Freeze",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "user": {
+      "name": "Emily Watson",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
+      "source": "Instagram",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Returns"
+    },
+    "tags": ["Returns", "Product Issue"],
+    "recentConversations": [
+      {
+        "timestamp": "06:45 PM - Jan 10, 2026",
+        "message": "The product arrived damaged."
+      }
+    ],
+    "interactedProducts": [
+      { "id": 7, "name": "Lemon Ice", "price": "b1,100.00", "timestamp": "06:40 PM - Jan 10, 2026", "image": null, "url": "#" },
+      { "id": 8, "name": "Orange Splash", "price": "b1,120.00", "timestamp": "05:30 PM - Jan 09, 2026", "image": null, "url": "#" },
+      { "id": 9, "name": "Apple Cool", "price": "b1,090.00", "timestamp": "04:10 PM - Jan 08, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21987", "timestamp": "06:45 PM - Jan 10, 2026", "productName": "Lemon Ice", "image": null, "url": "#" },
+      { "id": "#21920", "timestamp": "03:30 PM - Jan 09, 2026", "productName": "Orange Splash", "image": null, "url": "#" },
+      { "id": "#21895", "timestamp": "02:15 PM - Jan 08, 2026", "productName": "Apple Cool", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "4",
+    "user": {
+      "name": "Daniel Kim",
+      "avatar": "https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=100&h=100&fit=crop&crop=face",
+      "source": "Website",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Leads"
+    },
+    "tags": ["Lead", "Pricing"],
+    "recentConversations": [
+      {
+        "timestamp": "01:20 PM - Jan 05, 2026",
+        "message": "Can you explain bulk pricing?"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 10, "name": "Vanilla Ice", "price": "b1,300.00", "timestamp": "01:15 PM - Jan 05, 2026", "image": null, "url": "#" },
+      { "id": 11, "name": "Coffee Chill", "price": "b1,350.00", "timestamp": "12:30 PM - Jan 04, 2026", "image": null, "url": "#" },
+      { "id": 12, "name": "Mint Frost", "price": "b1,280.00", "timestamp": "11:10 AM - Jan 03, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21456", "timestamp": "01:20 PM - Jan 05, 2026", "productName": "Vanilla Ice", "image": null, "url": "#" },
+      { "id": "#21410", "timestamp": "10:00 AM - Jan 04, 2026", "productName": "Coffee Chill", "image": null, "url": "#" },
+      { "id": "#21388", "timestamp": "09:00 AM - Jan 03, 2026", "productName": "Mint Frost", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "5",
+    "user": {
+      "name": "Sophia Martinez",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+      "source": "Messenger",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Feedback"
+    },
+    "tags": ["Feedback", "Experience"],
+    "recentConversations": [
+      {
+        "timestamp": "08:10 PM - Jan 02, 2026",
+        "message": "Loved the product quality!"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 13, "name": "Berry Mix", "price": "b1,220.00", "timestamp": "08:05 PM - Jan 02, 2026", "image": null, "url": "#" },
+      { "id": 14, "name": "Tropical Punch", "price": "b1,260.00", "timestamp": "07:40 PM - Jan 01, 2026", "image": null, "url": "#" },
+      { "id": 15, "name": "Watermelon Ice", "price": "b1,180.00", "timestamp": "06:30 PM - Dec 31, 2025", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21098", "timestamp": "08:10 PM - Jan 02, 2026", "productName": "Berry Mix", "image": null, "url": "#" },
+      { "id": "#21045", "timestamp": "06:00 PM - Jan 01, 2026", "productName": "Tropical Punch", "image": null, "url": "#" },
+      { "id": "#20990", "timestamp": "05:20 PM - Dec 31, 2025", "productName": "Watermelon Ice", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "1",
+    "user": {
+      "name": "Stefan Lang",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "source": "Facebook",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "General Chat"
+    },
+    "tags": ["Support", "Shipping", "Demo", "Inquiry", "Products"],
+    "recentConversations": [
+      {
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "message": "Thanks for trying that. I'm going to check again."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 1,
+        "name": "Strawberry Watermelon Flavor",
+        "price": "b1,188.00",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 2,
+        "name": "Mango Ice",
+        "price": "b1,150.00",
+        "timestamp": "02:40 AM - Dec 16, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 3,
+        "name": "Grape Blast",
+        "price": "b1,200.00",
+        "timestamp": "01:20 AM - Dec 15, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#18756",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "productName": "Strawberry Watermelon Flavor",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18720",
+        "timestamp": "11:30 PM - Dec 16, 2025",
+        "productName": "Mango Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18698",
+        "timestamp": "09:10 PM - Dec 15, 2025",
+        "productName": "Grape Blast",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "user": {
+      "name": "Alex Jordan",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "source": "WhatsApp",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Finance"
+    },
+    "tags": ["Urgent", "Billing", "VIP"],
+    "recentConversations": [
+      {
+        "timestamp": "10:15 AM - Jan 14, 2026",
+        "message": "I have a question about my last invoice."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 4,
+        "name": "Blueberry Mint",
+        "price": "b1,250.00",
+        "timestamp": "10:20 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 5,
+        "name": "Peach Ice",
+        "price": "b1,180.00",
+        "timestamp": "09:45 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 6,
+        "name": "Cola Freeze",
+        "price": "b1,300.00",
+        "timestamp": "09:00 AM - Jan 13, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#22451",
+        "timestamp": "10:00 AM - Jan 14, 2026",
+        "productName": "Blueberry Mint",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22412",
+        "timestamp": "08:30 AM - Jan 13, 2026",
+        "productName": "Peach Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22398",
+        "timestamp": "07:10 PM - Jan 12, 2026",
+        "productName": "Cola Freeze",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "user": {
+      "name": "Emily Watson",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
+      "source": "Instagram",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Returns"
+    },
+    "tags": ["Returns", "Product Issue"],
+    "recentConversations": [
+      {
+        "timestamp": "06:45 PM - Jan 10, 2026",
+        "message": "The product arrived damaged."
+      }
+    ],
+    "interactedProducts": [
+      { "id": 7, "name": "Lemon Ice", "price": "b1,100.00", "timestamp": "06:40 PM - Jan 10, 2026", "image": null, "url": "#" },
+      { "id": 8, "name": "Orange Splash", "price": "b1,120.00", "timestamp": "05:30 PM - Jan 09, 2026", "image": null, "url": "#" },
+      { "id": 9, "name": "Apple Cool", "price": "b1,090.00", "timestamp": "04:10 PM - Jan 08, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21987", "timestamp": "06:45 PM - Jan 10, 2026", "productName": "Lemon Ice", "image": null, "url": "#" },
+      { "id": "#21920", "timestamp": "03:30 PM - Jan 09, 2026", "productName": "Orange Splash", "image": null, "url": "#" },
+      { "id": "#21895", "timestamp": "02:15 PM - Jan 08, 2026", "productName": "Apple Cool", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "4",
+    "user": {
+      "name": "Daniel Kim",
+      "avatar": "https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=100&h=100&fit=crop&crop=face",
+      "source": "Website",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Leads"
+    },
+    "tags": ["Lead", "Pricing"],
+    "recentConversations": [
+      {
+        "timestamp": "01:20 PM - Jan 05, 2026",
+        "message": "Can you explain bulk pricing?"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 10, "name": "Vanilla Ice", "price": "b1,300.00", "timestamp": "01:15 PM - Jan 05, 2026", "image": null, "url": "#" },
+      { "id": 11, "name": "Coffee Chill", "price": "b1,350.00", "timestamp": "12:30 PM - Jan 04, 2026", "image": null, "url": "#" },
+      { "id": 12, "name": "Mint Frost", "price": "b1,280.00", "timestamp": "11:10 AM - Jan 03, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21456", "timestamp": "01:20 PM - Jan 05, 2026", "productName": "Vanilla Ice", "image": null, "url": "#" },
+      { "id": "#21410", "timestamp": "10:00 AM - Jan 04, 2026", "productName": "Coffee Chill", "image": null, "url": "#" },
+      { "id": "#21388", "timestamp": "09:00 AM - Jan 03, 2026", "productName": "Mint Frost", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "5",
+    "user": {
+      "name": "Sophia Martinez",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+      "source": "Messenger",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Feedback"
+    },
+    "tags": ["Feedback", "Experience"],
+    "recentConversations": [
+      {
+        "timestamp": "08:10 PM - Jan 02, 2026",
+        "message": "Loved the product quality!"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 13, "name": "Berry Mix", "price": "b1,220.00", "timestamp": "08:05 PM - Jan 02, 2026", "image": null, "url": "#" },
+      { "id": 14, "name": "Tropical Punch", "price": "b1,260.00", "timestamp": "07:40 PM - Jan 01, 2026", "image": null, "url": "#" },
+      { "id": 15, "name": "Watermelon Ice", "price": "b1,180.00", "timestamp": "06:30 PM - Dec 31, 2025", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21098", "timestamp": "08:10 PM - Jan 02, 2026", "productName": "Berry Mix", "image": null, "url": "#" },
+      { "id": "#21045", "timestamp": "06:00 PM - Jan 01, 2026", "productName": "Tropical Punch", "image": null, "url": "#" },
+      { "id": "#20990", "timestamp": "05:20 PM - Dec 31, 2025", "productName": "Watermelon Ice", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "1",
+    "user": {
+      "name": "Stefan Lang",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "source": "Facebook",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "General Chat"
+    },
+    "tags": ["Support", "Shipping", "Demo", "Inquiry", "Products"],
+    "recentConversations": [
+      {
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "message": "Thanks for trying that. I'm going to check again."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 1,
+        "name": "Strawberry Watermelon Flavor",
+        "price": "b1,188.00",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 2,
+        "name": "Mango Ice",
+        "price": "b1,150.00",
+        "timestamp": "02:40 AM - Dec 16, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 3,
+        "name": "Grape Blast",
+        "price": "b1,200.00",
+        "timestamp": "01:20 AM - Dec 15, 2025",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#18756",
+        "timestamp": "03:05 AM - Dec 17, 2025",
+        "productName": "Strawberry Watermelon Flavor",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18720",
+        "timestamp": "11:30 PM - Dec 16, 2025",
+        "productName": "Mango Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#18698",
+        "timestamp": "09:10 PM - Dec 15, 2025",
+        "productName": "Grape Blast",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "user": {
+      "name": "Alex Jordan",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "source": "WhatsApp",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Finance"
+    },
+    "tags": ["Urgent", "Billing", "VIP"],
+    "recentConversations": [
+      {
+        "timestamp": "10:15 AM - Jan 14, 2026",
+        "message": "I have a question about my last invoice."
+      }
+    ],
+    "interactedProducts": [
+      {
+        "id": 4,
+        "name": "Blueberry Mint",
+        "price": "b1,250.00",
+        "timestamp": "10:20 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 5,
+        "name": "Peach Ice",
+        "price": "b1,180.00",
+        "timestamp": "09:45 AM - Jan 14, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      },
+      {
+        "id": 6,
+        "name": "Cola Freeze",
+        "price": "b1,300.00",
+        "timestamp": "09:00 AM - Jan 13, 2026",
+        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+        "url": "#"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "#22451",
+        "timestamp": "10:00 AM - Jan 14, 2026",
+        "productName": "Blueberry Mint",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22412",
+        "timestamp": "08:30 AM - Jan 13, 2026",
+        "productName": "Peach Ice",
+        "image": null,
+        "url": "#"
+      },
+      {
+        "id": "#22398",
+        "timestamp": "07:10 PM - Jan 12, 2026",
+        "productName": "Cola Freeze",
+        "image": null,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "user": {
+      "name": "Emily Watson",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
+      "source": "Instagram",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Returns"
+    },
+    "tags": ["Returns", "Product Issue"],
+    "recentConversations": [
+      {
+        "timestamp": "06:45 PM - Jan 10, 2026",
+        "message": "The product arrived damaged."
+      }
+    ],
+    "interactedProducts": [
+      { "id": 7, "name": "Lemon Ice", "price": "b1,100.00", "timestamp": "06:40 PM - Jan 10, 2026", "image": null, "url": "#" },
+      { "id": 8, "name": "Orange Splash", "price": "b1,120.00", "timestamp": "05:30 PM - Jan 09, 2026", "image": null, "url": "#" },
+      { "id": 9, "name": "Apple Cool", "price": "b1,090.00", "timestamp": "04:10 PM - Jan 08, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21987", "timestamp": "06:45 PM - Jan 10, 2026", "productName": "Lemon Ice", "image": null, "url": "#" },
+      { "id": "#21920", "timestamp": "03:30 PM - Jan 09, 2026", "productName": "Orange Splash", "image": null, "url": "#" },
+      { "id": "#21895", "timestamp": "02:15 PM - Jan 08, 2026", "productName": "Apple Cool", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "4",
+    "user": {
+      "name": "Daniel Kim",
+      "avatar": "https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=100&h=100&fit=crop&crop=face",
+      "source": "Website",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Sales Rep",
+      "group": "Leads"
+    },
+    "tags": ["Lead", "Pricing"],
+    "recentConversations": [
+      {
+        "timestamp": "01:20 PM - Jan 05, 2026",
+        "message": "Can you explain bulk pricing?"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 10, "name": "Vanilla Ice", "price": "b1,300.00", "timestamp": "01:15 PM - Jan 05, 2026", "image": null, "url": "#" },
+      { "id": 11, "name": "Coffee Chill", "price": "b1,350.00", "timestamp": "12:30 PM - Jan 04, 2026", "image": null, "url": "#" },
+      { "id": 12, "name": "Mint Frost", "price": "b1,280.00", "timestamp": "11:10 AM - Jan 03, 2026", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21456", "timestamp": "01:20 PM - Jan 05, 2026", "productName": "Vanilla Ice", "image": null, "url": "#" },
+      { "id": "#21410", "timestamp": "10:00 AM - Jan 04, 2026", "productName": "Coffee Chill", "image": null, "url": "#" },
+      { "id": "#21388", "timestamp": "09:00 AM - Jan 03, 2026", "productName": "Mint Frost", "image": null, "url": "#" }
+    ]
+  },
+  {
+    "id": "5",
+    "user": {
+      "name": "Sophia Martinez",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+      "source": "Messenger",
+      "sourceUrl": "#"
+    },
+    "assignment": {
+      "assignedTo": "Support Agent",
+      "group": "Feedback"
+    },
+    "tags": ["Feedback", "Experience"],
+    "recentConversations": [
+      {
+        "timestamp": "08:10 PM - Jan 02, 2026",
+        "message": "Loved the product quality!"
+      }
+    ],
+    "interactedProducts": [
+      { "id": 13, "name": "Berry Mix", "price": "b1,220.00", "timestamp": "08:05 PM - Jan 02, 2026", "image": null, "url": "#" },
+      { "id": 14, "name": "Tropical Punch", "price": "b1,260.00", "timestamp": "07:40 PM - Jan 01, 2026", "image": null, "url": "#" },
+      { "id": 15, "name": "Watermelon Ice", "price": "b1,180.00", "timestamp": "06:30 PM - Dec 31, 2025", "image": null, "url": "#" }
+    ],
+    "recentOrders": [
+      { "id": "#21098", "timestamp": "08:10 PM - Jan 02, 2026", "productName": "Berry Mix", "image": null, "url": "#" },
+      { "id": "#21045", "timestamp": "06:00 PM - Jan 01, 2026", "productName": "Tropical Punch", "image": null, "url": "#" },
+      { "id": "#20990", "timestamp": "05:20 PM - Dec 31, 2025", "productName": "Watermelon Ice", "image": null, "url": "#" }
+    ]
+  }
+]

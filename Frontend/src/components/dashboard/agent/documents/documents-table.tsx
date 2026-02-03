@@ -8,7 +8,7 @@ import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Search, Eye, RefreshCcw, Trash2 } from "lucide-react";
-import { UploadDocumentsDialog } from "@/components/dashboard/agent/upload-documents-dialog";
+import { UploadDocumentsDialog } from "@/components/dashboard/agent/documents/upload-documents-dialog";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -152,48 +152,48 @@ export function DocumentsTable() {
 
   return (
     <>
-    <div className="space-y-8  p-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            className="pl-10 h-10"
+      <div className="space-y-8  p-4">
+        <div className="flex items-center justify-between gap-4">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search..."
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              className="pl-10 h-10"
+            />
+          </div>
+          <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
+            <Plus />
+            Upload Document
+          </Button>
+          <UploadDocumentsDialog
+            open={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
           />
         </div>
-        <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
-          <Plus />
-          Upload Document
-        </Button>
-        <UploadDocumentsDialog
-          open={isDialogOpen}
-          onOpenChange={setIsDialogOpen}
-        />
-      </div>
 
-      <DataGrid
-        table={table}
-        isLoading={isLoading}
-        recordCount={allDocuments.length}
-        tableLayout={{
-          headerBackground: false,
-          rowBorder: true,
-          rowRounded: false,
-        }}
-      >  
-      <div className="w-full flex flex-col justify-between min-h-[calc(100vh-12.11rem)] space-y-2.5">
-          <DataGridContainer className="" border={false}>
-            <ScrollArea>
-              <DataGridTable />
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </DataGridContainer>
-          <DataGridPagination className="" />
-        </div>
-      </DataGrid>
-    </div>
+        <DataGrid
+          table={table}
+          isLoading={isLoading}
+          recordCount={allDocuments.length}
+          tableLayout={{
+            headerBackground: false,
+            rowBorder: true,
+            rowRounded: false,
+          }}
+        >
+          <div className="w-full flex flex-col justify-between min-h-[calc(100vh-12.11rem)] space-y-2.5">
+            <DataGridContainer className="" border={false}>
+              <ScrollArea>
+                <DataGridTable />
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </DataGridContainer>
+            <DataGridPagination className="" />
+          </div>
+        </DataGrid>
+      </div>
     </>
   );
 }

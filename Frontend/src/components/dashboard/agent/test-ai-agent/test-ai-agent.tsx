@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -10,6 +8,7 @@ import {
   Smile,
   BotMessageSquare,
   RefreshCw,
+  User,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { closeTestAiAgent } from "@/store/slices/ui/ui-slice";
@@ -19,6 +18,7 @@ import {
   InputGroupButton,
 } from "@/components/ui/input-group";
 import TextareaAutosize from "react-textarea-autosize";
+import { SidebarHeader } from "@/components/ui/sidebar";
 
 interface Message {
   id: string;
@@ -29,13 +29,6 @@ interface Message {
 
 export default function AIAgentChat() {
   const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      type: "ai",
-      content:
-        "Hi! I have a question about my recent invoice. It seems higher than usual.",
-      timestamp: "7:48 AM",
-    },
     {
       id: "2",
       type: "user",
@@ -106,42 +99,40 @@ export default function AIAgentChat() {
   return (
     <div className="flex h-full border dark:border-0 flex-col rounded-xl bg-popover">
       {/* Header */}
-      <div className="flex rounded-t-xl items-center justify-between border-b border-border bg-card p-4">
+      <SidebarHeader className="border-b border-border h-16 p-4 flex flex-row items-center justify-between">
         <div className="flex items-center gap-3">
           <BotMessageSquare className="h-6 w-5 " />
           <h1 className="text-sm md:text-base font-semibold text-foreground">
             AI Agent
           </h1>
         </div>
-        <div className="flex items-center">
-          <Button variant="ghost" size="icon" className="h-8 w-8">
+        <div className="flex gap-1 items-center">
+          <Button variant="ghost" size="icon" className="h-7 w-7">
             <RefreshCw className="h-4 w-4" />
           </Button>
           <Button
             variant="ghost"
             onClick={() => dispatch(closeTestAiAgent())}
             size="icon"
-            className="h-8 w-8"
+            className="h-7 w-7"
           >
             <X className="h-4 w-4" />
           </Button>
         </div>
-      </div>
+      </SidebarHeader>
 
       {/* Messages */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 ">
         <div className="space-y-4 p-4">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
             >
-              <div className="flex max-w-xs gap-2 lg:max-w-md">
+              <div className="flex max-w-xs gap-2">
                 {message.type === "ai" && (
                   <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted">
-                      <BotMessageSquare className="h-4 w-5 text-muted-foreground" />
-                    </div>
+                    <BotMessageSquare className="h-5 w-6 text-muted-foreground" />
                   </div>
                 )}
                 <div className={`flex flex-col gap-1`}>
@@ -152,13 +143,20 @@ export default function AIAgentChat() {
                         : "bg-muted text-foreground"
                     }`}
                   >
-                    <p className="text-balance">{message.content}</p>
+                    <p className="break-all whitespace-pre-wrap">
+                      {message.content}
+                    </p>
                   </div>
                   <div className="flex items-center justify-between gap-2 px-1 text-xs text-muted-foreground">
                     <span>{message.timestamp}</span>
                     <button className="hover:text-foreground">Translate</button>
                   </div>
                 </div>
+                {message.type === "user" && (
+                  <div className="flex-shrink-0">
+                    <User className="h-5 w-6 text-muted-foreground" />
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -184,7 +182,7 @@ export default function AIAgentChat() {
             className="flex field-sizing-content min-h-10 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-sm transition-[color,box-shadow] outline-none scrollbar-hide"
           />
           <InputGroupAddon align="block-end">
-            <div className="flex gap-1 w-full justify-between">
+            <div className="flex gap-0 w-full justify-between">
               <div className="flex">
                 <Button variant="ghost" size="icon" className="h-8 w-8">
                   <Paperclip className="h-4 w-4" />
