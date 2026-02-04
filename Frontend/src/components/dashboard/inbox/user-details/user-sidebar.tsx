@@ -5,10 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import {
-  closeUserSidebar,
-  closeCustomerChat,
-} from "@/store/slices/ui/ui-slice";
+import {closeUserSidebar} from "@/store/slices/ui/ui-slice";
 import {
   Collapsible,
   CollapsibleContent,
@@ -18,8 +15,6 @@ import { Separator } from "@/components/ui/separator";
 import {
   SidebarHeader,
   SidebarContent,
-  SidebarGroup,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 const CollapsibleSection = ({
@@ -108,7 +103,7 @@ export function UserSidebar() {
                 <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="text-xl font-bold text-foreground">
+                <h3 className="text-lg font-bold text-foreground">
                   {user.name}
                 </h3>
                 <a

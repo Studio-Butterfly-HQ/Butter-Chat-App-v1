@@ -91,10 +91,8 @@ export default function AIAgentChat() {
       }, 100);
     }
   };
-  const isOpen = useAppSelector((state) => state.ui.isTestAiAgentOpen);
-  const dispatch = useAppDispatch();
 
-  if (!isOpen) return null;
+  const dispatch = useAppDispatch();
 
   return (
     <div className="flex h-full border dark:border-0 flex-col rounded-xl bg-popover">

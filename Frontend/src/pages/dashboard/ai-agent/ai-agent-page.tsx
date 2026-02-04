@@ -81,7 +81,7 @@ const AiAgentPage = () => {
           <Badge className="cursor-pointer rounded-full px-2 md:px-3 py-1.5 text-xs font-normal whitespace-nowrap">
             <Play className="h-3 w-3 mr-1.5" />
             <span>Enable AI Agent</span>
-          </Badge>{" "}
+          </Badge>
         </div>
       </header>
       <div className="mx-auto w-full">
