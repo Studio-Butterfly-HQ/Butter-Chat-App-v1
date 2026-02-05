@@ -44,6 +44,7 @@ import {
   configureAgentSchema,
   ConfigureAgentFormValues,
 } from "@/schemas/configureAgentSchema";
+import { Switch2 } from "@/components/ui/switch2";
 
 interface ConfigureProps {
   selectedAgent?: Agent;
@@ -364,13 +365,19 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                         If AI agent is unable to assist user
                       </Label>
                       <Select
-                        onValueChange={field.onChange}
                         value={field.value}
+                        onValueChange={field.onChange}
                       >
                         <SelectTrigger className="w-full h-10">
                           <SelectValue placeholder="Select fallback behavior" />
                         </SelectTrigger>
-                        <SelectContent>
+
+                        <SelectContent
+                          position="popper"
+                          sideOffset={4}
+                          className="max-w-full"
+                          avoidCollisions={false}
+                        >
                           <SelectItem value="transfer">
                             Transfer customer to first available agent or put
                             into queue
@@ -413,10 +420,11 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                           Wait for customer confirmation before transferring
                         </Label>
                       </div>
-                      <Switch
+                      <Switch2
                         checked={field.value}
-                        onCheckedChange={field.onChange}
+                        onChange={field.onChange}
                       />
+                      <FormMessage className="text-sm" />
                     </FormItem>
                   )}
                 />
