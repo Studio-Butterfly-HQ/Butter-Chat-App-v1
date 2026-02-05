@@ -5,15 +5,15 @@ export const AUTH_API = {
   LOGIN: `${BACKEND_BASE_URL}/auth/login`,
   SIGNUP: `${BACKEND_BASE_URL}/auth/register`,
   RESET_PASSWORD: `${BACKEND_BASE_URL}/auth/reset-password`,
-}
+};
 export const COMPANY_API = {
   UPDATE_PROFILE: `${BACKEND_BASE_URL}/company/update`,
   GET_PROFILE: `${BACKEND_BASE_URL}/company/profile`,
-}
+};
 
 export const CONNECTIONS_API = {
   FACEBOOK_LOGIN: `${BACKEND_BASE_URL}/auth/meta/login`,
-}
+};
 export const SHIFT_API = {
   CREATE_SHIFT: `${BACKEND_BASE_URL}/shift`,
   GET_SHIFTS: `${BACKEND_BASE_URL}/shift`,
@@ -32,6 +32,15 @@ export const DOCUMENT_API = {
 export const WEBURI_API = {
   CREATE_WEBURI: `${BACKEND_BASE_URL}/weburi-resources`,
   GET_WEBURIS: `${BACKEND_BASE_URL}/weburi-resources`,
+};
+
+export const AGENT_API = {
+  CREATE_AGENT: `${BACKEND_BASE_URL}/ai-agents`,
+};
+
+export const USER_API = {
+  INVITE_USER: `${BACKEND_BASE_URL}/users/invite`,
+  GET_USERS: `${BACKEND_BASE_URL}/users`,
 };
 
 export const COUNTRY_API_URL =

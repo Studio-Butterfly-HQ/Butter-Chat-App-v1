@@ -47,6 +47,9 @@ const uiSlice = createSlice({
     toggleCustomerChat(state) {
       state.isCustomerChatOpen = !state.isCustomerChatOpen;
     },
+    setSelectedAiAgentId(state, action: PayloadAction<string | null>) {
+      state.selectedAiAgentId = action.payload;
+    },
   },
 });
 
@@ -65,5 +68,6 @@ export const {
   openCustomerChat,
   closeCustomerChat,
   toggleCustomerChat,
+  setSelectedAiAgentId,
 } = uiSlice.actions;
 export default uiSlice.reducer;

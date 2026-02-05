@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -15,18 +15,30 @@ import { Configure } from "@/components/dashboard/agent/configure";
 import { KnowledgeBase } from "@/components/dashboard/agent/knowledge-base";
 import Flow from "@/components/dashboard/agent/flow";
 import Tool from "@/components/dashboard/agent/tool";
+import { useGetAgents } from "@/provider/agent/agent.queries";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   openTestAiAgent,
   setActiveAiAgentTab,
+  setSelectedAiAgentId,
 } from "@/store/slices/ui/ui-slice";
 
 const AiAgentPage = () => {
-  const [selectedAgent, setSelectedAgent] = useState("aarong-agent");
+  const { data: agentsData, isLoading } = useGetAgents();
+  const selectedAgentId = useAppSelector((state) => state.ui.selectedAiAgentId);
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.ui.isTestAiAgentOpen);
   const activeTab = useAppSelector((state) => state.ui.activeAiAgentTab);
-  console.log("activeTab", activeTab);
+
+  const agents = agentsData?.data || [];
+  const activeAgent = agents.find((agent) => agent.id === selectedAgentId);
+
+  // Set default selected agent
+  useEffect(() => {
+    if (agents.length > 0 && !selectedAgentId) {
+      dispatch(setSelectedAiAgentId(agents[0].id));
+    }
+  }, [agents, selectedAgentId]);
 
   const handleTabChange = (value: string) => {
     dispatch(setActiveAiAgentTab(value));
@@ -45,16 +57,19 @@ const AiAgentPage = () => {
             <span className="text-sm md:text-base font-semibold whitespace-nowrap">
               AI Agent
             </span>
-            <Select value={selectedAgent} onValueChange={setSelectedAgent}>
-              <SelectTrigger className="w-[160px] md:w-[180px] h-auto px-4 md:px-6 py-1.5 text-xs font-normal border rounded-full hover:bg-accent">
+            <Select
+              value={selectedAgentId || ""}
+              onValueChange={(value) => dispatch(setSelectedAiAgentId(value))}
+            >
+              <SelectTrigger className="w-auto min-w-[160px] h-auto px-4 md:px-6 py-1.5 text-xs font-normal border rounded-full hover:bg-accent">
                 <SelectValue className="text-xs" placeholder="Select agent" />
               </SelectTrigger>
-              <SelectContent className="w-[160px] md:w-[180px]">
-                <SelectItem value="aarong-agent">Aarong Agent</SelectItem>
-                <SelectItem value="customer-support">
-                  Customer Support
-                </SelectItem>
-                <SelectItem value="sales-agent">Sales Agent</SelectItem>
+              <SelectContent className="w-auto min-w-[160px]">
+                {agents.map((agent) => (
+                  <SelectItem key={agent.id} value={agent.id}>
+                    {agent.agent_name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -81,7 +96,7 @@ const AiAgentPage = () => {
           <Badge className="cursor-pointer rounded-full px-2 md:px-3 py-1.5 text-xs font-normal whitespace-nowrap">
             <Play className="h-3 w-3 mr-1.5" />
             <span>Enable AI Agent</span>
-          </Badge>{" "}
+          </Badge>
         </div>
       </header>
       <div className="mx-auto w-full">
@@ -118,7 +133,7 @@ const AiAgentPage = () => {
           </TabsList>
 
           <TabsContent value="configure" className="mt-0">
-            <Configure />
+            <Configure selectedAgent={activeAgent} />
           </TabsContent>
 
           <TabsContent value="knowledgeBase" className="mt-0">

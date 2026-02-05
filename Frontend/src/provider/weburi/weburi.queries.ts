@@ -17,6 +17,7 @@ export const useGetWeburis = () => {
     },
     enabled: !!token,
     staleTime: 5 * 60 * 1000, // Data stays fresh for 5 minutes
+    gcTime: 30 * 60 * 1000, // Data stays in cache for 30 minutes
     refetchOnWindowFocus: false,
     refetchOnMount: true,
   });
