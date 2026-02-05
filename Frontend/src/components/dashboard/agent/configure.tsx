@@ -66,22 +66,22 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
     mode: "onChange",
   });
 
-  const { mutateAsync: updateAgent} = useUpdateAgent();
+  const { mutateAsync: updateAgent } = useUpdateAgent();
   const { watch, setValue, control, handleSubmit, reset } = form;
   const personality = watch("personality");
 
   useEffect(() => {
-    if (selectedAgent) {
-      reset({
-        agentName: selectedAgent.agent_name,
-        personality: (selectedAgent.personality as any) || "friendly",
-        generalInstruction: selectedAgent.general_instructions,
-        aiFallback: "transfer",
-        aiFallbackCustom: selectedAgent.transfer_connecting_message,
-        aiFallbackWait: selectedAgent.auto_tranfer === "disabled", // todoThis logic might need verification against requirements
-        humanTransferMessage: selectedAgent.conversation_pass_instructions,
-      });
-    }
+    if (!selectedAgent) return;
+
+    reset({
+      agentName: selectedAgent.agent_name,
+      personality: (selectedAgent.personality as any) || "friendly",
+      generalInstruction: selectedAgent.general_instructions,
+      aiFallback: "transfer",
+      aiFallbackCustom: selectedAgent.transfer_connecting_message,
+      aiFallbackWait: selectedAgent.auto_tranfer === "disabled",
+      humanTransferMessage: selectedAgent.conversation_pass_instructions,
+    });
   }, [selectedAgent, reset]);
 
   const onSubmit = async (data: ConfigureAgentFormValues) => {
@@ -98,11 +98,10 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
       auto_tranfer: data.aiFallbackWait ? "disabled" : "enabled",
       conversation_pass_instructions: data.humanTransferMessage,
     };
-    try{
-        await updateAgent({ id: selectedAgent.id, payload });
-    }
-    catch(error){
-        console.log("Error updating configure-page: ", error);
+    try {
+      await updateAgent({ id: selectedAgent.id, payload });
+    } catch (error) {
+      console.log("Error updating configure-page: ", error);
     }
   };
 
@@ -131,7 +130,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
   };
 
   return (
-    <div className="p-4 pt-0 space-y-3">
+    <div className="p-4 pt-0 space-y-3 max-w-full overflow-x-hidden">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <Accordion
