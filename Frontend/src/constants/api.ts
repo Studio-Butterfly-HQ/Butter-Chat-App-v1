@@ -34,5 +34,9 @@ export const WEBURI_API = {
   GET_WEBURIS: `${BACKEND_BASE_URL}/weburi-resources`,
 };
 
+export const AGENT_API = {
+  CREATE_AGENT: `${BACKEND_BASE_URL}/ai-agents`,
+};
+
 export const COUNTRY_API_URL =
   "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones";

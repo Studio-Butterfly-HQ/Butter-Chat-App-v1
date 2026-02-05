@@ -5,6 +5,7 @@ export type UiState = {
   selectedInboxUserId: string | null;
   isUserSidebarOpen: boolean;
   isCustomerChatOpen: boolean;
+  selectedAiAgentId: string | null;
 };
 
 export const initialState: UiState = {
@@ -14,4 +15,5 @@ export const initialState: UiState = {
   selectedInboxUserId: "1",
   isUserSidebarOpen: false,
   isCustomerChatOpen: false,
+  selectedAiAgentId: null,
 };

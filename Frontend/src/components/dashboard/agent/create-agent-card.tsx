@@ -29,9 +29,11 @@ import {
 } from "@/schemas/createAgentSchema";
 import { useCreateAgent } from "@/provider/agent";
 import { Spinner } from "@/components/ui/spinner";
+import { useGetAgents } from "@/provider/agent";
 
 export default function CreateAgentCard() {
   const { mutateAsync, isPending } = useCreateAgent();
+  const { data } = useGetAgents();
 
   const form = useForm<CreateAgentFormValues>({
     resolver: zodResolver(createAgentSchema),
@@ -48,10 +50,21 @@ export default function CreateAgentCard() {
 
   const handleSubmit = async (data: CreateAgentFormValues) => {
     try {
-      console.log(data);
-      const res = await mutateAsync(data);
-    } 
-    catch (error) {
+      const payload = {
+        agent_name: data.name,
+        personality: data.personality,
+        general_instructions: data.instructions,
+        // Default values for required fields
+        choice_when_unable: "transfer_to_human",
+        conversation_pass_instructions:
+          "Transfer conversation when customer requests human agent... dummy text",
+        auto_tranfer: "enabled",
+        transfer_connecting_message: "Connecting you to a human agent.... dummy text",
+      };
+      const res = await mutateAsync(payload);
+      const getAgents = await useGetAgents();
+
+    } catch (error) {
       console.error("Error in create agent card: ", error);
     }
   };
@@ -165,7 +178,14 @@ export default function CreateAgentCard() {
               type="submit"
               disabled={isPending}
             >
-              {isPending ? <> <Spinner /> Please wait... </>: <> Create AI Agent </>}
+              {isPending ? (
+                <>
+                  {" "}
+                  <Spinner /> Please wait...{" "}
+                </>
+              ) : (
+                <> Create AI Agent </>
+              )}
             </Button>
           </CardFooter>
         </form>
