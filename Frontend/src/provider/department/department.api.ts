@@ -5,7 +5,9 @@ import type {
 } from "./department.types";
 import { DEPARTMENT_API } from "@/constants/api";
 
-export const getDepartmentsApi = async (token: string): Promise<ApiResponse<Department[]>> => {
+export const getDepartmentsApi = async (
+  token: string,
+): Promise<ApiResponse<Department[]>> => {
   const res = await fetch(`${DEPARTMENT_API.GET_DEPARTMENTS}`, {
     method: "GET",
     headers: {
@@ -21,7 +23,10 @@ export const getDepartmentsApi = async (token: string): Promise<ApiResponse<Depa
   return data;
 };
 
-export const createDepartmentApi = async ( payload: CreateDepartmentPayload, token: string): Promise<ApiResponse<Department>> => {
+export const createDepartmentApi = async (
+  payload: CreateDepartmentPayload,
+  token: string,
+): Promise<ApiResponse<Department>> => {
   const res = await fetch(`${DEPARTMENT_API.CREATE_DEPARTMENT}`, {
     method: "POST",
     headers: {

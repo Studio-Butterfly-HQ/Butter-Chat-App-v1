@@ -66,7 +66,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
     mode: "onChange",
   });
 
-  const { mutate: updateAgent } = useUpdateAgent();
+  const { mutateAsync: updateAgent} = useUpdateAgent();
   const { watch, setValue, control, handleSubmit, reset } = form;
   const personality = watch("personality");
 
@@ -84,7 +84,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
     }
   }, [selectedAgent, reset]);
 
-  const onSubmit = (data: ConfigureAgentFormValues) => {
+  const onSubmit = async (data: ConfigureAgentFormValues) => {
     if (!selectedAgent) return;
 
     const payload = {
@@ -98,8 +98,12 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
       auto_tranfer: data.aiFallbackWait ? "disabled" : "enabled",
       conversation_pass_instructions: data.humanTransferMessage,
     };
-
-    updateAgent({ id: selectedAgent.id, payload });
+    try{
+        await updateAgent({ id: selectedAgent.id, payload });
+    }
+    catch(error){
+        console.log("Error updating configure-page: ", error);
+    }
   };
 
   const handleCancel = (section: string) => {
