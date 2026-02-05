@@ -390,6 +390,7 @@ function DataGridTableRowSelect<TData>({ row, size }: { row: Row<TData>; size?: 
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
         className="align-[inherit]"
+        onClick={(e) => e.stopPropagation()}
       />
     </>
   );
