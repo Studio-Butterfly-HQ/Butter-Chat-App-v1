@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -21,31 +20,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { BACKEND_BASE_URL } from "@/constants/api";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
-
-const invitationSchema = z.object({
-  user_name: z.string().min(3, "Must be at least 3 characters"),
-  password: z.string().min(6, "Must be at least 6 characters"),
-  bio: z.string().optional(),
-});
-
-type InvitationFormValues = z.infer<typeof invitationSchema>;
+import {
+  invitationSchema,
+  type InvitationFormValues,
+} from "@/schemas/invitationSchema";
+import { useRegisterUser } from "@/provider/user/user.queries";
 
 export default function InvitationPage() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const { mutateAsync: registerUser, isPending: loading } = useRegisterUser();
+
   const form = useForm<InvitationFormValues>({
+    resolver: zodResolver(invitationSchema),
     defaultValues: {
       user_name: "",
       password: "",
       bio: "",
     },
+    mode: "onBlur",
   });
 
   const onSubmit = async (values: InvitationFormValues) => {
@@ -53,33 +51,11 @@ export default function InvitationPage() {
       toast.error("Invitation token is missing");
       return;
     }
-
-    setLoading(true);
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/users/registration`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(values),
-      });
-
-      const data = await response.json();
-      if (!data.success) {
-        console.log("error: ", data.error.details);
-        toast.error(data.message);
-        return;
-      }
-      toast.success("Profile updated successfully!");
-      //   navigate("/login");
-    } catch (error: any) {
-      console.error(
-        "Error updating profile: ",
-        error.response.data.error.details,
-      );
-    } finally {
-      setLoading(false);
+      await registerUser({ payload: values, token });
+      navigate("/login");
+    } catch (error) {
+      console.error("Error in invitation page:", error);
     }
   };
 

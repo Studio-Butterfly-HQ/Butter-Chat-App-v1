@@ -1,8 +1,12 @@
+import type { InvitationFormValues } from "@/schemas/invitationSchema";
+
 export interface InviteUserPayload {
   email: string;
   department_ids: string[];
   shift_ids: string[];
 }
+
+export type RegisterUserPayload = InvitationFormValues;
 
 export interface UserDepartment {
   id: string;
