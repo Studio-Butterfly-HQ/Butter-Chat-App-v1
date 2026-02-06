@@ -196,7 +196,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
 
                 <div className="flex gap-2">
                   <Button size="sm" type="submit">
-                    <Check className="h-4 w-4 mr-2" /> Save
+                    <Check className="h-4 w-4 " /> Save
                   </Button>
                   <Button
                     variant="outline"
@@ -205,7 +205,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                     type="button"
                     onClick={() => handleCancel("identity")}
                   >
-                    <X className="h-4 w-4 mr-2" /> Cancel
+                    <X className="h-4 w-4 " /> Cancel
                   </Button>
                 </div>
               </AccordionContent>
@@ -257,9 +257,8 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                             key={trait.value}
                             value={trait.value}
                             className="rounded-2xl border text-muted-foreground px-4 flex gap-2 items-center"
-                            variant="outline"
                           >
-                            <Smile className="h-4 w-4" />
+                            {/* <Smile className="h-4 w-4" /> */}
                             {trait.label}
                           </ToggleGroupItem>
                         ))}
@@ -271,7 +270,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
 
                 <div className="flex gap-2">
                   <Button size="sm" type="submit">
-                    <Check className="h-4 w-4 mr-2" /> Save
+                    <Check className="h-4 w-4" /> Save
                   </Button>
                   <Button
                     variant="outline"
@@ -280,7 +279,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                     type="button"
                     onClick={() => handleCancel("personality")}
                   >
-                    <X className="h-4 w-4 mr-2" /> Cancel
+                    <X className="h-4 w-4 " /> Cancel
                   </Button>
                 </div>
               </AccordionContent>
@@ -321,7 +320,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                 />
                 <div className="flex gap-2">
                   <Button size="sm" type="submit">
-                    <Check className="h-4 w-4 mr-2" /> Save
+                    <Check className="h-4 w-4 " /> Save
                   </Button>
                   <Button
                     variant="outline"
@@ -330,7 +329,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                     type="button"
                     onClick={() => handleCancel("general-instruction")}
                   >
-                    <X className="h-4 w-4 mr-2" /> Cancel
+                    <X className="h-4 w-4 " /> Cancel
                   </Button>
                 </div>
               </AccordionContent>
@@ -486,7 +485,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                 />
                 <div className="flex gap-2">
                   <Button size="sm" type="submit">
-                    <Check className="h-4 w-4 mr-2" />
+                    <Check className="h-4 w-4" />
                     Save
                   </Button>
                   <Button
@@ -496,7 +495,7 @@ export const Configure = ({ selectedAgent }: ConfigureProps) => {
                     type="button"
                     onClick={() => handleCancel("human-agent")}
                   >
-                    <X className="h-4 w-4 mr-2" /> Cancel
+                    <X className="h-4 w-4" /> Cancel
                   </Button>
                 </div>
               </AccordionContent>

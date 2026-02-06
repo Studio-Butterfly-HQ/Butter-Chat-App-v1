@@ -19,9 +19,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetDepartments } from "@/provider/department/department.queries";
 import type { Department } from "@/provider/department/department.types";
 import { AddDepartmentDialog } from "./add-department-dialog";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export function DepartmentTable() {
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [open, setOpen] = useState(false);
 
@@ -51,7 +53,7 @@ export function DepartmentTable() {
               </div>
               <div className="text-xs text-muted-foreground">
                 {dept.employee_count}
-                {dept.employee_count > 1 ? "Employees" : "Employee"}
+                {dept.employee_count > 1 ? " Employees" : " Employee"}
               </div>
             </div>
           </div>
@@ -163,10 +165,10 @@ export function DepartmentTable() {
     data: allDepartments,
     columns,
     state: {
-      globalFilter,
+      globalFilter: debouncedSearchTerm,
       pagination,
     },
-    onGlobalFilterChange: setGlobalFilter,
+    onGlobalFilterChange: setSearchTerm,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -181,8 +183,8 @@ export function DepartmentTable() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 h-10"
           />
         </div>

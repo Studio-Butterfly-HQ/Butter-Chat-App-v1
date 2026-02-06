@@ -18,12 +18,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { InviteEmployeeDialog } from "./invite-employee-dialog";
+import { useDebounce } from "@/hooks/use-debounce";
 
 import { useGetUsers } from "@/provider/user/user.queries";
 import { User, UserDepartment } from "@/provider/user/user.types";
 
 export function EmployeeTable() {
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { data: usersData, isLoading } = useGetUsers();
@@ -120,7 +122,7 @@ export function EmployeeTable() {
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
             <span className="text-muted-foreground capitalize">
-              {row.original.status.toLowerCase()}
+              {row.original.status?.toLowerCase() ?? "unknown"}
             </span>
           </div>
         ),
@@ -138,10 +140,10 @@ export function EmployeeTable() {
     data: allEmployees,
     columns,
     state: {
-      globalFilter,
+      globalFilter: debouncedSearchTerm,
       pagination,
     },
-    onGlobalFilterChange: setGlobalFilter,
+    onGlobalFilterChange: setSearchTerm,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -156,8 +158,8 @@ export function EmployeeTable() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 h-10"
           />
         </div>

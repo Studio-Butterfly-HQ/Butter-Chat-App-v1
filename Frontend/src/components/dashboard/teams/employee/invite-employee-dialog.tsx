@@ -45,7 +45,6 @@ export const InviteEmployeeDialog = memo(function InviteEmployeeDialog({
   open,
   onOpenChange,
 }: InviteEmployeeDialogProps) {
-  console.log("rendered...");
   const { data: departmentsData } = useGetDepartments();
   const { data: shiftsData } = useGetShifts();
   const { mutateAsync: inviteUser, isPending } = useInviteUser();
@@ -104,7 +103,7 @@ export const InviteEmployeeDialog = memo(function InviteEmployeeDialog({
                       placeholder="user@example.com"
                       className="h-10"
                     />
-                    <FormMessage className="text-sm"/> 
+                    <FormMessage className="text-sm" />
                   </FormItem>
                 )}
               />
@@ -130,7 +129,7 @@ export const InviteEmployeeDialog = memo(function InviteEmployeeDialog({
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage className="text-sm"/>
+                    <FormMessage className="text-sm" />
                   </FormItem>
                 )}
               />

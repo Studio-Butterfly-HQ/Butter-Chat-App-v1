@@ -19,6 +19,7 @@ import { useGetShifts } from "@/provider/shift/shift.queries";
 import type { Shift } from "@/provider/shift/shift.types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AddShiftDialog } from "./add-shift-dialog";
+import { useDebounce } from "@/hooks/use-debounce";
 
 // Helper function to convert 24-hour time to 12-hour format with AM/PM
 const formatTo12Hour = (time24: string): string => {
@@ -37,7 +38,8 @@ const formatTo12Hour = (time24: string): string => {
 };
 
 export function ShiftTable() {
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -65,7 +67,7 @@ export function ShiftTable() {
               <div className="font-medium">{shift.shift_name}</div>
               <div className="text-xs text-muted-foreground">
                 {shift?.users?.length}
-                {shift?.users?.length > 1 ? "Employees" : "Employee"}
+                {shift?.users?.length > 1 ? " Employees" : " Employee"}
               </div>
             </div>
           </div>
@@ -194,10 +196,10 @@ export function ShiftTable() {
     data: shifts,
     columns: shiftColumns,
     state: {
-      globalFilter,
+      globalFilter: debouncedSearchTerm,
       pagination,
     },
-    onGlobalFilterChange: setGlobalFilter,
+    onGlobalFilterChange: setSearchTerm,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -212,8 +214,8 @@ export function ShiftTable() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 h-10"
           />
         </div>
@@ -236,7 +238,7 @@ export function ShiftTable() {
           rowRounded: false,
         }}
       >
-        <div className="w-full flex flex-col gap-2 justify-between min-h-[calc(100vh-16.1rem)] space-y.5">
+        <div className="w-full flex flex-col gap-2 justify-between min-h-[calc(100vh-16.1rem)] space-y-2.5">
           <DataGridContainer border={false}>
             <ScrollArea>
               <DataGridTable />
