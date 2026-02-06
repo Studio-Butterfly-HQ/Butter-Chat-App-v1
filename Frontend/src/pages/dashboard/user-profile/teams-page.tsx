@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EmployeeTable } from "@/components/user-profile/teams/employee-table";
-import { DepartmentTable } from "@/components/user-profile/teams/department-table";
-import { ShiftTable } from "@/components/user-profile/teams/shift-table";
+import { EmployeeTable } from "@/components/dashboard/teams/employee/employee-table";
+import { DepartmentTable } from "@/components/dashboard/teams/department/department-table";
+import { ShiftTable } from "@/components/dashboard/teams/shift/shift-table";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen } from "lucide-react";

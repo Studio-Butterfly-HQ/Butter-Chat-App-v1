@@ -208,8 +208,7 @@ export function UserSidebar() {
                       className="object-cover"
                     />
                     <AvatarFallback className="rounded-lg">
-                      {" "}
-                      <Users />{" "}
+                      <Users />
                     </AvatarFallback>
                   </Avatar>
 

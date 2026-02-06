@@ -90,7 +90,6 @@ export default function SignupPage() {
         </div>
 
         <div className="flex-1 h-0 min-h-0">
-          {" "}
           {/* todo pb-3 */}
           <ScrollArea className="h-full">
             <div className="px-6 lg:px-8 pb-6 lg:pb-8 min-h-[calc(100vh-6rem)] flex flex-col justify-center">
@@ -240,8 +239,7 @@ export default function SignupPage() {
                         >
                           {isPending ? (
                             <>
-                              {" "}
-                              <Spinner /> Please wait...{" "}
+                              <Spinner /> Please wait...
                             </>
                           ) : (
                             <> Create Account </>
@@ -283,7 +281,7 @@ export default function SignupPage() {
                     </div>
 
                     <p className="text-center text-muted-foreground mb-4">
-                      Already have an account?{" "}
+                      Already have an account?
                       <Link
                         to="/login"
                         className="underline text-muted-foreground"
@@ -295,9 +293,9 @@ export default function SignupPage() {
                     <Separator className="mb-4" />
 
                     <p className="text-center text-muted-foreground text-sm">
-                      By clicking continue, you agree to our{" "}
-                      <span className="underline cursor-pointer">Terms</span>{" "}
-                      and{" "}
+                      By clicking continue, you agree to our
+                      <span className="underline cursor-pointer">Terms</span>
+                      and
                       <span className="underline cursor-pointer">
                         Privacy Policy
                       </span>

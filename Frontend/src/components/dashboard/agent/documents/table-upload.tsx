@@ -202,7 +202,7 @@ export default function TableUpload({
     <div className={cn("w-full space-y-4", className)}>
       <div
         className={cn(
-          "rounded-lg border-2 border-dashed p-8 text-center",
+          "rounded-lg border-2 border-dashed p-8 text-center cursor-pointer",
           isDragging
             ? "border-primary bg-primary/5"
             : "border-muted-foreground/25 hover:border-muted-foreground/50",
@@ -211,12 +211,12 @@ export default function TableUpload({
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
+        onClick={openFileDialog}
       >
         <input {...getInputProps()} className="sr-only" />
 
         <div
-          className="flex flex-col items-center gap-4 cursor-pointer"
-          onClick={openFileDialog}
+          className="flex flex-col items-center gap-4"
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") openFileDialog();
           }}

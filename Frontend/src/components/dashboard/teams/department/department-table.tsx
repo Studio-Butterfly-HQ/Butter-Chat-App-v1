@@ -15,67 +15,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { EmployeeSearchCard } from "./employee-search-card";
-
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  createDepartmentSchema,
-  CreateDepartmentFormValues,
-} from "@/schemas/departmentSchema";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  useCreateDepartment,
-  useGetDepartments,
-} from "@/provider/department/department.queries";
+import { useGetDepartments } from "@/provider/department/department.queries";
 import type { Department } from "@/provider/department/department.types";
-import { Spinner } from "@/components/ui/spinner";
+import { AddDepartmentDialog } from "./add-department-dialog";
 
 export function DepartmentTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [open, setOpen] = useState(false);
 
-  const { mutateAsync } = useCreateDepartment();
   const { data: departmentsResponse, isLoading } = useGetDepartments();
-
-  const departmentForm = useForm<CreateDepartmentFormValues>({
-    defaultValues: {
-      department_name: "",
-    },
-    resolver: zodResolver(createDepartmentSchema),
-    mode: "onChange",
-  });
-
-  const onDepartmentFormSubmit = async (data: CreateDepartmentFormValues) => {
-    try {
-      const payload: CreateDepartmentFormValues = {
-        department_name: data.department_name,
-      };
-      console.log("Department data: ", payload);
-      await mutateAsync(payload);
-      departmentForm.reset();
-      setOpen(false);
-    } catch (error) {
-      console.error("Error in department page: ", error);
-    }
-  };
 
   // Use API data directly
   const allDepartments = departmentsResponse?.data || [];
@@ -100,7 +50,7 @@ export function DepartmentTable() {
                 {dept.department_name}
               </div>
               <div className="text-xs text-muted-foreground">
-                {dept.employee_count}{" "}
+                {dept.employee_count}
                 {dept.employee_count > 1 ? "Employees" : "Employee"}
               </div>
             </div>
@@ -242,74 +192,7 @@ export function DepartmentTable() {
           Add new Department
         </Button>
 
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent className="bg-popover max-w-md">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-medium text-primary">
-                Add Department
-              </DialogTitle>
-              <DialogDescription>
-                Create a new department for organizing employees. Click save
-                when you're done.
-              </DialogDescription>
-            </DialogHeader>
-
-            <Form {...departmentForm}>
-              <form
-                onSubmit={departmentForm.handleSubmit(onDepartmentFormSubmit)}
-              >
-                <div className="space-y-5 mt-2">
-                  {/* Department Name */}
-                  <FormField
-                    control={departmentForm.control}
-                    name="department_name"
-                    render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel className="font-normal text-primary">
-                          Department Name{" "}
-                          <span className="text-red-500">*</span>
-                        </FormLabel>
-                        <Input
-                          {...field}
-                          placeholder="Sales Department"
-                          className="h-10"
-                        />
-                        <FormMessage className="text-sm" />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Add Employees */}
-                  <div className="space-y-2">
-                    <label className="text-sm text-primary">
-                      Add Employees
-                    </label>
-                    <EmployeeSearchCard />
-                  </div>
-                </div>
-
-                <DialogFooter className="flex gap-2 md:gap-0 mt-6">
-                  <DialogClose asChild>
-                    <Button variant="outline" className="bg-transparent">
-                      Cancel
-                    </Button>
-                  </DialogClose>
-
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? (
-                      <>
-                        <Spinner />
-                        Saving...
-                      </>
-                    ) : (
-                      <>Save Department </>
-                    )}
-                  </Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
+        <AddDepartmentDialog open={open} onOpenChange={setOpen} />
       </div>
 
       <DataGrid

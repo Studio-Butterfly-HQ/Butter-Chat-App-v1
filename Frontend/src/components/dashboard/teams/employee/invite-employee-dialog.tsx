@@ -1,4 +1,10 @@
+import { memo } from "react";
 import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  inviteEmployeeSchema,
+  type InviteEmployeeFormValues,
+} from "@/schemas/inviteEmployeeSchema";
 import {
   Dialog,
   DialogContent,
@@ -30,48 +36,41 @@ import { useInviteUser } from "@/provider/user/user.queries";
 import { Department } from "@/provider/department/department.types";
 import { Shift } from "@/provider/shift/shift.types";
 
-interface InviteEmployeeFormValues {
-  email: string;
-  department: string;
-  shift: string;
-}
-
 interface InviteEmployeeDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function InviteEmployeeDialog({
+export const InviteEmployeeDialog = memo(function InviteEmployeeDialog({
   open,
   onOpenChange,
 }: InviteEmployeeDialogProps) {
+  console.log("rendered...");
   const { data: departmentsData } = useGetDepartments();
   const { data: shiftsData } = useGetShifts();
   const { mutateAsync: inviteUser, isPending } = useInviteUser();
 
   const inviteForm = useForm<InviteEmployeeFormValues>({
+    resolver: zodResolver(inviteEmployeeSchema),
     defaultValues: {
       email: "",
       department: "",
       shift: "",
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const handleFormSubmit = async (data: InviteEmployeeFormValues) => {
-    try{
-        await inviteUser(
-            {
-                email: data.email,
-                department_ids: [data.department],
-                shift_ids: [data.shift],
-            },
-        );
-        onOpenChange(false);
-        inviteForm.reset();
-    }
-    catch(error){
-        console.log("Error inviting user-page: ", error);
+    try {
+      await inviteUser({
+        email: data.email,
+        department_ids: [data.department],
+        shift_ids: [data.shift],
+      });
+      onOpenChange(false);
+      inviteForm.reset();
+    } catch (error) {
+      console.log("Error inviting user-page: ", error);
     }
   };
 
@@ -105,7 +104,7 @@ export function InviteEmployeeDialog({
                       placeholder="user@example.com"
                       className="h-10"
                     />
-                    <FormMessage />
+                    <FormMessage className="text-sm"/> 
                   </FormItem>
                 )}
               />
@@ -131,7 +130,7 @@ export function InviteEmployeeDialog({
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage />
+                    <FormMessage className="text-sm"/>
                   </FormItem>
                 )}
               />
@@ -177,4 +176,4 @@ export function InviteEmployeeDialog({
       </DialogContent>
     </Dialog>
   );
-}
+});

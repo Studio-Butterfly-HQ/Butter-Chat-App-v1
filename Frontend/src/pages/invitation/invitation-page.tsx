@@ -52,8 +52,10 @@ export default function InvitationPage() {
       return;
     }
     try {
-      await registerUser({ payload: values, token });
-      navigate("/login");
+      const res = await registerUser({ payload: values, token });
+      if (res.success) {
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Error in invitation page:", error);
     }
@@ -169,9 +171,9 @@ export default function InvitationPage() {
                     <Separator className="mb-4" />
 
                     <p className="text-center text-muted-foreground text-sm">
-                      By clicking continue, you agree to our{" "}
-                      <span className="underline cursor-pointer">Terms</span>{" "}
-                      and{" "}
+                      By clicking continue, you agree to our
+                      <span className="underline cursor-pointer">Terms</span>
+                      and
                       <span className="underline cursor-pointer">
                         Privacy Policy
                       </span>

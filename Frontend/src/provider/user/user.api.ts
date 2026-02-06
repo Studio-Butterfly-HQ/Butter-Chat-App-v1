@@ -24,9 +24,7 @@ export const inviteUserApi = async (
   }
 
   return data;
-  return data;
 };
-
 export const registerUserApi = async (
   payload: RegisterUserPayload,
   token: string,

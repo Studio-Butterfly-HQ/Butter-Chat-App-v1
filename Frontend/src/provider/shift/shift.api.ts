@@ -4,7 +4,6 @@ import { SHIFT_API } from "@/constants/api";
 export const getShiftsApi = async (
   token: string,
 ): Promise<ApiResponse<Shift[]>> => {
-  console.log("api request");
   const res = await fetch(`${SHIFT_API.GET_SHIFTS}`, {
     method: "GET",
     headers: {

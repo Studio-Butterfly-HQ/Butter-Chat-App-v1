@@ -1,4 +1,3 @@
-
 import { ChevronLeft, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -97,8 +96,7 @@ export default function ResetPasswordPage() {
                         >
                           {isPending ? (
                             <>
-                              {" "}
-                              <Spinner /> Please wait...{" "}
+                              <Spinner /> Please wait...
                             </>
                           ) : (
                             <> Send password reset link </>
