@@ -157,7 +157,7 @@ export default function YourInboxTable() {
       size: 110,
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: <Skeleton className="h-6 w-20 rounded-xl" />,
       },
     },
@@ -181,7 +181,7 @@ export default function YourInboxTable() {
         </div>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: (
           <div className="flex items-center gap-2">
             <Skeleton className="h-6 w-6 rounded-full" />
@@ -213,7 +213,7 @@ export default function YourInboxTable() {
         </div>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: (
           <div className="space-y-2 py-2">
             <Skeleton className="h-4 w-full" />
@@ -241,7 +241,7 @@ export default function YourInboxTable() {
         </div>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: (
           <div className="flex items-center gap-2">
             <Skeleton className="h-6 w-6 rounded-full" />
@@ -261,7 +261,7 @@ export default function YourInboxTable() {
         </div>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: (
           <div className="flex items-center gap-2">
             <Skeleton className="h-2 w-2 rounded-full" />
@@ -280,7 +280,7 @@ export default function YourInboxTable() {
         </span>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: <Skeleton className="h-4 w-16" />,
       },
     },

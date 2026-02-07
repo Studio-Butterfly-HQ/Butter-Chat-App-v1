@@ -73,7 +73,7 @@ export function DocumentsTable() {
             <Skeleton className="h-3 w-64" />
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -85,7 +85,7 @@ export function DocumentsTable() {
       cell: () => <StatusBadge status="SYNCED" />, //todo: fix this
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -108,7 +108,7 @@ export function DocumentsTable() {
       },
       meta: {
         skeleton: <Skeleton className="h-4 w-24" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -132,7 +132,7 @@ export function DocumentsTable() {
             <Skeleton className="h-4 w-4 rounded-full" />
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
   ];

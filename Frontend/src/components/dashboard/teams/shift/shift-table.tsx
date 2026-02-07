@@ -83,7 +83,7 @@ export function ShiftTable() {
             </div>
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -101,7 +101,7 @@ export function ShiftTable() {
       ),
       meta: {
         skeleton: <Skeleton className="h-4 w-36" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -160,7 +160,7 @@ export function ShiftTable() {
             <Skeleton className="h-11 w-11 rounded-full" />
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -187,7 +187,7 @@ export function ShiftTable() {
       },
       meta: {
         skeleton: <Skeleton className="h-4 w-28" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
   ];

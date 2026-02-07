@@ -69,7 +69,7 @@ export function DepartmentTable() {
             </div>
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -129,7 +129,7 @@ export function DepartmentTable() {
             <Skeleton className="h-10 w-10 rounded-full" />
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -156,7 +156,7 @@ export function DepartmentTable() {
       },
       meta: {
         skeleton: <Skeleton className="h-4 w-28" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
   ];

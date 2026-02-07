@@ -137,7 +137,7 @@ const data = {
     },
     {
       title: "Customers",
-      url: "#",
+      url: "/customers",
       icon: Users,
     },
     // {

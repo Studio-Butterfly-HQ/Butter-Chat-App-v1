@@ -1,0 +1,206 @@
+[
+  {
+    "id": "1",
+    "status": "OPEN",
+    "customer": {
+      "name": "Stefan Lang",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "source": "Facebook"
+    },
+    "summary": "Yes, I managed to download all of them. Thanks for your patience.",
+    "tags": ["Status", "Status"],
+    "assignee": {
+      "name": "Stefan Lang",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "General",
+    "lastUpdated": "21m Ago"
+  },
+  {
+    "id": "2",
+    "status": "IN_PROGRESS",
+    "customer": {
+      "name": "Maria Torres",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
+      "source": "Instagram"
+    },
+    "summary": "The files are currently being reviewed, should be ready soon.",
+    "tags": ["Review", "Processing"],
+    "assignee": {
+      "name": "Maria Torres",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Development",
+    "lastUpdated": "15m Ago"
+  },
+  {
+    "id": "3",
+    "status": "COMPLETED",
+    "customer": {
+      "name": "John Doe",
+      "avatar": "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&h=100&fit=crop&crop=face",
+      "source": "Twitter"
+    },
+    "summary": "All components are finalized and ready for deployment.",
+    "tags": ["Completion", "Finalized"],
+    "assignee": {
+      "name": "John Doe",
+      "avatar": "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Design",
+    "lastUpdated": "10m Ago"
+  },
+  {
+    "id": "4",
+    "status": "PENDING",
+    "customer": {
+      "name": "Sarah Connor",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+      "source": "Email"
+    },
+    "summary": "Waiting for feedback from the team.",
+    "tags": ["Feedback", "Waiting"],
+    "assignee": {
+      "name": "Sarah Connor",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Marketing",
+    "lastUpdated": "5m Ago"
+  },
+  {
+    "id": "5",
+    "status": "DELAYED",
+    "customer": {
+      "name": "Tom Hanks",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+      "source": "Phone"
+    },
+    "summary": "Encountered some issues with the last update.",
+    "tags": ["Issues", "Delayed"],
+    "assignee": {
+      "name": "Tom Hanks",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Support",
+    "lastUpdated": "2m Ago"
+  },
+  {
+    "id": "6",
+    "status": "STARTED",
+    "customer": {
+      "name": "Emma Watson",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+      "source": "LinkedIn"
+    },
+    "summary": "Kickoff meeting scheduled for next week.",
+    "tags": ["Kickoff", "Started"],
+    "assignee": {
+      "name": "Emma Watson",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Planning",
+    "lastUpdated": "1m Ago"
+  },
+  {
+    "id": "7",
+    "status": "UNDER_REVIEW",
+    "customer": {
+      "name": "Chris Pratt",
+      "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face",
+      "source": "Slack"
+    },
+    "summary": "Waiting for final approval from stakeholders.",
+    "tags": ["Approval", "Under Review"],
+    "assignee": {
+      "name": "Chris Pratt",
+      "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Quality Assurance",
+    "lastUpdated": "30s Ago"
+  },
+  {
+    "id": "8",
+    "status": "CANCELLED",
+    "customer": {
+      "name": "Robert Downey Jr.",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "source": "Website"
+    },
+    "summary": "Project was put on hold due to budget constraints.",
+    "tags": ["Status", "Cancelled"],
+    "assignee": {
+      "name": "Robert Downey Jr.",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Finance",
+    "lastUpdated": "Now"
+  },
+  {
+    "id": "9",
+    "status": "RESOLVED",
+    "customer": {
+      "name": "Scarlett Johansson",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face",
+      "source": "WhatsApp"
+    },
+    "summary": "All previous issues have been addressed and closed.",
+    "tags": ["Resolution", "Resolved"],
+    "assignee": {
+      "name": "Scarlett Johansson",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Operations",
+    "lastUpdated": "5s Ago"
+  },
+  {
+    "id": "10",
+    "status": "SCHEDULED",
+    "customer": {
+      "name": "Leonardo DiCaprio",
+      "avatar": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100&h=100&fit=crop&crop=face",
+      "source": "Messenger"
+    },
+    "summary": "Launch date set for next month.",
+    "tags": ["Scheduling", "Scheduled"],
+    "assignee": {
+      "name": "Leonardo DiCaprio",
+      "avatar": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Launch",
+    "lastUpdated": "1s Ago"
+  },
+  {
+    "id": "11",
+    "status": "IN_REVIEW",
+    "customer": {
+      "name": "Natalie Portman",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+      "source": "Instagram"
+    },
+    "summary": "Awaiting feedback from the design team.",
+    "tags": ["Review", "In Review"],
+    "assignee": {
+      "name": "Natalie Portman",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Feedback",
+    "lastUpdated": "2s Ago"
+  },
+  {
+    "id": "12",
+    "status": "ON_HOLD",
+    "customer": {
+      "name": "Dwayne Johnson",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "source": "Facebook"
+    },
+    "summary": "Temporarily paused due to resource allocation.",
+    "tags": ["Status", "On Hold"],
+    "assignee": {
+      "name": "Dwayne Johnson",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face"
+    },
+    "group": "Resource Management",
+    "lastUpdated": "3s Ago"
+  }
+]

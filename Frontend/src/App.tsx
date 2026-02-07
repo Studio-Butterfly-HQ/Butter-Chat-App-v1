@@ -23,6 +23,7 @@ import InboxLayout from "./pages/dashboard/inbox/inbox-layout";
 import YourInboxPage from "./pages/dashboard/inbox/your-inbox/your-inbox-page";
 import UnassignedPage from "./pages/dashboard/inbox/unassigned/unassigned-page";
 import AskButterAiPage from "./pages/dashboard/ask-butter-ai/ask-butter-ai-page";
+import CustomerPage from "./pages/dashboard/customer/customer-page";
 
 export default function App() {
   return (
@@ -66,6 +67,7 @@ export default function App() {
             </Route>
             <Route path="ask-butter-ai" element={<AskButterAiPage />} />
             <Route path="teams" element={<TeamsPage />} />
+            <Route path="customers" element={<CustomerPage />} />
           </Route>
         </Route>
         {/* 404 */}

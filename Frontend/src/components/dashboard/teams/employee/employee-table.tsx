@@ -72,7 +72,7 @@ export function EmployeeTable() {
               </div>
             </div>
           ),
-          headerClassName: "text-primary font-medium",
+          headerClassName: "font-medium",
         },
       },
       {
@@ -98,7 +98,7 @@ export function EmployeeTable() {
         size: 250,
         meta: {
           skeleton: <Skeleton className="h-4 w-32 rounded-xl" />,
-          headerClassName: "text-primary font-medium",
+          headerClassName: "font-medium",
         },
       },
       {
@@ -112,7 +112,7 @@ export function EmployeeTable() {
         size: 180,
         meta: {
           skeleton: <Skeleton className="h-4 w-10" />,
-          headerClassName: "text-primary font-medium",
+          headerClassName: "font-medium",
         },
       },
       {
@@ -129,7 +129,7 @@ export function EmployeeTable() {
         size: 150,
         meta: {
           skeleton: <Skeleton className="h-4 w-36" />,
-          headerClassName: "text-primary font-medium",
+          headerClassName: "font-medium",
         },
       },
     ],
