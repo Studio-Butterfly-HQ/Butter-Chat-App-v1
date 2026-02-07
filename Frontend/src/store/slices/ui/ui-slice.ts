@@ -26,9 +26,6 @@ const uiSlice = createSlice({
     resetTeamsTabs(state) {
       state.activeTeamsTab = initialState.activeTeamsTab;
     },
-    setSelectedInboxUserId(state, action: PayloadAction<string | null>) {
-      state.selectedInboxUserId = action.payload;
-    },
     openUserSidebar(state) {
       state.isUserSidebarOpen = true;
     },
@@ -73,7 +70,6 @@ export const {
   setActiveTeamsTab,
   resetAiAgentTabs,
   resetTeamsTabs,
-  setSelectedInboxUserId,
   openUserSidebar,
   closeUserSidebar,
   toggleUserSidebar,

@@ -1,21 +1,19 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 import { ChevronDown, ArrowUpRight, User, Users, X } from "lucide-react";
 import messageData from "@/constants/dummy/user.json";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import {closeUserSidebar} from "@/store/slices/ui/ui-slice";
+import { useAppDispatch } from "@/store/hooks";
+import { closeUserSidebar } from "@/store/slices/ui/ui-slice";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
-import {
-  SidebarHeader,
-  SidebarContent,
-} from "@/components/ui/sidebar";
+import { SidebarHeader, SidebarContent } from "@/components/ui/sidebar";
 
 const CollapsibleSection = ({
   title,
@@ -55,9 +53,8 @@ const Tag = ({ label }: { label: string }) => (
 );
 
 export function UserSidebar() {
-  const selectedInboxUserId = useAppSelector(
-    (state) => state.ui.selectedInboxUserId,
-  );
+  const [searchParams] = useSearchParams();
+  const selectedInboxUserId = searchParams.get("id");
   const dispatch = useAppDispatch();
 
   const selectedUser =

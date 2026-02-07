@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -35,7 +34,6 @@ import { cn } from "@/lib/utils";
 import userData from "@/constants/dummy/user.json";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  setSelectedInboxUserId,
   openUserSidebar,
   openCustomerChat,
 } from "@/store/slices/ui/ui-slice";
@@ -122,6 +120,7 @@ export default function YourInboxTable() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const isCustomerChatOpen = useAppSelector(
     (state) => state.ui.isCustomerChatOpen,
   );
@@ -372,7 +371,10 @@ export default function YourInboxTable() {
         table={table}
         recordCount={dummyInboxData.length}
         onRowClick={(row: InboxData) => {
-          dispatch(setSelectedInboxUserId(row.id));
+          setSearchParams((prev: URLSearchParams) => {
+            prev.set("id", row.id);
+            return prev;
+          });
           dispatch(openUserSidebar());
           dispatch(openCustomerChat());
         }}
