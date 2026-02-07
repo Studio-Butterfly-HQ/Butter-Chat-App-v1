@@ -33,10 +33,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import userData from "@/constants/dummy/user.json";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  openUserSidebar,
-  openCustomerChat,
-} from "@/store/slices/ui/ui-slice";
+import { openUserSidebar, openCustomerChat } from "@/store/slices/ui/ui-slice";
 
 export type TicketStatus =
   | "OPEN"
@@ -375,7 +372,9 @@ export default function YourInboxTable() {
             prev.set("id", row.id);
             return prev;
           });
-          dispatch(openUserSidebar());
+          if (!isCustomerChatOpen) {
+            dispatch(openUserSidebar());
+          }
           dispatch(openCustomerChat());
         }}
         tableLayout={{

@@ -1,18 +1,25 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { Sidebar } from "@/components/ui/sidebar";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import UserSidebar from "@/components/dashboard/inbox/user-details/user-sidebar";
+import { closeUserSidebar } from "@/store/slices/ui/ui-slice";
 
 export function UserSidebarWrapper({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const isInboxPage = location.pathname.startsWith("/inbox");
   const isUserSidebarOpen = useAppSelector(
     (state) => state.ui.isUserSidebarOpen,
   );
-  if (!isInboxPage || !isUserSidebarOpen) return null;
+  if (!isInboxPage || !isUserSidebarOpen){
+    if (isUserSidebarOpen) {
+      dispatch(closeUserSidebar());
+    }
+    return null;
+  }
 
   return (
     <Sidebar
