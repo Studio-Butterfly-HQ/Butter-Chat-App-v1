@@ -36,6 +36,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   openUserSidebar,
   openCustomerChat,
+  setSelectedInboxUserId,
 } from "@/store/slices/ui/ui-slice";
 
 export type TicketStatus =
@@ -371,11 +372,10 @@ export default function YourInboxTable() {
         table={table}
         recordCount={dummyInboxData.length}
         onRowClick={(row: InboxData) => {
-          setSearchParams((prev: URLSearchParams) => {
-            prev.set("id", row.id);
-            return prev;
-          });
-          dispatch(openUserSidebar());
+          dispatch(setSelectedInboxUserId(row.id));
+          if (!isCustomerChatOpen) {
+            dispatch(openUserSidebar());
+          }
           dispatch(openCustomerChat());
         }}
         tableLayout={{

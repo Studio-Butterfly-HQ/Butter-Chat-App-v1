@@ -5,7 +5,7 @@ import messageData from "@/constants/dummy/user.json";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { closeUserSidebar } from "@/store/slices/ui/ui-slice";
 import {
   Collapsible,
@@ -53,13 +53,13 @@ const Tag = ({ label }: { label: string }) => (
 );
 
 export function UserSidebar() {
-  const [searchParams] = useSearchParams();
-  const selectedInboxUserId = searchParams.get("id");
-  const dispatch = useAppDispatch();
-
+  const selectedInboxUserId = useAppSelector(
+    (state) => state.ui.selectedInboxUserId,
+  );
   const selectedUser =
     (messageData as any[]).find((u) => u.id === selectedInboxUserId) ||
     (messageData as any[])[0];
+  const dispatch = useAppDispatch();
 
   if (!selectedUser) return null;
 

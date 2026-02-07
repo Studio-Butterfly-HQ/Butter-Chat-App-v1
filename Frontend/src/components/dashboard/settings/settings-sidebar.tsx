@@ -1,6 +1,3 @@
-"use client";
-
-import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Settings, Bell, Shield, Link2 } from "lucide-react";
 import {

@@ -59,6 +59,9 @@ const uiSlice = createSlice({
     resetInboxTabs(state) {
       state.activeInboxTab = initialState.activeInboxTab;
     },
+    setSelectedInboxUserId(state, action: PayloadAction<string | null>) {
+      state.selectedInboxUserId = action.payload;
+    },
   },
 });
 
@@ -80,6 +83,7 @@ export const {
   setOnboardingStep,
   resetOnboardingStep,
   setActiveInboxTab,
-  resetInboxTabs
+  resetInboxTabs,
+  setSelectedInboxUserId,
 } = uiSlice.actions;
 export default uiSlice.reducer;
