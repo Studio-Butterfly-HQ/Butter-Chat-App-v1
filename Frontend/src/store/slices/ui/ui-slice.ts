@@ -56,6 +56,12 @@ const uiSlice = createSlice({
     resetOnboardingStep(state) {
       state.onboardingStep = initialState.onboardingStep;
     },
+    setActiveInboxTab(state, action: PayloadAction<string>) {
+      state.activeInboxTab = action.payload;
+    },
+    resetInboxTabs(state) {
+      state.activeInboxTab = initialState.activeInboxTab;
+    },
   },
 });
 
@@ -77,5 +83,7 @@ export const {
   setSelectedAiAgentId,
   setOnboardingStep,
   resetOnboardingStep,
+  setActiveInboxTab,
+  resetInboxTabs
 } = uiSlice.actions;
 export default uiSlice.reducer;

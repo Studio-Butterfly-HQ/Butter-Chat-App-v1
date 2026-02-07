@@ -40,7 +40,7 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Route>
 
-        <Route element={<ProtectedRoute   />}>
+        <Route element={<ProtectedRoute />}>
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<Navigate to="/ask-butter-ai" replace />} />
@@ -61,9 +61,9 @@ export default function App() {
               <Route path="documents" element={<DocumentsPage />} />
             </Route>
             <Route path="inbox" element={<InboxLayout />}>
-              <Route index element={<Navigate to="your-inbox" replace />} />
+              {/* <Route index element={<Navigate to="your-inbox" replace />} />
               <Route path="your-inbox" element={<YourInboxPage />} />
-              <Route path="unassigned" element={<UnassignedPage />} />
+              <Route path="unassigned" element={<UnassignedPage />} /> */}
             </Route>
             <Route path="ask-butter-ai" element={<AskButterAiPage />} />
             <Route path="teams" element={<TeamsPage />} />

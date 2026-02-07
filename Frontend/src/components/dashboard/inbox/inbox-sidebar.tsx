@@ -1,6 +1,3 @@
-"use client";
-
-import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Inbox,
@@ -31,34 +28,38 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setActiveInboxTab } from "@/store/slices/ui/ui-slice";
 
 export function InboxSidebar() {
   const location = useLocation();
+  const activeInboxTab = useAppSelector((state) => state.ui.activeInboxTab);
+  const dispatch = useAppDispatch();
 
   const navigationItems = [
     {
       title: "Your Inbox",
-      url: "/inbox/your-inbox",
+      url: "/inbox",
       icon: Inbox,
       badge: 15,
+      onClick: () => dispatch(setActiveInboxTab("your-inbox")),
+      activeTab: "your-inbox",
     },
     {
       title: "Unassigned",
-      url: "/inbox/unassigned",
+      url: "/inbox",
       icon: Users,
       badge: 15,
+      onClick: () => dispatch(setActiveInboxTab("unassigned")),
+      activeTab: "unassigned",
     },
     {
       title: "Closed",
-      url: "/inbox/closed-box",
+      url: "/inbox",
       icon: Archive,
       badge: 15,
-    },
-    {
-      title: "Closed",
-      url: "/inbox/closed-chat",
-      icon: Book,
-      badge: 15,
+      onClick: () => dispatch(setActiveInboxTab("closed-box")),
+      activeTab: "closed-box",
     },
     {
       title: "Categories",
@@ -67,18 +68,24 @@ export function InboxSidebar() {
       items: [
         {
           title: "eCommerce",
-          url: "/inbox/category/ecommerce",
+          url: "/inbox",
           badge: 15,
+          onClick: () => dispatch(setActiveInboxTab("category-ecommerce")),
+          activeTab: "category-ecommerce",
         },
         {
           title: "General",
-          url: "/inbox/category/general",
+          url: "/inbox",
           badge: 15,
+          onClick: () => dispatch(setActiveInboxTab("category-general")),
+          activeTab: "category-general",
         },
         {
           title: "Support",
-          url: "/inbox/category/support",
+          url: "/inbox",
           badge: 15,
+          onClick: () => dispatch(setActiveInboxTab("category-support")),
+          activeTab: "category-support",
         },
       ],
     },
@@ -89,18 +96,24 @@ export function InboxSidebar() {
       items: [
         {
           title: "eCommerce",
-          url: "/inbox/view/view-ecommerce",
+          url: "/inbox",
           badge: 15,
+          onClick: () => dispatch(setActiveInboxTab("view-ecommerce")),
+          activeTab: "view-ecommerce",
         },
         {
           title: "General",
-          url: "/inbox/view/view-general",
+          url: "/inbox",
           badge: 15,
+          onClick: () => dispatch(setActiveInboxTab("view-general")),
+          activeTab: "view-general",
         },
         {
           title: "Support",
-          url: "/inbox/view/view-support",
+          url: "/inbox",
           badge: 15,
+          onClick: () => dispatch(setActiveInboxTab("view-support")),
+          activeTab: "view-support",
         },
       ],
     },
@@ -124,18 +137,17 @@ export function InboxSidebar() {
           <SidebarMenu>
             {navigationItems.map((item, index) => {
               const isActive =
-                location.pathname === item.url ||
-                // any nested route under the parent (e.g. /ai-agent/websites)
-                location.pathname.startsWith(item.url) ||
-                // or any explicit sub-item match
-                item.items?.some((sub) =>
-                  location.pathname.startsWith(sub.url),
-                );
+                item.activeTab && item.activeTab === activeInboxTab;
+              const hasActiveSubItem = item.items?.some(
+                (subItem) => subItem.activeTab === activeInboxTab,
+              );
+              const shouldBeOpen = isActive || hasActiveSubItem;
+
               return (
                 <Collapsible
                   key={index}
                   asChild
-                  defaultOpen={isActive}
+                  defaultOpen={!!shouldBeOpen}
                   className="group/collapsible"
                 >
                   <SidebarMenuItem
@@ -146,14 +158,15 @@ export function InboxSidebar() {
                         asChild
                         className={isActive ? "bg-muted font-medium" : ""}
                         tooltip={item.title}
+                        onClick={item.onClick}
                       >
-                        <NavLink to={item.url}>
+                        <div className="cursor-pointer">
                           {item.icon && <item.icon className="h-4 w-4" />}
                           <span>{item.title}</span>
                           {item.items && (
                             <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                           )}
-                        </NavLink>
+                        </div>
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     {item.badge && !item.items && (
@@ -164,27 +177,33 @@ export function InboxSidebar() {
                     {item.items && (
                       <CollapsibleContent>
                         <SidebarMenuSub>
-                          {item.items.map((subItem, subIndex) => (
-                            <SidebarMenuSubItem key={subIndex}>
-                              <SidebarMenuSubButton asChild>
-                                <NavLink
-                                  to={subItem.url}
-                                  className={({ isActive }) =>
-                                    isActive
-                                      ? "bg-muted font-medium w-full flex justify-between pr-2"
-                                      : "w-full flex justify-between pr-2"
-                                  }
+                          {item.items.map((subItem, subIndex) => {
+                            const isSubActive =
+                              subItem.activeTab === activeInboxTab;
+                            return (
+                              <SidebarMenuSubItem key={subIndex}>
+                                <SidebarMenuSubButton
+                                  asChild
+                                  onClick={subItem.onClick}
                                 >
-                                  <span className="font-normal">{subItem.title}</span>
-                                  {subItem.badge && (
-                                    <span className="text-xs text-muted-foreground">
-                                      {subItem.badge}
+                                  <div
+                                    className={`cursor-pointer w-full flex justify-between pr-2 ${
+                                      isSubActive ? "bg-muted font-medium" : ""
+                                    }`}
+                                  >
+                                    <span className="font-normal">
+                                      {subItem.title}
                                     </span>
-                                  )}
-                                </NavLink>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
+                                    {subItem.badge && (
+                                      <span className="text-xs text-muted-foreground">
+                                        {subItem.badge}
+                                      </span>
+                                    )}
+                                  </div>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            );
+                          })}
                         </SidebarMenuSub>
                       </CollapsibleContent>
                     )}

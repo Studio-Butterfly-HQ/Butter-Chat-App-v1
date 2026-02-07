@@ -7,6 +7,7 @@ export type UiState = {
   isCustomerChatOpen: boolean;
   selectedAiAgentId: string | null;
   onboardingStep: number;
+  activeInboxTab: string;
 };
 
 export const initialState: UiState = {
@@ -18,4 +19,5 @@ export const initialState: UiState = {
   isCustomerChatOpen: false,
   selectedAiAgentId: null,
   onboardingStep: 1,
+  activeInboxTab: "your-inbox",
 };

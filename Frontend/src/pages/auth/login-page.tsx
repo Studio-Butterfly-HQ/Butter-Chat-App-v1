@@ -59,8 +59,6 @@ export default function LoginPage() {
         </div>
 
         <div className="flex-1 h-0 min-h-0">
-          {" "}
-          {/* todo pb-3 */}
           <ScrollArea className="h-full">
             <div className="px-6 lg:px-8 pb-6 lg:pb-8 min-h-[calc(100vh-6rem)] flex flex-col justify-center">
               <div className="md:p-8 pt-8 flex items-center justify-center">
