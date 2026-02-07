@@ -17,7 +17,7 @@ import {
   PanelLeft,
   MessageSquare,
 } from "lucide-react";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   closeCustomerChat,
   openUserSidebar,
@@ -36,8 +36,9 @@ interface Message {
 }
 
 export default function CustomerChat() {
-  const [searchParams] = useSearchParams();
-  const selectedInboxUserId = searchParams.get("id");
+  const selectedInboxUserId = useAppSelector(
+    (state) => state.ui.selectedInboxUserId,
+  );
   const selectedUser = (userData as any[]).find(
     (u) => u.id === selectedInboxUserId,
   );
@@ -63,6 +64,28 @@ export default function CustomerChat() {
   const [inputValue, setInputValue] = useState("");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (selectedInboxUserId) {
+      setMessages([
+        {
+          id: "1",
+          type: "external",
+          content:
+            "Hi, I have a question about my recent invoice. It seems higher than usual.",
+          timestamp: "7:48 AM",
+        },
+        {
+          id: "2",
+          type: "user",
+          content:
+            "Hi, I have a question about my recent invoice. It seems higher than usual.",
+          timestamp: "8:02 AM",
+          date: "Dec 18",
+        },
+      ]);
+    }
+  }, [selectedInboxUserId]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {

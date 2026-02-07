@@ -7,6 +7,7 @@ export type UiState = {
   selectedAiAgentId: string | null;
   onboardingStep: number;
   activeInboxTab: string;
+  selectedInboxUserId: string | null;
 };
 
 export const initialState: UiState = {
@@ -18,4 +19,5 @@ export const initialState: UiState = {
   selectedAiAgentId: null,
   onboardingStep: 1,
   activeInboxTab: "your-inbox",
+  selectedInboxUserId: null,
 };
