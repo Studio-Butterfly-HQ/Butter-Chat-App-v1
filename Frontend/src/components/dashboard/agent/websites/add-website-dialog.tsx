@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -39,7 +40,7 @@ interface AddWebsiteDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function AddWebsiteDialog({
+export const AddWebsiteDialog = memo(function AddWebsiteDialog({
   open,
   onOpenChange,
 }: AddWebsiteDialogProps) {
@@ -98,7 +99,7 @@ export function AddWebsiteDialog({
                     <p className="text-sm text-muted-foreground">
                       Only publicly accessible URLs are supported.
                     </p>
-                    <FormMessage className="text-sm"/>
+                    <FormMessage className="text-sm" />
                   </FormItem>
                 )}
               />
@@ -234,4 +235,4 @@ export function AddWebsiteDialog({
       </DialogContent>
     </Dialog>
   );
-}
+});

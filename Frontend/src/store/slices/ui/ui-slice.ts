@@ -50,6 +50,12 @@ const uiSlice = createSlice({
     setSelectedAiAgentId(state, action: PayloadAction<string | null>) {
       state.selectedAiAgentId = action.payload;
     },
+    setOnboardingStep(state, action: PayloadAction<number>) {
+      state.onboardingStep = action.payload;
+    },
+    resetOnboardingStep(state) {
+      state.onboardingStep = initialState.onboardingStep;
+    },
   },
 });
 
@@ -69,5 +75,7 @@ export const {
   closeCustomerChat,
   toggleCustomerChat,
   setSelectedAiAgentId,
+  setOnboardingStep,
+  resetOnboardingStep,
 } = uiSlice.actions;
 export default uiSlice.reducer;

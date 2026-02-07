@@ -43,7 +43,7 @@ export default function Footer({
         tabIndex={0}
         className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition cursor-pointer"
       >
-        <span className=" text-sm lg:text-base ">{isLast ? "Home Page" : pageTitles[currentPage]}</span>
+        <span className=" text-sm lg:text-base ">{isLast ? "Dashboard" : pageTitles[currentPage]}</span>
         <ChevronRight className="text-foreground" size={28} />
       </div>
     </footer>

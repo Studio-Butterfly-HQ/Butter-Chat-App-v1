@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EmployeeTable } from "@/components/dashboard/teams/employee/employee-table";
 import { DepartmentTable } from "@/components/dashboard/teams/department/department-table";
@@ -7,11 +8,17 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setActiveTeamsTab } from "@/store/slices/ui/ui-slice";
+import { setActiveTeamsTab, resetTeamsTabs } from "@/store/slices/ui/ui-slice";
 
 const TeamsPage = () => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector((state) => state.ui.activeTeamsTab);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetTeamsTabs());
+    };
+  }, [dispatch]);
 
   const handleTabChange = (value: string) => {
     dispatch(setActiveTeamsTab(value));

@@ -27,6 +27,7 @@ import {
   type InvitationFormValues,
 } from "@/schemas/invitationSchema";
 import { useRegisterUser } from "@/provider/user/user.queries";
+import { Input } from "@/components/ui/input";
 
 export default function InvitationPage() {
   const [searchParams] = useSearchParams();
@@ -95,14 +96,12 @@ export default function InvitationPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-primary text-base font-semibold">
-                                Username
+                                Username <span className="text-red-500">*</span>
                               </FormLabel>
-                              <InputGroup>
-                                <InputGroupInput
+                                <Input
                                   placeholder="johndoe"
                                   {...field}
                                 />
-                              </InputGroup>
                               <FormMessage className="text-sm" />
                             </FormItem>
                           )}
@@ -114,7 +113,7 @@ export default function InvitationPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-primary text-base font-semibold">
-                                Password
+                                Password <span className="text-red-500">*</span>
                               </FormLabel>
                               <InputGroup>
                                 <InputGroupInput
@@ -141,7 +140,7 @@ export default function InvitationPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-primary text-base font-semibold">
-                                Bio (Optional)
+                                Bio <span className="text-muted-foreground text-sm">(optional)</span>
                               </FormLabel>
                               <Textarea
                                 placeholder="Tell us a little about yourself"

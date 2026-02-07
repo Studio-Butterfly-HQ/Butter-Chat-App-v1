@@ -21,8 +21,6 @@ export const useInviteUser = () => {
         return;
       }
       toast.success(res.message);
-      // Invalidate relevant queries if needed, e.g., fetching list of invites or users
-      // queryClient.invalidateQueries({ queryKey: ["users"] });
     },
     onError: (error: any) => {
       console.error("Invite user error details: ", error?.error?.details);
@@ -32,6 +30,7 @@ export const useInviteUser = () => {
 };
 
 export const useRegisterUser = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       payload,
@@ -48,6 +47,9 @@ export const useRegisterUser = () => {
         return;
       }
       toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: ["departments"] });
+      queryClient.invalidateQueries({ queryKey: ["shifts"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
     onError: (error: any) => {
       console.error("Register user error details: ", error?.error?.details);

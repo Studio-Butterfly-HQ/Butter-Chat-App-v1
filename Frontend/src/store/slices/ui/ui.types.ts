@@ -6,6 +6,7 @@ export type UiState = {
   isUserSidebarOpen: boolean;
   isCustomerChatOpen: boolean;
   selectedAiAgentId: string | null;
+  onboardingStep: number;
 };
 
 export const initialState: UiState = {
@@ -16,4 +17,5 @@ export const initialState: UiState = {
   isUserSidebarOpen: false,
   isCustomerChatOpen: false,
   selectedAiAgentId: null,
+  onboardingStep: 1,
 };
