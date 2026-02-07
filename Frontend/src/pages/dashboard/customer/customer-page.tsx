@@ -1,9 +1,9 @@
-import CustomerTable from '@/components/dashboard/customer/customer-table'
+import CustomerDetailsPage from "./customer-details/customer-details-page"
 
 export default function CustomerPage() {
   return (
     <div>
-      <CustomerTable />
+      <CustomerDetailsPage />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import employees from "@/constants/employees.json"
+// import employees from "@/constants/employees.json"
 
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -17,11 +17,11 @@ type Employee = {
 export function EmployeeSearchCard() {
   const [search, setSearch] = useState("")
 
-  const filteredEmployees = (employees as Employee[]).filter(
-    (emp) =>
-      emp.user_name.toLowerCase().includes(search.toLowerCase()) ||
-      emp.email.toLowerCase().includes(search.toLowerCase())
-  )
+  // const filteredEmployees = (employees as Employee[]).filter(
+  //   (emp) =>
+  //     emp.user_name.toLowerCase().includes(search.toLowerCase()) ||
+  //     emp.email.toLowerCase().includes(search.toLowerCase())
+  // )
 
   return (
     <Card className="bg-popover rounded-xl p-3 space-y-3">
@@ -35,11 +35,11 @@ export function EmployeeSearchCard() {
           className="pr-10"
         />
       </div>
-      <ScrollArea className="h-60">
+      {/* <ScrollArea className="h-60">
         <div className="space-y-3">
           {filteredEmployees.map((emp) => (
             <div key={emp.email} className="flex items-center gap-3">
-              {/* Avatar */}
+
               <Avatar className="h-9 w-9 bg-muted">
                 <AvatarImage src={emp.profile_uri} alt={emp.user_name} />
                 <AvatarFallback>
@@ -47,7 +47,6 @@ export function EmployeeSearchCard() {
                 </AvatarFallback>
               </Avatar>
 
-              {/* Info */}
               <div className="flex flex-col leading-tight">
                 <span className="font-medium text-sm">
                   {emp.user_name}
@@ -59,7 +58,7 @@ export function EmployeeSearchCard() {
             </div>
           ))}
         </div>
-      </ScrollArea>
+      </ScrollArea> */}
     </Card>
   )
 }
