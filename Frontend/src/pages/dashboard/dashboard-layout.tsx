@@ -1,33 +1,17 @@
-import { Outlet, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
+
 import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useCompanyProfile } from "@/provider/profile/profile.queries";
 import { TestAiAgentWrapper } from "@/components/dashboard/agent/test-ai-agent/test-ai-agent-wrapper";
 import { SettingsSidebarWrapper } from "@/components/dashboard/settings/settings-sidebar-wrapper";
 import { InboxSidebarWrapper } from "@/components/dashboard/inbox/inbox-sidebar-wrapper";
-import { useAppDispatch } from "@/store/hooks";
+
 import { UserSidebarWrapper } from "@/components/dashboard/inbox/user-details/user-sidebar-wrapper";
 import { CustomerChatWrapper } from "@/components/dashboard/inbox/chat/customer-chat-wrapper";
-import {
-  closeTestAiAgent,
-  resetTeamsTabs,
-  resetAiAgentTabs,
-} from "@/store/slices/ui/ui-slice";
 
 export default function DashboardLayout() {
   const { isLoading } = useCompanyProfile();
-  const location = useLocation();
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!location.pathname.startsWith("/ai-agent")) {
-      dispatch(resetAiAgentTabs());
-    }
-    if (!location.pathname.startsWith("/teams")) {
-      dispatch(resetTeamsTabs());
-    }
-  }, [location.pathname, dispatch]);
 
   return (
     <SidebarProvider>

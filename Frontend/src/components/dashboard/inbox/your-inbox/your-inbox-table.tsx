@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -35,7 +34,6 @@ import { cn } from "@/lib/utils";
 import userData from "@/constants/dummy/user.json";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  setSelectedInboxUserId,
   openUserSidebar,
   openCustomerChat,
 } from "@/store/slices/ui/ui-slice";
@@ -122,6 +120,7 @@ export default function YourInboxTable() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const isCustomerChatOpen = useAppSelector(
     (state) => state.ui.isCustomerChatOpen,
   );
@@ -157,7 +156,7 @@ export default function YourInboxTable() {
       size: 110,
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: <Skeleton className="h-6 w-20 rounded-xl" />,
       },
     },
@@ -181,7 +180,7 @@ export default function YourInboxTable() {
         </div>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: (
           <div className="flex items-center gap-2">
             <Skeleton className="h-6 w-6 rounded-full" />
@@ -213,7 +212,7 @@ export default function YourInboxTable() {
         </div>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: (
           <div className="space-y-2 py-2">
             <Skeleton className="h-4 w-full" />
@@ -241,7 +240,7 @@ export default function YourInboxTable() {
         </div>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: (
           <div className="flex items-center gap-2">
             <Skeleton className="h-6 w-6 rounded-full" />
@@ -261,7 +260,7 @@ export default function YourInboxTable() {
         </div>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: (
           <div className="flex items-center gap-2">
             <Skeleton className="h-2 w-2 rounded-full" />
@@ -280,7 +279,7 @@ export default function YourInboxTable() {
         </span>
       ),
       meta: {
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
         skeleton: <Skeleton className="h-4 w-16" />,
       },
     },
@@ -372,7 +371,10 @@ export default function YourInboxTable() {
         table={table}
         recordCount={dummyInboxData.length}
         onRowClick={(row: InboxData) => {
-          dispatch(setSelectedInboxUserId(row.id));
+          setSearchParams((prev: URLSearchParams) => {
+            prev.set("id", row.id);
+            return prev;
+          });
           dispatch(openUserSidebar());
           dispatch(openCustomerChat());
         }}

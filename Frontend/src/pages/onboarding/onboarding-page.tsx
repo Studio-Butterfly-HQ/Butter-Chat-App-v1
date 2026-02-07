@@ -1,60 +1,64 @@
-import { useState, useEffect } from "react"
-import Header from "@/components/onboarding/header"
-import PaginationDots from "@/components/onboarding/pagination-dots"
-import ProfileUpdateCard from "@/components/profile/profile-update-card"
-import ConnectResourcesCard from "@/components/connect/connect-resources-card"
-import CreateAgentCard from "@/components/dashboard/agent/create-agent-card"
-import Footer from "@/components/onboarding/footer"
-import { useNavigate } from "react-router-dom"
+import { useEffect } from "react";
+import Header from "@/components/onboarding/header";
+import PaginationDots from "@/components/onboarding/pagination-dots";
+import ProfileUpdateCard from "@/components/profile/profile-update-card";
+import ConnectResourcesCard from "@/components/connect/connect-resources-card";
+import CreateAgentCard from "@/components/dashboard/agent/create-agent-card";
+import Footer from "@/components/onboarding/footer";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  setOnboardingStep,
+  resetOnboardingStep,
+} from "@/store/slices/ui/ui-slice";
 
 interface OnboardingStepProps {
-  isFirst: boolean
-  isLast: boolean
+  isFirst: boolean;
+  isLast: boolean;
 }
 
 export default function Onboarding() {
-  const navigate = useNavigate()
-  const [currentPage, setCurrentPage] = useState<number>(() => { 
-    const saved = localStorage.getItem("onboarding_step");
-    return saved ? Number(saved) : 1
-  })
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const currentPage = useAppSelector((state) => state.ui.onboardingStep);
 
   const pages: React.ComponentType<OnboardingStepProps>[] = [
     ProfileUpdateCard,
     ConnectResourcesCard,
     CreateAgentCard,
-  ]
+  ];
   const pageTitles = [
     "Profile Information",
     "Connect Resources",
     "Create AI Agent",
-  ]
-  const totalPages = pages.length
-  const isFirst = currentPage === 1
-  const isLast = currentPage === totalPages
+  ];
+  const totalPages = pages.length;
+  const isFirst = currentPage === 1;
+  const isLast = currentPage === totalPages;
 
   const next = () => {
     if (!isLast) {
-      setCurrentPage(p => p + 1)
+      dispatch(setOnboardingStep(currentPage + 1));
     } else {
-      localStorage.removeItem("onboarding_step");
-      navigate("/")
+      dispatch(resetOnboardingStep());
+      navigate("/");
     }
-  }
+  };
 
   const prev = () => {
-    if (!isFirst) setCurrentPage(p => p - 1)
-  }
-  
+    if (!isFirst) dispatch(setOnboardingStep(currentPage - 1));
+  };
+
   useEffect(() => {
-    localStorage.setItem("onboarding_step", String(currentPage))
-  }, [currentPage])
+    return () => {
+      dispatch(resetOnboardingStep());
+    };
+  }, [dispatch]);
 
-
-  const CurrentPage = pages[currentPage - 1]
+  const CurrentPage = pages[currentPage - 1];
   return (
     <div className="min-h-screen flex flex-col p-6 lg:p-8 lg:pt-0 pt-0">
-      <Header/>
+      <Header />
       <main className="flex-1 flex items-center justify-center lg:p-4">
         <div className="w-full max-w-md">
           <CurrentPage
@@ -66,7 +70,7 @@ export default function Onboarding() {
       <PaginationDots
         currentPage={currentPage}
         totalPages={pages.length}
-        onPageChange={setCurrentPage}
+        onPageChange={(page) => dispatch(setOnboardingStep(page))}
       />
       <Footer
         currentPage={currentPage}
@@ -76,5 +80,5 @@ export default function Onboarding() {
         onNext={next}
       />
     </div>
-  )
+  );
 }

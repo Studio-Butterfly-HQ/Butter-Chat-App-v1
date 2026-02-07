@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,16 +17,12 @@ import {
   PanelLeft,
   MessageSquare,
 } from "lucide-react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import {
   closeCustomerChat,
+  openUserSidebar,
   closeUserSidebar,
 } from "@/store/slices/ui/ui-slice";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-} from "@/components/ui/input-group";
 import TextareaAutosize from "react-textarea-autosize";
 import { SidebarHeader } from "@/components/ui/sidebar";
 import userData from "@/constants/dummy/user.json";
@@ -39,9 +36,8 @@ interface Message {
 }
 
 export default function CustomerChat() {
-  const selectedInboxUserId = useAppSelector(
-    (state) => state.ui.selectedInboxUserId,
-  );
+  const [searchParams] = useSearchParams();
+  const selectedInboxUserId = searchParams.get("id");
   const selectedUser = (userData as any[]).find(
     (u) => u.id === selectedInboxUserId,
   );
@@ -98,6 +94,7 @@ export default function CustomerChat() {
 
   const handleClose = () => {
     dispatch(closeCustomerChat());
+    dispatch(closeUserSidebar());
   };
 
   if (!selectedUser) return null;
@@ -114,7 +111,10 @@ export default function CustomerChat() {
           >
             <PanelLeft className="h-4 w-4" />
           </Button>
-          <h1 className="text-sm md:text-xl font-semibold text-foreground">
+          <h1
+            onClick={() => dispatch(openUserSidebar())}
+            className="text-sm md:text-xl font-semibold text-foreground cursor-pointer"
+          >
             {selectedUser.user.name}
           </h1>
         </div>

@@ -19,11 +19,13 @@ import {
 } from "@tanstack/react-table";
 import { useGetWeburis } from "@/provider/weburi/weburi.queries";
 import type { Weburi } from "@/provider/weburi/weburi.types";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export type SyncStatus = "SYNCED" | "FAILED" | "QUEUED";
 
 export function WebsitesTable() {
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -69,8 +71,10 @@ export function WebsitesTable() {
 
         return (
           <div>
-            <div className="font-medium">{getDomainName(row.original.uri)}</div>
-            <div className="text-sm text-muted-foreground">
+            <div className="font-medium truncate">
+              {getDomainName(row.original.uri)}
+            </div>
+            <div className="text-sm text-muted-foreground truncate">
               {row.original.uri}
             </div>
           </div>
@@ -83,7 +87,7 @@ export function WebsitesTable() {
             <Skeleton className="h-3 w-64" />
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -97,7 +101,7 @@ export function WebsitesTable() {
       ),
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -120,7 +124,7 @@ export function WebsitesTable() {
       },
       meta: {
         skeleton: <Skeleton className="h-4 w-24" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -144,7 +148,7 @@ export function WebsitesTable() {
             <Skeleton className="h-4 w-4 rounded-full" />
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
   ];
@@ -153,10 +157,10 @@ export function WebsitesTable() {
     data: allWeburis,
     columns: websiteColumns,
     state: {
-      globalFilter,
+      globalFilter: debouncedSearchTerm,
       pagination,
     },
-    onGlobalFilterChange: setGlobalFilter,
+    onGlobalFilterChange: setSearchTerm,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -171,8 +175,8 @@ export function WebsitesTable() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 h-10"
           />
         </div>

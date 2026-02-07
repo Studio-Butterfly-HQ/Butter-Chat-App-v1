@@ -67,7 +67,7 @@ export default function ConnectAccountsPage() {
         <div className="flex items-center gap-2 px-4 w-full md:w-auto justify-start md:justify-end overflow-x-auto">
           <Badge
             variant="outline"
-            className="cursor-pointer rounded-full hover:bg-accent px-2 md:px-3 py-1.5 text-xs font-normal whitespace-nowrap"
+            className="cursor-pointer text-muted-foreground rounded-full hover:bg-accent px-2 md:px-3 py-1.5 text-xs font-normal whitespace-nowrap"
           >
             <BookOpen className="h-3 w-3 mr-1.5" />
             <span>Learn More</span>

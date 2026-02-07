@@ -26,9 +26,6 @@ const uiSlice = createSlice({
     resetTeamsTabs(state) {
       state.activeTeamsTab = initialState.activeTeamsTab;
     },
-    setSelectedInboxUserId(state, action: PayloadAction<string | null>) {
-      state.selectedInboxUserId = action.payload;
-    },
     openUserSidebar(state) {
       state.isUserSidebarOpen = true;
     },
@@ -50,6 +47,18 @@ const uiSlice = createSlice({
     setSelectedAiAgentId(state, action: PayloadAction<string | null>) {
       state.selectedAiAgentId = action.payload;
     },
+    setOnboardingStep(state, action: PayloadAction<number>) {
+      state.onboardingStep = action.payload;
+    },
+    resetOnboardingStep(state) {
+      state.onboardingStep = initialState.onboardingStep;
+    },
+    setActiveInboxTab(state, action: PayloadAction<string>) {
+      state.activeInboxTab = action.payload;
+    },
+    resetInboxTabs(state) {
+      state.activeInboxTab = initialState.activeInboxTab;
+    },
   },
 });
 
@@ -61,7 +70,6 @@ export const {
   setActiveTeamsTab,
   resetAiAgentTabs,
   resetTeamsTabs,
-  setSelectedInboxUserId,
   openUserSidebar,
   closeUserSidebar,
   toggleUserSidebar,
@@ -69,5 +77,9 @@ export const {
   closeCustomerChat,
   toggleCustomerChat,
   setSelectedAiAgentId,
+  setOnboardingStep,
+  resetOnboardingStep,
+  setActiveInboxTab,
+  resetInboxTabs
 } = uiSlice.actions;
 export default uiSlice.reducer;

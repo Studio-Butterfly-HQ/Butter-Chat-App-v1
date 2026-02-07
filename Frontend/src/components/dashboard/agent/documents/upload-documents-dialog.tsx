@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ interface UploadDocumentsDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function UploadDocumentsDialog({
+export const UploadDocumentsDialog = memo(function UploadDocumentsDialog({
   open,
   onOpenChange,
 }: UploadDocumentsDialogProps) {
@@ -93,4 +93,4 @@ export function UploadDocumentsDialog({
       </DialogContent>
     </Dialog>
   );
-}
+});

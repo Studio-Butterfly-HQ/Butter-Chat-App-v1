@@ -1,17 +1,24 @@
+import { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EmployeeTable } from "@/components/user-profile/teams/employee-table";
-import { DepartmentTable } from "@/components/user-profile/teams/department-table";
-import { ShiftTable } from "@/components/user-profile/teams/shift-table";
+import { EmployeeTable } from "@/components/dashboard/teams/employee/employee-table";
+import { DepartmentTable } from "@/components/dashboard/teams/department/department-table";
+import { ShiftTable } from "@/components/dashboard/teams/shift/shift-table";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setActiveTeamsTab } from "@/store/slices/ui/ui-slice";
+import { setActiveTeamsTab, resetTeamsTabs } from "@/store/slices/ui/ui-slice";
 
 const TeamsPage = () => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector((state) => state.ui.activeTeamsTab);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetTeamsTabs());
+    };
+  }, [dispatch]);
 
   const handleTabChange = (value: string) => {
     dispatch(setActiveTeamsTab(value));
@@ -33,7 +40,7 @@ const TeamsPage = () => {
         <div className="flex items-center gap-2 px-4">
           <Badge
             variant="outline"
-            className="cursor-pointer rounded-full hover:bg-accent px-3 py-1.5 text-xs font-normal"
+            className="cursor-pointer text-muted-foreground rounded-full hover:bg-accent px-3 py-1.5 text-xs font-normal"
           >
             <BookOpen className="h-3 w-3 mr-1.5" />
             Learn More

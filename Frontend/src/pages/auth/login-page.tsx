@@ -1,34 +1,34 @@
-import { useState} from "react"
-import { Link } from "react-router-dom"
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Eye, EyeOff, MessageCircle } from "lucide-react"
-import { loginSchema, LoginFormValues } from "@/schemas/loginSchema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useNavigate } from "react-router-dom"
-import { useLogin } from "@/provider/auth"
-import { Spinner } from "@/components/ui/spinner"
-import { EmailInput } from "@/components/auth/email-input"
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Eye, EyeOff, MessageCircle } from "lucide-react";
+import { loginSchema, LoginFormValues } from "@/schemas/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+import { useLogin } from "@/provider/auth";
+import { Spinner } from "@/components/ui/spinner";
+import { EmailInput } from "@/components/auth/email-input";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components/ui/input-group"
+} from "@/components/ui/input-group";
 import {
   Form,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false)
-  const { mutateAsync, isPending } = useLogin()
-  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+  const { mutateAsync, isPending } = useLogin();
+  const navigate = useNavigate();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -37,19 +37,18 @@ export default function LoginPage() {
       password: "",
     },
     mode: "onBlur",
-  })
+  });
 
   const handleSubmit = async (data: LoginFormValues) => {
     try {
-      const res = await mutateAsync(data)
+      const res = await mutateAsync(data);
       if (res.success) {
-          navigate("/dashboard")
+        navigate("/dashboard");
       }
+    } catch (error) {
+      console.error("Error in login page: ", error);
     }
-    catch (error) {
-      console.error("Error in login page: ", error)
-    }
-  }
+  };
 
   return (
     <div className="h-screen bg-background flex overflow-hidden">
@@ -59,7 +58,7 @@ export default function LoginPage() {
           <span className="text-primary text-2xl font-medium">ButterChat</span>
         </div>
 
-        <div className="flex-1 h-0 min-h-0"> {/* todo pb-3 */}
+        <div className="flex-1 h-0 min-h-0">
           <ScrollArea className="h-full">
             <div className="px-6 lg:px-8 pb-6 lg:pb-8 min-h-[calc(100vh-6rem)] flex flex-col justify-center">
               <div className="md:p-8 pt-8 flex items-center justify-center">
@@ -145,8 +144,7 @@ export default function LoginPage() {
                         >
                           {isPending ? (
                             <>
-                              {" "}
-                              <Spinner /> Please wait...{" "}
+                              <Spinner /> Please wait...
                             </>
                           ) : (
                             <> Login </>
@@ -188,7 +186,7 @@ export default function LoginPage() {
                     </div>
 
                     <p className="text-center text-muted-foreground mb-4">
-                      Don’t have an account?{" "}
+                      Don’t have an account?
                       <Link
                         to="/signup"
                         className="underline text-muted-foreground"
@@ -200,9 +198,9 @@ export default function LoginPage() {
                     <Separator className="mb-4" />
 
                     <p className="text-center text-muted-foreground text-sm">
-                      By clicking continue, you agree to our{" "}
-                      <span className="underline cursor-pointer">Terms</span>{" "}
-                      and{" "}
+                      By clicking continue, you agree to our
+                      <span className="underline cursor-pointer">Terms</span>
+                      and
                       <span className="underline cursor-pointer">
                         Privacy Policy
                       </span>

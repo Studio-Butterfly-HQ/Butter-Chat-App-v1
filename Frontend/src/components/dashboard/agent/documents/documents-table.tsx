@@ -19,11 +19,13 @@ import {
 } from "@tanstack/react-table";
 import { useGetDocuments } from "@/provider/document/document.queries";
 import type { Document } from "@/provider/document/document.types";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export type SyncStatus = "SYNCED" | "FAILED" | "QUEUED";
 
 export function DocumentsTable() {
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -71,7 +73,7 @@ export function DocumentsTable() {
             <Skeleton className="h-3 w-64" />
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -83,7 +85,7 @@ export function DocumentsTable() {
       cell: () => <StatusBadge status="SYNCED" />, //todo: fix this
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -106,7 +108,7 @@ export function DocumentsTable() {
       },
       meta: {
         skeleton: <Skeleton className="h-4 w-24" />,
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
 
@@ -130,7 +132,7 @@ export function DocumentsTable() {
             <Skeleton className="h-4 w-4 rounded-full" />
           </div>
         ),
-        headerClassName: "text-primary font-medium",
+        headerClassName: "font-medium",
       },
     },
   ];
@@ -139,10 +141,10 @@ export function DocumentsTable() {
     data: allDocuments,
     columns: documentColumns,
     state: {
-      globalFilter,
+      globalFilter: debouncedSearchTerm,
       pagination,
     },
-    onGlobalFilterChange: setGlobalFilter,
+    onGlobalFilterChange: setSearchTerm,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -158,8 +160,8 @@ export function DocumentsTable() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search..."
-              value={globalFilter}
-              onChange={(e) => setGlobalFilter(e.target.value)}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 h-10"
             />
           </div>

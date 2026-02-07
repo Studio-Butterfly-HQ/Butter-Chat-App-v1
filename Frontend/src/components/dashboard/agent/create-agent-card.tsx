@@ -180,8 +180,7 @@ export default function CreateAgentCard() {
             >
               {isPending ? (
                 <>
-                  {" "}
-                  <Spinner /> Please wait...{" "}
+                  <Spinner /> Creating AI Agent...
                 </>
               ) : (
                 <> Create AI Agent </>

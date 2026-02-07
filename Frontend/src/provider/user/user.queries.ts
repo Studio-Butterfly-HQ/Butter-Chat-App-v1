@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "@/store/hooks";
-import { inviteUserApi, getUsersApi } from "./user.api";
-import type { InviteUserPayload } from "./user.types";
+import { inviteUserApi, getUsersApi, registerUserApi } from "./user.api";
+import type { InviteUserPayload, RegisterUserPayload } from "./user.types";
 import { toast } from "sonner";
 
 export const useInviteUser = () => {
@@ -21,12 +21,39 @@ export const useInviteUser = () => {
         return;
       }
       toast.success(res.message);
-      // Invalidate relevant queries if needed, e.g., fetching list of invites or users
-      // queryClient.invalidateQueries({ queryKey: ["users"] });
     },
     onError: (error: any) => {
       console.error("Invite user error details: ", error?.error?.details);
       toast.error(error.message || "Failed to invite user");
+    },
+  });
+};
+
+export const useRegisterUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      payload,
+      token,
+    }: {
+      payload: RegisterUserPayload;
+      token: string;
+    }) => {
+      return registerUserApi(payload, token);
+    },
+    onSuccess: (res) => {
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: ["departments"] });
+      queryClient.invalidateQueries({ queryKey: ["shifts"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: (error: any) => {
+      console.error("Register user error details: ", error?.error?.details);
+      toast.error(error.message || "Failed to complete registration");
     },
   });
 };

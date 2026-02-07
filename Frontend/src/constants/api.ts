@@ -41,6 +41,7 @@ export const AGENT_API = {
 export const USER_API = {
   INVITE_USER: `${BACKEND_BASE_URL}/users/invite`,
   GET_USERS: `${BACKEND_BASE_URL}/users`,
+  REGISTER_USER: `${BACKEND_BASE_URL}/users/registration`,
 };
 
 export const COUNTRY_API_URL =

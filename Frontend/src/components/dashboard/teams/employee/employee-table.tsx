@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -18,12 +18,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { InviteEmployeeDialog } from "./invite-employee-dialog";
+import { useDebounce } from "@/hooks/use-debounce";
 
 import { useGetUsers } from "@/provider/user/user.queries";
 import { User, UserDepartment } from "@/provider/user/user.types";
 
 export function EmployeeTable() {
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { data: usersData, isLoading } = useGetUsers();
@@ -70,7 +72,7 @@ export function EmployeeTable() {
               </div>
             </div>
           ),
-          headerClassName: "text-primary font-medium",
+          headerClassName: "font-medium",
         },
       },
       {
@@ -96,7 +98,7 @@ export function EmployeeTable() {
         size: 250,
         meta: {
           skeleton: <Skeleton className="h-4 w-32 rounded-xl" />,
-          headerClassName: "text-primary font-medium",
+          headerClassName: "font-medium",
         },
       },
       {
@@ -110,7 +112,7 @@ export function EmployeeTable() {
         size: 180,
         meta: {
           skeleton: <Skeleton className="h-4 w-10" />,
-          headerClassName: "text-primary font-medium",
+          headerClassName: "font-medium",
         },
       },
       {
@@ -120,14 +122,14 @@ export function EmployeeTable() {
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
             <span className="text-muted-foreground capitalize">
-              {row.original.status.toLowerCase()}
+              {row.original.status?.toLowerCase() ?? "unknown"}
             </span>
           </div>
         ),
         size: 150,
         meta: {
           skeleton: <Skeleton className="h-4 w-36" />,
-          headerClassName: "text-primary font-medium",
+          headerClassName: "font-medium",
         },
       },
     ],
@@ -138,10 +140,10 @@ export function EmployeeTable() {
     data: allEmployees,
     columns,
     state: {
-      globalFilter,
+      globalFilter: debouncedSearchTerm,
       pagination,
     },
-    onGlobalFilterChange: setGlobalFilter,
+    onGlobalFilterChange: setSearchTerm,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -156,8 +158,8 @@ export function EmployeeTable() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 h-10"
           />
         </div>
