@@ -32,7 +32,6 @@ export const useUpdateAgent = () => {
     },
 
     onError: (error: any) => {
-      console.error("Update agent error: ", error);
       console.error("Update agent error:", error?.error?.details);
       toast.error(error.message);
     },
@@ -62,7 +61,6 @@ export const useCreateAgent = () => { //todo showing the old in the select-fix
     },
 
     onError: (error: any) => {
-      console.error("Create agent error: ", error);
       console.error("Create agent error:", error?.error?.details);
       toast.error(error.message);
     },

@@ -5,40 +5,48 @@ export const createWeburiApi = async (
   payload: CreateWeburiPayload,
   token: string,
 ): Promise<ApiResponse<Weburi>> => {
-  const res = await fetch(`${WEBURI_API.CREATE_WEBURI}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const res = await fetch(`${WEBURI_API.CREATE_WEBURI}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
 
-  const data = await res.json();
-  if (!res.ok) {
-    throw data;
+    const data = await res.json();
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
   }
-
-  return data;
 };
 
 export const getWeburisApi = async (
   token: string,
 ): Promise<ApiResponse<Weburi[]>> => {
-  const res = await fetch(`${WEBURI_API.GET_WEBURIS}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const res = await fetch(`${WEBURI_API.GET_WEBURIS}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  const data = await res.json();
-  if (!res.ok) {
-    throw data;
+    const data = await res.json();
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
   }
-
-  return data;
 };
 
 export const deleteWeburiApi = async (
@@ -53,6 +61,13 @@ export const deleteWeburiApi = async (
         Authorization: `Bearer ${token}`,
       },
     });
+    if (res.status === 204) {
+      return {
+        success: true,
+        message: "Website URL deleted successfully",
+        timestamp: new Date().toISOString(),
+      };
+    }
     const data = await res.json();
     if (!res.ok) {
       throw data;

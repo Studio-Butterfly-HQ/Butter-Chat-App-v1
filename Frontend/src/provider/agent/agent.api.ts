@@ -11,62 +11,74 @@ export const updateAgentApi = async (
   payload: UpdateAgentPayload,
   token: string,
 ): Promise<ApiResponse<Agent>> => {
-  const res = await fetch(`${AGENT_API.CREATE_AGENT}/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const res = await fetch(`${AGENT_API.CREATE_AGENT}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (!res.ok) {
-    throw data;
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
   }
-
-  return data;
 };
 
 export const createAgentApi = async (
   payload: CreateAgentPayload,
   token: string,
 ): Promise<ApiResponse<Agent>> => {
-  const res = await fetch(AGENT_API.CREATE_AGENT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const res = await fetch(AGENT_API.CREATE_AGENT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (!res.ok) {
-    throw data;
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
   }
-
-  return data;
 };
 
 export const getAgentsApi = async (
   token: string,
 ): Promise<ApiResponse<Agent[]>> => {
-  const res = await fetch(AGENT_API.CREATE_AGENT, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const res = await fetch(AGENT_API.CREATE_AGENT, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (!res.ok) {
-    throw data;
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
   }
-
-  return data;
 };
