@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { createWeburiApi, getWeburisApi } from "./weburi.api";
+import { createWeburiApi, deleteWeburiApi, getWeburisApi } from "./weburi.api";
 import type { CreateWeburiPayload } from "./weburi.types";
 import { useAppSelector } from "@/store/hooks";
 
@@ -50,6 +50,36 @@ export const useCreateWeburi = () => {
     onError: (error: any) => {
       console.error("Create weburi error details: ", error?.error?.details);
       toast.error(error.message || "Failed to add website");
+    },
+  });
+};
+
+export const useDeleteWeburi = () => {
+  const queryClient = useQueryClient();
+  const token = useAppSelector((state) => state.auth.token);
+
+  return useMutation({
+    mutationFn: (id: string) => {
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      return deleteWeburiApi(id, token);
+    },
+
+    onSuccess: (res) => {
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+
+      toast.success(res.message);
+
+      queryClient.invalidateQueries({ queryKey: ["weburis"] });
+    },
+
+    onError: (error: any) => {
+      console.error("Delete weburi error details: ", error?.error?.details);
+      toast.error(error.message);
     },
   });
 };

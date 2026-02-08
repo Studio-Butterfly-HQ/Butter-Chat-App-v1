@@ -9,6 +9,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Search, Eye, RefreshCcw, Trash2 } from "lucide-react";
 import { UploadDocumentsDialog } from "@/components/dashboard/agent/documents/upload-documents-dialog";
+import { DeleteDocumentDialog } from "@/components/dashboard/agent/documents/delete-document-dialog";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -28,8 +29,17 @@ export function DocumentsTable() {
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [documentToDelete, setDocumentToDelete] = useState<Document | null>(
+    null,
+  );
 
   const { data: documentsResponse, isLoading } = useGetDocuments();
+
+  const handleDeleteClick = (document: Document) => {
+    setDocumentToDelete(document);
+    setDeleteDialogOpen(true);
+  };
 
   const StatusBadge = ({ status }: { status: SyncStatus }) => {
     if (status === "SYNCED") {
@@ -117,11 +127,14 @@ export function DocumentsTable() {
       id: "actions",
       header: "Actions",
       size: 120,
-      cell: () => (
+      cell: ({ row }) => (
         <div className="flex items-center gap-4 justify-start">
           <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
           <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-          <Trash2 className="h-4 w-4 cursor-pointer text-red-500" />
+          <Trash2
+            className="h-4 w-4 cursor-pointer text-red-500 hover:text-red-600"
+            onClick={() => handleDeleteClick(row.original)}
+          />
         </div>
       ),
       meta: {
@@ -196,6 +209,12 @@ export function DocumentsTable() {
           </div>
         </DataGrid>
       </div>
+
+      <DeleteDocumentDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        document={documentToDelete}
+      />
     </>
   );
 }

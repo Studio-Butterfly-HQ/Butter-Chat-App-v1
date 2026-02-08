@@ -191,9 +191,7 @@ export function InboxSidebar() {
                                       isSubActive ? "bg-muted font-medium" : ""
                                     }`}
                                   >
-                                    <span className="font-normal">
-                                      {subItem.title}
-                                    </span>
+                                    <span>{subItem.title}</span>
                                     {subItem.badge && (
                                       <span className="text-xs text-muted-foreground">
                                         {subItem.badge}

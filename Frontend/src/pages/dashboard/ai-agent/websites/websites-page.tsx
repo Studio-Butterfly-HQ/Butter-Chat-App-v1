@@ -34,7 +34,7 @@ export default function WebsitePage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem className="text-sm md:text-base font-semibold">
-                  <BreadcrumbPage>Websites</BreadcrumbPage>
+                  <BreadcrumbPage className="font-semibold">Websites</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

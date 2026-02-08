@@ -32,8 +32,8 @@ export default function DocumentsPage() {
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem className="text-sm md:text-base font-semibold">
-                  <BreadcrumbPage>Documents</BreadcrumbPage>
+                <BreadcrumbItem className="text-sm md:text-base">
+                  <BreadcrumbPage className="font-semibold">Documents</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

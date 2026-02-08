@@ -3,7 +3,7 @@ import { WEBURI_API } from "@/constants/api";
 
 export const createWeburiApi = async (
   payload: CreateWeburiPayload,
-  token: string
+  token: string,
 ): Promise<ApiResponse<Weburi>> => {
   const res = await fetch(`${WEBURI_API.CREATE_WEBURI}`, {
     method: "POST",
@@ -39,4 +39,26 @@ export const getWeburisApi = async (
   }
 
   return data;
+};
+
+export const deleteWeburiApi = async (
+  id: string,
+  token: string,
+): Promise<ApiResponse<null>> => {
+  try {
+    const res = await fetch(WEBURI_API.DELETE_WEBURI(id), {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw data;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };

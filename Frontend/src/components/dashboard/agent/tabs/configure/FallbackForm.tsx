@@ -31,7 +31,10 @@ interface FallbackFormProps {
   onToggle: () => void;
 }
 
-export const FallbackForm = ({selectedAgent, onToggle}: FallbackFormProps) => {
+export const FallbackForm = ({
+  selectedAgent,
+  onToggle,
+}: FallbackFormProps) => {
   const form = useForm<FallbackFormValues>({
     resolver: zodResolver(fallbackSchema),
     defaultValues: {
@@ -48,9 +51,9 @@ export const FallbackForm = ({selectedAgent, onToggle}: FallbackFormProps) => {
   useEffect(() => {
     if (selectedAgent) {
       reset({
-        aiFallback: "message", //todo: defaulting as per original
+        aiFallback: selectedAgent.choice_when_unable as "transfer" | "message",
         aiFallbackCustom: selectedAgent.transfer_connecting_message,
-        aiFallbackWait: selectedAgent.auto_tranfer === "disabled",
+        aiFallbackWait: selectedAgent.auto_transfer === "disabled",
       });
     }
   }, [selectedAgent, reset]);
@@ -74,9 +77,9 @@ export const FallbackForm = ({selectedAgent, onToggle}: FallbackFormProps) => {
   const handleCancel = () => {
     if (selectedAgent) {
       reset({
-        aiFallback: "message",
+        aiFallback: selectedAgent.choice_when_unable as "transfer" | "message",
         aiFallbackCustom: selectedAgent.transfer_connecting_message,
-        aiFallbackWait: selectedAgent.auto_tranfer === "disabled",
+        aiFallbackWait: selectedAgent.auto_transfer === "disabled",
       });
     }
     onToggle();

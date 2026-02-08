@@ -9,11 +9,24 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { useAppDispatch } from "@/store/hooks";
-import { toggleCustomerChat } from "@/store/slices/ui/ui-slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  toggleCustomerChat,
+  closeUserSidebar,
+} from "@/store/slices/ui/ui-slice";
 
 export default function YourInboxPage() {
   const dispatch = useAppDispatch();
+  const isUserSidebarOpen = useAppSelector(
+    (state) => state.ui.isUserSidebarOpen,
+  );
+
+  const handleViewClick = () => {
+    if (isUserSidebarOpen) {
+      dispatch(closeUserSidebar());
+    }
+    dispatch(toggleCustomerChat());
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -46,7 +59,7 @@ export default function YourInboxPage() {
               variant="outline"
               size="sm"
               className="h-7 gap-1.5 px-2"
-              onClick={() => dispatch(toggleCustomerChat())}
+              onClick={handleViewClick}
             >
               <Layout className="h-3 w-3" />
               View

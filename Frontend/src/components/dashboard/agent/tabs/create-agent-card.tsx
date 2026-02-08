@@ -61,8 +61,9 @@ export default function CreateAgentCard() {
         transfer_connecting_message:
           "Connecting you to a human agent.... dummy text",
       };
-      const res = await mutateAsync(payload);
-      refetch();
+      await mutateAsync(payload);
+      await refetch();
+      form.reset();
     } catch (error) {
       console.error("Error in create agent card: ", error);
     }

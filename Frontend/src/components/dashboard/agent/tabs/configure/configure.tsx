@@ -12,7 +12,7 @@ interface ConfigureProps {
 }
 
 export const Configure = ({ selectedAgent }: ConfigureProps) => {
-  const [openItems, setOpenItems] = useState<string[]>(["identity"]);
+  const [openItems, setOpenItems] = useState<string[]>([]);
 
   const closeItem = (itemToDelete: string) => {
     setOpenItems((prev) => prev.filter((item) => item !== itemToDelete));
