@@ -12,7 +12,7 @@ export type UiState = {
 
 export const initialState: UiState = {
   isTestAiAgentOpen: true,
-  activeAiAgentTab: "configure",
+  activeAiAgentTab: "knowledgeBase",
   activeTeamsTab: "employees",
   isUserSidebarOpen: false,
   isCustomerChatOpen: false,

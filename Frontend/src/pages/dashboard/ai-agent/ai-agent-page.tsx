@@ -11,10 +11,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BookOpen, Play, BotMessageSquare } from "lucide-react";
-import { Configure } from "@/components/dashboard/agent/configure";
-import { KnowledgeBase } from "@/components/dashboard/agent/knowledge-base";
-import Flow from "@/components/dashboard/agent/flow";
-import Tool from "@/components/dashboard/agent/tool";
+import { Configure } from "@/components/dashboard/agent/tabs/configure/configure";
+import { KnowledgeBase } from "@/components/dashboard/agent/tabs/knowledge-base";
+import Flow from "@/components/dashboard/agent/tabs/flow";
+import Tool from "@/components/dashboard/agent/tabs/tool";
 import { useGetAgents } from "@/provider/agent/agent.queries";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -107,16 +107,17 @@ const AiAgentPage = () => {
         >
           <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 pl-4 mb-4">
             <TabsTrigger
-              value="configure"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Configure
-            </TabsTrigger>
-            <TabsTrigger
               value="knowledgeBase"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
             >
               Knowledge Base
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="configure"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+            >
+              Configure
             </TabsTrigger>
             <TabsTrigger
               value="flow"

@@ -2,8 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createAgentApi, getAgentsApi, updateAgentApi } from "./agent.api";
 import { toast } from "sonner";
 import type { CreateAgentPayload, UpdateAgentPayload } from "./agent.types";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setSelectedAiAgentId } from "@/store/slices/ui/ui-slice";
+import { useAppSelector } from "@/store/hooks";
 
 export const useUpdateAgent = () => {
   const queryClient = useQueryClient();

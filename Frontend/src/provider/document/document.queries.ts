@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { getDocumentsApi, uploadDocumentsApi } from "./document.api";
+import {
+  deleteDocumentApi,
+  getDocumentsApi,
+  uploadDocumentsApi,
+} from "./document.api";
 import { useAppSelector } from "@/store/hooks";
 
 export const useGetDocuments = () => {
@@ -47,7 +51,37 @@ export const useUploadDocuments = () => {
 
     onError: (error: any) => {
       console.error("Upload documents error details: ", error?.error?.details);
-      toast.error(error.message || "Failed to upload documents");
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useDeleteDocument = () => {
+  const queryClient = useQueryClient();
+  const token = useAppSelector((state) => state.auth.token);
+
+  return useMutation({
+    mutationFn: (filename: string) => {
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      return deleteDocumentApi(filename, token);
+    },
+
+    onSuccess: (res) => {
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+
+      toast.success(res.message);
+
+      queryClient.invalidateQueries({ queryKey: ["documents"] });
+    },
+
+    onError: (error: any) => {
+      console.error("Delete document error details: ", error?.error?.details);
+      toast.error(error.message);
     },
   });
 };

@@ -4,7 +4,7 @@ export interface CreateAgentPayload {
   general_instructions: string;
   choice_when_unable: string;
   conversation_pass_instructions: string;
-  auto_tranfer: string;
+  auto_transfer: string;
   transfer_connecting_message: string;
 }
 
@@ -18,7 +18,7 @@ export interface Agent {
   avatar: string;
   choice_when_unable: string;
   conversation_pass_instructions: string;
-  auto_tranfer: string;
+  auto_transfer: string;
   transfer_connecting_message: string;
   company_id: string;
   enabled: boolean;

@@ -27,11 +27,14 @@ export const DEPARTMENT_API = {
 export const DOCUMENT_API = {
   GET_DOCUMENTS: `${BACKEND_BASE_URL}/documents/list`,
   UPLOAD_DOCUMENTS: `${BACKEND_BASE_URL}/documents/upload-multiple`,
+  DELETE_DOCUMENT: (filename: string) =>
+    `${BACKEND_BASE_URL}/documents/${encodeURIComponent(filename)}`,
 };
 
 export const WEBURI_API = {
   CREATE_WEBURI: `${BACKEND_BASE_URL}/weburi-resources`,
   GET_WEBURIS: `${BACKEND_BASE_URL}/weburi-resources`,
+  DELETE_WEBURI: (id: string) => `${BACKEND_BASE_URL}/weburi-resources/${id}`,
 };
 
 export const AGENT_API = {

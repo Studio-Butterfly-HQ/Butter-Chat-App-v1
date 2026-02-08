@@ -388,8 +388,8 @@ export default function YourInboxTable() {
           header: isCompactMode ? "hidden" : "",
         }}
       >
-        <div className="w-full h-full flex flex-col justify-between space-y-2.5 overflow-hidden">
-          <DataGridContainer border={false} className="flex-1 overflow-hidden">
+        <div className="w-full h-full flex flex-col justify-between space-y-2.5">
+          <DataGridContainer border={false}>
             <ScrollArea
               className={cn(
                 "h-full w-full",

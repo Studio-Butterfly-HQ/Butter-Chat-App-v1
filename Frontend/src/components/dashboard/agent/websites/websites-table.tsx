@@ -9,6 +9,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Search, Eye, RefreshCcw, Trash2 } from "lucide-react";
 import { AddWebsiteDialog } from "@/components/dashboard/agent/websites/add-website-dialog";
+import { DeleteWebsiteDialog } from "@/components/dashboard/agent/websites/delete-website-dialog";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -28,8 +29,15 @@ export function WebsitesTable() {
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [weburiToDelete, setWeburiToDelete] = useState<Weburi | null>(null);
 
   const { data: weburisResponse, isLoading } = useGetWeburis();
+
+  const handleDeleteClick = (weburi: Weburi) => {
+    setWeburiToDelete(weburi);
+    setDeleteDialogOpen(true);
+  };
 
   const StatusBadge = ({ status }: { status: SyncStatus }) => {
     if (status === "SYNCED") {
@@ -133,11 +141,14 @@ export function WebsitesTable() {
       id: "actions",
       header: "Actions",
       size: 120,
-      cell: () => (
+      cell: ({ row }) => (
         <div className="flex items-center gap-4 justify-start">
           <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
           <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-          <Trash2 className="h-4 w-4 cursor-pointer text-red-500" />
+          <Trash2
+            className="h-4 w-4 cursor-pointer text-red-500 hover:text-red-600"
+            onClick={() => handleDeleteClick(row.original)}
+          />
         </div>
       ),
       meta: {
@@ -169,44 +180,55 @@ export function WebsitesTable() {
   });
 
   return (
-    <div className="space-y-8 p-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 h-10"
+    <>
+      <div className="space-y-8 p-4">
+        <div className="flex items-center justify-between gap-4">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 h-10"
+            />
+          </div>
+          <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
+            <Plus />
+            Add Website
+          </Button>
+          <AddWebsiteDialog
+            open={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
           />
         </div>
-        <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
-          <Plus />
-          Add Website
-        </Button>
-        <AddWebsiteDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
+
+        <DataGrid
+          table={table}
+          isLoading={isLoading}
+          recordCount={allWeburis.length}
+          tableLayout={{
+            headerBackground: false,
+            rowBorder: true,
+            rowRounded: false,
+          }}
+        >
+          <div className="w-full flex flex-col justify-between min-h-[calc(100vh-12.11rem)] space-y-2.5">
+            <DataGridContainer border={false}>
+              <ScrollArea>
+                <DataGridTable />
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </DataGridContainer>
+            <DataGridPagination />
+          </div>
+        </DataGrid>
       </div>
 
-      <DataGrid
-        table={table}
-        isLoading={isLoading}
-        recordCount={allWeburis.length}
-        tableLayout={{
-          headerBackground: false,
-          rowBorder: true,
-          rowRounded: false,
-        }}
-      >
-        <div className="w-full flex flex-col justify-between min-h-[calc(100vh-12.11rem)] space-y-2.5">
-          <DataGridContainer border={false}>
-            <ScrollArea>
-              <DataGridTable />
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </DataGridContainer>
-          <DataGridPagination />
-        </div>
-      </DataGrid>
-    </div>
+      <DeleteWebsiteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        weburi={weburiToDelete}
+      />
+    </>
   );
 }
