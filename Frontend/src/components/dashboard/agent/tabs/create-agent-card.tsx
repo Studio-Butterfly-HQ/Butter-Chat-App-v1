@@ -33,8 +33,7 @@ import { useGetAgents } from "@/provider/agent";
 
 export default function CreateAgentCard() {
   const { mutateAsync, isPending } = useCreateAgent();
-  const { data } = useGetAgents();
-
+  const { refetch } = useGetAgents();
   const form = useForm<CreateAgentFormValues>({
     resolver: zodResolver(createAgentSchema),
     defaultValues: {
@@ -58,12 +57,12 @@ export default function CreateAgentCard() {
         choice_when_unable: "transfer_to_human",
         conversation_pass_instructions:
           "Transfer conversation when customer requests human agent... dummy text",
-        auto_tranfer: "enabled",
-        transfer_connecting_message: "Connecting you to a human agent.... dummy text",
+        auto_transfer: "enabled",
+        transfer_connecting_message:
+          "Connecting you to a human agent.... dummy text",
       };
       const res = await mutateAsync(payload);
-      const getAgents = await useGetAgents();
-
+      refetch();
     } catch (error) {
       console.error("Error in create agent card: ", error);
     }
@@ -114,9 +113,13 @@ export default function CreateAgentCard() {
                   <ToggleGroup
                     type="single"
                     value={personality}
-                    onValueChange={(value: "friendly" | "neutral" | "professional" | "humorous") =>
-                      value && setValue("personality", value)
-                    }
+                    onValueChange={(
+                      value:
+                        | "friendly"
+                        | "neutral"
+                        | "professional"
+                        | "humorous",
+                    ) => value && setValue("personality", value)}
                     className="flex flex-wrap justify-between gap-x-0 gap-y-2"
                   >
                     <ToggleGroupItem

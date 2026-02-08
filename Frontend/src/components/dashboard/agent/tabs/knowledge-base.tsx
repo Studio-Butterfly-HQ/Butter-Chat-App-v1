@@ -9,8 +9,8 @@ import {
   FileUp,
 } from "lucide-react";
 import { useState } from "react";
-import { AddWebsiteDialog } from "./websites/add-website-dialog";
-import { UploadDocumentsDialog } from "./documents/upload-documents-dialog";
+import { AddWebsiteDialog } from "../websites/add-website-dialog";
+import { UploadDocumentsDialog } from "../documents/upload-documents-dialog";
 import { Link } from "react-router-dom";
 
 export function KnowledgeBase() {
@@ -43,16 +43,15 @@ export function KnowledgeBase() {
                 <Plus className="h-4 w-4" />
                 Add website
               </Button>
-
               <AddWebsiteDialog
                 open={openAddWebsiteDialog}
                 onOpenChange={setOpenAddWebsiteDialog}
               />
-              <Link to="/ai-agent/websites">
-                <Button size="icon" className="rounded-full h-9 w-9 px-4">
+              <Button size="icon" className="rounded-full h-9 w-9 px-4" asChild>
+                <Link to="/ai-agent/websites" aria-label="View all websites">
                   <ArrowUpRight className="h-4 w-4" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -81,16 +80,15 @@ export function KnowledgeBase() {
                 <Plus className="h-4 w-4" />
                 Upload Document
               </Button>
-
               <UploadDocumentsDialog
                 open={openUploadDocumentsDialog}
                 onOpenChange={setOpenUploadDocumentsDialog}
               />
-              <Link to="/ai-agent/documents">
-                <Button size="icon" className="rounded-full h-9 w-9 px-4">
+              <Button size="icon" className="rounded-full h-9 w-9 px-4" asChild>
+                <Link to="/ai-agent/documents" aria-label="View all documents">
                   <ArrowUpRight className="h-4 w-4" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </CardContent>

@@ -2,8 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createAgentApi, getAgentsApi, updateAgentApi } from "./agent.api";
 import { toast } from "sonner";
 import type { CreateAgentPayload, UpdateAgentPayload } from "./agent.types";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setSelectedAiAgentId } from "@/store/slices/ui/ui-slice";
+import { useAppSelector } from "@/store/hooks";
 
 export const useUpdateAgent = () => {
   const queryClient = useQueryClient();
@@ -33,6 +32,7 @@ export const useUpdateAgent = () => {
     },
 
     onError: (error: any) => {
+      console.error("Update agent error: ", error);
       console.error("Update agent error:", error?.error?.details);
       toast.error(error.message);
     },
@@ -62,6 +62,7 @@ export const useCreateAgent = () => { //todo showing the old in the select-fix
     },
 
     onError: (error: any) => {
+      console.error("Create agent error: ", error);
       console.error("Create agent error:", error?.error?.details);
       toast.error(error.message);
     },

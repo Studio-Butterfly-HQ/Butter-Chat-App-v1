@@ -186,7 +186,7 @@ export default function LoginPage() {
                     </div>
 
                     <p className="text-center text-muted-foreground mb-4">
-                      Don’t have an account?
+                      Don’t have an account?{" "}
                       <Link
                         to="/signup"
                         className="underline text-muted-foreground"
@@ -198,13 +198,20 @@ export default function LoginPage() {
                     <Separator className="mb-4" />
 
                     <p className="text-center text-muted-foreground text-sm">
-                      By clicking continue, you agree to our
-                      <span className="underline cursor-pointer">Terms</span>
-                      and
-                      <span className="underline cursor-pointer">
+                      By clicking continue, you agree to our{" "}
+                      <Link
+                        to="/terms"
+                        className="text-primary underline cursor-pointer"
+                      >
+                        Terms
+                      </Link>{" "}
+                      and{" "}
+                      <Link
+                        to="/privacy"
+                        className="text-primary underline cursor-pointer"
+                      >
                         Privacy Policy
-                      </span>
-                      .
+                      </Link>
                     </p>
                   </Card>
                 </div>

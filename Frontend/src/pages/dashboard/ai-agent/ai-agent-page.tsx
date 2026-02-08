@@ -11,10 +11,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BookOpen, Play, BotMessageSquare } from "lucide-react";
-import { Configure } from "@/components/dashboard/agent/configure";
-import { KnowledgeBase } from "@/components/dashboard/agent/knowledge-base";
-import Flow from "@/components/dashboard/agent/flow";
-import Tool from "@/components/dashboard/agent/tool";
+import { Configure } from "@/components/dashboard/agent/tabs/configure/configure";
+import { KnowledgeBase } from "@/components/dashboard/agent/tabs/knowledge-base";
+import Flow from "@/components/dashboard/agent/tabs/flow";
+import Tool from "@/components/dashboard/agent/tabs/tool";
 import { useGetAgents } from "@/provider/agent/agent.queries";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
