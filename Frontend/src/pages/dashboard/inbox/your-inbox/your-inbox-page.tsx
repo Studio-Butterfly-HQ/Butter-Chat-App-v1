@@ -9,8 +9,12 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+import { useAppDispatch } from "@/store/hooks";
+import { toggleCustomerChat } from "@/store/slices/ui/ui-slice";
 
 export default function YourInboxPage() {
+  const dispatch = useAppDispatch();
+
   return (
     <div className="h-full flex flex-col">
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -38,7 +42,12 @@ export default function YourInboxPage() {
               <SlidersHorizontal className="h-3 w-3" />
               Filter
             </Button>
-            <Button variant="outline" size="sm" className="h-7 gap-1.5 px-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 gap-1.5 px-2"
+              onClick={() => dispatch(toggleCustomerChat())}
+            >
               <Layout className="h-3 w-3" />
               View
             </Button>

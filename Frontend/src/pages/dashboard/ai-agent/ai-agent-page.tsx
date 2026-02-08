@@ -107,16 +107,17 @@ const AiAgentPage = () => {
         >
           <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 pl-4 mb-4">
             <TabsTrigger
-              value="configure"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Configure
-            </TabsTrigger>
-            <TabsTrigger
               value="knowledgeBase"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
             >
               Knowledge Base
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="configure"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+            >
+              Configure
             </TabsTrigger>
             <TabsTrigger
               value="flow"

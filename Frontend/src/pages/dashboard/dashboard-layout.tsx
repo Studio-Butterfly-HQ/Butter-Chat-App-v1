@@ -5,7 +5,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useCompanyProfile } from "@/provider/profile/profile.queries";
 import { TestAiAgentWrapper } from "@/components/dashboard/agent/test-ai-agent/test-ai-agent-wrapper";
 import { SettingsSidebarWrapper } from "@/components/dashboard/settings/settings-sidebar-wrapper";
-import { InboxSidebarWrapper } from "@/components/dashboard/inbox/inbox-sidebar-wrapper";
+import { InboxSidebarWrapper } from "@/components/dashboard/inbox/sidebar/inbox-sidebar-wrapper";
 
 import { UserSidebarWrapper } from "@/components/dashboard/inbox/user-details/user-sidebar-wrapper";
 import { CustomerChatWrapper } from "@/components/dashboard/inbox/chat/customer-chat-wrapper";

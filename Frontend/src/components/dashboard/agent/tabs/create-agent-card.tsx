@@ -54,7 +54,7 @@ export default function CreateAgentCard() {
         personality: data.personality,
         general_instructions: data.instructions,
         // Default values for required fields
-        choice_when_unable: "transfer_to_human",
+        choice_when_unable: "transfer",
         conversation_pass_instructions:
           "Transfer conversation when customer requests human agent... dummy text",
         auto_transfer: "enabled",
