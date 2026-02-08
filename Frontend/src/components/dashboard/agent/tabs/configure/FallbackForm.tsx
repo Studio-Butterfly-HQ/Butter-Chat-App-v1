@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { AlertCircle, Check, X } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -46,7 +47,7 @@ export const FallbackForm = ({
   });
 
   const { reset, control, handleSubmit } = form;
-  const { mutateAsync: updateAgent } = useUpdateAgent();
+  const { mutateAsync: updateAgent, isPending } = useUpdateAgent();
 
   useEffect(() => {
     if (selectedAgent) {
@@ -174,8 +175,12 @@ export const FallbackForm = ({
             />
 
             <div className="flex gap-2">
-              <Button size="sm" type="submit">
-                <Check className="h-4 w-4" />
+              <Button size="sm" type="submit" disabled={isPending}>
+                {isPending ? (
+                  <Spinner className="h-4 w-4" />
+                ) : (
+                  <Check className="h-4 w-4" />
+                )}
                 Save
               </Button>
               <Button

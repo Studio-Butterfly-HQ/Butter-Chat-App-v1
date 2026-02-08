@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FileText, Check, X } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -22,8 +23,10 @@ interface InstructionsFormProps {
   onToggle: () => void;
 }
 
-export const InstructionsForm = ({selectedAgent, onToggle}: InstructionsFormProps) => {
-
+export const InstructionsForm = ({
+  selectedAgent,
+  onToggle,
+}: InstructionsFormProps) => {
   const form = useForm<InstructionsFormValues>({
     resolver: zodResolver(instructionsSchema),
     defaultValues: {
@@ -33,7 +36,7 @@ export const InstructionsForm = ({selectedAgent, onToggle}: InstructionsFormProp
   });
 
   const { reset, control, handleSubmit } = form;
-  const { mutateAsync: updateAgent } = useUpdateAgent();
+  const { mutateAsync: updateAgent, isPending } = useUpdateAgent();
 
   useEffect(() => {
     if (selectedAgent) {
@@ -98,8 +101,13 @@ export const InstructionsForm = ({selectedAgent, onToggle}: InstructionsFormProp
               )}
             />
             <div className="flex gap-2">
-              <Button size="sm" type="submit">
-                <Check className="h-4 w-4" /> Save
+              <Button size="sm" type="submit" disabled={isPending}>
+                {isPending ? (
+                  <Spinner className="h-4 w-4" />
+                ) : (
+                  <Check className="h-4 w-4" />
+                )}
+                Save
               </Button>
               <Button
                 variant="outline"

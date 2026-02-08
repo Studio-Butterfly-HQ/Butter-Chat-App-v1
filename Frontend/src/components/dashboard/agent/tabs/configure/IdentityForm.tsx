@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { IdCard, Check, X } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -36,7 +37,7 @@ export const IdentityForm = ({
   });
 
   const { reset, control, handleSubmit } = form;
-  const { mutateAsync: updateAgent } = useUpdateAgent();
+  const { mutateAsync: updateAgent, isPending } = useUpdateAgent();
 
   useEffect(() => {
     if (selectedAgent) {
@@ -116,8 +117,13 @@ export const IdentityForm = ({
               </div>
             </div>
             <div className="flex gap-2">
-              <Button size="sm" type="submit">
-                <Check className="h-4 w-4 " /> Save
+              <Button size="sm" type="submit" disabled={isPending}>
+                {isPending ? (
+                  <Spinner className="h-4 w-4" />
+                ) : (
+                  <Check className="h-4 w-4" />
+                )}
+                Save
               </Button>
               <Button
                 variant="outline"
