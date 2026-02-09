@@ -100,7 +100,7 @@ export default function CustomerChat() {
 
   const handleSend = () => {
     if (inputValue.trim()) {
-      const newMessage: Message = {
+      const userMessage: Message = {
         id: Date.now().toString(),
         type: "user",
         content: inputValue,
@@ -110,8 +110,37 @@ export default function CustomerChat() {
           hour12: true,
         }),
       };
-      setMessages([...messages, newMessage]);
+
+      const externalMessageId = (Date.now() + 1).toString();
+      const externalMessage: Message = {
+        id: externalMessageId,
+        type: "external",
+        content: "typing...",
+        timestamp: new Date().toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      };
+
+      // Both messages at the same time
+      setMessages((prev) => [...prev, userMessage, externalMessage]);
       setInputValue("");
+
+      // Update external message after delay
+      setTimeout(() => {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === externalMessageId
+              ? {
+                  ...msg,
+                  content:
+                    "Thanks for your message! I'll get back to you shortly.",
+                }
+              : msg,
+          ),
+        );
+      }, 2000);
     }
   };
 
@@ -161,62 +190,63 @@ export default function CustomerChat() {
 
       {/* Messages */}
       <ScrollArea ref={scrollAreaRef} className="flex-1">
-        <div className="space-y-4 p-4">
+        <div className="space-y-4 p-6">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
             >
-              <div
-                className={`flex gap-3 max-w-lg ${message.type === "user" ? "flex-row-reverse" : "flex-row"}`}
-              >
-                <Avatar className="h-8 w-8 mt-1 border border-border">
-                  <AvatarImage
-                    src={
-                      message.type === "external"
-                        ? selectedUser.user.avatar
-                        : "/user-avatar.png"
-                    }
-                  />
-                  <AvatarFallback>
-                    {message.type === "external"
-                      ? selectedUser.user.name.charAt(0)
-                      : "U"}
-                  </AvatarFallback>
-                </Avatar>
-
-                <div
-                  className={`flex flex-col gap-1 ${message.type === "user" ? "items-end" : "items-start"}`}
-                >
+              <div className="flex max-w-md gap-2">
+                {message.type === "external" && (
+                  <Avatar className="h-6 w-6 flex-shrink-0">
+                    <AvatarImage src={selectedUser.user.avatar} />
+                    <AvatarFallback>
+                      {selectedUser.user.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                )}
+                <div className={`flex flex-col gap-1`}>
                   <div
-                    className={`rounded-xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
+                    className={`rounded-lg px-3 py-2 text-sm ${
                       message.type === "user"
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted text-foreground"
                     }`}
                   >
-                    <p className="whitespace-pre-wrap break-all">
+                    <p className="break-all whitespace-pre-wrap">
                       {message.content}
                     </p>
                   </div>
-
-                  <div className="flex items-center gap-3 px-1 text-[11px] font-semibold text-muted-foreground/60 uppercase tracking-tighter">
-                    {message.type === "user" && (
-                      <button className="hover:text-foreground text-xs">
-                        Translate
-                      </button>
-                    )}
-                    <span>
-                      {message.date && `${message.date}, `}
-                      {message.timestamp}
-                    </span>
-                    {message.type === "external" && (
-                      <button className="hover:text-foreground text-xs">
-                        Translate
-                      </button>
+                  <div className="flex items-center justify-between gap-2 px-1 text-xs text-muted-foreground">
+                    {message.type === "user" ? (
+                      <>
+                        <button className="hover:text-foreground">
+                          Translate
+                        </button>
+                        <span>
+                          {message.date && `${message.date}, `}
+                          {message.timestamp}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span>
+                          {message.date && `${message.date}, `}
+                          {message.timestamp}
+                        </span>
+                        <button className="hover:text-foreground">
+                          Translate
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
+                {message.type === "user" && (
+                  <Avatar className="h-6 w-6 flex-shrink-0">
+                    <AvatarImage src="/user-avatar.png" />
+                    <AvatarFallback>U</AvatarFallback>
+                  </Avatar>
+                )}
               </div>
             </div>
           ))}
@@ -224,7 +254,7 @@ export default function CustomerChat() {
       </ScrollArea>
 
       {/* Input Area */}
-      <div className="p-4 bg-popover">
+      <div className="p-4 pt-0 bg-popover">
         <div className="border border-border rounded-2xl p-4 transition-all focus-within:ring-1 focus-within:ring-primary/20">
           <div className="flex items-center gap-2 mb-2">
             <Button
@@ -249,8 +279,8 @@ export default function CustomerChat() {
               }
             }}
             minRows={1}
-            maxRows={8}
-            className="w-full min-h-10 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 scrollbar-hide mb-4"
+            maxRows={6}
+            className="w-full min-h-10 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 scrollbar-hide"
           />
 
           <div className="flex items-center justify-between">
@@ -258,28 +288,28 @@ export default function CustomerChat() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
               >
                 <Bookmark className="h-4 w-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
               >
                 <Smile className="h-4 w-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
               >
                 <ImageIcon className="h-4 w-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
               >
                 <Sparkles className="h-4 w-4" />
               </Button>

@@ -12,11 +12,6 @@ import {
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { closeTestAiAgent } from "@/store/slices/ui/ui-slice";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-} from "@/components/ui/input-group";
 import TextareaAutosize from "react-textarea-autosize";
 import { SidebarHeader } from "@/components/ui/sidebar";
 
@@ -62,7 +57,7 @@ export default function AIAgentChat() {
 
   const handleSend = () => {
     if (inputValue.trim()) {
-      const newMessage: Message = {
+      const userMessage: Message = {
         id: Date.now().toString(),
         type: "user",
         content: inputValue,
@@ -72,23 +67,37 @@ export default function AIAgentChat() {
           hour12: true,
         }),
       };
-      setMessages([...messages, newMessage]);
+
+      const aiMessageId = (Date.now() + 1).toString();
+      const aiMessage: Message = {
+        id: aiMessageId,
+        type: "ai",
+        content: "typing...",
+        timestamp: new Date().toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      };
+
+      // Both messages at the same time
+      setMessages((prev) => [...prev, userMessage, aiMessage]);
       setInputValue("");
 
-      // Simulate AI response
+      // Update AI message after delay
       setTimeout(() => {
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          type: "ai",
-          content: "Thanks for your message! I'm processing your request.",
-          timestamp: new Date().toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          }),
-        };
-        setMessages((prev) => [...prev, aiMessage]);
-      }, 100);
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === aiMessageId
+              ? {
+                  ...msg,
+                  content:
+                    "Thanks for your message! I'm processing your request.",
+                }
+              : msg,
+          ),
+        );
+      }, 2000);
     }
   };
 
@@ -146,8 +155,21 @@ export default function AIAgentChat() {
                     </p>
                   </div>
                   <div className="flex items-center justify-between gap-2 px-1 text-xs text-muted-foreground">
-                    <span>{message.timestamp}</span>
-                    <button className="hover:text-foreground">Translate</button>
+                    {message.type === "user" ? (
+                      <>
+                        <button className="hover:text-foreground">
+                          Translate
+                        </button>
+                        <span>{message.timestamp}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>{message.timestamp}</span>
+                        <button className="hover:text-foreground">
+                          Translate
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
                 {message.type === "user" && (
@@ -162,44 +184,54 @@ export default function AIAgentChat() {
       </ScrollArea>
 
       {/* Input Area */}
-      <div className="border-t border-border bg-card p-4 rounded-b-xl">
-        <InputGroup className="!bg-popover">
-          <TextareaAutosize
-            data-slot="input-group-control"
-            placeholder="Type a message..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-              }
-            }}
-            minRows={1}
-            maxRows={6}
-            className="flex field-sizing-content min-h-10 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-sm transition-[color,box-shadow] outline-none scrollbar-hide"
-          />
-          <InputGroupAddon align="block-end">
-            <div className="flex gap-0 w-full justify-between">
-              <div className="flex">
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <Paperclip className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <Smile className="h-4 w-4" />
-                </Button>
-              </div>
-              <InputGroupButton
-                onClick={handleSend}
-                size="sm"
+      <div className="p-4 pt-0 rounded-b-xl">
+        <div className="rounded-2xl border border-border bg-popover overflow-hidden focus-within:ring-1 focus-within:ring-primary/20">
+          {/* Text Input */}
+          <div className="px-4 pt-3">
+            <TextareaAutosize
+              placeholder="Type a message..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
+              minRows={1}
+              maxRows={6}
+              className="w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none scrollbar-hide"
+            />
+          </div>
+
+          {/* Bottom Actions */}
+          <div className="flex items-center justify-between px-2 py-2">
+            <div className="flex items-center gap-1">
+              <Button
                 variant="ghost"
-                className="h-8 w-8 p-0"
+                size="icon"
+                className="h-8 rounded-full w-8"
               >
-                <Send className="h-4 w-4" />
-              </InputGroupButton>
+                <Paperclip className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 rounded-full w-8"
+              >
+                <Smile className="h-4 w-4" />
+              </Button>
             </div>
-          </InputGroupAddon>
-        </InputGroup>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 rounded-full w-8"
+              onClick={handleSend}
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

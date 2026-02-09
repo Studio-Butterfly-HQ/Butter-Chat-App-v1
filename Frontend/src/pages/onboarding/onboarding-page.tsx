@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import Header from "@/components/onboarding/header";
 import PaginationDots from "@/components/onboarding/pagination-dots";
-import ProfileUpdateCard from "@/components/profile/profile-update-card";
-import ConnectResourcesCard from "@/components/connect/connect-resources-card";
-import CreateAgentCard from "@/components/dashboard/agent/tabs/create-agent-card";
+import ProfileUpdateCard from "@/components/onboarding/profile/profile-update-card";
+import ConnectResourcesCard from "@/components/onboarding/connect/connect-resources-card";
+import CreateAgentCard from "@/components/onboarding/create-agent-card";
 import Footer from "@/components/onboarding/footer";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";

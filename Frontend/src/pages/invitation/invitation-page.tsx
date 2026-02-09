@@ -1,3 +1,4 @@
+import type React from "react";
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -6,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Eye, EyeOff, MessageCircle } from "lucide-react";
+import { Eye, EyeOff, MessageCircle, Plus } from "lucide-react";
 import {
   InputGroup,
   InputGroupAddon,
@@ -28,11 +29,18 @@ import {
 } from "@/schemas/invitationSchema";
 import { useRegisterUser } from "@/provider/user/user.queries";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { uploadProfileApi } from "@/provider/profile/profile.api";
 
 export default function InvitationPage() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [showPassword, setShowPassword] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(
+    "/placeholder.svg?height=112&width=112",
+  );
+  const [profileFile, setProfileFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
 
   const { mutateAsync: registerUser, isPending: loading } = useRegisterUser();
@@ -47,20 +55,57 @@ export default function InvitationPage() {
     mode: "onBlur",
   });
 
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      setProfilePhoto("/placeholder.svg?height=112&width=112");
+      setProfileFile(null);
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Please select an image smaller than 5MB");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+    setProfileFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
+    reader.readAsDataURL(file);
+  };
+
   const onSubmit = async (values: InvitationFormValues) => {
     if (!token) {
       toast.error("Invitation token is missing");
       return;
     }
     try {
-      const res = await registerUser({ payload: values, token });
+      let profileUri: string | undefined;
+
+      // Upload profile picture if a file was selected
+      if (profileFile) {
+        setIsUploading(true);
+        const uploadRes = await uploadProfileApi(profileFile, token);
+        profileUri = uploadRes.url;
+        setIsUploading(false);
+      }
+
+      const res = await registerUser({
+        payload: { ...values, profile_uri: profileUri },
+        token,
+      });
       if (res.success) {
         navigate("/login");
       }
     } catch (error) {
+      setIsUploading(false);
       console.error("Error in invitation page:", error);
     }
   };
+
+  const isPending = loading || isUploading;
 
   return (
     <div className="h-screen bg-background flex overflow-hidden">
@@ -83,6 +128,31 @@ export default function InvitationPage() {
                       <p className="text-muted-foreground text-lg text-center">
                         Complete your profile to join ButterChat
                       </p>
+
+                      {/* Profile Photo Upload */}
+                      <div className="relative mt-4 mb-2">
+                        <Avatar className="h-36 w-36">
+                          <AvatarImage
+                            src={profilePhoto}
+                            className="h-full w-full object-cover"
+                          />
+                          <AvatarFallback>YN</AvatarFallback>
+                        </Avatar>
+
+                        <label
+                          htmlFor="profile-upload"
+                          className="absolute bottom-2 right-0 bg-blue-500 rounded-full p-2 text-white cursor-pointer"
+                        >
+                          <Plus className="h-4 w-4" />
+                          <input
+                            id="profile-upload"
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handlePhotoUpload}
+                          />
+                        </label>
+                      </div>
                     </div>
 
                     <Form {...form}>
@@ -98,10 +168,7 @@ export default function InvitationPage() {
                               <FormLabel className="text-primary text-base font-semibold">
                                 Username <span className="text-red-500">*</span>
                               </FormLabel>
-                                <Input
-                                  placeholder="johndoe"
-                                  {...field}
-                                />
+                              <Input placeholder="johndoe" {...field} />
                               <FormMessage className="text-sm" />
                             </FormItem>
                           )}
@@ -154,9 +221,9 @@ export default function InvitationPage() {
 
                         <Button
                           className="rounded-lg font-medium"
-                          disabled={loading || !token}
+                          disabled={isPending || !token}
                         >
-                          {loading ? (
+                          {isPending ? (
                             <>
                               <Spinner /> Please wait...
                             </>
@@ -166,18 +233,6 @@ export default function InvitationPage() {
                         </Button>
                       </form>
                     </Form>
-
-                    <Separator className="mb-4" />
-
-                    <p className="text-center text-muted-foreground text-sm">
-                      By clicking continue, you agree to our
-                      <span className="underline cursor-pointer">Terms</span>
-                      and
-                      <span className="underline cursor-pointer">
-                        Privacy Policy
-                      </span>
-                      .
-                    </p>
                   </Card>
                 </div>
               </div>
