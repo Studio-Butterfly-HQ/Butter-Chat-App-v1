@@ -43,7 +43,7 @@ export default function LoginPage() {
     try {
       const res = await mutateAsync(data);
       if (res.success) {
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       console.error("Error in login page: ", error);
