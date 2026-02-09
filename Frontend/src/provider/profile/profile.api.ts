@@ -1,7 +1,40 @@
-import type { CountryAPI, Option, ProfileMetaResponse } from "./profile.types";
+import type {
+  CountryAPI,
+  Option,
+  ProfileMetaResponse,
+  AvatarUploadResponse,
+} from "./profile.types";
 import type { ProfilePayload, ApiResponse, Profile } from "./profile.types";
 import { COUNTRY_API_URL } from "@/constants";
-import { COMPANY_API } from "@/constants/api";
+import { COMPANY_API, FILE_HANDLE_API } from "@/constants/api";
+
+export const uploadAvatarApi = async (
+  file: File,
+  token: string,
+): Promise<AvatarUploadResponse> => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const res = await fetch(FILE_HANDLE_API.UPLOAD_AVATAR, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const updateProfileApi = async (
   payload: ProfilePayload,

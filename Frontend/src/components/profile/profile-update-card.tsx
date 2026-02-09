@@ -9,19 +9,28 @@ import { Spinner } from "@/components/ui/spinner"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Field, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import {Form, FormField, FormItem, FormMessage,} from "@/components/ui/form"
 
-import { useProfileMeta, useUpdateProfile } from "@/provider/profile"
-import { ProfileFormValues, profileSchema } from "@/schemas/profileSchema"
+import {
+  useProfileMeta,
+  useUpdateProfile,
+  useUploadAvatar,
+} from "@/provider/profile";
+import { ProfileFormValues, profileSchema } from "@/schemas/profileSchema";
 
 export default function ProfileUpdateCard() {
-  const [profilePhoto, setProfilePhoto] = useState("/placeholder.svg?height=112&width=112")
+  const [profilePhoto, setProfilePhoto] = useState(
+    "/placeholder.svg?height=112&width=112",
+  );
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
-  const { data, isLoading } = useProfileMeta()
-  const { mutateAsync, isPending } = useUpdateProfile()
+  const { data, isLoading } = useProfileMeta();
+  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useUpdateProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } = useUploadAvatar();
+
+  const isPending = isUpdatingProfile || isUploadingAvatar;
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -32,47 +41,54 @@ export default function ProfileUpdateCard() {
       timezone: "",
     },
     mode: "onBlur",
-  })
+  });
 
-  const { watch, setValue } = form
-  const values = watch()
+  const { watch, setValue } = form;
+  const values = watch();
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file){
-      setProfilePhoto("/placeholder.svg?height=112&width=112")
+    const file = e.target.files?.[0];
+    if (!file) {
+      setProfilePhoto("/placeholder.svg?height=112&width=112");
+      setAvatarFile(null);
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      toast.error("Please select an image smaller than 5MB")
-      return
+      toast.error("Please select an image smaller than 5MB");
+      return;
     }
     if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file")
-      return
+      toast.error("Please select an image file");
+      return;
     }
-    const reader = new FileReader()
-    reader.onload = (ev) =>
-      setProfilePhoto(ev.target?.result as string)
-    reader.readAsDataURL(file)
-  }
+    setAvatarFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = async (data: ProfileFormValues) => {
-    console.log("Submitting profile update with data: ", data);
     try {
-      const res = await mutateAsync(data)
-    } 
-    catch (error) {
+      let logoUrl: string | undefined;
+
+      if (avatarFile) {
+        const uploadRes = await uploadAvatar(avatarFile);
+        logoUrl = uploadRes.url;
+      }
+
+      const res = await updateProfile({
+        ...data,
+        logo: logoUrl,
+      });
+    } catch (error) {
       console.error("Error in profile update card: ", error);
     }
-  }
+  };
 
   return (
     <Card className="bg-background border-0 shadow-none">
       <CardHeader className="flex flex-col items-center text-center">
-        <CardTitle className="text-3xl font-bold">
-          Update Profile
-        </CardTitle>
+        <CardTitle className="text-3xl font-bold">Update Profile</CardTitle>
         <CardDescription className="text-lg">
           Add additional info to complete your profile
         </CardDescription>
@@ -112,9 +128,7 @@ export default function ProfileUpdateCard() {
                     <FieldLabel className="font-semibold text-base" >Company Category</FieldLabel>
                     <Select
                       value={values.company_category}
-                      onValueChange={(v) =>
-                        setValue("company_category", v)
-                      }
+                      onValueChange={(v) => setValue("company_category", v)}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select a category..." />
@@ -140,12 +154,12 @@ export default function ProfileUpdateCard() {
               render={() => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base">Country</FieldLabel>
+                    <FieldLabel className="font-semibold text-base">
+                      Country
+                    </FieldLabel>
                     <Select
                       value={values.country}
-                      onValueChange={(v) =>
-                        setValue("country", v)
-                      }
+                      onValueChange={(v) => setValue("country", v)}
                     >
                       <SelectTrigger disabled={isLoading}>
                         <SelectValue
@@ -158,10 +172,7 @@ export default function ProfileUpdateCard() {
                       </SelectTrigger>
                       <SelectContent>
                         {data?.countries.map((c) => (
-                          <SelectItem
-                            key={c.value}
-                            value={c.value}
-                          >
+                          <SelectItem key={c.value} value={c.value}>
                             {c.label}
                           </SelectItem>
                         ))}

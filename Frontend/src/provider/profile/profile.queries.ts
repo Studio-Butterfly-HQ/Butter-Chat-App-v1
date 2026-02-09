@@ -1,46 +1,69 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { updateProfileApi } from "./profile.api"
-import { ApiResponse, Profile, ProfilePayload } from "./profile.types"
-import { useQuery } from "@tanstack/react-query"
-import { fetchProfileMetaApi } from "./profile.api"
-import { ProfileMetaResponse } from "./profile.types"
-import { toast } from "sonner"
-import { useAppSelector } from "@/store/hooks"
-import { fetchCompanyProfileApi } from "./profile.api"
-import { useAppDispatch } from "@/store/hooks"
-import { setCompany } from "@/store/slices/auth/auth-slice"
-import { logout } from "@/store/slices/auth/auth-slice"
-import { persistor } from "@/store/index"
-import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateProfileApi, uploadAvatarApi } from "./profile.api";
+import {
+  ApiResponse,
+  Profile,
+  ProfilePayload,
+  AvatarUploadResponse,
+} from "./profile.types";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProfileMetaApi } from "./profile.api";
+import { ProfileMetaResponse } from "./profile.types";
+import { toast } from "sonner";
+import { useAppSelector } from "@/store/hooks";
+import { fetchCompanyProfileApi } from "./profile.api";
+import { useAppDispatch } from "@/store/hooks";
+import { setCompany } from "@/store/slices/auth/auth-slice";
+import { logout } from "@/store/slices/auth/auth-slice";
+import { persistor } from "@/store/index";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+export const useUploadAvatar = () => {
+  const token = useAppSelector((state) => state.auth.token);
+
+  return useMutation({
+    mutationFn: (file: File) => {
+      if (!token) {
+        throw new Error("No auth token found");
+      }
+      return uploadAvatarApi(file, token);
+    },
+
+    onError: (error: any) => {
+      console.error("Avatar upload error:", error);
+      toast.error(error?.message || "Failed to upload avatar");
+    },
+  });
+};
 
 export const useUpdateProfile = () => {
-  const queryClient = useQueryClient()
-  const token = useAppSelector((state) => state.auth.token)
+  const queryClient = useQueryClient();
+  const token = useAppSelector((state) => state.auth.token);
 
   return useMutation({
     mutationFn: (payload: ProfilePayload) => {
       if (!token) {
-        throw new Error("No auth token found")
+        throw new Error("No auth token found");
       }
-      return updateProfileApi(payload, token)
+      return updateProfileApi(payload, token);
     },
 
     onSuccess: (res) => {
       if (!res.success) {
-        toast.error(res.message)
-        return
+        toast.error(res.message);
+        return;
       }
-      toast.success(res.message)
-      queryClient.invalidateQueries({queryKey: ["profile"],})
+      toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
 
     onError: (error: any) => {
-      console.error("Update profile error details:", error?.error?.details)
+      console.error("Update profile error details:", error?.error?.details);
       toast.error(error.message);
     },
-  })
-}
+  });
+};
 
 export const useCompanyProfile = () => {
   const dispatch = useAppDispatch();
@@ -66,7 +89,7 @@ export const useCompanyProfile = () => {
 
   /* Handle SUCCESS (including success:false) */
   useEffect(() => {
-    if (!query.isSuccess) return
+    if (!query.isSuccess) return;
 
     if (!query.data?.success) {
       console.error(
@@ -91,17 +114,14 @@ export const useCompanyProfile = () => {
       (query.error as any)?.error?.details ?? query.error,
     );
 
-    dispatch(logout())
+    dispatch(logout());
     persistor.purge().then(() => {
-      navigate("/login", { replace: true })
-    })
-  }, [query.isError, query.error, dispatch, navigate])
+      navigate("/login", { replace: true });
+    });
+  }, [query.isError, query.error, dispatch, navigate]);
 
-  return query
-}
-
-
-
+  return query;
+};
 
 export const useProfileMeta = () =>
   useQuery({
@@ -109,4 +129,4 @@ export const useProfileMeta = () =>
     queryFn: fetchProfileMetaApi,
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
-  })
+  });
