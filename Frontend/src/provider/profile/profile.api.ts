@@ -36,6 +36,34 @@ export const uploadAvatarApi = async (
   }
 };
 
+export const uploadProfileApi = async (
+  file: File,
+  token: string,
+): Promise<AvatarUploadResponse> => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const res = await fetch(FILE_HANDLE_API.UPLOAD_AVATAR, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateProfileApi = async (
   payload: ProfilePayload,
   token: string,
