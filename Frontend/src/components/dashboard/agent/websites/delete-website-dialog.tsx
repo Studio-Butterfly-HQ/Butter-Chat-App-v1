@@ -68,7 +68,6 @@ export function DeleteWebsiteDialog({
           <AlertDialogAction
             onClick={handleConfirmDelete}
             disabled={isDeleting}
-            className="bg-red-600 hover:bg-red-700"
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </AlertDialogAction>

@@ -47,7 +47,7 @@ export default function ChatBox() {
   const handleSend = (content?: string) => {
     const messageContent = content || inputValue.trim();
     if (messageContent) {
-      const newMessage: Message = {
+      const userMessage: Message = {
         id: Date.now().toString(),
         type: "user",
         content: messageContent,
@@ -57,30 +57,44 @@ export default function ChatBox() {
           hour12: true,
         }),
       };
-      setMessages((prev) => [...prev, newMessage]);
+
+      const aiMessageId = (Date.now() + 1).toString();
+      const aiMessage: Message = {
+        id: aiMessageId,
+        type: "ai",
+        content: "typing...",
+        timestamp: new Date().toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      };
+
+      // both messages at the same time
+      setMessages((prev) => [...prev, userMessage, aiMessage]);
       setInputValue("");
 
-      // AI response
+      // Update AI message after delay
       setTimeout(() => {
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          type: "ai",
-          content: "Thanks for your message! I'm processing your request.",
-          timestamp: new Date().toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          }),
-        };
-        setMessages((prev) => [...prev, aiMessage]);
-      }, 100);
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === aiMessageId
+              ? {
+                  ...msg,
+                  content:
+                    "Thanks for your message! I'm processing your request.",
+                }
+              : msg,
+          ),
+        );
+      }, 2000);
     }
   };
 
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex flex-1 min-h-0 flex-col overflow-hidden">
+    <div className="flex z-50 flex-1 min-h-0 flex-col overflow-hidden">
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {!hasMessages ? (
           /* Welcome State */
@@ -111,7 +125,7 @@ export default function ChatBox() {
         ) : (
           /* Chat Messages */
           <ScrollArea ref={scrollAreaRef} className="flex-1">
-            <div className="space-y-4 px-4 max-w-3xl mx-auto">
+            <div className="space-y-4 p-4 max-w-3xl mx-auto">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -170,24 +184,21 @@ export default function ChatBox() {
       <div className="flex justify-center">
         <div className="pb-4 px-3 max-w-3xl w-full">
           <div className="rounded-2xl border border-border bg-card overflow-hidden focus-within:ring-1 focus-within:ring-primary/20">
-            {/* Text Input */}
             <div className="px-4 pt-3">
-              <ScrollArea>
-                <TextareaAutosize
-                  placeholder="Ask Butter bot anything!"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSend();
-                    }
-                  }}
-                  minRows={1}
-                  maxRows={8}
-                  className="w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none scrollbar-hide"
-                />
-              </ScrollArea>
+              <TextareaAutosize
+                placeholder="Ask Butter bot anything!"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+                minRows={1}
+                maxRows={8}
+                className="w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none scrollbar-hide"
+              />
             </div>
 
             {/* Bottom Actions */}

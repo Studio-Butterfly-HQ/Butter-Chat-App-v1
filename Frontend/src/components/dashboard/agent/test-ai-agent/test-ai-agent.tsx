@@ -57,7 +57,7 @@ export default function AIAgentChat() {
 
   const handleSend = () => {
     if (inputValue.trim()) {
-      const newMessage: Message = {
+      const userMessage: Message = {
         id: Date.now().toString(),
         type: "user",
         content: inputValue,
@@ -67,23 +67,37 @@ export default function AIAgentChat() {
           hour12: true,
         }),
       };
-      setMessages([...messages, newMessage]);
+
+      const aiMessageId = (Date.now() + 1).toString();
+      const aiMessage: Message = {
+        id: aiMessageId,
+        type: "ai",
+        content: "typing...",
+        timestamp: new Date().toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      };
+
+      // Both messages at the same time
+      setMessages((prev) => [...prev, userMessage, aiMessage]);
       setInputValue("");
 
-      // Simulate AI response
+      // Update AI message after delay
       setTimeout(() => {
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          type: "ai",
-          content: "Thanks for your message! I'm processing your request.",
-          timestamp: new Date().toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          }),
-        };
-        setMessages((prev) => [...prev, aiMessage]);
-      }, 100);
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === aiMessageId
+              ? {
+                  ...msg,
+                  content:
+                    "Thanks for your message! I'm processing your request.",
+                }
+              : msg,
+          ),
+        );
+      }, 2000);
     }
   };
 

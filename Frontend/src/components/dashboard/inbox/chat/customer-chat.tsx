@@ -100,7 +100,7 @@ export default function CustomerChat() {
 
   const handleSend = () => {
     if (inputValue.trim()) {
-      const newMessage: Message = {
+      const userMessage: Message = {
         id: Date.now().toString(),
         type: "user",
         content: inputValue,
@@ -110,23 +110,37 @@ export default function CustomerChat() {
           hour12: true,
         }),
       };
-      setMessages([...messages, newMessage]);
+
+      const externalMessageId = (Date.now() + 1).toString();
+      const externalMessage: Message = {
+        id: externalMessageId,
+        type: "external",
+        content: "typing...",
+        timestamp: new Date().toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      };
+
+      // Both messages at the same time
+      setMessages((prev) => [...prev, userMessage, externalMessage]);
       setInputValue("");
 
-      // Simulate external user response
+      // Update external message after delay
       setTimeout(() => {
-        const externalMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          type: "external",
-          content: "Thanks for your message! I'll get back to you shortly.",
-          timestamp: new Date().toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          }),
-        };
-        setMessages((prev) => [...prev, externalMessage]);
-      }, 100);
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === externalMessageId
+              ? {
+                  ...msg,
+                  content:
+                    "Thanks for your message! I'll get back to you shortly.",
+                }
+              : msg,
+          ),
+        );
+      }, 2000);
     }
   };
 
@@ -266,7 +280,7 @@ export default function CustomerChat() {
             }}
             minRows={1}
             maxRows={6}
-            className="w-full min-h-10 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 scrollbar-hide mb-4"
+            className="w-full min-h-10 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 scrollbar-hide"
           />
 
           <div className="flex items-center justify-between">
