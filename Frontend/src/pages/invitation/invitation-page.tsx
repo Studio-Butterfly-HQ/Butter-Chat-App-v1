@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Eye, EyeOff, MessageCircle, Plus } from "lucide-react";
 import {
@@ -30,7 +30,7 @@ import {
 import { useRegisterUser } from "@/provider/user/user.queries";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { uploadProfileApi } from "@/provider/profile/profile.api";
+import { useUploadAvatar } from "@/provider/profile/profile.queries";
 
 export default function InvitationPage() {
   const [searchParams] = useSearchParams();
@@ -40,10 +40,10 @@ export default function InvitationPage() {
     "/placeholder.svg?height=112&width=112",
   );
   const [profileFile, setProfileFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
 
   const { mutateAsync: registerUser, isPending: loading } = useRegisterUser();
+  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar();
 
   const form = useForm<InvitationFormValues>({
     resolver: zodResolver(invitationSchema),
@@ -84,12 +84,9 @@ export default function InvitationPage() {
     try {
       let profileUri: string | undefined;
 
-      // Upload profile picture if a file was selected
       if (profileFile) {
-        setIsUploading(true);
-        const uploadRes = await uploadProfileApi(profileFile, token);
-        profileUri = uploadRes.url;
-        setIsUploading(false);
+        const res = await uploadAvatar(profileFile);
+        profileUri = res.url;
       }
 
       const res = await registerUser({
@@ -100,7 +97,6 @@ export default function InvitationPage() {
         navigate("/login");
       }
     } catch (error) {
-      setIsUploading(false);
       console.error("Error in invitation page:", error);
     }
   };
@@ -207,7 +203,10 @@ export default function InvitationPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-primary text-base font-semibold">
-                                Bio <span className="text-muted-foreground text-sm">(optional)</span>
+                                Bio{" "}
+                                <span className="text-muted-foreground text-sm">
+                                  (optional)
+                                </span>
                               </FormLabel>
                               <Textarea
                                 placeholder="Tell us a little about yourself"

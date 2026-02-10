@@ -11,6 +11,10 @@ export type Company = {
   subdomain: string;
   users: CompanyUser[];
   logo: string;
+  company_category?: string;
+  country?: string;
+  language?: string;
+  timezone?: string;
 };
 
 export type AuthState = {

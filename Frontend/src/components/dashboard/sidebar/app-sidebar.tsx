@@ -175,7 +175,6 @@ export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & { isLoading?: boolean }) {
   const company = useAppSelector((state) => state.auth.company);
-  console.log(company)
   const user = useAppSelector((state) => state.auth.user);
   return (
     <Sidebar className="py-1" collapsible="icon" {...props}>
@@ -207,7 +206,7 @@ export function AppSidebar({
             user={{
               name: user.user_name,
               email: user.email,
-              avatar: company?.logo || "",
+              avatar: user.profile_uri || "",
             }}
           />
         )}

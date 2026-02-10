@@ -5,6 +5,8 @@ export interface Document {
   mimetype: string;
   uploadedAt: string;
   url: string;
+  syncStatus: string;
+  folder: string;
 }
 
 export interface DocumentsData {

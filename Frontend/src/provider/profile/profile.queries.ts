@@ -40,6 +40,8 @@ export const useUploadAvatar = () => {
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
   const token = useAppSelector((state) => state.auth.token);
+  const company = useAppSelector((state) => state.auth.company);
+  const dispatch = useAppDispatch();
 
   return useMutation({
     mutationFn: (payload: ProfilePayload) => {
@@ -49,13 +51,22 @@ export const useUpdateProfile = () => {
       return updateProfileApi(payload, token);
     },
 
-    onSuccess: (res) => {
+    onSuccess: (res, variables) => {
       if (!res.success) {
         toast.error(res.message);
         return;
       }
       toast.success(res.message);
       queryClient.invalidateQueries({ queryKey: ["profile"] });
+
+      if (company) {
+        dispatch(
+          setCompany({
+            ...company,
+            ...variables,
+          }),
+        );
+      }
     },
 
     onError: (error: any) => {
@@ -127,6 +138,6 @@ export const useProfileMeta = () =>
   useQuery({
     queryKey: ["profile-meta"],
     queryFn: fetchProfileMetaApi,
-    staleTime: 1000 * 60 * 60,
-    gcTime: 1000 * 60 * 60 * 24,
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days
   });

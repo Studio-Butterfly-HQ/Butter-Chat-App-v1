@@ -1,5 +1,6 @@
 import { Agent } from "@/provider/agent/agent.types";
 import { useUpdateAgent } from "@/provider/agent/agent.queries";
+import { useUploadAvatar } from "@/provider/profile/profile.queries";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -17,7 +18,9 @@ import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FileWithPreview } from "@/hooks/use-file-upload";
+import FileUploadCompact from "./compact-upload";
 
 interface IdentityFormProps {
   selectedAgent?: Agent;
@@ -37,7 +40,12 @@ export const IdentityForm = ({
   });
 
   const { reset, control, handleSubmit } = form;
-  const { mutateAsync: updateAgent, isPending } = useUpdateAgent();
+  const { mutateAsync: updateAgent, isPending: isUpdating } = useUpdateAgent();
+  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar();
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadKey, setUploadKey] = useState(0);
+  const isPending = isUpdating || isUploading;
 
   useEffect(() => {
     if (selectedAgent) {
@@ -47,13 +55,33 @@ export const IdentityForm = ({
     }
   }, [selectedAgent, reset]);
 
+  const handleFilesChange = (files: FileWithPreview[]) => {
+    if (files.length > 0 && files[0].file instanceof File) {
+      setSelectedFile(files[0].file);
+    } else {
+      setSelectedFile(null);
+    }
+  };
+
   const onSubmit = async (data: IdentityFormValues) => {
     if (!selectedAgent) return;
     try {
+      let avatarUrl: string | undefined;
+
+      if (selectedFile) {
+        const res = await uploadAvatar(selectedFile);
+        avatarUrl = res.url;
+      }
+
       await updateAgent({
         id: selectedAgent.id,
-        payload: { agent_name: data.agentName },
+        payload: {
+          agent_name: data.agentName,
+          ...(avatarUrl && { avatar: avatarUrl }),
+        },
       });
+      setSelectedFile(null);
+      setUploadKey((prev) => prev + 1);
     } catch (error) {
       console.error("Error updating identity form: ", error);
     }
@@ -102,19 +130,13 @@ export const IdentityForm = ({
 
             <div className="space-y-2">
               <Label className="text-muted-foreground text-sm">Avatar</Label>
-              <div className="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  type="button"
-                  className="bg-muted"
-                >
-                  Choose File
-                </Button>
-                <span className="text-sm text-muted-foreground">
-                  No File Chosen
-                </span>
-              </div>
+              <FileUploadCompact
+                key={uploadKey}
+                maxFiles={1}
+                accept="image/*"
+                multiple={false}
+                onFilesChange={handleFilesChange}
+              />
             </div>
             <div className="flex gap-2">
               <Button size="sm" type="submit" disabled={isPending}>

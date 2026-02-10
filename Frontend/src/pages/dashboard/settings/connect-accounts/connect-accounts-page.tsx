@@ -9,34 +9,18 @@ import {
 } from "@/components/ui/card";
 import { BookOpen, Plus, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { AccountsSkeleton } from "@/components/dashboard/settings/connect-accounts/accounts-skeletons";
+import { useGetSocialConnections } from "@/provider/connections/connections.queries";
+import { toast } from "sonner";
 
 export default function ConnectAccountsPage() {
-  const [connectedAccounts, setConnectedAccounts] = useState([
-    {
-      id: 1,
-      name: "Facebook",
-      username: "Studio Butterfly",
-      platform: "facebook",
-    },
-    {
-      id: 2,
-      name: "Whatsapp",
-      username: "Whatsapp (9569894456)",
-      platform: "whatsapp",
-    },
-    {
-      id: 3,
-      name: "Whatsapp",
-      username: "WhatsApp (+880 1305-270845)",
-      platform: "whatsapp",
-    },
-  ]);
+  const { data: connectedAccounts, isLoading } = useGetSocialConnections();
 
   const availableAccounts = [
     {
-      name: "Facebook Messenger",
+      name: "Facebook",
       description: "Connect your Facebook pages.",
-      platform: "messenger",
+      platform: "Facebook",
     },
     {
       name: "Instagram",
@@ -50,8 +34,10 @@ export default function ConnectAccountsPage() {
     },
   ];
 
-  const handleDisconnect = (id: number) => {
-    setConnectedAccounts(connectedAccounts.filter((acc) => acc.id !== id));
+  const handleDisconnect = (id: string) => {
+    // TODO: Implement disconnect logic
+    toast.info("Disconnect functionality coming soon");
+    console.log("Disconnecting", id);
   };
 
   return (
@@ -97,8 +83,8 @@ export default function ConnectAccountsPage() {
                     {account.description}
                   </p>
                 </div>
-                <Button variant="default" size="sm" className="h-8 gap-1.5">
-                  <Plus className="h-3.5 w-3.5" />
+                <Button variant="default" size="sm" className="h-8">
+                  <Plus />
                   Connect
                 </Button>
               </div>
@@ -111,11 +97,23 @@ export default function ConnectAccountsPage() {
           <CardHeader>
             <CardTitle className="text-xl">Connected Accounts</CardTitle>
             <CardDescription>
-              You have {connectedAccounts.length} account(s) connected.
+              {isLoading
+                ? "Loading your connected accounts..."
+                : `You have ${
+                    connectedAccounts?.length
+                      ? `${connectedAccounts.length} ${
+                          connectedAccounts.length === 1
+                            ? "account"
+                            : "accounts"
+                        }`
+                      : "no accounts"
+                  } connected.`}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            {connectedAccounts.length === 0 ? (
+            {isLoading ? (
+              <AccountsSkeleton />
+            ) : !connectedAccounts || connectedAccounts.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-4">
                 No accounts connected yet.
               </p>
@@ -126,18 +124,20 @@ export default function ConnectAccountsPage() {
                   className="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-accent/50 transition-colors"
                 >
                   <div className="flex-1">
-                    <p className="font-medium text-base">{account.name}</p>
+                    <p className="font-medium text-base">
+                      {account.platform_name}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                      {account.username}
+                      {account.platform_type}
                     </p>
                   </div>
                   <Button
                     variant="destructive"
                     size="sm"
-                    className="h-8 gap-1.5"
+                    className="h-8"
                     onClick={() => handleDisconnect(account.id)}
                   >
-                    <X className="h-3.5 w-3.5" />
+                    <X />
                     Disconnect
                   </Button>
                 </div>

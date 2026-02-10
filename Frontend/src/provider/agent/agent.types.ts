@@ -6,6 +6,7 @@ export interface CreateAgentPayload {
   conversation_pass_instructions: string;
   auto_transfer: string;
   transfer_connecting_message: string;
+  avatar?: string;
 }
 
 export type UpdateAgentPayload = Partial<CreateAgentPayload>;

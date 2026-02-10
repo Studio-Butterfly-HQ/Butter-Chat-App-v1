@@ -22,8 +22,6 @@ import { useGetWeburis } from "@/provider/weburi/weburi.queries";
 import type { Weburi } from "@/provider/weburi/weburi.types";
 import { useDebounce } from "@/hooks/use-debounce";
 
-export type SyncStatus = "SYNCED" | "FAILED" | "QUEUED";
-
 export function WebsitesTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -39,7 +37,7 @@ export function WebsitesTable() {
     setDeleteDialogOpen(true);
   };
 
-  const StatusBadge = ({ status }: { status: SyncStatus }) => {
+  const StatusBadge = ({ status }: { status: string }) => {
     if (status === "SYNCED") {
       return (
         <Badge className="bg-green-300 rounded-xl text-green-800">Synced</Badge>
@@ -105,7 +103,7 @@ export function WebsitesTable() {
       header: "Status",
       size: 140,
       cell: ({ row }) => (
-        <StatusBadge status={row.original.status as SyncStatus} />
+        <StatusBadge status={row.original.status} />
       ),
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,

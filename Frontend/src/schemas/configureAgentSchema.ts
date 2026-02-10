@@ -3,6 +3,7 @@ import { z } from "zod";
 // Identity
 export const identitySchema = z.object({
   agentName: z.string().min(3, "Agent name must be at least 3 characters"),
+  avatar: z.string().optional(),
 });
 
 // Personality
