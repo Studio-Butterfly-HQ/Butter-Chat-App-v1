@@ -34,7 +34,7 @@ export default function ConnectAccountsPage() {
 
   const availableAccounts = [
     {
-      name: "Facebook Messenger",
+      name: "Facebook",
       description: "Connect your Facebook pages.",
       platform: "messenger",
     },

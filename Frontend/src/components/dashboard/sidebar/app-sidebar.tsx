@@ -207,7 +207,7 @@ export function AppSidebar({
             user={{
               name: user.user_name,
               email: user.email,
-              avatar: company?.logo || "",
+              avatar: user.profile_uri || "",
             }}
           />
         )}

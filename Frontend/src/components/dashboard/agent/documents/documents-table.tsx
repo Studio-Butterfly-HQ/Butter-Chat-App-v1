@@ -22,8 +22,6 @@ import { useGetDocuments } from "@/provider/document/document.queries";
 import type { Document } from "@/provider/document/document.types";
 import { useDebounce } from "@/hooks/use-debounce";
 
-export type SyncStatus = "SYNCED" | "FAILED" | "QUEUED";
-
 export function DocumentsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -41,7 +39,7 @@ export function DocumentsTable() {
     setDeleteDialogOpen(true);
   };
 
-  const StatusBadge = ({ status }: { status: SyncStatus }) => {
+  const StatusBadge = ({ status }: { status: string }) => {
     if (status === "SYNCED") {
       return (
         <Badge className="bg-green-300 rounded-xl text-green-800">Synced</Badge>
@@ -60,7 +58,6 @@ export function DocumentsTable() {
   };
 
   const allDocuments = documentsResponse?.data?.documents || [];
-  console.log(allDocuments);
 
   const documentColumns: ColumnDef<Document>[] = [
     // ================= Document =================
@@ -92,7 +89,7 @@ export function DocumentsTable() {
       id: "status",
       header: "Status",
       size: 140,
-      cell: () => <StatusBadge status="SYNCED" />, //todo: fix this
+      cell: ({ row }) => <StatusBadge status={row.original.syncStatus} />, //todo: fix this
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
         headerClassName: "font-medium",
