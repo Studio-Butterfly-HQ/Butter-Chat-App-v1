@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const profileSchema = z.object({
-  company_name: z.string().min(3, "Company name must be at least 3 characters long"),
+  company_name: z.string().optional(),
   company_category: z.string().min(1, "Category is required"),
   country: z.string().min(1, "Country is required"),
   language: z.string().min(1, "Language is required"),

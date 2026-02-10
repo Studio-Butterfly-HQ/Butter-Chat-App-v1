@@ -97,13 +97,17 @@ export default function ConnectAccountsPage() {
           <CardHeader>
             <CardTitle className="text-xl">Connected Accounts</CardTitle>
             <CardDescription>
-              You have{" "}
-              {connectedAccounts?.length
-                ? `${connectedAccounts.length} ${
-                    connectedAccounts.length === 1 ? "account" : "accounts"
-                  }`
-                : "no accounts"}{" "}
-              connected.
+              {isLoading
+                ? "Loading your connected accounts..."
+                : `You have ${
+                    connectedAccounts?.length
+                      ? `${connectedAccounts.length} ${
+                          connectedAccounts.length === 1
+                            ? "account"
+                            : "accounts"
+                        }`
+                      : "no accounts"
+                  } connected.`}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">

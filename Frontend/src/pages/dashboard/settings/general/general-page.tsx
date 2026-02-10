@@ -171,7 +171,7 @@ export default function GeneralSettings() {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full h-10">
+                          <SelectTrigger disabled={isMetaLoading} className="w-full h-10">
                             <SelectValue
                               placeholder={
                                 isMetaLoading
@@ -206,7 +206,7 @@ export default function GeneralSettings() {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full h-10">
+                          <SelectTrigger disabled={isMetaLoading} className="w-full h-10">
                             <SelectValue
                               placeholder={
                                 isMetaLoading
@@ -241,7 +241,7 @@ export default function GeneralSettings() {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full h-10">
+                          <SelectTrigger disabled={isMetaLoading} className="w-full h-10">
                             <SelectValue
                               placeholder={
                                 isMetaLoading

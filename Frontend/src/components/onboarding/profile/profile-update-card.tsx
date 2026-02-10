@@ -40,10 +40,8 @@ export default function ProfileUpdateCard() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   const { data, isLoading } = useProfileMeta();
-  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } =
-    useUpdateProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } =
-    useUploadAvatar();
+  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useUpdateProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } = useUploadAvatar();
 
   const isPending = isUpdatingProfile || isUploadingAvatar;
 
@@ -88,7 +86,7 @@ export default function ProfileUpdateCard() {
         logoUrl = uploadRes.url;
       }
 
-      const res = await updateProfile({
+      await updateProfile({
         ...data,
         logo: logoUrl,
       });
@@ -272,8 +270,7 @@ export default function ProfileUpdateCard() {
             >
               {isPending ? (
                 <>
-                  {" "}
-                  <Spinner /> Please wait...{" "}
+                  <Spinner /> Please wait...
                 </>
               ) : (
                 <> Complete Profile </>

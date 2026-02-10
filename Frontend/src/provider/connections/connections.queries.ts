@@ -40,7 +40,7 @@ export const useToggleConnection = () => {
       }
       toast.success(res.message);
       // refresh connections if you later fetch from backend
-      queryClient.invalidateQueries({ queryKey: ["connections"] });
+      queryClient.invalidateQueries({ queryKey: ["social-connections"] });
     },
 
     onError: (error: any) => {
