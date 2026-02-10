@@ -13,6 +13,7 @@ export const COMPANY_API = {
 
 export const CONNECTIONS_API = {
   FACEBOOK_LOGIN: `${BACKEND_BASE_URL}/auth/meta/login`,
+  SOCIAL_CONNECTIONS: `${BACKEND_BASE_URL}/social-connections`,
 };
 export const SHIFT_API = {
   CREATE_SHIFT: `${BACKEND_BASE_URL}/shift`,
