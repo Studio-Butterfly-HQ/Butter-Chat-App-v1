@@ -31,22 +31,27 @@ import {
 } from "@/components/ui/form";
 import { BookOpen, Loader2, Save } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function GeneralSettings() {
   const { data: profileMeta, isLoading: isMetaLoading } = useProfileMeta();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
 
+
   const company = useAppSelector((state) => state.auth.company);
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    defaultValues: {
-      company_name: company?.company_name || "",
-      company_category: company?.company_category || "",
-      country: company?.country || "",
-      language: company?.language || "",
-      timezone: company?.timezone || "",
-    },
+    values: company
+    ? {
+        company_name: company.company_name || "",
+        company_category: company.company_category || "",
+        country: company.country || "",
+        language: company.language || "",
+        timezone: company.timezone || "",
+      }
+    : undefined,
     mode: "onBlur",
   });
 
@@ -134,7 +139,7 @@ export default function GeneralSettings() {
                       <FormLabel>Company Category</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full h-10">
@@ -163,7 +168,7 @@ export default function GeneralSettings() {
                       <FormLabel>Country Name</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full h-10">
@@ -198,7 +203,7 @@ export default function GeneralSettings() {
                       <FormLabel>Timezone</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full h-10">
@@ -233,7 +238,7 @@ export default function GeneralSettings() {
                       <FormLabel>Language</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full h-10">

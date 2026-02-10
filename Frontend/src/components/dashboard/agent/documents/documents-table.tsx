@@ -89,7 +89,7 @@ export function DocumentsTable() {
       id: "status",
       header: "Status",
       size: 140,
-      cell: ({ row }) => <StatusBadge status={row.original.syncStatus} />, //todo: fix this
+      cell: ({ row }) => <StatusBadge status={row.original.syncStatus} />,
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
         headerClassName: "font-medium",

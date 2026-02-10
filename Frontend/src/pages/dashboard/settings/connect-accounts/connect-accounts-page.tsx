@@ -36,7 +36,7 @@ export default function ConnectAccountsPage() {
     {
       name: "Facebook",
       description: "Connect your Facebook pages.",
-      platform: "messenger",
+      platform: "Facebook",
     },
     {
       name: "Instagram",
