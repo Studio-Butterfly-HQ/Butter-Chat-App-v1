@@ -1,4 +1,11 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileSchema, type ProfileFormValues } from "@/schemas/profileSchema";
+import {
+  useProfileMeta,
+  useUpdateProfile,
+} from "@/provider/profile/profile.queries";
+import { useAppSelector } from "@/store/hooks";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -14,45 +21,42 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BookOpen, Save } from "lucide-react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { BookOpen, Loader2, Save } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export default function GeneralSettings() {
-  const [businessName, setBusinessName] = useState("");
-  const [category, setCategory] = useState("");
-  const [timezone, setTimezone] = useState("");
-  const [language, setLanguage] = useState("");
+  const { data: profileMeta, isLoading: isMetaLoading } = useProfileMeta();
+  const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
 
-  const categories = [
-    "Technology",
-    "Finance",
-    "Healthcare",
-    "Retail",
-    "Manufacturing",
-    "Services",
-  ];
+  const company = useAppSelector((state) => state.auth.company);
 
-  const timezones = [
-    "UTC",
-    "EST (UTC-5)",
-    "CST (UTC-6)",
-    "MST (UTC-7)",
-    "PST (UTC-8)",
-    "GMT (UTC+0)",
-    "CET (UTC+1)",
-    "IST (UTC+5:30)",
-    "JST (UTC+9)",
-    "AEST (UTC+10)",
-  ];
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      company_name: company?.company_name || "",
+      company_category: company?.company_category || "",
+      country: company?.country || "",
+      language: company?.language || "",
+      timezone: company?.timezone || "",
+    },
+    mode: "onBlur",
+  });
 
-  const languages = [
-    "English",
-    "Spanish",
-    "French",
-    "German",
-    "Chinese",
-    "Japanese",
-  ];
+  async function onSubmit(data: ProfileFormValues) {
+    try {
+      await updateProfile(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <>
@@ -72,9 +76,16 @@ export default function GeneralSettings() {
             <BookOpen className="h-3 w-3 mr-1.5" />
             <span>Learn More</span>
           </Badge>
-          <Badge className="cursor-pointer rounded-full px-2 md:px-3 py-1.5 text-xs font-normal whitespace-nowrap">
-            <Save className="h-3 w-3 mr-1.5" />
-            <span>Save Changes</span>
+          <Badge
+            className="cursor-pointer rounded-full px-2 md:px-3 py-1.5 text-xs font-normal whitespace-nowrap"
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            {isPending ? (
+              <Loader2 className="h-3 w-3 mr-1.5 animate-spin" />
+            ) : (
+              <Save className="h-3 w-3 mr-1.5" />
+            )}
+            <span>{isPending ? "Saving..." : "Save Changes"}</span>
           </Badge>
         </div>
       </header>
@@ -86,77 +97,169 @@ export default function GeneralSettings() {
               Please fill up all the fields with relevant information.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Business Name */}
-            <div className="space-y-2">
-              <label>
-                Business Name
-              </label>
-              <Input
-                type="text"
-                placeholder="XYZ Corporation"
-                value={businessName}
-                onChange={(e) => setBusinessName(e.target.value)}
-                className="w-full h-10"
-              />
-            </div>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
+                {/* Company Name */}
+                <FormField
+                  control={form.control}
+                  name="company_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-primary">
+                        Company Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="XYZ Corporation"
+                          className="w-full h-10"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            {/* Business Category */}
-            <div className="space-y-2">
-              <label>
-                Business Category
-              </label>
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className="w-full h-10">
-                  <SelectValue placeholder="Select a Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>
-                      {cat}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+                {/* Business Category */}
+                <FormField
+                  control={form.control}
+                  name="company_category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Category</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full h-10">
+                            <SelectValue placeholder="Select a Category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="tech">Technology</SelectItem>
+                          <SelectItem value="finance">Finance</SelectItem>
+                          <SelectItem value="health">Healthcare</SelectItem>
+                          <SelectItem value="retail">Retail</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            {/* Timezone */}
-            <div className="space-y-2">
-              <label>
-                Timezone
-              </label>
-              <Select value={timezone} onValueChange={setTimezone}>
-                <SelectTrigger className="w-full h-10">
-                  <SelectValue placeholder="Select a Timezone" />
-                </SelectTrigger>
-                <SelectContent>
-                  {timezones.map((tz) => (
-                    <SelectItem key={tz} value={tz}>
-                      {tz}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+                {/* Country */}
+                <FormField
+                  control={form.control}
+                  name="country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country Name</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full h-10">
+                            <SelectValue
+                              placeholder={
+                                isMetaLoading
+                                  ? "Loading countries..."
+                                  : "Select a Country"
+                              }
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {profileMeta?.countries.map((c) => (
+                            <SelectItem key={c.value} value={c.value}>
+                              {c.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            {/* Language */}
-            <div className="space-y-2">
-              <label>
-                Language
-              </label>
-              <Select value={language} onValueChange={setLanguage}>
-                <SelectTrigger className="w-full h-10">
-                  <SelectValue placeholder="Select a Language" />
-                </SelectTrigger>
-                <SelectContent>
-                  {languages.map((lang) => (
-                    <SelectItem key={lang} value={lang}>
-                      {lang}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+                {/* Timezone */}
+                <FormField
+                  control={form.control}
+                  name="timezone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Timezone</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full h-10">
+                            <SelectValue
+                              placeholder={
+                                isMetaLoading
+                                  ? "Loading timezones..."
+                                  : "Select a Timezone"
+                              }
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {profileMeta?.timezones.map((tz) => (
+                            <SelectItem key={tz.value} value={tz.value}>
+                              {tz.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Language */}
+                <FormField
+                  control={form.control}
+                  name="language"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Language</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full h-10">
+                            <SelectValue
+                              placeholder={
+                                isMetaLoading
+                                  ? "Loading languages..."
+                                  : "Select a Language"
+                              }
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {profileMeta?.languages.map((lang) => (
+                            <SelectItem key={lang.value} value={lang.value}>
+                              {lang.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </form>
+            </Form>
           </CardContent>
         </Card>
       </div>

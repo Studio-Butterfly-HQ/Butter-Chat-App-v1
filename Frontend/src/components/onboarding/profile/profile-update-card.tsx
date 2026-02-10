@@ -1,17 +1,30 @@
-import type React from "react"
-import { useState } from "react"
-import { Plus } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { toast } from "sonner"
-import { Spinner } from "@/components/ui/spinner"
+import type React from "react";
+import { useState } from "react";
+import { Plus } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,} from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Field, FieldLabel } from "@/components/ui/field"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import {Form, FormField, FormItem, FormMessage,} from "@/components/ui/form"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 import {
   useProfileMeta,
@@ -27,8 +40,10 @@ export default function ProfileUpdateCard() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   const { data, isLoading } = useProfileMeta();
-  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useUpdateProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } = useUploadAvatar();
+  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } =
+    useUpdateProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } =
+    useUploadAvatar();
 
   const isPending = isUpdatingProfile || isUploadingAvatar;
 
@@ -42,9 +57,6 @@ export default function ProfileUpdateCard() {
     },
     mode: "onBlur",
   });
-
-  const { watch, setValue } = form;
-  const values = watch();
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -95,7 +107,10 @@ export default function ProfileUpdateCard() {
 
         <div className="relative mt-8 mb-4">
           <Avatar className="h-36 mt-2 w-36">
-            <AvatarImage src={profilePhoto} className="h-full w-full object-cover"/>
+            <AvatarImage
+              src={profilePhoto}
+              className="h-full w-full object-cover"
+            />
             <AvatarFallback>YN</AvatarFallback>
           </Avatar>
 
@@ -122,14 +137,13 @@ export default function ProfileUpdateCard() {
             <FormField
               control={form.control}
               name="company_category"
-              render={() => (
+              render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base" >Company Category</FieldLabel>
-                    <Select
-                      value={values.company_category}
-                      onValueChange={(v) => setValue("company_category", v)}
-                    >
+                    <FieldLabel className="font-semibold text-base">
+                      Company Category
+                    </FieldLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a category..." />
                       </SelectTrigger>
@@ -151,16 +165,13 @@ export default function ProfileUpdateCard() {
             <FormField
               control={form.control}
               name="country"
-              render={() => (
+              render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
                     <FieldLabel className="font-semibold text-base">
                       Country
                     </FieldLabel>
-                    <Select
-                      value={values.country}
-                      onValueChange={(v) => setValue("country", v)}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger disabled={isLoading}>
                         <SelectValue
                           placeholder={
@@ -179,7 +190,7 @@ export default function ProfileUpdateCard() {
                       </SelectContent>
                     </Select>
                   </Field>
-                  <FormMessage className="text-sm"/>
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -188,16 +199,13 @@ export default function ProfileUpdateCard() {
             <FormField
               control={form.control}
               name="language"
-              render={() => (
+              render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base">Language</FieldLabel>
-                    <Select
-                      value={values.language}
-                      onValueChange={(v) =>
-                        setValue("language", v)
-                      }
-                    >
+                    <FieldLabel className="font-semibold text-base">
+                      Language
+                    </FieldLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger disabled={isLoading}>
                         <SelectValue
                           placeholder={
@@ -209,17 +217,14 @@ export default function ProfileUpdateCard() {
                       </SelectTrigger>
                       <SelectContent>
                         {data?.languages.map((l) => (
-                          <SelectItem
-                            key={l.value}
-                            value={l.value}
-                          >
+                          <SelectItem key={l.value} value={l.value}>
                             {l.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </Field>
-                  <FormMessage className="text-sm"/>
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -228,16 +233,13 @@ export default function ProfileUpdateCard() {
             <FormField
               control={form.control}
               name="timezone"
-              render={() => (
+              render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base">Timezone</FieldLabel>
-                    <Select
-                      value={values.timezone}
-                      onValueChange={(v) =>
-                        setValue("timezone", v)
-                      }
-                    >
+                    <FieldLabel className="font-semibold text-base">
+                      Timezone
+                    </FieldLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger disabled={isLoading}>
                         <SelectValue
                           placeholder={
@@ -249,21 +251,17 @@ export default function ProfileUpdateCard() {
                       </SelectTrigger>
                       <SelectContent>
                         {data?.timezones.map((t) => (
-                          <SelectItem
-                            key={t.value}
-                            value={t.value}
-                          >
+                          <SelectItem key={t.value} value={t.value}>
                             {t.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </Field>
-                  <FormMessage className="text-sm"/>
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
-
           </CardContent>
 
           <CardFooter>
@@ -272,11 +270,18 @@ export default function ProfileUpdateCard() {
               disabled={isLoading || isPending}
               type="submit"
             >
-              {isPending ? <> <Spinner /> Please wait... </>: <> Complete Profile </>}
+              {isPending ? (
+                <>
+                  {" "}
+                  <Spinner /> Please wait...{" "}
+                </>
+              ) : (
+                <> Complete Profile </>
+              )}
             </Button>
           </CardFooter>
         </form>
       </Form>
     </Card>
-  )
+  );
 }
