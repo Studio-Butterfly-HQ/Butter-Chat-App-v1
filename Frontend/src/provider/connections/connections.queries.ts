@@ -18,6 +18,10 @@ export const useGetSocialConnections = () => {
       return getSocialConnectionsApi(token);
     },
     enabled: !!token,
+    staleTime: 5 * 60 * 1000, // Data stays fresh for 5 minutes
+    gcTime: 30 * 60 * 1000, // Data stays in cache for 30 minutes
+    refetchOnWindowFocus: false, // Don't refetch when window regains focus
+    refetchOnMount: true, // Only refetch on component mount
   });
 };
 

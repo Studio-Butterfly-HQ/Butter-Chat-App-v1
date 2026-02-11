@@ -1,4 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useDebounce } from "@/hooks/use-debounce";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -8,18 +27,26 @@ import {
   RowSelectionState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Inbox,
-  ShoppingBag,
   Facebook,
   Globe,
-  MoreHorizontal,
-  Mail,
   Instagram,
   MessageCircle,
-  ArrowUpRight,
+  Twitter,
+  Linkedin,
+  Send,
+  Hash,
+  EllipsisVertical,
+  Search,
+  Play,
+  Eye,
+  Inbox,
+  Ban,
+  LogOut,
+  Filter,
+  X,
+  Download,
 } from "lucide-react";
 import { DataGrid, DataGridContainer } from "@/components/ui/data-grid";
 import { DataGridPagination } from "@/components/ui/data-grid-pagination";
@@ -30,176 +57,170 @@ import {
 } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
-import customerData from "@/constants/dummy/customer.json";
+import customerListData from "@/constants/dummy/customer-list.json";
 
-export type TicketStatus =
-  | "OPEN"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "PENDING"
-  | "DELAYED"
-  | "STARTED"
-  | "UNDER_REVIEW"
-  | "CANCELLED"
-  | "RESOLVED"
-  | "SCHEDULED"
-  | "IN_REVIEW"
-  | "ON_HOLD";
-
-interface CustomerData {
+interface CustomerListData {
   id: string;
-  status: TicketStatus;
-  customer: { name: string; avatar: string; source: string };
-  summary: string;
-  tags: string[];
-  assignee: { name: string; avatar: string };
-  group: string;
+  user: { name: string; email: string; avatar: string };
+  source: string;
   lastUpdated: string;
+  created: string;
+  conversations: number;
 }
 
-const statusMap: Record<TicketStatus, string> = {
-  OPEN: "Open",
-  IN_PROGRESS: "In Progress",
-  COMPLETED: "Completed",
-  PENDING: "Pending",
-  DELAYED: "Delayed",
-  STARTED: "Started",
-  UNDER_REVIEW: "Under Review",
-  CANCELLED: "Cancelled",
-  RESOLVED: "Resolved",
-  SCHEDULED: "Scheduled",
-  IN_REVIEW: "In Review",
-  ON_HOLD: "On Hold",
+const SourceIcon = ({ source }: { source: string }) => {
+  const iconClass = "h-3.5 w-3.5";
+  switch (source.toLowerCase()) {
+    case "facebook":
+      return <Facebook className={`${iconClass} text-[#1877F2]`} />;
+    case "twitter":
+      return <Twitter className={`${iconClass} text-[#1DA1F2]`} />;
+    case "instagram":
+      return <Instagram className={`${iconClass} text-[#E4405F]`} />;
+    case "linkedin":
+      return <Linkedin className={`${iconClass} text-[#0A66C2]`} />;
+    case "whatsapp":
+      return <MessageCircle className={`${iconClass} text-[#25D366]`} />;
+    case "telegram":
+      return <Send className={`${iconClass} text-[#0088cc]`} />;
+    case "messenger":
+      return <MessageCircle className={`${iconClass} text-[#0084FF]`} />;
+    case "discord":
+      return <Hash className={`${iconClass} text-[#5865F2]`} />;
+    case "snapchat":
+      return <MessageCircle className={`${iconClass} text-[#FFFC00]`} />;
+    default:
+      return <Globe className={`${iconClass} text-muted-foreground`} />;
+  }
 };
 
-export const StatusBadge = ({ status }: { status: TicketStatus }) => {
-  const colorMap: Record<TicketStatus, string> = {
-    OPEN: "bg-blue-500/10 text-blue-500 border-none",
-    IN_PROGRESS: "bg-indigo-500/10 text-indigo-500 border-none",
-    COMPLETED: "bg-green-500/10 text-green-500 border-none",
-    PENDING: "bg-yellow-500/10 text-yellow-500 border-none",
-    DELAYED: "bg-red-500/10 text-red-500 border-none",
-    STARTED: "bg-sky-500/10 text-sky-500 border-none",
-    UNDER_REVIEW: "bg-purple-500/10 text-purple-500 border-none",
-    CANCELLED: "bg-red-500/10 text-red-500 border-none",
-    RESOLVED: "bg-emerald-500/10 text-emerald-500 border-none",
-    SCHEDULED: "bg-cyan-500/10 text-cyan-500 border-none",
-    IN_REVIEW: "bg-blue-500/10 text-blue-500 border-none",
-    ON_HOLD: "bg-orange-500/10 text-orange-500 border-none",
-  };
-
+const CustomerActions = ({ customer }: { customer: CustomerListData }) => {
   return (
-    <Badge
-      className={cn(
-        "rounded-xl px-2.5 py-0.5 text-[11px] font-medium whitespace-nowrap",
-        colorMap[status],
-      )}
-    >
-      {statusMap[status]}
-    </Badge>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <EllipsisVertical className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-44 rounded-lg">
+        <DropdownMenuLabel className="font-normal text-muted-foreground text-xs">
+          Customer More Options
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <Eye className="h-4 w-4" />
+          View
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Inbox className="h-4 w-4" />
+          View Inbox
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Ban className="h-4 w-4" />
+          Suspend
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <LogOut className="h-4 w-4" />
+          Log Out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
 export default function CustomerTable() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const [selectedSources, setSelectedSources] = useState<string[]>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-  const currentCustomer = customerData[0].customer;
 
-  const columns: ColumnDef<CustomerData>[] = [
+  const filteredData = useMemo(() => {
+    return (customerListData as CustomerListData[]).filter((item) => {
+      // Filter by source
+      const matchesSource = !selectedSources.length || selectedSources.includes(item.source);
+      return matchesSource;
+    });
+  }, [selectedSources]);
+
+  const handleSourceChange = (checked: boolean, value: string) => {
+    setSelectedSources((prev) => checked ? [...prev, value] : prev.filter((v) => v !== value));
+  };
+
+  const columns: ColumnDef<CustomerListData>[] = [
     {
-      accessorKey: "status",
-      header: "Status",
-      size: 110,
-      cell: ({ row }) => <StatusBadge status={row.original.status} />,
+      accessorKey: "id",
+      header: () => <DataGridTableRowSelectAll />,
+      cell: ({ row }) => <DataGridTableRowSelect row={row} />,
+      enableSorting: false,
+      size: 35,
       meta: {
-        headerClassName: "font-medium",
+        skeleton: <Skeleton className="h-4 w-4 rounded" />,
       },
     },
     {
-      accessorKey: "summary",
-      header: "Summary",
-      size: 350,
+      id: "user",
+      accessorFn: (row) => `${row.user.name} ${row.user.email}`,
+      header: "User",
+      size: 250,
       cell: ({ row }) => (
-        <div className="space-y-1.5 py-2">
-          <div className="text-sm text-muted-foreground line-clamp-1">
-            {row.original.summary}
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {row.original.tags.map((tag) => {
-              const isStatusTag =
-                tag === "Status" ||
-                tag === "Review" ||
-                tag === "Completion" ||
-                tag === "Feedback" ||
-                tag === "Issues" ||
-                tag === "Kickoff" ||
-                tag === "Approval" ||
-                tag === "Resolution" ||
-                tag === "Scheduling"; // Heuristic for the blue tag
-              return (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className={cn(
-                    "text-[10px] py-0 px-2 rounded-xl font-normal border-none",
-                    isStatusTag
-                      ? "bg-blue-600 text-white hover:bg-blue-700"
-                      : "bg-blue-500/10 text-blue-500 hover:bg-blue-500/20",
-                  )}
-                >
-                  {tag}
-                </Badge>
-              );
-            })}
-          </div>
-        </div>
-      ),
-      meta: {
-        headerClassName: "font-medium",
-      },
-    },
-    {
-      accessorKey: "assignee",
-      header: "Assignee",
-      size: 180,
-      cell: ({ row }) => (
-        <div className="flex items-center gap-2">
-          <Avatar className="h-6 w-6">
-            <AvatarImage src={row.original.assignee.avatar} />
+        <div className="flex items-center gap-3">
+          <Avatar className="h-8 w-8">
+            <AvatarImage src={row.original.user.avatar} />
             <AvatarFallback className="text-[10px]">
-              {row.original.assignee.name ? row.original.assignee.name.charAt(0) : "U"}
+              {row.original.user.name
+                ? row.original.user.name.charAt(0).toUpperCase()
+                : "U"}
             </AvatarFallback>
           </Avatar>
-          <span className="text-sm text-muted-foreground">
-            {row.original.assignee.name}
-          </span>
+          <div className="flex flex-col">
+            <span className="text-sm font-medium text-foreground">
+              {row.original.user.name}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {row.original.user.email}
+            </span>
+          </div>
         </div>
       ),
       meta: {
         headerClassName: "font-medium",
+        skeleton: (
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-8 w-8 rounded-full" />
+            <div className="space-y-1">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-3 w-32" />
+            </div>
+          </div>
+        ),
       },
     },
     {
-      accessorKey: "group",
-      header: "Group",
+      accessorKey: "source",
+      header: "Source",
       size: 150,
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <div className="h-3 w-3 rounded-full bg-blue-400" />
+          <SourceIcon source={row.original.source} />
           <span className="text-sm text-muted-foreground">
-            {row.original.group}
+            {row.original.source}
           </span>
         </div>
       ),
       meta: {
         headerClassName: "font-medium",
+        skeleton: (
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-3.5 w-3.5 rounded" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+        ),
       },
     },
     {
       accessorKey: "lastUpdated",
       header: "Last Updated",
-      size: 120,
+      size: 140,
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
           {row.original.lastUpdated}
@@ -207,99 +228,161 @@ export default function CustomerTable() {
       ),
       meta: {
         headerClassName: "font-medium",
+        skeleton: <Skeleton className="h-4 w-16" />,
       },
+    },
+    {
+      accessorKey: "created",
+      header: "Created",
+      size: 140,
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">
+          {row.original.created}
+        </span>
+      ),
+      meta: {
+        headerClassName: "font-medium",
+        skeleton: <Skeleton className="h-4 w-20" />,
+      },
+    },
+    {
+      accessorKey: "conversations",
+      header: "Conversation",
+      size: 120,
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">
+          {row.original.conversations}
+        </span>
+      ),
+      meta: {
+        headerClassName: "font-medium",
+        skeleton: <Skeleton className="h-4 w-8" />,
+      },
+    },
+    {
+      id: "actions",
+      header: "",
+      size: 40,
+      cell: ({ row }) => <CustomerActions customer={row.original} />,
+      enableSorting: false,
     },
   ];
 
   const table = useReactTable({
-    data: customerData as CustomerData[],
+    data: filteredData,
     columns,
     state: {
       pagination,
       rowSelection,
+      globalFilter: debouncedSearchTerm,
     },
     onPaginationChange: setPagination,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setSearchTerm,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
   });
 
-  // Helper to map Source string to Icon
-  const getSourceIcon = (source: string) => {
-    switch (source.toLowerCase()) {
-      case "facebook":
-        return <Facebook className="w-3 h-3" />;
-      case "instagram":
-        return <Instagram className="w-3 h-3" />;
-      default:
-        return <Globe className="w-3 h-3" />;
-    }
-  };
-
-  // Header Component for Customer Info
-  const CustomerHeader = ({
-    customer,
-  }: {
-    customer: CustomerData["customer"];
-  }) => {
-    return (
-      <div className="flex items-center gap-4 px-2">
-        <div className="relative">
-          <Avatar className="h-22 w-22 border-2 border-border">
-            <AvatarImage src={customer.avatar} />
-            <AvatarFallback className="text-xl">
-              {customer.name ? customer.name.charAt(0) : "U"}
-            </AvatarFallback>
-          </Avatar>
+  return (
+    <div className="h-full p-4 space-y-4">
+      <div className="flex items-center justify-between gap-4">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 h-10"
+          />
         </div>
-        <div className="space-y-1">
-          <Badge
-            variant="secondary"
-            className="rounded-full px-2.5 py-0.5 text-xs text-muted-foreground bg-muted font-normal"
-          >
-            Customer
-          </Badge>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">
-            {customer.name}
-          </h1>
-          <div className="flex items-center gap-2 text-base font-medium text-muted-foreground">
-            <span className="text-muted-foreground/60">Source:</span>
-            <div className="flex items-center gap-1.5 text-foreground">
-              {getSourceIcon(customer.source)}
-              <span>{customer.source}</span>
-              <ArrowUpRight className="h-4 w-4" />
-            </div>
-          </div>
+        <div className="flex gap-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="h-10 bg-transparent">
+                <Filter className="h-4 w-4" />
+                Filter
+                {selectedSources.length > 0 && (
+                  <Badge
+                    variant="secondary"
+                    className=" rounded-sm px-2 font-normal"
+                  >
+                    {selectedSources.length}
+                  </Badge>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-52 p-0" align="start">
+              <div className="p-2">
+                <div className="mb-2 px-2 text-xs font-medium text-muted-foreground">
+                  Source
+                </div>
+                <div className="space-y-1">
+                  {["Facebook", "Instagram", "Twitter"].map((source) => {
+                    const count = (customerListData as CustomerListData[]).filter((item) => item.source === source).length;
+                    return (
+                      <div key={source} className="flex items-center space-x-2 rounded-sm px-2 py-1.5 hover:bg-accent hover:text-accent-foreground">
+                        <Checkbox
+                          id={source}
+                          checked={selectedSources.includes(source)}
+                          onCheckedChange={(checked) => handleSourceChange(checked === true, source)}
+                        />
+                        <Label
+                          htmlFor={source}
+                          className="flex flex-1 items-center justify-between text-sm font-normal cursor-pointer"
+                        >
+                          <span>{source}</span>
+                          <span className="text-xs text-muted-foreground ml-auto">
+                            {count}
+                          </span>
+                        </Label>
+                      </div>
+                    );
+                  })}
+                </div>
+                {selectedSources.length > 0 && (
+                  <div className="pt-2 mt-2 border-t">
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-center text-xs font-normal h-8"
+                      onClick={() => {
+                        setSelectedSources([]);
+                      }}
+                    >
+                      Clear filters
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </PopoverContent>
+          </Popover>
+          <Button className="h-10">
+            <Download />
+            Download
+          </Button>
         </div>
       </div>
-    );
-  };
-
-  return (
-    <div className="h-full flex flex-col space-y-6 p-4">
-      <CustomerHeader customer={currentCustomer} />
-        <DataGrid
-          table={table}
-          recordCount={customerData.length}
-          tableLayout={{
-            headerBackground: false,
-            rowBorder: true,
-            rowRounded: false,
-            width: "auto",
-          }}
-        >
-          <div className="w-full min-h-[calc(100vh-11.5rem)] flex flex-col justify-between space-y-2.5">
-            <DataGridContainer border={false}>
-              <ScrollArea>
-                <DataGridTable />
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
-            </DataGridContainer>
-            <DataGridPagination />
-          </div>
-        </DataGrid>
+      <DataGrid
+        table={table}
+        recordCount={customerListData.length}
+        tableLayout={{
+          headerBackground: false,
+          rowBorder: true,
+          rowRounded: false,
+          width: "fixed",
+        }}
+      >
+        <div className="w-full min-h-[calc(100vh-11.2rem)] flex flex-col justify-between space-y-2.5">
+          <DataGridContainer border={false}>
+            <ScrollArea className="h-full w-full">
+              <DataGridTable />
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </DataGridContainer>
+          <DataGridPagination />
+        </div>
+      </DataGrid>
     </div>
   );
 }

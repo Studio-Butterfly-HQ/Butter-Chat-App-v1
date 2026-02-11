@@ -48,10 +48,7 @@ export default function App() {
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingsGeneral />} />
-              <Route
-                path="connect-accounts"
-                element={<SettingsConnectAccounts />}
-              />
+              <Route path="connect-accounts" element={<SettingsConnectAccounts />} />
               <Route path="notifications" element={<SettingsNotifications />} />
               <Route path="security" element={<SettingsSecurity />} />
             </Route>

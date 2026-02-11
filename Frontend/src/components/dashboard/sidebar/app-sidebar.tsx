@@ -159,7 +159,7 @@ const data = {
     },
     {
       name: "Settings",
-      url: "/settings",
+      url: "/settings/general",
       icon: Settings,
     },
     {

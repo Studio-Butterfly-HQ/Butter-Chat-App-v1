@@ -8,14 +8,10 @@ import {
   User,
   Users,
   Activity,
-} from "lucide-react"
-import { NavLink, useNavigate } from "react-router-dom"
+} from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +20,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -46,7 +42,7 @@ type NavUserProps = {
   };
 };
 
-export function NavUser({user}: NavUserProps) {
+export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -66,13 +62,17 @@ export function NavUser({user}: NavUserProps) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton size="lg"className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
               <Avatar className="h-8 w-8 rounded-sm">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg">
                   {user.name?.[0] ?? "U"}
                 </AvatarFallback>
-              </Avatar>              <div className="grid flex-1 text-left text-sm leading-tight">
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
@@ -113,7 +113,7 @@ export function NavUser({user}: NavUserProps) {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(e) => {
-                  e.preventDefault()
+                  e.preventDefault();
                   setTheme(theme === "dark" ? "light" : "dark");
                 }}
                 className="flex items-center gap-2 cursor-pointer"
