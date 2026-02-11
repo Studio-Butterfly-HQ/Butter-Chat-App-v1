@@ -137,13 +137,16 @@ export default function CustomerTable() {
   const filteredData = useMemo(() => {
     return (customerListData as CustomerListData[]).filter((item) => {
       // Filter by source
-      const matchesSource = !selectedSources.length || selectedSources.includes(item.source);
+      const matchesSource =
+        !selectedSources.length || selectedSources.includes(item.source);
       return matchesSource;
     });
   }, [selectedSources]);
 
   const handleSourceChange = (checked: boolean, value: string) => {
-    setSelectedSources((prev) => checked ? [...prev, value] : prev.filter((v) => v !== value));
+    setSelectedSources((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value),
+    );
   };
 
   const columns: ColumnDef<CustomerListData>[] = [
@@ -320,13 +323,20 @@ export default function CustomerTable() {
                 </div>
                 <div className="space-y-1">
                   {["Facebook", "Instagram", "Twitter"].map((source) => {
-                    const count = (customerListData as CustomerListData[]).filter((item) => item.source === source).length;
+                    const count = (
+                      customerListData as CustomerListData[]
+                    ).filter((item) => item.source === source).length;
                     return (
-                      <div key={source} className="flex items-center space-x-2 rounded-sm px-2 py-1.5 hover:bg-accent hover:text-accent-foreground">
+                      <div
+                        key={source}
+                        className="flex items-center space-x-2 rounded-sm px-2 py-1.5 hover:bg-accent hover:text-accent-foreground"
+                      >
                         <Checkbox
                           id={source}
                           checked={selectedSources.includes(source)}
-                          onCheckedChange={(checked) => handleSourceChange(checked === true, source)}
+                          onCheckedChange={(checked) =>
+                            handleSourceChange(checked === true, source)
+                          }
                         />
                         <Label
                           htmlFor={source}
@@ -365,7 +375,7 @@ export default function CustomerTable() {
       </div>
       <DataGrid
         table={table}
-        recordCount={customerListData.length}
+        recordCount={table.getFilteredRowModel().rows.length}
         tableLayout={{
           headerBackground: false,
           rowBorder: true,

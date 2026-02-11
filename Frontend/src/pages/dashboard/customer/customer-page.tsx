@@ -5,7 +5,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "@/co
 import { Badge } from "@/components/ui/badge"
 import { BookOpen } from "lucide-react"
 export default function CustomerPage() {
-  console.log("CustomerPage")
   return (
     <div>
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
