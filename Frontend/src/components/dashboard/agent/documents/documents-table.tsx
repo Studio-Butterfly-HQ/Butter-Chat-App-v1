@@ -136,7 +136,7 @@ export function DocumentsTable() {
       ),
       meta: {
         skeleton: (
-          <div className="flex gap-3 justify-start">
+          <div className="flex gap-4 justify-start">
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />

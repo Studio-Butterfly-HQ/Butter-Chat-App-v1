@@ -85,7 +85,7 @@ export default function ButterAiSidebar() {
               <SidebarMenuButton asChild className="h-10">
                 <div className="cursor-pointer border border-border">
                   <Plus className="h-4 w-4" />
-                  <span className="text-sm">New chat</span>
+                  <span className="text-sm">New Chat</span>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -93,7 +93,7 @@ export default function ButterAiSidebar() {
               <SidebarMenuButton asChild className="h-10">
                 <div className="cursor-pointer border border-border">
                   <Search className="h-4 w-4" />
-                  <span className="text-sm">Search chats</span>
+                  <span className="text-sm">Search Chats</span>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -109,9 +109,7 @@ export default function ButterAiSidebar() {
           </SidebarGroupLabel>
           <SidebarMenu>
             {chatHistory.map((chat) => (
-              <SidebarMenuItem key={chat.id} className="border-b border-border">
-                {" "}
-                {/*todo hover:border-transparent*/}
+              <SidebarMenuItem key={chat.id} className="border-b border-border">{/*todo hover:border-transparent*/}
                 <SidebarMenuButton asChild className="h-9">
                   <div className="cursor-pointer">
                     <span className="text-sm text-muted-foreground truncate">

@@ -122,7 +122,7 @@ const data = {
     // },
     {
       title: "Save Replies",
-      url: "#",
+      url: "/save-reply",
       icon: FileText,
     },
     {

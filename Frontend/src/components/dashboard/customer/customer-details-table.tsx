@@ -247,21 +247,21 @@ export default function CustomerDetailsTable() {
     return (
       <div className="flex items-center gap-4 px-2">
         <div className="relative">
-          <Avatar className="h-22 w-22 border-2 border-border">
+          <Avatar className="h-20 w-20 border-2 border-border">
             <AvatarImage src={customer.avatar} />
             <AvatarFallback className="text-xl">
               {customer.name ? customer.name.charAt(0) : "U"}
             </AvatarFallback>
           </Avatar>
         </div>
-        <div className="space-y-1">
+        <div>
           <Badge
             variant="secondary"
             className="rounded-full px-2.5 py-0.5 text-xs text-muted-foreground bg-muted font-normal"
           >
             Customer
           </Badge>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">
+          <h1 className="text-2xl font-bold text-foreground tracking-tight">
             {customer.name}
           </h1>
           <div className="flex items-center gap-2 text-base font-medium text-muted-foreground">

@@ -110,7 +110,7 @@ export default function ChatBox() {
                 Hello, {userName || "there"}
               </h1>
               <h1 className="text-2xl font-semibold">
-                What do you need help with Today?
+                What do you need help with today?
               </h1>
             </div>
             <div className="flex flex-wrap justify-center gap-3 pb-12 max-w-3xl">
