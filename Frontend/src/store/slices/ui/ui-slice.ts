@@ -62,6 +62,15 @@ const uiSlice = createSlice({
     setSelectedInboxUserId(state, action: PayloadAction<string | null>) {
       state.selectedInboxUserId = action.payload;
     },
+    openAskButterAiSidebar(state) {
+      state.isAskButterAiSidebarOpen = true;
+    },
+    closeAskButterAiSidebar(state) {
+      state.isAskButterAiSidebarOpen = false;
+    },
+    toggleAskButterAiSidebar(state) {
+      state.isAskButterAiSidebarOpen = !state.isAskButterAiSidebarOpen;
+    },
   },
 });
 
@@ -85,5 +94,8 @@ export const {
   setActiveInboxTab,
   resetInboxTabs,
   setSelectedInboxUserId,
+  openAskButterAiSidebar,
+  closeAskButterAiSidebar,
+  toggleAskButterAiSidebar,
 } = uiSlice.actions;
 export default uiSlice.reducer;
