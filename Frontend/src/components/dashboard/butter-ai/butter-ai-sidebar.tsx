@@ -9,7 +9,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { PenLine, Plus, Search } from "lucide-react";
+import { BotMessageSquare, PenLine, Plus, Search, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // Demo chat history data
 const chatHistory = [
@@ -56,35 +57,43 @@ const chatHistory = [
   },
 ];
 
+import { useAppDispatch } from "@/store/hooks";
+import { closeAskButterAiSidebar } from "@/store/slices/ui/ui-slice";
+
 export default function ButterAiSidebar() {
+  const dispatch = useAppDispatch();
   return (
     <div className="flex bg-popover rounded-xl h-full flex-col">
-      <SidebarHeader className="border-b border-border h-16 justify-center">
-        <div className="flex items-center gap-2 px-2">
-          <SidebarTrigger />
-          <Separator
-            orientation="vertical"
-            className="mr-2 data-[orientation=vertical]:h-6"
-          />
-          <span className="text-base font-semibold">Butter AI</span>
+      <SidebarHeader className="border-b border-border h-16 p-4 flex flex-row items-center justify-between">
+        <div className="flex items-center gap-2">
+          <BotMessageSquare className="h-6 w-5" />
+          <span className="text-base font-semibold">Chat History</span>
         </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-7 w-7"
+          onClick={() => dispatch(closeAskButterAiSidebar())}
+        >
+          <X className="h-4 w-4" />
+        </Button>
       </SidebarHeader>
       <SidebarHeader>
         <SidebarGroup>
-          <SidebarMenu>
+          <SidebarMenu className="space-y-1">
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <div className="cursor-pointer">
+              <SidebarMenuButton asChild className="h-10">
+                <div className="cursor-pointer border border-border">
                   <Plus className="h-4 w-4" />
-                  <span className="text-sm">New chat</span>
+                  <span className="text-sm">New Chat</span>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <div className="cursor-pointer">
+              <SidebarMenuButton asChild className="h-10">
+                <div className="cursor-pointer border border-border">
                   <Search className="h-4 w-4" />
-                  <span className="text-sm">Search chats</span>
+                  <span className="text-sm">Search Chats</span>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -100,10 +109,12 @@ export default function ButterAiSidebar() {
           </SidebarGroupLabel>
           <SidebarMenu>
             {chatHistory.map((chat) => (
-              <SidebarMenuItem key={chat.id}>
-                <SidebarMenuButton asChild>
+              <SidebarMenuItem key={chat.id} className="border-b border-border">{/*todo hover:border-transparent*/}
+                <SidebarMenuButton asChild className="h-9">
                   <div className="cursor-pointer">
-                    <span className="text-sm truncate">{chat.title}</span>
+                    <span className="text-sm text-muted-foreground truncate">
+                      {chat.title}
+                    </span>
                   </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>

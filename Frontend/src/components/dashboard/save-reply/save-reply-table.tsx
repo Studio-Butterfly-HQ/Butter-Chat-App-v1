@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -30,24 +29,16 @@ import {
 } from "@tanstack/react-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Facebook,
-  Globe,
-  Instagram,
-  MessageCircle,
-  Twitter,
-  Linkedin,
-  Send,
-  Hash,
   EllipsisVertical,
   Search,
-  Play,
-  Eye,
-  Inbox,
-  Ban,
-  LogOut,
   Filter,
-  X,
   Download,
+  Trash2,
+  Pencil,
+  Plus,
+  Lock,
+  Globe,
+  User,
 } from "lucide-react";
 import { DataGrid, DataGridContainer } from "@/components/ui/data-grid";
 import { DataGridPagination } from "@/components/ui/data-grid-pagination";
@@ -58,100 +49,57 @@ import {
 } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import customerListData from "@/constants/dummy/customer-list.json";
+import saveReplyListData from "@/constants/dummy/save-reply-list.json";
 
-interface CustomerListData {
+interface SaveReplyListData {
   id: string;
-  user: { name: string; email: string; avatar: string };
-  source: string;
+  title: string;
+  description: string;
+  owner: { name: string; avatar: string };
+  type: string;
   lastUpdated: string;
-  created: string;
-  conversations: number;
 }
 
-const SourceIcon = ({ source }: { source: string }) => {
-  const iconClass = "h-3.5 w-3.5";
-  switch (source.toLowerCase()) {
-    case "facebook":
-      return <Facebook className={`${iconClass} text-[#1877F2]`} />;
-    case "twitter":
-      return <Twitter className={`${iconClass} text-[#1DA1F2]`} />;
-    case "instagram":
-      return <Instagram className={`${iconClass} text-[#E4405F]`} />;
-    case "linkedin":
-      return <Linkedin className={`${iconClass} text-[#0A66C2]`} />;
-    case "whatsapp":
-      return <MessageCircle className={`${iconClass} text-[#25D366]`} />;
-    case "telegram":
-      return <Send className={`${iconClass} text-[#0088cc]`} />;
-    case "messenger":
-      return <MessageCircle className={`${iconClass} text-[#0084FF]`} />;
-    case "discord":
-      return <Hash className={`${iconClass} text-[#5865F2]`} />;
-    case "snapchat":
-      return <MessageCircle className={`${iconClass} text-[#FFFC00]`} />;
-    default:
-      return <Globe className={`${iconClass} text-muted-foreground`} />;
+const TypeIcon = ({ type }: { type: string }) => {
+  if (type.toLowerCase() === "private") {
+    return <User className="h-4 w-4 text-muted-foreground" />;
   }
+  return <Globe className="h-4 w-4 text-muted-foreground" />;
 };
 
-const CustomerActions = ({ customer }: { customer: CustomerListData }) => {
+const SaveReplyActions = ({ saveReply }: { saveReply: SaveReplyListData }) => {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-        <EllipsisVertical className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-44 rounded-lg">
-        <DropdownMenuLabel className="font-normal text-muted-foreground text-xs">
-          Customer More Options
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Eye className="h-4 w-4" />
-          View
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Inbox className="h-4 w-4" />
-          View Inbox
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Ban className="h-4 w-4" />
-          Suspend
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogOut className="h-4 w-4" />
-          Log Out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex items-center gap-4">
+      <Trash2 className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-destructive" />
+      <Pencil className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+    </div>
   );
 };
 
-export default function CustomerTable() {
-  const navigate = useNavigate();
+export default function SaveReplyTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
-  const [selectedSources, setSelectedSources] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const filteredData = useMemo(() => {
-    return (customerListData as CustomerListData[]).filter((item) => {
-      // Filter by source
-      const matchesSource =
-        !selectedSources.length || selectedSources.includes(item.source);
-      return matchesSource;
-    });
-  }, [selectedSources]);
+    return (saveReplyListData as SaveReplyListData[]).filter((item) => {
+      // Filter by type
+      const matchesType =
+        !selectedTypes.length || selectedTypes.includes(item.type);
 
-  const handleSourceChange = (checked: boolean, value: string) => {
-    setSelectedSources((prev) =>
+      return matchesType;
+    });
+  }, [selectedTypes]);
+
+  const handleTypeChange = (checked: boolean, value: string) => {
+    setSelectedTypes((prev) =>
       checked ? [...prev, value] : prev.filter((v) => v !== value),
     );
   };
 
-  const columns: ColumnDef<CustomerListData>[] = [
+  const columns: ColumnDef<SaveReplyListData>[] = [
     {
       accessorKey: "id",
       header: () => <DataGridTableRowSelectAll />,
@@ -163,52 +111,67 @@ export default function CustomerTable() {
       },
     },
     {
-      id: "user",
-      accessorFn: (row) => `${row.user.name} ${row.user.email}`,
-      header: "User",
-      size: 250,
+      id: "savedReply",
+      accessorFn: (row) => `${row.title} ${row.description}`,
+      header: "Saved Reply",
+      size: 400,
       cell: ({ row }) => (
-        <div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={row.original.user.avatar} />
-            <AvatarFallback className="text-[10px]">
-              {row.original.user.name
-                ? row.original.user.name.charAt(0).toUpperCase()
-                : "U"}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <div className="font-medium text-foreground">
-              {row.original.user.name}
-            </div>
-            <div className="text-sm text-muted-foreground">
-              {row.original.user.email}
-            </div>
+        <div className="flex flex-col gap-1">
+          <div className="font-medium text-foreground">
+            {row.original.title}
+          </div>
+          <div className="text-sm text-muted-foreground line-clamp-1">
+            {row.original.description}
           </div>
         </div>
       ),
       meta: {
         headerClassName: "font-medium",
         skeleton: (
-          <div className="flex items-center gap-3">
-            <Skeleton className="h-8 w-8 rounded-full" />
-            <div className="space-y-1">
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-3 w-32" />
-            </div>
+          <div className="flex flex-col gap-1">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-3 w-32" />
           </div>
         ),
       },
     },
     {
-      accessorKey: "source",
-      header: "Source",
+      id: "owner",
+      accessorFn: (row) => row.owner.name,
+      header: "Owner",
+      size: 200,
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <Avatar className="h-6 w-6">
+            <AvatarImage src={row.original.owner.avatar} />
+            <AvatarFallback className="text-[10px]">
+              {row.original.owner.name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-sm text-muted-foreground">
+            {row.original.owner.name}
+          </span>
+        </div>
+      ),
+      meta: {
+        headerClassName: "font-medium",
+        skeleton: (
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 w-6 rounded-full" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+        ),
+      },
+    },
+    {
+      accessorKey: "type",
+      header: "Type",
       size: 150,
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <SourceIcon source={row.original.source} />
+          <TypeIcon type={row.original.type} />
           <span className="text-sm text-muted-foreground">
-            {row.original.source}
+            {row.original.type}
           </span>
         </div>
       ),
@@ -233,42 +196,14 @@ export default function CustomerTable() {
       ),
       meta: {
         headerClassName: "font-medium",
-        skeleton: <Skeleton className="h-4 w-16" />,
-      },
-    },
-    {
-      accessorKey: "created",
-      header: "Created",
-      size: 140,
-      cell: ({ row }) => (
-        <span className="text-sm text-muted-foreground">
-          {row.original.created}
-        </span>
-      ),
-      meta: {
-        headerClassName: "font-medium",
         skeleton: <Skeleton className="h-4 w-20" />,
-      },
-    },
-    {
-      accessorKey: "conversations",
-      header: "Conversation",
-      size: 120,
-      cell: ({ row }) => (
-        <span className="text-sm text-muted-foreground">
-          {row.original.conversations}
-        </span>
-      ),
-      meta: {
-        headerClassName: "font-medium",
-        skeleton: <Skeleton className="h-4 w-8" />,
       },
     },
     {
       id: "actions",
       header: "",
-      size: 40,
-      cell: ({ row }) => <CustomerActions customer={row.original} />,
+      size: 80,
+      cell: ({ row }) => <SaveReplyActions saveReply={row.original} />,
       enableSorting: false,
     },
   ];
@@ -308,12 +243,12 @@ export default function CustomerTable() {
               <Button variant="outline" className="h-10 bg-transparent">
                 <Filter className="h-4 w-4" />
                 Filter
-                {selectedSources.length > 0 && (
+                {selectedTypes.length > 0 && (
                   <Badge
                     variant="secondary"
                     className=" rounded-sm px-2 font-normal"
                   >
-                    {selectedSources.length}
+                    {selectedTypes.length}
                   </Badge>
                 )}
               </Button>
@@ -321,30 +256,30 @@ export default function CustomerTable() {
             <PopoverContent className="w-52 p-0" align="start">
               <div className="p-2">
                 <div className="mb-2 px-2 text-xs font-medium text-muted-foreground">
-                  Source
+                  Type
                 </div>
                 <div className="space-y-1">
-                  {["Facebook", "Instagram", "Twitter"].map((source) => {
+                  {["Private", "Public"].map((type) => {
                     const count = (
-                      customerListData as CustomerListData[]
-                    ).filter((item) => item.source === source).length;
+                      saveReplyListData as SaveReplyListData[]
+                    ).filter((item) => item.type === type).length;
                     return (
                       <div
-                        key={source}
+                        key={type}
                         className="flex items-center space-x-2 rounded-sm px-2 py-1.5 hover:bg-accent hover:text-accent-foreground"
                       >
                         <Checkbox
-                          id={source}
-                          checked={selectedSources.includes(source)}
+                          id={type}
+                          checked={selectedTypes.includes(type)}
                           onCheckedChange={(checked) =>
-                            handleSourceChange(checked === true, source)
+                            handleTypeChange(checked === true, type)
                           }
                         />
                         <Label
-                          htmlFor={source}
+                          htmlFor={type}
                           className="flex flex-1 items-center justify-between text-sm font-normal cursor-pointer"
                         >
-                          <span>{source}</span>
+                          <span>{type}</span>
                           <span className="text-xs text-muted-foreground ml-auto">
                             {count}
                           </span>
@@ -353,13 +288,13 @@ export default function CustomerTable() {
                     );
                   })}
                 </div>
-                {selectedSources.length > 0 && (
+                {selectedTypes.length > 0 && (
                   <div className="pt-2 mt-2 border-t">
                     <Button
                       variant="ghost"
                       className="w-full justify-center text-xs font-normal h-8"
                       onClick={() => {
-                        setSelectedSources([]);
+                        setSelectedTypes([]);
                       }}
                     >
                       Clear filters
@@ -370,8 +305,8 @@ export default function CustomerTable() {
             </PopoverContent>
           </Popover>
           <Button className="h-10">
-            <Download />
-            Download
+            <Plus className="h-4 w-4" />
+            Add Reply
           </Button>
         </div>
       </div>
@@ -384,7 +319,6 @@ export default function CustomerTable() {
           rowRounded: false,
           width: "fixed",
         }}
-        onRowClick={(row) => navigate(`/customers/details`)}
       >
         <div className="w-full min-h-[calc(100vh-11.2rem)] flex flex-col justify-between space-y-2.5">
           <DataGridContainer border={false}>

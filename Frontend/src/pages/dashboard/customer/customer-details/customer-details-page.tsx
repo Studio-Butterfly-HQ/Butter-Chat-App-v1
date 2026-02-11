@@ -1,4 +1,4 @@
-import CustomerTable from "@/components/dashboard/customer/customer-table";
+import CustomerDetailsTable from "@/components/dashboard/customer/customer-details-table";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -59,7 +59,7 @@ export default function CustomerDetailsPage() {
         </div>
         </div>
       </header>
-      <CustomerTable />
+      <CustomerDetailsTable />
     </div>
   );
 }

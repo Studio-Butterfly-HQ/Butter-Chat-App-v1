@@ -1,10 +1,16 @@
-import CustomerTable from "@/components/dashboard/customer/customer-table"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Separator } from "@/components/ui/separator"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "@/components/ui/breadcrumb"
-import { Badge } from "@/components/ui/badge"
-import { BookOpen } from "lucide-react"
-export default function CustomerPage() {
+import SaveReplyTable from "@/components/dashboard/save-reply/save-reply-table";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen } from "lucide-react";
+
+export default function SaveReplyPage() {
   return (
     <div>
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -18,7 +24,9 @@ export default function CustomerPage() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="text-sm md:text-base font-semibold">Customer</BreadcrumbPage>
+                  <BreadcrumbPage className="text-sm md:text-base font-semibold">
+                    Save Reply
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -34,7 +42,7 @@ export default function CustomerPage() {
           </Badge>
         </div>
       </header>
-      <CustomerTable />
+      <SaveReplyTable />
     </div>
-  )
+  );
 }

@@ -107,7 +107,7 @@ export default function AIAgentChat() {
     <div className="flex h-full border dark:border-0 flex-col rounded-xl bg-popover">
       {/* Header */}
       <SidebarHeader className="border-b border-border h-16 p-4 flex flex-row items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <BotMessageSquare className="h-6 w-5 " />
           <h1 className="text-sm md:text-base font-semibold text-foreground">
             AI Agent

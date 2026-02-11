@@ -122,7 +122,7 @@ const data = {
     // },
     {
       title: "Save Replies",
-      url: "#",
+      url: "/save-reply",
       icon: FileText,
     },
     {
@@ -159,7 +159,7 @@ const data = {
     },
     {
       name: "Settings",
-      url: "/settings",
+      url: "/settings/general",
       icon: Settings,
     },
     {

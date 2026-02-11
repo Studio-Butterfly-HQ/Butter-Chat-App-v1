@@ -9,6 +9,7 @@ import {
   User,
   Sparkles,
   Settings2,
+  ArrowDownRight,
 } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "@/store/hooks";
@@ -94,23 +95,25 @@ export default function ChatBox() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex z-50 flex-1 min-h-0 flex-col overflow-hidden">
+    <div className="flex z-50 flex-1 min-h-0 flex-col overflow-hidden p-4">
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {!hasMessages ? (
           /* Welcome State */
-          <div className="flex-1 flex flex-col items-center justify-start p-4">
-            <div className="mb-6">
-              <div className="relative">
-                <Sparkles className="h-12 w-12 text-primary" />
+          <div className="flex-1 flex flex-col items-center justify-between">
+            <div className="flex flex-col items-center justify-center">
+              <div className="mb-4">
+                <div className="relative">
+                  <Sparkles className="h-12 w-12 text-primary" />
+                </div>
               </div>
+              <h1 className="text-2xl font-semibold text-foreground mb-1">
+                Hello, {userName || "there"}
+              </h1>
+              <h1 className="text-2xl font-semibold">
+                What do you need help with today?
+              </h1>
             </div>
-            <h1 className="text-3xl font-semibold text-foreground mb-1">
-              Hello, {userName || "there"}
-            </h1>
-            <p className="text-lg text-muted-foreground mb-12">
-              What do you need help with Today?
-            </p>
-            <div className="flex flex-wrap justify-center gap-3 max-w-2xl">
+            <div className="flex flex-wrap justify-center gap-3 pb-12 max-w-3xl">
               {suggestedPrompts.map((prompt, index) => (
                 <button
                   key={index}
@@ -118,6 +121,7 @@ export default function ChatBox() {
                   className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card hover:bg-accent text-sm text-foreground transition-colors"
                 >
                   <span>{prompt}</span>
+                  <ArrowDownRight className="h-4 w-4" />
                 </button>
               ))}
             </div>

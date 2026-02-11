@@ -20,7 +20,6 @@ export default function DashboardLayout() {
       <AppSidebar isLoading={isLoading} />
       <InboxSidebarWrapper />
       <SettingsSidebarWrapper />
-      <ButterAiSidebarWrapper />
       <SidebarInset>
         <main
           className={`min-h-[calc(100vh-1.5rem)] md:m-3 md:ml-0 border dark:border-0 md:rounded-xl bg-popover flex-1 overflow-y-auto scrollbar-hide`}
@@ -28,6 +27,7 @@ export default function DashboardLayout() {
           <Outlet />
         </main>
       </SidebarInset>
+      <ButterAiSidebarWrapper />
       <TestAiAgentWrapper />
       <CustomerChatWrapper />
       <UserSidebarWrapper />

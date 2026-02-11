@@ -136,7 +136,7 @@ export function DocumentsTable() {
       ),
       meta: {
         skeleton: (
-          <div className="flex gap-3 justify-start">
+          <div className="flex gap-4 justify-start">
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
@@ -196,13 +196,13 @@ export function DocumentsTable() {
           }}
         >
           <div className="w-full flex flex-col justify-between min-h-[calc(100vh-12.11rem)] space-y-2.5">
-            <DataGridContainer className="" border={false}>
+            <DataGridContainer border={false}>
               <ScrollArea>
                 <DataGridTable />
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
             </DataGridContainer>
-            <DataGridPagination className="" />
+            <DataGridPagination />
           </div>
         </DataGrid>
       </div>

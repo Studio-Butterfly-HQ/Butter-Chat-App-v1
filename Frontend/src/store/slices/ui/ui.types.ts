@@ -8,6 +8,7 @@ export type UiState = {
   onboardingStep: number;
   activeInboxTab: string;
   selectedInboxUserId: string | null;
+  isAskButterAiSidebarOpen: boolean;
 };
 
 export const initialState: UiState = {
@@ -20,4 +21,5 @@ export const initialState: UiState = {
   onboardingStep: 1,
   activeInboxTab: "your-inbox",
   selectedInboxUserId: null,
+  isAskButterAiSidebarOpen: false,
 };

@@ -24,6 +24,8 @@ import YourInboxPage from "./pages/dashboard/inbox/your-inbox/your-inbox-page";
 import UnassignedPage from "./pages/dashboard/inbox/unassigned/unassigned-page";
 import AskButterAiPage from "./pages/dashboard/ask-butter-ai/ask-butter-ai-page";
 import CustomerPage from "./pages/dashboard/customer/customer-page";
+import SaveReplyPage from "./pages/dashboard/save-reply/save-reply-page";
+import CustomerDetailsPage from "./pages/dashboard/customer/customer-details/customer-details-page";
 
 export default function App() {
   return (
@@ -48,10 +50,7 @@ export default function App() {
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingsGeneral />} />
-              <Route
-                path="connect-accounts"
-                element={<SettingsConnectAccounts />}
-              />
+              <Route path="connect-accounts" element={<SettingsConnectAccounts />} />
               <Route path="notifications" element={<SettingsNotifications />} />
               <Route path="security" element={<SettingsSecurity />} />
             </Route>
@@ -68,6 +67,8 @@ export default function App() {
             <Route path="ask-butter-ai" element={<AskButterAiPage />} />
             <Route path="teams" element={<TeamsPage />} />
             <Route path="customers" element={<CustomerPage />} />
+            <Route path="save-reply" element={<SaveReplyPage />} /> 
+            <Route path="customers/details" element={<CustomerDetailsPage />} />
           </Route>
         </Route>
         {/* 404 */}
