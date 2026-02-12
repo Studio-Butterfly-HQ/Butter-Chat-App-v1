@@ -31,9 +31,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Default */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-
         <Route path="/invitation" element={<InvitationPage />} />
 
         <Route element={<AuthRoute />}>

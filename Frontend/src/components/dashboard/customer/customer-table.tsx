@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { CustomerActions } from "./customer-actions";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,22 +12,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
   ColumnDef,
+  RowSelectionState,
+  useReactTable,
+  ColumnFiltersState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  RowSelectionState,
-  useReactTable,
 } from "@tanstack/react-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -37,14 +32,9 @@ import {
   Twitter,
   Linkedin,
   Send,
-  Hash,
-  EllipsisVertical,
   Search,
   Play,
-  Eye,
-  Inbox,
-  Ban,
-  LogOut,
+  Hash,
   Filter,
   X,
   Download,
@@ -95,39 +85,6 @@ const SourceIcon = ({ source }: { source: string }) => {
   }
 };
 
-const CustomerActions = ({ customer }: { customer: CustomerListData }) => {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-        <EllipsisVertical className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-44 rounded-lg">
-        <DropdownMenuLabel className="font-normal text-muted-foreground text-xs">
-          Customer More Options
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Eye className="h-4 w-4" />
-          View
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Inbox className="h-4 w-4" />
-          View Inbox
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Ban className="h-4 w-4" />
-          Suspend
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogOut className="h-4 w-4" />
-          Log Out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
-
 export default function CustomerTable() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
@@ -136,19 +93,19 @@ export default function CustomerTable() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const filteredData = useMemo(() => {
-    return (customerListData as CustomerListData[]).filter((item) => {
-      // Filter by source
-      const matchesSource =
-        !selectedSources.length || selectedSources.includes(item.source);
-      return matchesSource;
-    });
-  }, [selectedSources]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const handleSourceChange = (checked: boolean, value: string) => {
-    setSelectedSources((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value),
-    );
+    const newSelectedSources = checked
+      ? [...selectedSources, value]
+      : selectedSources.filter((v) => v !== value);
+
+    setSelectedSources(newSelectedSources);
+    table
+      .getColumn("source")
+      ?.setFilterValue(
+        newSelectedSources.length ? newSelectedSources : undefined,
+      );
   };
 
   const columns: ColumnDef<CustomerListData>[] = [
@@ -169,7 +126,7 @@ export default function CustomerTable() {
       size: 250,
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-10 w-10">
             <AvatarImage src={row.original.user.avatar} />
             <AvatarFallback className="text-[10px]">
               {row.original.user.name
@@ -191,7 +148,7 @@ export default function CustomerTable() {
         headerClassName: "font-medium",
         skeleton: (
           <div className="flex items-center gap-3">
-            <Skeleton className="h-8 w-8 rounded-full" />
+            <Skeleton className="h-10 w-10 rounded-full" />
             <div className="space-y-1">
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-3 w-32" />
@@ -220,6 +177,10 @@ export default function CustomerTable() {
             <Skeleton className="h-4 w-16" />
           </div>
         ),
+      },
+      filterFn: (row, id, value) => {
+        if (!value || !Array.isArray(value)) return true;
+        return value.includes(row.getValue(id));
       },
     },
     {
@@ -274,13 +235,15 @@ export default function CustomerTable() {
   ];
 
   const table = useReactTable({
-    data: filteredData,
+    data: customerListData as CustomerListData[],
     columns,
     state: {
       pagination,
       rowSelection,
       globalFilter: debouncedSearchTerm,
+      columnFilters,
     },
+    onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setSearchTerm,
@@ -325,9 +288,11 @@ export default function CustomerTable() {
                 </div>
                 <div className="space-y-1">
                   {["Facebook", "Instagram", "Twitter"].map((source) => {
-                    const count = (
-                      customerListData as CustomerListData[]
-                    ).filter((item) => item.source === source).length;
+                    const count = table
+                      .getCoreRowModel()
+                      .rows.filter(
+                        (item) => item.original.source === source,
+                      ).length;
                     return (
                       <div
                         key={source}
