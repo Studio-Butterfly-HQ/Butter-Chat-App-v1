@@ -19,8 +19,9 @@ import { persistor } from "@/store/index";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-export const useUploadAvatar = () => {
-  const token = useAppSelector((state) => state.auth.token);
+export const useUploadAvatar = (tokenOverride?: string | null) => {
+  const reduxToken = useAppSelector((state) => state.auth.token);
+  const token = tokenOverride || reduxToken;
 
   return useMutation({
     mutationFn: (file: File) => {

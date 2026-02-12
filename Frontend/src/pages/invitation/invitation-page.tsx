@@ -43,7 +43,7 @@ export default function InvitationPage() {
   const navigate = useNavigate();
 
   const { mutateAsync: registerUser, isPending: loading } = useRegisterUser();
-  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar();
+  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar(token);
 
   const form = useForm<InvitationFormValues>({
     resolver: zodResolver(invitationSchema),

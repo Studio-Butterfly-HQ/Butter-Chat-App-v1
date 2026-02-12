@@ -26,6 +26,7 @@ import {
   getSortedRowModel,
   RowSelectionState,
   useReactTable,
+  ColumnFiltersState,
 } from "@tanstack/react-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -83,20 +84,11 @@ export default function SaveReplyTable() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const filteredData = useMemo(() => {
-    return (saveReplyListData as SaveReplyListData[]).filter((item) => {
-      // Filter by type
-      const matchesType =
-        !selectedTypes.length || selectedTypes.includes(item.type);
-
-      return matchesType;
-    });
-  }, [selectedTypes]);
-
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const handleTypeChange = (checked: boolean, value: string) => {
-    setSelectedTypes((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value),
-    );
+    const newSelectedTypes = checked ? [...selectedTypes, value] : selectedTypes.filter((v) => v !== value);
+    setSelectedTypes(newSelectedTypes);
+    table.getColumn("type")?.setFilterValue(newSelectedTypes.length ? newSelectedTypes : undefined);
   };
 
   const columns: ColumnDef<SaveReplyListData>[] = [
@@ -184,6 +176,9 @@ export default function SaveReplyTable() {
           </div>
         ),
       },
+      filterFn: (row, id, value) => {
+        return value.includes(row.getValue(id));
+      },
     },
     {
       accessorKey: "lastUpdated",
@@ -209,13 +204,15 @@ export default function SaveReplyTable() {
   ];
 
   const table = useReactTable({
-    data: filteredData,
+    data: saveReplyListData as SaveReplyListData[],
     columns,
     state: {
       pagination,
       rowSelection,
       globalFilter: debouncedSearchTerm,
+      columnFilters,
     },
+    onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setSearchTerm,
@@ -260,9 +257,7 @@ export default function SaveReplyTable() {
                 </div>
                 <div className="space-y-1">
                   {["Private", "Public"].map((type) => {
-                    const count = (
-                      saveReplyListData as SaveReplyListData[]
-                    ).filter((item) => item.type === type).length;
+                    const count = table.getCoreRowModel().rows.filter((item) => item.original.type === type).length;
                     return (
                       <div
                         key={type}

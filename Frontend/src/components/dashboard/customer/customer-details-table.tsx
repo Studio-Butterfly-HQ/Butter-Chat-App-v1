@@ -287,7 +287,7 @@ export default function CustomerDetailsTable() {
             headerBackground: false,
             rowBorder: true,
             rowRounded: false,
-            width: "auto",
+            width: "fixed",
           }}
         >
           <div className="w-full min-h-[calc(100vh-11.5rem)] flex flex-col justify-between space-y-2.5">
