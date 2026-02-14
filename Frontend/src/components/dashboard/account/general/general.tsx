@@ -26,8 +26,10 @@ import { Spinner } from "@/components/ui/spinner";
 
 export default function General() {
   const { data: userProfile, isLoading } = useUserProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar();
-  const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateUserProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploading } =
+    useUploadAvatar();
+  const { mutateAsync: updateProfile, isPending: isUpdating } =
+    useUpdateUserProfile();
 
   const [profilePhoto, setProfilePhoto] = useState("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -69,15 +71,19 @@ export default function General() {
       toast.error("Please select an image file");
       return;
     }
-
-    setAvatarFile(file);
     const reader = new FileReader();
+    reader.onerror = () => {
+      toast.error("Failed to read the image file");
+      setAvatarFile(null);
+    };
+    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
+    reader.readAsDataURL(file);
     reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
     reader.readAsDataURL(file);
   };
 
   const onSubmit = async (data: GeneralFormValues) => {
-    if (!form.formState.isDirty) {
+    if (!form.formState.isDirty && !avatarFile) {
       toast.error("No changes to save");
       return;
     }
@@ -100,7 +106,7 @@ export default function General() {
 
   return (
     <div className="space-y-6 p-4 pt-0">
-      <Card className="shadow-none bg-transparent p-4">
+      <Card className="shadow-none bg-transparent p-6">
         <CardContent className="p-0 space-y-6">
           <div className="flex items-center gap-6">
             <div className="relative">

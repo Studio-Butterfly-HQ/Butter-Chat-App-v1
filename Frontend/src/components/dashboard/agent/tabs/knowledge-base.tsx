@@ -21,7 +21,7 @@ export function KnowledgeBase() {
   return (
     <div className="p-4 pt-0 space-y-3">
       {/* Website */}
-      <Card className="border border-border rounded-xl">
+      <Card className="border border-border bg-transparent rounded-xl">
         <CardContent className="p-3.5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center  gap-3">
@@ -58,7 +58,7 @@ export function KnowledgeBase() {
       </Card>
 
       {/* Documents */}
-      <Card className="border border-border rounded-xl">
+      <Card className="border border-border bg-transparent rounded-xl">
         <CardContent className="p-3.5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
@@ -95,7 +95,7 @@ export function KnowledgeBase() {
       </Card>
 
       {/* Form */}
-      <Card className="border border-border rounded-xl">
+      <Card className="border border-border bg-transparent rounded-xl">
         <CardContent className="p-3.5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
@@ -122,7 +122,7 @@ export function KnowledgeBase() {
       </Card>
 
       {/* Snippets */}
-      <Card className="border border-border rounded-xl">
+      <Card className="border border-border bg-transparent rounded-xl">
         <CardContent className="p-3.5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">

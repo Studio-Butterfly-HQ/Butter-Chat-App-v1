@@ -63,7 +63,7 @@ export default function ConnectAccountsPage() {
 
       <div className="p-4 space-y-4">
         {/* Connect Social Accounts Card */}
-        <Card>
+        <Card className="bg-transparent">
           <CardHeader>
             <CardTitle className="text-xl">Connect Social Accounts</CardTitle>
             <CardDescription>
@@ -93,7 +93,7 @@ export default function ConnectAccountsPage() {
         </Card>
 
         {/* Connected Accounts Card */}
-        <Card>
+        <Card className="bg-transparent">
           <CardHeader>
             <CardTitle className="text-xl">Connected Accounts</CardTitle>
             <CardDescription>

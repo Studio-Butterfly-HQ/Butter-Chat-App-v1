@@ -32,7 +32,7 @@ export default function DateTime() {
 
   return (
     <div className="space-y-6 p-4 pt-0">
-      <Card className="shadow-none bg-transparent p-4">
+      <Card className="shadow-none bg-transparent p-6">
         <CardContent className="p-0 space-y-6">
           <div className="space-y-4">
             <div className="space-y-2">

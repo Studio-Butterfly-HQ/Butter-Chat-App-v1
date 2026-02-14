@@ -158,6 +158,9 @@ export const fetchLocationDefaultsApi = async () => {
 
   try {
     const res = await fetch(IP_INFO_URL);
+    if (!res.ok) {
+      throw new Error("Failed to fetch IP info");
+    }
     const ip = await res.json();
     const country = ip?.country || null;
     return { country, timezone, language };

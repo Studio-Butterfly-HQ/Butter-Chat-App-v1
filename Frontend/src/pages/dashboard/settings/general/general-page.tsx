@@ -100,7 +100,7 @@ export default function GeneralSettings() {
         </div>
       </header>
       <div className="p-4">
-        <Card>
+        <Card className="bg-transparent">
           <CardHeader>
             <CardTitle className="text-xl">General Settings</CardTitle>
             <CardDescription>

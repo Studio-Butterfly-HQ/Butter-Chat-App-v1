@@ -108,7 +108,6 @@ export default function ProfileUpdateCard() {
       const c = profileMeta.countries.find(
         (x) => x.value === detectedLocation.country,
       );
-      console.log(c);
       c && form.setValue("country", c.value);
     }
 
@@ -125,8 +124,7 @@ export default function ProfileUpdateCard() {
       );
       l && form.setValue("language", l.value);
     }
-  }, [profileMeta, detectedLocation]);
-
+  }, [profileMeta, detectedLocation, form]);
   return (
     <Card className="bg-background border-0 shadow-none">
       <CardHeader className="flex flex-col items-center text-center">
