@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,6 +30,7 @@ import {
   useProfileMeta,
   useUpdateProfile,
   useUploadAvatar,
+  useDetectLocation,
 } from "@/provider/profile";
 import { ProfileFormValues, profileSchema } from "@/schemas/profileSchema";
 
@@ -39,9 +40,14 @@ export default function ProfileUpdateCard() {
   );
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
-  const { data, isLoading } = useProfileMeta();
-  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useUpdateProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } = useUploadAvatar();
+  const { data: profileMeta, isLoading: isLoadingProfileMeta } =
+    useProfileMeta();
+  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } =
+    useUpdateProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } =
+    useUploadAvatar();
+  const { data: detectedLocation, isLoading: isDetectingLocation } =
+    useDetectLocation();
 
   const isPending = isUpdatingProfile || isUploadingAvatar;
 
@@ -94,6 +100,32 @@ export default function ProfileUpdateCard() {
       console.error("Error in profile update card: ", error);
     }
   };
+
+  useEffect(() => {
+    if (!profileMeta || !detectedLocation) return;
+
+    if (!form.getValues("country") && detectedLocation.country) {
+      const c = profileMeta.countries.find(
+        (x) => x.value === detectedLocation.country,
+      );
+      console.log(c);
+      c && form.setValue("country", c.value);
+    }
+
+    if (!form.getValues("timezone") && detectedLocation.timezone) {
+      const t = profileMeta.timezones.find(
+        (x) => x.value === detectedLocation.timezone,
+      );
+      t && form.setValue("timezone", t.value);
+    }
+
+    if (!form.getValues("language") && detectedLocation.language) {
+      const l = profileMeta.languages.find((x) =>
+        x.value.startsWith(detectedLocation.language!),
+      );
+      l && form.setValue("language", l.value);
+    }
+  }, [profileMeta, detectedLocation]);
 
   return (
     <Card className="bg-background border-0 shadow-none">
@@ -170,17 +202,19 @@ export default function ProfileUpdateCard() {
                       Country
                     </FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger disabled={isLoading}>
+                      <SelectTrigger
+                        disabled={isLoadingProfileMeta || isDetectingLocation}
+                      >
                         <SelectValue
                           placeholder={
-                            isLoading
-                              ? "Loading countries..."
+                            isLoadingProfileMeta || isDetectingLocation
+                              ? "Loading location..."
                               : "Select a country..."
                           }
                         />
                       </SelectTrigger>
                       <SelectContent>
-                        {data?.countries.map((c) => (
+                        {profileMeta?.countries.map((c) => (
                           <SelectItem key={c.value} value={c.value}>
                             {c.label}
                           </SelectItem>
@@ -204,17 +238,19 @@ export default function ProfileUpdateCard() {
                       Language
                     </FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger disabled={isLoading}>
+                      <SelectTrigger
+                        disabled={isLoadingProfileMeta || isDetectingLocation}
+                      >
                         <SelectValue
                           placeholder={
-                            isLoading
-                              ? "Loading languages..."
+                            isLoadingProfileMeta || isDetectingLocation
+                              ? "Loading language..."
                               : "Select a language..."
                           }
                         />
                       </SelectTrigger>
                       <SelectContent>
-                        {data?.languages.map((l) => (
+                        {profileMeta?.languages.map((l) => (
                           <SelectItem key={l.value} value={l.value}>
                             {l.label}
                           </SelectItem>
@@ -238,17 +274,19 @@ export default function ProfileUpdateCard() {
                       Timezone
                     </FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger disabled={isLoading}>
+                      <SelectTrigger
+                        disabled={isLoadingProfileMeta || isDetectingLocation}
+                      >
                         <SelectValue
                           placeholder={
-                            isLoading
-                              ? "Loading timezones..."
+                            isLoadingProfileMeta || isDetectingLocation
+                              ? "Loading timezone..."
                               : "Select a timezone..."
                           }
                         />
                       </SelectTrigger>
                       <SelectContent>
-                        {data?.timezones.map((t) => (
+                        {profileMeta?.timezones.map((t) => (
                           <SelectItem key={t.value} value={t.value}>
                             {t.label}
                           </SelectItem>
@@ -265,7 +303,9 @@ export default function ProfileUpdateCard() {
           <CardFooter>
             <Button
               className="w-full font-medium"
-              disabled={isLoading || isPending}
+              disabled={
+                isLoadingProfileMeta || isDetectingLocation || isPending
+              }
               type="submit"
             >
               {isPending ? (

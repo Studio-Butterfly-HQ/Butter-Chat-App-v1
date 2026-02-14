@@ -33,6 +33,7 @@ import { BookOpen, Loader2, Save } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "sonner";
 
 export default function GeneralSettings() {
   const { data: profileMeta, isLoading: isMetaLoading } = useProfileMeta();
@@ -56,8 +57,13 @@ export default function GeneralSettings() {
   });
 
   async function onSubmit(data: ProfileFormValues) {
+    if(!form.formState.isDirty){
+      toast.error("No changes to save")
+      return;
+    }
     try {
       await updateProfile(data);
+      form.reset(data);
     } catch (error) {
       console.error(error);
     }

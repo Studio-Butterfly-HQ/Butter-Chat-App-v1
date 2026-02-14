@@ -11,7 +11,10 @@ import { fetchProfileMetaApi } from "./profile.api";
 import { ProfileMetaResponse } from "./profile.types";
 import { toast } from "sonner";
 import { useAppSelector } from "@/store/hooks";
-import { fetchCompanyProfileApi } from "./profile.api";
+import {
+  fetchCompanyProfileApi,
+  fetchLocationDefaultsApi,
+} from "./profile.api";
 import { useAppDispatch } from "@/store/hooks";
 import { setCompany } from "@/store/slices/auth/auth-slice";
 import { logout } from "@/store/slices/auth/auth-slice";
@@ -141,4 +144,15 @@ export const useProfileMeta = () =>
     queryFn: fetchProfileMetaApi,
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
     gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days
+  });
+
+export const useDetectLocation = () =>
+  useQuery({
+    queryKey: ["location-defaults"],
+    queryFn: fetchLocationDefaultsApi,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 10, // 10 minutes
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });

@@ -41,3 +41,9 @@ export interface ProfileMetaResponse {
   languages: Option[];
   timezones: Option[];
 }
+
+export interface LocationDefaults {
+  country: string | null;
+  timezone: string | null;
+  language: string | null;
+}

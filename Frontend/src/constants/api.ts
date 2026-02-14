@@ -52,5 +52,6 @@ export const FILE_HANDLE_API = {
   UPLOAD_AVATAR: `${BACKEND_BASE_URL}/file-handle/image/avatar`,
 };
 
-export const COUNTRY_API_URL =
-  "https://restcountries.com/v3.1/all?fields=name,cca2,languages,timezones";
+export const COUNTRY_API_URL = "https://restcountries.com/v3.1/all?fields=name,cca2,languages";
+
+export const IP_INFO_URL = "https://ipinfo.io/json";
