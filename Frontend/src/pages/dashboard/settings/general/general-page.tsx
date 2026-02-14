@@ -33,31 +33,36 @@ import { BookOpen, Loader2, Save } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "sonner";
 
 export default function GeneralSettings() {
   const { data: profileMeta, isLoading: isMetaLoading } = useProfileMeta();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
-
 
   const company = useAppSelector((state) => state.auth.company);
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     values: company
-    ? {
-        company_name: company.company_name || "",
-        company_category: company.company_category || "",
-        country: company.country || "",
-        language: company.language || "",
-        timezone: company.timezone || "",
-      }
-    : undefined,
+      ? {
+          company_name: company.company_name || "",
+          company_category: company.company_category || "",
+          country: company.country || "",
+          language: company.language || "",
+          timezone: company.timezone || "",
+        }
+      : undefined,
     mode: "onBlur",
   });
 
   async function onSubmit(data: ProfileFormValues) {
+    if (!form.formState.isDirty) {
+      toast.error("No changes to save");
+      return;
+    }
     try {
       await updateProfile(data);
+      form.reset(data);
     } catch (error) {
       console.error(error);
     }
@@ -95,7 +100,7 @@ export default function GeneralSettings() {
         </div>
       </header>
       <div className="p-4">
-        <Card>
+        <Card className="bg-transparent">
           <CardHeader>
             <CardTitle className="text-xl">General Settings</CardTitle>
             <CardDescription>
@@ -171,14 +176,15 @@ export default function GeneralSettings() {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger disabled={isMetaLoading} className="w-full h-10">
-                            <SelectValue
-                              placeholder={
-                                isMetaLoading
-                                  ? "Loading countries..."
-                                  : "Select a Country"
-                              }
-                            />
+                          <SelectTrigger
+                            disabled={isMetaLoading}
+                            className="w-full h-10"
+                          >
+                            {isMetaLoading ? (
+                              <span>Loading countries...</span>
+                            ) : (
+                              <SelectValue placeholder="Select a Country" />
+                            )}
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -206,14 +212,15 @@ export default function GeneralSettings() {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger disabled={isMetaLoading} className="w-full h-10">
-                            <SelectValue
-                              placeholder={
-                                isMetaLoading
-                                  ? "Loading timezones..."
-                                  : "Select a Timezone"
-                              }
-                            />
+                          <SelectTrigger
+                            disabled={isMetaLoading}
+                            className="w-full h-10"
+                          >
+                            {isMetaLoading ? (
+                              <span>Loading timezones...</span>
+                            ) : (
+                              <SelectValue placeholder="Select a Timezone" />
+                            )}
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -241,14 +248,15 @@ export default function GeneralSettings() {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger disabled={isMetaLoading} className="w-full h-10">
-                            <SelectValue
-                              placeholder={
-                                isMetaLoading
-                                  ? "Loading languages..."
-                                  : "Select a Language"
-                              }
-                            />
+                          <SelectTrigger
+                            disabled={isMetaLoading}
+                            className="w-full h-10"
+                          >
+                            {isMetaLoading ? (
+                              <span>Loading languages...</span>
+                            ) : (
+                              <SelectValue placeholder="Select a Language" />
+                            )}
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>

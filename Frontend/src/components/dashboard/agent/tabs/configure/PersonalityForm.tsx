@@ -92,13 +92,7 @@ export const PersonalityForm = ({
                   <ToggleGroup
                     type="single"
                     value={field.value}
-                    onValueChange={(
-                      value:
-                        | "friendly"
-                        | "neutral"
-                        | "professional"
-                        | "humorous",
-                    ) => value && setValue("personality", value)}
+                    onValueChange={field.onChange}
                     className="flex flex-wrap justify-start gap-2"
                   >
                     {[

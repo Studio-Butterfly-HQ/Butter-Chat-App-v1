@@ -26,6 +26,7 @@ import AskButterAiPage from "./pages/dashboard/ask-butter-ai/ask-butter-ai-page"
 import CustomerPage from "./pages/dashboard/customer/customer-page";
 import SaveReplyPage from "./pages/dashboard/save-reply/save-reply-page";
 import CustomerDetailsPage from "./pages/dashboard/customer/customer-details/customer-details-page";
+import AccountPage from "./pages/dashboard/account/account-page";
 
 export default function App() {
   return (
@@ -66,6 +67,7 @@ export default function App() {
             <Route path="customers" element={<CustomerPage />} />
             <Route path="save-reply" element={<SaveReplyPage />} /> 
             <Route path="customers/details" element={<CustomerDetailsPage />} />
+            <Route path="account" element={<AccountPage />} />
           </Route>
         </Route>
         {/* 404 */}

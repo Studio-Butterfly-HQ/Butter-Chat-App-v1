@@ -5,10 +5,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuth(
-      state,
-      action: PayloadAction<{ user?: CompanyUser | null; token: string }>,
-    ) {
+    setAuth(state, action: PayloadAction<{ user?: CompanyUser | null; token: string }>) {
       state.token = action.payload.token;
       state.user = action.payload.user ?? null;
       state.isAuthenticated = true;
@@ -27,8 +24,11 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.company = null;
     },
+    setUser(state, action: PayloadAction<CompanyUser>) {
+      state.user = action.payload;
+    },
   },
 });
 
-export const { setAuth, logout, setCompany } = authSlice.actions;
+export const { setAuth, logout, setCompany, setUser } = authSlice.actions;
 export default authSlice.reducer;

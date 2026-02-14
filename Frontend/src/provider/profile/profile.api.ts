@@ -1,12 +1,17 @@
 import type {
-  CountryAPI,
   Option,
   ProfileMetaResponse,
   AvatarUploadResponse,
 } from "./profile.types";
-import type { ProfilePayload, ApiResponse, Profile } from "./profile.types";
-import { COUNTRY_API_URL } from "@/constants";
-import { COMPANY_API, FILE_HANDLE_API } from "@/constants/api";
+import type {
+  ProfilePayload,
+  ApiResponse,
+  Profile,
+  User,
+  UserProfileResponse,
+} from "./profile.types";
+import { COUNTRY_API_URL, IP_INFO_URL } from "@/constants";
+import { COMPANY_API, FILE_HANDLE_API, USER_API } from "@/constants/api";
 
 export const uploadAvatarApi = async (
   file: File,
@@ -110,51 +115,107 @@ export const fetchCompanyProfileApi = async (token: string) => {
 };
 
 export const fetchProfileMetaApi = async (): Promise<ProfileMetaResponse> => {
+  const res = await fetch(COUNTRY_API_URL);
+  if (!res.ok) throw new Error("Failed to fetch countries");
+
+  const data = await res.json();
+
+  const countries: Option[] = [];
+  const languageMap = new Map<string, string>();
+
+  data.forEach((c: any) => {
+    if (c.cca2 && c.name?.common) {
+      countries.push({
+        value: c.cca2,
+        label: c.name.common,
+      });
+    }
+
+    if (c.languages) {
+      Object.entries(c.languages).forEach(([code, name]) => {
+        languageMap.set(code, name as string);
+      });
+    }
+  });
+
+  const timezones: Option[] = Intl.supportedValuesOf("timeZone").map((tz) => ({
+    value: tz,
+    label: tz,
+  }));
+
+  return {
+    countries: countries.sort((a, b) => a.label.localeCompare(b.label)),
+    languages: Array.from(languageMap.entries())
+      .map(([value, label]) => ({ value, label }))
+      .sort((a, b) => a.label.localeCompare(b.label)),
+    timezones,
+  };
+};
+
+export const fetchLocationDefaultsApi = async () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const language = navigator.language.split("-")[0];
+
   try {
-    const res = await fetch(`${COUNTRY_API_URL}`);
-
+    const res = await fetch(IP_INFO_URL);
     if (!res.ok) {
-      throw new Error("Failed to fetch countries data");
+      throw new Error("Failed to fetch IP info");
     }
+    const ip = await res.json();
+    const country = ip?.country || null;
+    return { country, timezone, language };
+  } catch {
+    return {
+      country: null,
+      timezone,
+      language,
+    };
+  }
+};
 
-    const data: CountryAPI[] = await res.json();
-
-    if (!Array.isArray(data)) {
-      throw new Error("Invalid countries response");
-    }
-
-    const countryOptions: Option[] = [];
-    const languageMap = new Map<string, string>();
-    const timezoneSet = new Set<string>();
-
-    data.forEach((c) => {
-      if (c.name?.common && c.cca2) {
-        countryOptions.push({
-          value: c.cca2,
-          label: c.name.common,
-        });
-      }
-
-      if (c.languages) {
-        Object.entries(c.languages).forEach(([code, name]) => {
-          languageMap.set(code, name);
-        });
-      }
-
-      if (c.timezones) {
-        c.timezones.forEach((tz) => timezoneSet.add(tz));
-      }
+export const getUserProfileApi = async (token: string): Promise<User> => {
+  try {
+    const res = await fetch(USER_API.GET_PROFILE, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
 
-    return {
-      countries: countryOptions.sort((a, b) => a.label.localeCompare(b.label)),
-      languages: Array.from(languageMap.entries())
-        .map(([value, label]) => ({ value, label }))
-        .sort((a, b) => a.label.localeCompare(b.label)),
-      timezones: Array.from(timezoneSet)
-        .map((tz) => ({ value: tz, label: tz }))
-        .sort((a, b) => a.label.localeCompare(b.label)),
-    };
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserProfileApi = async (
+  payload: Partial<User>,
+  token: string,
+): Promise<UserProfileResponse> => {
+  try {
+    const res = await fetch(USER_API.UPDATE_PROFILE, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
   } catch (error) {
     throw error;
   }

@@ -137,7 +137,7 @@ export function NavUser({ user }: NavUserProps) {
             {/* ACCOUNT LINKS */}
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <NavLink to="#">
+                <NavLink to="/account">
                   <User className="h-4 w-4" />
                   Account
                 </NavLink>

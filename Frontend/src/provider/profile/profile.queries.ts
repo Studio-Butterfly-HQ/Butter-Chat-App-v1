@@ -1,19 +1,28 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateProfileApi, uploadAvatarApi } from "./profile.api";
+import {
+  updateProfileApi,
+  uploadAvatarApi,
+  getUserProfileApi,
+  updateUserProfileApi,
+} from "./profile.api";
 import {
   ApiResponse,
   Profile,
   ProfilePayload,
   AvatarUploadResponse,
+  User,
 } from "./profile.types";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProfileMetaApi } from "./profile.api";
 import { ProfileMetaResponse } from "./profile.types";
 import { toast } from "sonner";
 import { useAppSelector } from "@/store/hooks";
-import { fetchCompanyProfileApi } from "./profile.api";
+import {
+  fetchCompanyProfileApi,
+  fetchLocationDefaultsApi,
+} from "./profile.api";
 import { useAppDispatch } from "@/store/hooks";
-import { setCompany } from "@/store/slices/auth/auth-slice";
+import { setCompany, setUser } from "@/store/slices/auth/auth-slice";
 import { logout } from "@/store/slices/auth/auth-slice";
 import { persistor } from "@/store/index";
 import { useNavigate } from "react-router-dom";
@@ -89,7 +98,7 @@ export const useCompanyProfile = () => {
 
     queryFn: async () => {
       if (!token) {
-        throw { message: "No auth token found" };
+        throw new Error("No auth token found");
       }
       return fetchCompanyProfileApi(token);
     },
@@ -142,3 +151,62 @@ export const useProfileMeta = () =>
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
     gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days
   });
+
+export const useDetectLocation = () =>
+  useQuery({
+    queryKey: ["location-defaults"],
+    queryFn: fetchLocationDefaultsApi,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 10, // 10 minutes
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
+export const useUserProfile = () => {
+  const token = useAppSelector((state) => state.auth.token);
+
+  return useQuery({
+    queryKey: ["user-profile", token],
+    queryFn: () => {
+      if (!token) {
+        throw new Error("No auth token found");
+      }
+      return getUserProfileApi(token);
+    },
+    enabled: !!token,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+};
+
+export const useUpdateUserProfile = () => {
+  const queryClient = useQueryClient();
+  const token = useAppSelector((state) => state.auth.token);
+  const dispatch = useAppDispatch();
+
+  return useMutation({
+    mutationFn: (payload: Partial<User>) => {
+      if (!token) {
+        throw new Error("No auth token found");
+      }
+      return updateUserProfileApi(payload, token);
+    },
+    onSuccess: (res) => {
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      // @ts-ignore
+      dispatch(setUser(res.data));
+    },
+    onError: (error: any) => {
+      console.error("Update profile error:", error);
+      toast.error(error.message || "Failed to update profile");
+    },
+  });
+};

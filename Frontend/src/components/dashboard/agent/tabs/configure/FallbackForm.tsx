@@ -188,6 +188,7 @@ export const FallbackForm = ({
                 variant="outline"
                 type="button"
                 onClick={handleCancel}
+                className="bg-transparent"
               >
                 <X className="h-4 w-4" />
                 Cancel

@@ -71,6 +71,12 @@ const uiSlice = createSlice({
     toggleAskButterAiSidebar(state) {
       state.isAskButterAiSidebarOpen = !state.isAskButterAiSidebarOpen;
     },
+    setActiveAccountTab(state, action: PayloadAction<string>) {
+      state.activeAccountTab = action.payload;
+    },
+    resetAccountTabs(state) {
+      state.activeAccountTab = initialState.activeAccountTab;
+    },
   },
 });
 
@@ -97,5 +103,7 @@ export const {
   openAskButterAiSidebar,
   closeAskButterAiSidebar,
   toggleAskButterAiSidebar,
+  setActiveAccountTab,
+  resetAccountTabs,
 } = uiSlice.actions;
 export default uiSlice.reducer;

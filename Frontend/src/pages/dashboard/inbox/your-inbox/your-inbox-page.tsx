@@ -51,12 +51,12 @@ export default function YourInboxPage() {
         </div>
         <div className="flex items-center gap-4 px-4">
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="h-7 gap-1.5 px-2">
+            <Button variant="outline" size="sm" className="h-7 gap-1.5 px-2 bg-transparent">
               <SlidersHorizontal className="h-3 w-3" />
               Filter
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               size="sm"
               className="h-7 gap-1.5 px-2"
               onClick={handleViewClick}

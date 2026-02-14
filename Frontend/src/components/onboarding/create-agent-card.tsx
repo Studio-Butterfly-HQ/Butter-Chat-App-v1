@@ -44,8 +44,7 @@ export default function CreateAgentCard() {
     mode: "onBlur",
   });
 
-  const { watch, setValue } = form;
-  const personality = watch("personality");
+  const { setValue } = form;
 
   const handleSubmit = async (data: CreateAgentFormValues) => {
     try {
@@ -105,7 +104,7 @@ export default function CreateAgentCard() {
             <FormField
               control={form.control}
               name="personality"
-              render={() => (
+              render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-primary text-base font-semibold">
                     Personality
@@ -113,14 +112,8 @@ export default function CreateAgentCard() {
 
                   <ToggleGroup
                     type="single"
-                    value={personality}
-                    onValueChange={(
-                      value:
-                        | "friendly"
-                        | "neutral"
-                        | "professional"
-                        | "humorous",
-                    ) => value && setValue("personality", value)}
+                    value={field.value}
+                    onValueChange={field.onChange}
                     className="flex flex-wrap justify-between gap-x-0 gap-y-2"
                   >
                     <ToggleGroupItem

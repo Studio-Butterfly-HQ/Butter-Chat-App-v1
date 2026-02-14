@@ -24,6 +24,27 @@ export interface Profile {
   timezone: string;
 }
 
+export interface User {
+  id: string;
+  company_id: string;
+  user_name: string;
+  email: string;
+  profile_uri: string | null;
+  bio: string | null;
+  role: string;
+  status: string;
+  createdDate: string;
+  updatedDate: string;
+}
+
+export interface UserProfileResponse {
+  success: boolean;
+  message: string;
+  data: User;
+  timestamp: string;
+  path: string;
+}
+
 export interface CountryAPI {
   name?: { common: string };
   cca2?: string;
@@ -40,4 +61,10 @@ export interface ProfileMetaResponse {
   countries: Option[];
   languages: Option[];
   timezones: Option[];
+}
+
+export interface LocationDefaults {
+  country: string | null;
+  timezone: string | null;
+  language: string | null;
 }

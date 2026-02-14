@@ -63,7 +63,7 @@ import { closeAskButterAiSidebar } from "@/store/slices/ui/ui-slice";
 export default function ButterAiSidebar() {
   const dispatch = useAppDispatch();
   return (
-    <div className="flex bg-popover rounded-xl h-full flex-col">
+    <div className="flex border dark:border-0 bg-popover rounded-xl h-full flex-col">
       <SidebarHeader className="border-b border-border h-16 p-4 flex flex-row items-center justify-between">
         <div className="flex items-center gap-2">
           <BotMessageSquare className="h-6 w-5" />
@@ -81,14 +81,14 @@ export default function ButterAiSidebar() {
       <SidebarHeader>
         <SidebarGroup>
           <SidebarMenu className="space-y-1">
-            <SidebarMenuItem>
+            {/* <SidebarMenuItem>
               <SidebarMenuButton asChild className="h-10">
                 <div className="cursor-pointer border border-border">
                   <Plus className="h-4 w-4" />
                   <span className="text-sm">New Chat</span>
                 </div>
               </SidebarMenuButton>
-            </SidebarMenuItem>
+            </SidebarMenuItem> */}
             <SidebarMenuItem>
               <SidebarMenuButton asChild className="h-10">
                 <div className="cursor-pointer border border-border">
