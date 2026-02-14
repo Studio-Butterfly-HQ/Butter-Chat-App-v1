@@ -110,7 +110,7 @@ export function KnowledgeBase() {
             <div className="flex justify-end">
               <Button
                 size="sm"
-                variant="secondary"
+                variant="default"
                 className="rounded-full gap-2 px-4"
               >
                 Manage Forms
@@ -137,7 +137,7 @@ export function KnowledgeBase() {
             <div className="flex justify-end">
               <Button
                 size="sm"
-                variant="secondary"
+                variant="default"
                 className="rounded-full gap-2"
               >
                 Manage Snippets

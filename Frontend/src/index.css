@@ -93,7 +93,7 @@ input[type="time"] {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-  .dark {
+  /* .dark {
     --background: 0 0% 9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -118,7 +118,7 @@ input[type="time"] {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    /* --sidebar-background: 240 5.9% 10%; */
+
     --sidebar-background: 0 0% 9%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -127,7 +127,61 @@ input[type="time"] {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+  } */
+
+  .dark {
+  /* Base Background */
+  --background: 0 0% 9%;        /* #1F1F1F */
+  --foreground: 0 0% 98%;
+
+  /* Surfaces */
+  --card: 0 0% 15%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 0 0% 12%;           /* Your main bg */
+  --popover-foreground: 0 0% 98%;
+
+  /* Secondary layers */
+  --secondary: 0 0% 16%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 0 0% 16%;
+  --muted-foreground: 0 0% 65%;
+
+  --accent: 0 0% 18%;
+  --accent-foreground: 0 0% 98%;
+
+  /* Borders & Inputs */
+  --border: 0 0% 25%;
+  --input: 0 0% 25%;
+  --ring: 0 0% 60%;
+
+  /* Primary */
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 12%;
+
+  /* Destructive */
+  --destructive: 0 65% 45%;
+  --destructive-foreground: 0 0% 98%;
+
+  /* Charts (unchanged) */
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+
+  /* 🔒 Sidebar (UNCHANGED) */
+  --sidebar-background: 0 0% 9%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+}
+
 }
 
 

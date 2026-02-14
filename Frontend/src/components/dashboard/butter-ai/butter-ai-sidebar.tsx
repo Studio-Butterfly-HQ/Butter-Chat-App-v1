@@ -81,14 +81,14 @@ export default function ButterAiSidebar() {
       <SidebarHeader>
         <SidebarGroup>
           <SidebarMenu className="space-y-1">
-            <SidebarMenuItem>
+            {/* <SidebarMenuItem>
               <SidebarMenuButton asChild className="h-10">
                 <div className="cursor-pointer border border-border">
                   <Plus className="h-4 w-4" />
                   <span className="text-sm">New Chat</span>
                 </div>
               </SidebarMenuButton>
-            </SidebarMenuItem>
+            </SidebarMenuItem> */}
             <SidebarMenuItem>
               <SidebarMenuButton asChild className="h-10">
                 <div className="cursor-pointer border border-border">

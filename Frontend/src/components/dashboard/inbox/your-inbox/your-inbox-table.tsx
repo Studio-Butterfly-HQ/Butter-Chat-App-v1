@@ -92,7 +92,7 @@ export const StatusBadge = ({ status }: { status: TicketStatus }) => {
   return (
     <Badge
       className={cn(
-        "rounded-xl px-2.5 py-0.5 text-[11px] font-medium",
+        "rounded-xl px-2.5 py-0.5 text-[11px] font-medium whitespace-nowrap",
         colorMap[status],
       )}
     >
