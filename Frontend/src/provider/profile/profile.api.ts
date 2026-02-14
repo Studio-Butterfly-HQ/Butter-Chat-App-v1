@@ -3,9 +3,15 @@ import type {
   ProfileMetaResponse,
   AvatarUploadResponse,
 } from "./profile.types";
-import type { ProfilePayload, ApiResponse, Profile } from "./profile.types";
+import type {
+  ProfilePayload,
+  ApiResponse,
+  Profile,
+  User,
+  UserProfileResponse,
+} from "./profile.types";
 import { COUNTRY_API_URL, IP_INFO_URL } from "@/constants";
-import { COMPANY_API, FILE_HANDLE_API } from "@/constants/api";
+import { COMPANY_API, FILE_HANDLE_API, USER_API } from "@/constants/api";
 
 export const uploadAvatarApi = async (
   file: File,
@@ -161,5 +167,53 @@ export const fetchLocationDefaultsApi = async () => {
       timezone,
       language,
     };
+  }
+};
+
+export const getUserProfileApi = async (token: string): Promise<User> => {
+  try {
+    const res = await fetch(USER_API.GET_PROFILE, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserProfileApi = async (
+  payload: Partial<User>,
+  token: string,
+): Promise<UserProfileResponse> => {
+  try {
+    const res = await fetch(USER_API.UPDATE_PROFILE, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
   }
 };

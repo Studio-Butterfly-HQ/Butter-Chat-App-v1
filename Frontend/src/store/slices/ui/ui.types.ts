@@ -9,6 +9,7 @@ export type UiState = {
   activeInboxTab: string;
   selectedInboxUserId: string | null;
   isAskButterAiSidebarOpen: boolean;
+  activeAccountTab: string;
 };
 
 export const initialState: UiState = {
@@ -22,4 +23,5 @@ export const initialState: UiState = {
   activeInboxTab: "your-inbox",
   selectedInboxUserId: null,
   isAskButterAiSidebarOpen: false,
+  activeAccountTab: "general",
 };
