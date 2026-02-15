@@ -57,30 +57,28 @@ export default function General() {
   }, [userProfile, form]);
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      //todo: Revert to original or placeholder if cancelled?
-      // For now just keep existing logic or reset
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Please select an image smaller than 5MB");
-      return;
-    }
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file");
-      return;
-    }
-    const reader = new FileReader();
-    reader.onerror = () => {
-      toast.error("Failed to read the image file");
-      setAvatarFile(null);
+      const file = e.target.files?.[0];
+      if (!file) {
+        setAvatarFile(null);
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Please select an image smaller than 5MB");
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please select an image file");
+        return;
+      }
+      if (avatarFile && file.name === avatarFile.name && file.size === avatarFile.size) {
+        return;
+      }
+      setAvatarFile(file);
+      const reader = new FileReader();
+      reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
+      reader.readAsDataURL(file);
     };
-    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
-    reader.readAsDataURL(file);
-    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
-    reader.readAsDataURL(file);
-  };
+
 
   const onSubmit = async (data: GeneralFormValues) => {
     if (!form.formState.isDirty && !avatarFile) {
@@ -99,6 +97,7 @@ export default function General() {
         user_name: data.user_name,
         profile_uri: profileUri,
       });
+      avatarFile && setAvatarFile(null);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
