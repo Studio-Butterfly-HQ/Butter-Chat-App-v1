@@ -16,13 +16,14 @@ import { Eye, EyeOff } from "lucide-react";
 import { securitySchema, SecurityFormValues } from "@/schemas/securitySchema";
 import { useUpdatePassword } from "@/provider/profile/profile.queries";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Security() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { mutate: updatePassword, isPending } = useUpdatePassword();
+  const { mutateAsync: updatePassword, isPending } = useUpdatePassword();
 
   const form = useForm<SecurityFormValues>({
     resolver: zodResolver(securitySchema),
@@ -34,18 +35,24 @@ export default function Security() {
     mode: "onChange",
   });
 
-  const onSubmit = (data: SecurityFormValues) => {
-    updatePassword(
-      {
+  const onSubmit = async (data: SecurityFormValues) => {
+    if (data.newPassword !== data.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    if(data.currentPassword === data.newPassword){
+      toast.error("New password cannot be same as current password");
+      return;
+    }
+    try {
+      await updatePassword({
         oldPassword: data.currentPassword,
         newPassword: data.newPassword,
-      },
-      {
-        onSuccess: () => {
-          form.reset();
-        },
-      },
-    );
+      });
+      form.reset();
+    } catch (error) {
+      console.log("Error in security update", error);
+    }
   };
 
   return (
