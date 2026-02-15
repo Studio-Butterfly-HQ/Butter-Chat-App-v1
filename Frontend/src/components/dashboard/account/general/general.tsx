@@ -57,28 +57,36 @@ export default function General() {
   }, [userProfile, form]);
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) {
-        setAvatarFile(null);
-        return;
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("Please select an image smaller than 5MB");
-        return;
-      }
-      if (!file.type.startsWith("image/")) {
-        toast.error("Please select an image file");
-        return;
-      }
-      if (avatarFile && file.name === avatarFile.name && file.size === avatarFile.size) {
-        return;
-      }
-      setAvatarFile(file);
-      const reader = new FileReader();
-      reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
-      reader.readAsDataURL(file);
+    const file = e.target.files?.[0];
+    if (!file) {
+      setAvatarFile(null);
+      setProfilePhoto(userProfile?.profile_uri || "");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Please select an image smaller than 5MB");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+    if (
+      avatarFile &&
+      file.name === avatarFile.name &&
+      file.size === avatarFile.size
+    ) {
+      return;
+    }
+    setAvatarFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
+    reader.onerror = () => {
+      toast.error("Failed to read the selected image");
+      setAvatarFile(null);
     };
-
+    reader.readAsDataURL(file);
+  };
 
   const onSubmit = async (data: GeneralFormValues) => {
     if (!form.formState.isDirty && !avatarFile) {
