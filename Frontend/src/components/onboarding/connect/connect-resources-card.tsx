@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -22,104 +22,79 @@ import {
 } from "@/provider/connections";
 import { toast } from "sonner";
 
-interface Connection {
+interface ConnectionConfig {
   id: string;
   name: string;
   icon: React.ReactNode;
-  connected: boolean;
   category: "social" | "ecommerce";
-  url: string;
 }
 
+const CONNECTION_CONFIG: ConnectionConfig[] = [
+  {
+    id: "facebook",
+    name: "Connect Facebook",
+    icon: <Facebook className="text-primary-foreground" />,
+    category: "social",
+  },
+  {
+    id: "instagram",
+    name: "Connect Instagram",
+    icon: <Instagram className="text-primary-foreground" />,
+    category: "social",
+  },
+  {
+    id: "whatsapp",
+    name: "Connect Whatsapp",
+    icon: <MessageCircle className="text-primary-foreground" />,
+    category: "social",
+  },
+  {
+    id: "woocommerce",
+    name: "Integrate WooCommerce",
+    icon: <Handbag className="text-primary-foreground" />,
+    category: "ecommerce",
+  },
+  {
+    id: "shopify",
+    name: "Connect Shopify",
+    icon: <Handbag className="text-primary-foreground" />,
+    category: "ecommerce",
+  },
+];
+
 export default function ConnectResourcesCard() {
-  const {
-    mutateAsync: initiateFacebookConnection,
-    isPending: isInitiatingFacebookConnection,
-  } = useInitiateFacebookConnection();
-  const {
-    data: socialConnectionsData,
-    refetch,
-    isLoading,
-  } = useGetSocialConnections();
+  const {mutateAsync: initiateFacebookConnection, isPending: isInitiatingFacebookConnection,} = useInitiateFacebookConnection();
 
-  const [connections, setConnections] = useState<Connection[]>([
-    {
-      id: "facebook",
-      name: "Connect Facebook",
-      icon: <Facebook className="text-primary-foreground" />,
-      connected: false,
-      category: "social",
-      url: "",
-    },
-    {
-      id: "instagram",
-      name: "Connect Instagram",
-      icon: <Instagram className="text-primary-foreground" />,
-      connected: false,
-      category: "social",
-      url: "",
-    },
-    {
-      id: "whatsapp",
-      name: "Connect Whatsapp",
-      icon: <MessageCircle className="text-primary-foreground" />,
-      connected: false,
-      category: "social",
-      url: "",
-    },
-    {
-      id: "woocommerce",
-      name: "Integrate WooCommerce",
-      icon: <Handbag className="text-primary-foreground" />,
-      connected: false,
-      category: "ecommerce",
-      url: "",
-    },
-    {
-      id: "shopify",
-      name: "Connect Shopify",
-      icon: <Handbag className="text-primary-foreground" />,
-      connected: false,
-      category: "ecommerce",
-      url: "",
-    },
-  ]);
+  const {data: socialConnectionsData, refetch} = useGetSocialConnections();
 
-  // Sync state with backend data
-  useEffect(() => {
-    if (socialConnectionsData) {
-      setConnections((prev) =>
-        prev.map((conn) => {
-          const backendConn = socialConnectionsData.find(
-            (sc) => sc.platform_name.toLowerCase() === conn.id,
-          );
-          if (backendConn) {
-            return {
-              ...conn,
-              connected: true,
-            };
-          }
-          return conn;
-        }),
-      );
-    }
-  }, [socialConnectionsData]);
+  // derive connection status from backend
+  const isConnected = (id: string) =>
+    socialConnectionsData?.some(
+      (sc) => sc.platform_type?.toLowerCase() === id.toLowerCase()
+    );
 
+  // handle redirect success / failure
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+
     const connected = params.get("connected");
+    const error = params.get("error");
 
     if (connected === "facebook") {
       toast.success("Facebook connected successfully");
       refetch();
-      params.delete("connected");
-      // window.history.replaceState({}, "", `?${params.toString()}`);
-      const newSearch = params.toString();
-      window.history.replaceState(
-        {},
-        "",
-        newSearch ? `?${newSearch}` : window.location.pathname,
-      );
+    }
+
+    if (error === "facebook_cancelled") {
+      toast.error("Facebook connection cancelled");
+    }
+
+    if (error === "facebook_failed") {
+      toast.error("Facebook connection failed");
+    }
+
+    if (connected || error) {
+      window.history.replaceState({}, "", window.location.pathname);
     }
   }, []);
 
@@ -133,14 +108,9 @@ export default function ConnectResourcesCard() {
     }
   };
 
-  const handleComplete = () => {
-    console.log("Connections completed:", connections);
-  };
+  const socialConnections = CONNECTION_CONFIG.filter((c) => c.category === "social");
 
-  const socialConnections = connections.filter((c) => c.category === "social");
-  const ecommerceConnections = connections.filter(
-    (c) => c.category === "ecommerce",
-  );
+  const ecommerceConnections = CONNECTION_CONFIG.filter((c) => c.category === "ecommerce");
 
   return (
     <Card className="bg-background border-0 shadow-none">
@@ -157,36 +127,43 @@ export default function ConnectResourcesCard() {
       <CardContent className="space-y-4">
         {/* Social Media Section */}
         <div className="space-y-2">
-          <h3 className="font-semibold text-primary text-base">Social Media</h3>
+          <h3 className="font-semibold text-primary text-base">
+            Social Media
+          </h3>
           <div className="space-y-2">
-            {socialConnections.map((connection) => (
-              <div
-                key={connection.id}
-                className="flex items-center font-medium text-sm justify-between p-3 bg-primary rounded-lg transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-xl">{connection.icon}</span>
-                  <span className="text-sm text-primary-foreground">
-                    {connection.name}
-                  </span>
-                </div>
-                <button
-                  onClick={() => handleConnect(connection.id)}
-                  disabled={connection.connected}
-                  className={`rounded-full flex items-center justify-center transition-all ${
-                    connection.connected
-                      ? "bg-green-500 cursor-default"
-                      : "cursor-pointer"
-                  }`}
+            {socialConnections.map((connection) => {
+              const connected = isConnected(connection.id);
+
+              return (
+                <div
+                  key={connection.id}
+                  className="flex items-center font-medium text-sm justify-between p-3 bg-primary rounded-lg transition-colors"
                 >
-                  {connection.connected ? (
-                    <CircleCheck className="text-primary-foreground" />
-                  ) : (
-                    <Plus className="text-primary-foreground" />
-                  )}
-                </button>
-              </div>
-            ))}
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{connection.icon}</span>
+                    <span className="text-sm text-primary-foreground">
+                      {connection.name}
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => handleConnect(connection.id)}
+                    disabled={connected || isInitiatingFacebookConnection}
+                    className={`rounded-full flex items-center justify-center transition-all ${
+                      connected
+                        ? "bg-green-500 cursor-default"
+                        : "cursor-pointer"
+                    }`}
+                  >
+                    {connected ? (
+                      <CircleCheck className="text-primary-foreground" />
+                    ) : (
+                      <Plus className="text-primary-foreground" />
+                    )}
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -196,39 +173,44 @@ export default function ConnectResourcesCard() {
             Connect eCommerce
           </h3>
           <div className="space-y-2">
-            {ecommerceConnections.map((connection) => (
-              <div
-                key={connection.id}
-                className="flex items-center font-medium text-sm justify-between p-3 bg-primary rounded-lg transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-xl">{connection.icon}</span>
-                  <span className="text-sm text-primary-foreground">
-                    {connection.name}
-                  </span>
-                </div>
-                <button
-                  onClick={() => handleConnect(connection.id)}
-                  disabled={connection.connected} //add loading state
-                  className={`rounded-full flex items-center justify-center transition-all ${
-                    connection.connected
-                      ? "bg-green-500 cursor-default"
-                      : "cursor-pointer"
-                  }`}
+            {ecommerceConnections.map((connection) => {
+              const connected = isConnected(connection.id);
+
+              return (
+                <div
+                  key={connection.id}
+                  className="flex items-center font-medium text-sm justify-between p-3 bg-primary rounded-lg transition-colors"
                 >
-                  {connection.connected ? (
-                    <CircleCheck className="text-primary-foreground" />
-                  ) : (
-                    <Plus className="text-primary-foreground" />
-                  )}
-                </button>{" "}
-              </div>
-            ))}
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{connection.icon}</span>
+                    <span className="text-sm text-primary-foreground">
+                      {connection.name}
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => handleConnect(connection.id)}
+                    disabled={connected}
+                    className={`rounded-full flex items-center justify-center transition-all ${
+                      connected
+                        ? "bg-green-500 cursor-default"
+                        : "cursor-pointer"
+                    }`}
+                  >
+                    {connected ? (
+                      <CircleCheck className="text-primary-foreground" />
+                    ) : (
+                      <Plus className="text-primary-foreground" />
+                    )}
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
 
         {/* Action Button */}
-        <Button onClick={handleComplete} className="w-full font-medium">
+        <Button className="w-full font-medium">
           Go ahead
         </Button>
       </CardContent>

@@ -84,6 +84,7 @@ export default function General() {
     reader.onerror = () => {
       toast.error("Failed to read the selected image");
       setAvatarFile(null);
+      setProfilePhoto(userProfile?.profile_uri || "");
     };
     reader.readAsDataURL(file);
   };
