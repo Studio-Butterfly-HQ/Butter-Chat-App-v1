@@ -220,3 +220,29 @@ export const updateUserProfileApi = async (
     throw error;
   }
 };
+
+export const updatePasswordApi = async (
+  payload: any,
+  token: string,
+): Promise<UserProfileResponse> => {
+  try {
+    const res = await fetch(USER_API.UPDATE_PASSWORD, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -51,6 +51,7 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import saveReplyListData from "@/constants/dummy/save-reply-list.json";
+import { useNavigate } from "react-router-dom";
 
 interface SaveReplyListData {
   id: string;
@@ -83,6 +84,7 @@ export default function SaveReplyTable() {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const navigate = useNavigate();
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const handleTypeChange = (checked: boolean, value: string) => {
@@ -299,7 +301,7 @@ export default function SaveReplyTable() {
               </div>
             </PopoverContent>
           </Popover>
-          <Button className="h-10">
+          <Button className="h-10" onClick={() => navigate("/save-reply/add-reply")}>
             <Plus className="h-4 w-4" />
             Add Reply
           </Button>

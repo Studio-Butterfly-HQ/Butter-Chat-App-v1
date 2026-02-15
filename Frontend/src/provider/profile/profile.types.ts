@@ -6,6 +6,11 @@ export interface ProfilePayload {
   logo?: string;
 }
 
+export interface PasswordUpdatePayload {
+  oldPassword?: string;
+  newPassword?: string;
+}
+
 export interface AvatarUploadResponse {
   filename: string;
   url: string;

@@ -59,8 +59,8 @@ export default function General() {
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
-      //todo: Revert to original or placeholder if cancelled?
-      // For now just keep existing logic or reset
+      setAvatarFile(null);
+      setProfilePhoto(userProfile?.profile_uri || "");
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
@@ -71,14 +71,21 @@ export default function General() {
       toast.error("Please select an image file");
       return;
     }
+    if (
+      avatarFile &&
+      file.name === avatarFile.name &&
+      file.size === avatarFile.size
+    ) {
+      return;
+    }
+    setAvatarFile(file);
     const reader = new FileReader();
+    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
     reader.onerror = () => {
-      toast.error("Failed to read the image file");
+      toast.error("Failed to read the selected image");
       setAvatarFile(null);
+      setProfilePhoto(userProfile?.profile_uri || "");
     };
-    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
-    reader.readAsDataURL(file);
-    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
     reader.readAsDataURL(file);
   };
 
@@ -99,6 +106,7 @@ export default function General() {
         user_name: data.user_name,
         profile_uri: profileUri,
       });
+      avatarFile && setAvatarFile(null);
     } catch (error) {
       console.error("Error updating profile:", error);
     }

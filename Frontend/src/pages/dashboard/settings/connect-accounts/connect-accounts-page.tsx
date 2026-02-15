@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,17 +10,19 @@ import {
 import { BookOpen, Plus, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AccountsSkeleton } from "@/components/dashboard/settings/connect-accounts/accounts-skeletons";
-import { useGetSocialConnections } from "@/provider/connections/connections.queries";
-import { toast } from "sonner";
+import {useGetSocialConnections, useInitiateFacebookConnection} from "@/provider/connections/connections.queries";
+import {toast} from "sonner";
 
 export default function ConnectAccountsPage() {
-  const { data: connectedAccounts, isLoading } = useGetSocialConnections();
+  const {data: connectedAccounts, isLoading, refetch} = useGetSocialConnections();
+
+  const { mutateAsync: initiateFacebookConnection } = useInitiateFacebookConnection();
 
   const availableAccounts = [
     {
       name: "Facebook",
       description: "Connect your Facebook pages.",
-      platform: "Facebook",
+      platform: "facebook",
     },
     {
       name: "Instagram",
@@ -34,8 +36,46 @@ export default function ConnectAccountsPage() {
     },
   ];
 
+  // Handle OAuth redirect result
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    const success = params.get("success");
+    const error = params.get("error");
+
+    if (success === "true") {
+      toast.success("Account connected successfully");
+      refetch();
+    }
+
+    if (error === "oauth_failed") {
+      toast.error("Connection failed. Please try again.");
+    }
+
+    if (success || error) {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, []);
+
+  const handleConnect = async (platform: string) => {
+    if (platform === "facebook") {
+      try {
+        await initiateFacebookConnection();
+      } catch (error) {
+        console.error("Error connecting Facebook account page ", error);
+      }
+    }
+
+    if (platform === "instagram") {
+      toast.info("Instagram connection coming soon");
+    }
+
+    if (platform === "whatsapp") {
+      toast.info("WhatsApp connection coming soon");
+    }
+  };
+
   const handleDisconnect = (id: string) => {
-    // TODO: Implement disconnect logic
     toast.info("Disconnect functionality coming soon");
     console.log("Disconnecting", id);
   };
@@ -62,7 +102,7 @@ export default function ConnectAccountsPage() {
       </header>
 
       <div className="p-4 space-y-4">
-        {/* Connect Social Accounts Card */}
+        {/* Connect Social Accounts */}
         <Card className="bg-transparent">
           <CardHeader>
             <CardTitle className="text-xl">Connect Social Accounts</CardTitle>
@@ -83,7 +123,12 @@ export default function ConnectAccountsPage() {
                     {account.description}
                   </p>
                 </div>
-                <Button variant="default" size="sm" className="h-8">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="h-8"
+                  onClick={() => handleConnect(account.platform)}
+                >
                   <Plus />
                   Connect
                 </Button>
@@ -92,7 +137,7 @@ export default function ConnectAccountsPage() {
           </CardContent>
         </Card>
 
-        {/* Connected Accounts Card */}
+        {/* Connected Accounts */}
         <Card className="bg-transparent">
           <CardHeader>
             <CardTitle className="text-xl">Connected Accounts</CardTitle>
