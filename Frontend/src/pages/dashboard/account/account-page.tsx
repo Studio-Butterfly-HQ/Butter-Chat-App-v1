@@ -56,12 +56,6 @@ const AccountPage = () => {
             </TabsTrigger>
 
             <TabsTrigger
-              value="dateTime"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              DateTime
-            </TabsTrigger>
-            <TabsTrigger
               value="security"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
             >
@@ -72,11 +66,6 @@ const AccountPage = () => {
           <TabsContent value="general" className="mt-0">
             <General />
           </TabsContent>
-
-          <TabsContent value="dateTime" className="mt-0">
-            <DateTime />
-          </TabsContent>
-
           <TabsContent value="security" className="mt-0">
             <Security />
           </TabsContent>

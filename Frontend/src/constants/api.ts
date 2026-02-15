@@ -48,6 +48,7 @@ export const USER_API = {
   REGISTER_USER: `${BACKEND_BASE_URL}/users/registration`,
   GET_PROFILE: `${BACKEND_BASE_URL}/users/profile`,
   UPDATE_PROFILE: `${BACKEND_BASE_URL}/users/profile`,
+  UPDATE_PASSWORD: `${BACKEND_BASE_URL}/users/profile/password`,
 };
 
 export const FILE_HANDLE_API = {

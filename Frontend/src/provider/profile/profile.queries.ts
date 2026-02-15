@@ -4,6 +4,7 @@ import {
   uploadAvatarApi,
   getUserProfileApi,
   updateUserProfileApi,
+  updatePasswordApi,
 } from "./profile.api";
 import {
   ApiResponse,
@@ -205,8 +206,30 @@ export const useUpdateUserProfile = () => {
       dispatch(setUser(res.data));
     },
     onError: (error: any) => {
-      console.error("Update profile error:", error);
       toast.error(error.message || "Failed to update profile");
+    },
+  });
+};
+
+export const useUpdatePassword = () => {
+  const token = useAppSelector((state) => state.auth.token);
+
+  return useMutation({
+    mutationFn: (payload: any) => {
+      if (!token) {
+        throw new Error("No auth token found");
+      }
+      return updatePasswordApi(payload, token);
+    },
+    onSuccess: (res) => {
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to update password");
     },
   });
 };

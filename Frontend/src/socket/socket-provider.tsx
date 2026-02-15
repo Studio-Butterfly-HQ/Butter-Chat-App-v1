@@ -15,10 +15,10 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    const socketInstance = createSocketConnection(token);
-    setSocket(socketInstance);
+    const ws = createSocketConnection(token);
+    setSocket(ws);
 
-    socketInstance.onmessage = (event) => {
+    ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
         handleSocketEvent(data);
