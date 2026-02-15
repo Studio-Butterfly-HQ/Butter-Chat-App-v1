@@ -10,6 +10,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from './lib/react-query'
 import { PersistGate } from "redux-persist/integration/react"
 import { ThemeProvider } from "@/provider/theme-provider"
+import { SocketProvider } from "./socket/socket-provider"
 
 createRoot(document.getElementById('root')!).render(
   // <StrictMode>
@@ -17,7 +18,9 @@ createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <App />
+            <SocketProvider>
+              <App />
+            </SocketProvider>
             <Toaster />
           </PersistGate>
         </Provider>

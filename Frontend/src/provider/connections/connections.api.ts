@@ -15,7 +15,7 @@ export const getSocialConnectionsApi = async (
     });
 
     if (!res.ok) {
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       throw data;
     }
 
@@ -39,7 +39,7 @@ export const initiateFacebookConnectionApi = async (token: string) => {
     throw data;
   }
 
-  const data = await res.json();
+  const data = await res.json().catch(() => ({}));
   if (data.url) {
     window.location.href = data.url; // redirect to Facebook
     return;

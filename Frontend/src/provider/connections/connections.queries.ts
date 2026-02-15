@@ -26,7 +26,6 @@ export const useGetSocialConnections = () => {
 };
 
 export const useInitiateFacebookConnection = () => {
-  const queryClient = useQueryClient();
   const token = useAppSelector((state) => state.auth.token);
 
   return useMutation({

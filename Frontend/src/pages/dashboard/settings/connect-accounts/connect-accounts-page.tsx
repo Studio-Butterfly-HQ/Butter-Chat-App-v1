@@ -59,7 +59,11 @@ export default function ConnectAccountsPage() {
 
   const handleConnect = async (platform: string) => {
     if (platform === "facebook") {
-      await initiateFacebookConnection();
+      try {
+        await initiateFacebookConnection();
+      } catch (error) {
+        console.error("Error connecting Facebook account page ", error);
+      }
     }
 
     if (platform === "instagram") {
