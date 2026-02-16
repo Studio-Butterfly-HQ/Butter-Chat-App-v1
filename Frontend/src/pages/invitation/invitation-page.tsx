@@ -1,5 +1,5 @@
-import type React from "react";
 import { useState } from "react";
+import { usePhotoUpload } from "@/hooks/use-photo-upload";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,10 +36,9 @@ export default function InvitationPage() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [showPassword, setShowPassword] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState(
-    "/placeholder.svg?height=112&width=112",
-  );
-  const [profileFile, setProfileFile] = useState<File | null>(null);
+  const { profilePhoto, avatarFile, handlePhotoUpload } = usePhotoUpload({
+    fallbackPhoto: "/placeholder.svg?height=112&width=112",
+  });
   const navigate = useNavigate();
 
   const { mutateAsync: registerUser, isPending: loading } = useRegisterUser();
@@ -55,27 +54,6 @@ export default function InvitationPage() {
     mode: "onBlur",
   });
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      setProfilePhoto("/placeholder.svg?height=112&width=112");
-      setProfileFile(null);
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Please select an image smaller than 5MB");
-      return;
-    }
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file");
-      return;
-    }
-    setProfileFile(file);
-    const reader = new FileReader();
-    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
-    reader.readAsDataURL(file);
-  };
-
   const onSubmit = async (values: InvitationFormValues) => {
     if (!token) {
       toast.error("Invitation token is missing");
@@ -84,8 +62,8 @@ export default function InvitationPage() {
     try {
       let profileUri: string | undefined;
 
-      if (profileFile) {
-        const res = await uploadAvatar(profileFile);
+      if (avatarFile) {
+        const res = await uploadAvatar(avatarFile);
         profileUri = res.url;
       }
 
@@ -256,7 +234,7 @@ export default function InvitationPage() {
           playsInline
           className="w-full h-full object-cover rounded-2xl"
         />
-    </div>
+      </div>
     </div>
   );
 }

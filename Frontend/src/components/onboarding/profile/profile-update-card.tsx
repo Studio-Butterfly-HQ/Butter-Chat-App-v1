@@ -1,9 +1,8 @@
-import type React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
+import { usePhotoUpload } from "@/hooks/use-photo-upload";
 import { Spinner } from "@/components/ui/spinner";
 
 import {
@@ -35,10 +34,9 @@ import {
 import { ProfileFormValues, profileSchema } from "@/schemas/profileSchema";
 
 export default function ProfileUpdateCard() {
-  const [profilePhoto, setProfilePhoto] = useState(
-    "/placeholder.svg?height=112&width=112",
-  );
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const { profilePhoto, avatarFile, handlePhotoUpload } = usePhotoUpload({
+    fallbackPhoto: "/placeholder.svg?height=112&width=112",
+  });
 
   const { data: profileMeta, isLoading: isLoadingProfileMeta } =
     useProfileMeta();
@@ -61,27 +59,6 @@ export default function ProfileUpdateCard() {
     },
     mode: "onBlur",
   });
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      setProfilePhoto("/placeholder.svg?height=112&width=112");
-      setAvatarFile(null);
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Please select an image smaller than 5MB");
-      return;
-    }
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file");
-      return;
-    }
-    setAvatarFile(file);
-    const reader = new FileReader();
-    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
-    reader.readAsDataURL(file);
-  };
 
   const handleSubmit = async (data: ProfileFormValues) => {
     try {

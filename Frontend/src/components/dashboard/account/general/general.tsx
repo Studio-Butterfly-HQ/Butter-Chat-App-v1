@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { usePhotoUpload } from "@/hooks/use-photo-upload";
 import { useAppSelector } from "@/store/hooks";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -26,13 +27,10 @@ import { Spinner } from "@/components/ui/spinner";
 
 export default function General() {
   const { data: userProfile, isLoading } = useUserProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploading } =
-    useUploadAvatar();
-  const { mutateAsync: updateProfile, isPending: isUpdating } =
-    useUpdateUserProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar();
+  const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateUserProfile();
 
-  const [profilePhoto, setProfilePhoto] = useState("");
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const {profilePhoto, setProfilePhoto, avatarFile, setAvatarFile, handlePhotoUpload} = usePhotoUpload();
 
   const form = useForm<GeneralFormValues>({
     resolver: zodResolver(generalSchema),
@@ -55,39 +53,6 @@ export default function General() {
       setProfilePhoto(userProfile.profile_uri || "");
     }
   }, [userProfile, form]);
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      setAvatarFile(null);
-      setProfilePhoto(userProfile?.profile_uri || "");
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Please select an image smaller than 5MB");
-      return;
-    }
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file");
-      return;
-    }
-    if (
-      avatarFile &&
-      file.name === avatarFile.name &&
-      file.size === avatarFile.size
-    ) {
-      return;
-    }
-    setAvatarFile(file);
-    const reader = new FileReader();
-    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
-    reader.onerror = () => {
-      toast.error("Failed to read the selected image");
-      setAvatarFile(null);
-      setProfilePhoto(userProfile?.profile_uri || "");
-    };
-    reader.readAsDataURL(file);
-  };
 
   const onSubmit = async (data: GeneralFormValues) => {
     if (!form.formState.isDirty && !avatarFile) {
