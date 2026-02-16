@@ -302,7 +302,9 @@ export default function UnassignedTable() {
   });
 
   return (
-    <div className={`h-full ${isCompactMode ? "p-0.5" : "p-4"}`}>
+    <div
+      className={`h-full pb-0 flex flex-col ${isCompactMode ? "p-0.5" : "p-4"}`}
+    >
       <DataGrid
         table={table}
         recordCount={unassigned.length}
@@ -323,19 +325,14 @@ export default function UnassignedTable() {
           header: isCompactMode ? "hidden" : "",
         }}
       >
-        <div className="w-full h-full flex flex-col justify-between space-y-2.5">
-          <DataGridContainer border={false}>
-            <ScrollArea
-              className={cn(
-                "h-full w-full",
-                isCompactMode && "overflow-hidden",
-              )}
-            >
+        <div className="w-full flex-1 flex flex-col">
+          <DataGridContainer border={false} className="flex-1 min-h-0">
+            <ScrollArea className={cn(isCompactMode && "overflow-hidden")}>
               <DataGridTable />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </DataGridContainer>
-          <div className={isCompactMode ? "p-4" : ""}>
+          <div className={`shrink-0 py-2 ${isCompactMode ? "px-4" : ""}`}>
             <DataGridPagination />
           </div>
         </div>
