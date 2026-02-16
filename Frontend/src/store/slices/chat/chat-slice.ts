@@ -1,14 +1,5 @@
 import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
-
-interface ChatState {
-  unassigned: any[];
-  active: any[];
-  messages: Record<string, any[]>; // an object where: key = string value = array
-  // messages = {
-  // "conversation_id1": [msg1, msg2],
-  // "conversation_id2": [msg1],
-  // }
-}
+import { ChatState } from "./chat-types";
 
 const initialState: ChatState = {
   unassigned: [],

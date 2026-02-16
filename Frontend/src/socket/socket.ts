@@ -1,9 +1,6 @@
 let socket: WebSocket | null = null;
 
-export const createSocketConnection = (
-  token: string,
-  onMessage: (event: MessageEvent) => void
-) => {
+export const createSocketConnection = (token: string, onMessage: (event: MessageEvent) => void) => {
   if (socket) {
     console.log("Socket already exists, readyState:", socket.readyState);
     return socket;
@@ -14,24 +11,24 @@ export const createSocketConnection = (
   
   const customerUrl = `ws://localhost:4646/customer?token=""`
   
-  console.log("Creating new WebSocket connection...");
-  console.log("URL:", wsUrl);
+  // console.log("Creating new WebSocket connection...");
+  // console.log("URL:", wsUrl);
 
   try {
     socket = new WebSocket(wsUrl);
-    console.log("WebSocket object created, readyState:", socket.readyState);
+    // console.log("WebSocket object created, readyState:", socket.readyState);
 
     socket.onopen = () => {
       console.log("Socket connected successfully!");
-      console.log("ReadyState:", socket?.readyState);
-      console.log("Protocol:", socket?.protocol);
-      console.log("URL:", socket?.url);
+      // console.log("ReadyState:", socket?.readyState);
+      // console.log("Protocol:", socket?.protocol);
+      // console.log("URL:", socket?.url);
     };
 
     socket.onmessage = (event) => {
       console.log("Message received!");
       console.log("Data:", event.data);
-      console.log("Timestamp:", new Date().toISOString());
+      // console.log("Timestamp:", new Date().toISOString());
       onMessage(event);
     };
 

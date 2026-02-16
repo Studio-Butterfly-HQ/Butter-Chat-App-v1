@@ -17,9 +17,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     const handleMessage = (event: MessageEvent) => {
       try {
-        //const data = JSON.parse(event.data);
-        //handleSocketEvent(data);
-        console.log(event)
+        const data = JSON.parse(event.data);
+        handleSocketEvent(data);
       } catch (error) {
         console.error("Failed to parse socket message:", error);
       }

@@ -31,80 +31,20 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { Conversation } from "@/store/slices/chat/chat-types";
+
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   openUserSidebar,
   openCustomerChat,
   setSelectedInboxUserId,
 } from "@/store/slices/ui/ui-slice";
+import {
+  TicketStatus,
+  StatusBadge,
+} from "@/components/dashboard/inbox/your-inbox/your-inbox-table";
+import { Conversation } from "@/store/slices/chat/chat-types";
 
-export type TicketStatus =
-  | "OPEN"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "PENDING"
-  | "ON_HOLD"
-  | "IN_REVIEW"
-  | "NEW"
-  | "RESOLVED"
-  | "SCHEDULED"
-  | "CANCELLED"
-  | "WAITING";
-
-interface InboxData {
-  id: string;
-  status: TicketStatus;
-  customer: { name: string; avatar: string; source: string };
-  summary: string;
-  tags: string[];
-  assignee: { name: string; avatar: string };
-  group: string;
-  lastUpdated: string;
-}
-
-const statusMap: Record<TicketStatus, string> = {
-  OPEN: "Open",
-  IN_PROGRESS: "In Progress",
-  COMPLETED: "Completed",
-  PENDING: "Pending",
-  ON_HOLD: "On Hold",
-  IN_REVIEW: "In Review",
-  NEW: "New",
-  RESOLVED: "Resolved",
-  SCHEDULED: "Scheduled",
-  CANCELLED: "Cancelled",
-  WAITING: "Waiting",
-};
-
-export const StatusBadge = ({ status }: { status: TicketStatus }) => {
-  const colorMap: Record<TicketStatus, string> = {
-    OPEN: "bg-blue-500/10 text-blue-500 border-none",
-    IN_PROGRESS: "bg-indigo-500/10 text-indigo-500 border-none",
-    COMPLETED: "bg-green-500/10 text-green-500 border-none",
-    PENDING: "bg-yellow-500/10 text-yellow-500 border-none",
-    ON_HOLD: "bg-orange-500/10 text-orange-500 border-none",
-    IN_REVIEW: "bg-purple-500/10 text-purple-500 border-none",
-    NEW: "bg-sky-500/10 text-sky-500 border-none",
-    RESOLVED: "bg-emerald-500/10 text-emerald-500 border-none",
-    SCHEDULED: "bg-cyan-500/10 text-cyan-500 border-none",
-    CANCELLED: "bg-red-500/10 text-red-500 border-none",
-    WAITING: "bg-gray-500/10 text-gray-500 border-none",
-  };
-
-  return (
-    <Badge
-      className={cn(
-        "rounded-xl px-2.5 py-0.5 text-[11px] font-medium whitespace-nowrap",
-        colorMap[status],
-      )}
-    >
-      {statusMap[status]}
-    </Badge>
-  );
-};
-
-export default function YourInboxTable() {
+export default function UnassignedTable() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -112,7 +52,7 @@ export default function YourInboxTable() {
   const [searchParams, setSearchParams] = useSearchParams();
   const isCustomerChatOpen = useAppSelector((state) => state.ui.isCustomerChatOpen);
   const isUserSidebarOpen = useAppSelector((state) => state.ui.isUserSidebarOpen);
-  const active = useAppSelector((state) => state.chat.active);
+  const unassigned = useAppSelector((state) => state.chat.unassigned);
 
   const isCompactMode = isCustomerChatOpen || isUserSidebarOpen;
 
@@ -157,10 +97,7 @@ export default function YourInboxTable() {
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
           <Avatar className="h-6 w-6">
-            <AvatarImage
-              src={row.original.customer.picture}
-              className="object-cover"
-            />
+            <AvatarImage src={row.original.customer.picture} className="object-cover"/>
             <AvatarFallback className="text-[10px]">
               {row.original.customer.name
                 ? row.original.customer.name.charAt(0).toUpperCase()
@@ -325,7 +262,6 @@ export default function YourInboxTable() {
                     <Avatar className="h-4 w-4 border border-background flex-shrink-0">
                       <AvatarImage
                         src={row.original.assigned_to?.profile_uri || ""}
-                        className="object-cover"
                       />
                       <AvatarFallback className="text-[6px]">
                         {row.original.assigned_to?.name?.charAt(0) || "U"}
@@ -351,7 +287,7 @@ export default function YourInboxTable() {
   ];
 
   const table = useReactTable({
-    data: active,
+    data: unassigned,
     columns: isCompactMode ? compactColumns : columns,
     state: {
       pagination,
@@ -369,7 +305,7 @@ export default function YourInboxTable() {
     <div className={`h-full ${isCompactMode ? "p-0.5" : "p-4"}`}>
       <DataGrid
         table={table}
-        recordCount={active.length}
+        recordCount={unassigned.length}
         onRowClick={(row: Conversation) => {
           // dispatch(setSelectedInboxUserId(row.id));
           // if (!isCustomerChatOpen) {
