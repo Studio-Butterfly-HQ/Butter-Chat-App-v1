@@ -69,7 +69,7 @@ export default function GeneralSettings() {
   }
 
   return (
-    <>
+    <div className="h-full flex flex-col overflow-hidden">
       <header className="flex flex-col border-b border-border md:flex-row mb-0.5 min-h-16 md:h-16 shrink-0 items-start md:items-center justify-between gap-3 md:gap-2 py-3 md:py-0 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4 w-full md:w-auto">
           <div className="flex items-center gap-4 flex-wrap md:flex-nowrap">
@@ -99,7 +99,7 @@ export default function GeneralSettings() {
           </Badge>
         </div>
       </header>
-      <div className="p-4">
+      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide p-4">
         <Card className="bg-transparent">
           <CardHeader>
             <CardTitle className="text-xl">General Settings</CardTitle>
@@ -276,6 +276,6 @@ export default function GeneralSettings() {
           </CardContent>
         </Card>
       </div>
-    </>
+    </div>
   );
 }

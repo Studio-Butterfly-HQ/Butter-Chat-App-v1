@@ -45,7 +45,7 @@ const AiAgentPage = () => {
   };
 
   return (
-    <>
+    <div className="h-full flex flex-col overflow-hidden">
       <header className="flex flex-col md:flex-row mb-0.5 min-h-16 md:h-16 shrink-0 items-start md:items-center justify-between gap-3 md:gap-2 py-3 md:py-0 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4 w-full md:w-auto">
           <SidebarTrigger />
@@ -99,40 +99,40 @@ const AiAgentPage = () => {
           </Badge>
         </div>
       </header>
-      <div className="mx-auto w-full">
-        <Tabs
-          value={activeTab}
-          onValueChange={handleTabChange}
-          className="w-full"
-        >
-          <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 pl-4 mb-4">
-            <TabsTrigger
-              value="knowledgeBase"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Knowledge Base
-            </TabsTrigger>
+      <Tabs
+        value={activeTab}
+        onValueChange={handleTabChange}
+        className="flex-1 min-h-0 flex flex-col"
+      >
+        <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 pl-4 shrink-0">
+          <TabsTrigger
+            value="knowledgeBase"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+          >
+            Knowledge Base
+          </TabsTrigger>
 
-            <TabsTrigger
-              value="configure"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Configure
-            </TabsTrigger>
-            <TabsTrigger
-              value="flow"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Flow
-            </TabsTrigger>
-            <TabsTrigger
-              value="tools"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Tools
-            </TabsTrigger>
-          </TabsList>
+          <TabsTrigger
+            value="configure"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+          >
+            Configure
+          </TabsTrigger>
+          <TabsTrigger
+            value="flow"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+          >
+            Flow
+          </TabsTrigger>
+          <TabsTrigger
+            value="tools"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+          >
+            Tools
+          </TabsTrigger>
+        </TabsList>
 
+        <div className="flex-1 pt-4 min-h-0 overflow-y-auto scrollbar-hide">
           <TabsContent value="configure" className="mt-0">
             <Configure selectedAgent={activeAgent} />
           </TabsContent>
@@ -147,9 +147,9 @@ const AiAgentPage = () => {
           <TabsContent value="tools" className="mt-0">
             <Tool />
           </TabsContent>
-        </Tabs>
-      </div>
-    </>
+        </div>
+      </Tabs>
+    </div>
   );
 };
 

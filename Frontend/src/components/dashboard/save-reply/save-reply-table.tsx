@@ -317,7 +317,7 @@ export default function SaveReplyTable() {
           width: "fixed",
         }}
       >
-        <div className="w-full min-h-[calc(100vh-11.2rem)] flex flex-col justify-between space-y-2.5">
+        <div className="w-full flex-1 flex flex-col justify-between space-y-2.5">
           <DataGridContainer border={false}>
             <ScrollArea className="h-full w-full">
               <DataGridTable />

@@ -12,7 +12,7 @@ import { BookOpen } from "lucide-react";
 
 export default function SaveReplyPage() {
   return (
-    <div>
+    <div className="h-full flex flex-col overflow-hidden">
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger />
@@ -42,7 +42,9 @@ export default function SaveReplyPage() {
           </Badge>
         </div>
       </header>
-      <SaveReplyTable />
+      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
+        <SaveReplyTable />
+      </div>
     </div>
   );
 }

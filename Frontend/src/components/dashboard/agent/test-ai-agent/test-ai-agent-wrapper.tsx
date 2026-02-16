@@ -32,7 +32,7 @@ export function TestAiAgentWrapper(
           <Sidebar
             {...props}
             collapsible="none"
-            className={cn("h-full bg-background rounded-xl p-3 pl-0 flex-shrink-0",props.className,)}
+            className={cn("h-full bg-background rounded-xl p-2 pl-0 flex-shrink-0",props.className,)}
             style={{ width: "25vw" }}
           >
             <AIAgentChat />

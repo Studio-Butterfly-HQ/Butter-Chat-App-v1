@@ -9,8 +9,7 @@ import { InboxSidebarWrapper } from "@/components/dashboard/inbox/sidebar/inbox-
 
 import { UserSidebarWrapper } from "@/components/dashboard/inbox/user-details/user-sidebar-wrapper";
 import { CustomerChatWrapper } from "@/components/dashboard/inbox/chat/customer-chat-wrapper";
-import {ButterAiSidebarWrapper} from "@/components/dashboard/butter-ai/butter-ai-sidebar-wrapper";
-
+import { ButterAiSidebarWrapper } from "@/components/dashboard/butter-ai/butter-ai-sidebar-wrapper";
 
 export default function DashboardLayout() {
   const { isLoading } = useCompanyProfile();
@@ -20,9 +19,9 @@ export default function DashboardLayout() {
       <AppSidebar isLoading={isLoading} />
       <InboxSidebarWrapper />
       <SettingsSidebarWrapper />
-      <SidebarInset>
+      <SidebarInset className="max-h-svh overflow-hidden">
         <main
-          className={`min-h-[calc(100vh-1.5rem)] md:m-3 md:ml-0 border dark:border-0 md:rounded-xl bg-popover flex-1 overflow-y-auto scrollbar-hide`}
+          className={`h-full md:m-2 md:ml-0 border dark:border-0 md:rounded-xl bg-popover flex-1 overflow-hidden`}
         >
           <Outlet />
         </main>

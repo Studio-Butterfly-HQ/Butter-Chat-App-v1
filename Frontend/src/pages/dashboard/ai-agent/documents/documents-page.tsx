@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 export default function DocumentsPage() {
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col overflow-hidden">
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger />
@@ -49,7 +49,9 @@ export default function DocumentsPage() {
           </Badge>
         </div>
       </header>
-      <DocumentsTable />
+      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
+        <DocumentsTable />
+      </div>
     </div>
   );
 }

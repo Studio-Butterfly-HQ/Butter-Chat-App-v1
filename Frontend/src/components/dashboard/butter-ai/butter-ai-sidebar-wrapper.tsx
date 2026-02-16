@@ -17,7 +17,7 @@ export function ButterAiSidebarWrapper({
     <Sidebar
       collapsible="none"
       side="right"
-      className="sticky hidden lg:flex top-0 h-svh p-3 pl-0 w-1/5"
+      className="sticky hidden lg:flex top-0 h-svh p-2 pl-0 w-1/5"
       {...props}
     >
       <SidebarContent className="bg-transparent overflow-hidden">

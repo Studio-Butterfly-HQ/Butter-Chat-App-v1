@@ -25,7 +25,7 @@ const TeamsPage = () => {
   };
 
   return (
-    <>
+    <div className="h-full flex flex-col overflow-hidden">
       <header className="flex mb-0.5 h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger />
@@ -47,33 +47,33 @@ const TeamsPage = () => {
           </Badge>
         </div>
       </header>
-      <div className="mx-auto">
-        <Tabs
-          value={activeTab}
-          onValueChange={handleTabChange}
-          className="w-full"
-        >
-          <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 pl-4 mb-4">
-            <TabsTrigger
-              value="employees"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Employees
-            </TabsTrigger>
-            <TabsTrigger
-              value="departments"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Departments
-            </TabsTrigger>
-            <TabsTrigger
-              value="shifts"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
-            >
-              Shifts
-            </TabsTrigger>
-          </TabsList>
+      <Tabs
+        value={activeTab}
+        onValueChange={handleTabChange}
+        className="flex-1 min-h-0 flex flex-col"
+      >
+        <TabsList className="bg-transparent border-b border-border rounded-none w-full justify-start h-auto p-0 pl-4 shrink-0">
+          <TabsTrigger
+            value="employees"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+          >
+            Employees
+          </TabsTrigger>
+          <TabsTrigger
+            value="departments"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+          >
+            Departments
+          </TabsTrigger>
+          <TabsTrigger
+            value="shifts"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent bg-transparent px-4 py-3 text-muted-foreground data-[state=active]:text-foreground"
+          >
+            Shifts
+          </TabsTrigger>
+        </TabsList>
 
+        <div className="flex-1 pt-4 min-h-0 overflow-y-auto scrollbar-hide">
           <TabsContent value="employees" className="mt-0">
             <EmployeeTable />
           </TabsContent>
@@ -85,9 +85,9 @@ const TeamsPage = () => {
           <TabsContent value="shifts" className="mt-0">
             <ShiftTable />
           </TabsContent>
-        </Tabs>
-      </div>
-    </>
+        </div>
+      </Tabs>
+    </div>
   );
 };
 
