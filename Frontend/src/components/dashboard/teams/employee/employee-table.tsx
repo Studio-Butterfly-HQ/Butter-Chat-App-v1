@@ -44,6 +44,7 @@ export function EmployeeTable() {
               <AvatarImage
                 src={row.original.avatar || ""}
                 alt={row.original.user_name}
+                className="object-cover"
               />
               <AvatarFallback className="bg-secondary text-foreground">
                 {row.original.user_name

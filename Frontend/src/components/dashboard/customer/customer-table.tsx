@@ -122,7 +122,7 @@ export default function CustomerTable() {
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
-            <AvatarImage src={row.original.profile_uri || ""} />
+            <AvatarImage src={row.original.profile_uri || ""} className="object-cover"/>
             <AvatarFallback className="text-[10px]">
               {row.original.name
                 ? row.original.name.charAt(0).toUpperCase()

@@ -49,7 +49,8 @@ export type TicketStatus =
   | "NEW"
   | "RESOLVED"
   | "SCHEDULED"
-  | "CANCELLED";
+  | "CANCELLED"
+  | "WAITING";
 
 interface InboxData {
   id: string;
@@ -73,6 +74,7 @@ const statusMap: Record<TicketStatus, string> = {
   RESOLVED: "Resolved",
   SCHEDULED: "Scheduled",
   CANCELLED: "Cancelled",
+  WAITING: "Waiting",
 };
 
 export const StatusBadge = ({ status }: { status: TicketStatus }) => {
@@ -87,6 +89,7 @@ export const StatusBadge = ({ status }: { status: TicketStatus }) => {
     RESOLVED: "bg-emerald-500/10 text-emerald-500 border-none",
     SCHEDULED: "bg-cyan-500/10 text-cyan-500 border-none",
     CANCELLED: "bg-red-500/10 text-red-500 border-none",
+    WAITING: "bg-gray-500/10 text-gray-500 border-none",
   };
 
   return (
@@ -122,12 +125,8 @@ export default function YourInboxTable() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const isCustomerChatOpen = useAppSelector(
-    (state) => state.ui.isCustomerChatOpen,
-  );
-  const isUserSidebarOpen = useAppSelector(
-    (state) => state.ui.isUserSidebarOpen,
-  );
+  const isCustomerChatOpen = useAppSelector((state) => state.ui.isCustomerChatOpen);
+  const isUserSidebarOpen = useAppSelector((state) => state.ui.isUserSidebarOpen);
 
   const isCompactMode = isCustomerChatOpen || isUserSidebarOpen;
 
@@ -168,7 +167,7 @@ export default function YourInboxTable() {
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
           <Avatar className="h-6 w-6">
-            <AvatarImage src={row.original.customer.avatar} />
+            <AvatarImage src={row.original.customer.avatar} className="object-cover"/>
             <AvatarFallback className="text-[10px]">
               {row.original.customer.name
                 ? row.original.customer.name.charAt(0).toUpperCase()
