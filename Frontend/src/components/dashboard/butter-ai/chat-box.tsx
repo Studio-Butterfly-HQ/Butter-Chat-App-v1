@@ -10,15 +10,19 @@ import {
   Sparkles,
   Settings2,
   ArrowDownRight,
+  Loader2,
 } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "@/store/hooks";
+import { useSocket } from "@/socket/socket-provider";
+import { SocketMessage } from "@/socket/socket-types";
 
 interface Message {
   id: string;
-  type: "user" | "ai";
+  sender_type: "Human-Agent" | "AI-AGENT";
   content: string;
   timestamp: string;
+  isTyping?: boolean;
 }
 
 const suggestedPrompts = [
@@ -29,12 +33,16 @@ const suggestedPrompts = [
 
 export default function ChatBox() {
   const userName = useAppSelector((state) => state.auth.user?.user_name);
+  const socket = useSocket();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [isAiTyping, setIsAiTyping] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const currentStreamMessageRef = useRef<string>("");
+  const streamingMessageIdRef = useRef<string | null>(null);
 
+  // Auto-scroll to bottom
   useEffect(() => {
-    // Auto-scroll to bottom
     if (scrollAreaRef.current) {
       const scrollElement = scrollAreaRef.current.querySelector(
         "[data-radix-scroll-area-viewport]",
@@ -43,14 +51,118 @@ export default function ChatBox() {
         scrollElement.scrollTop = scrollElement.scrollHeight;
       }
     }
-  }, [messages]);
+  }, [messages, isAiTyping]);
+
+  // Handle WebSocket messages
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleMessage = (event: MessageEvent) => {
+      try {
+        const data: SocketMessage = JSON.parse(event.data);
+        console.log("Received socket message:", data);
+
+        switch (data.type) {
+          case "butter_typing_start":
+            setIsAiTyping(true);
+            // Create a new streaming message
+            const newMessageId = `stream-${Date.now()}`;
+            streamingMessageIdRef.current = newMessageId;
+            currentStreamMessageRef.current = "";
+            
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: newMessageId,
+                sender_type: "AI-AGENT",
+                content: "",
+                timestamp: new Date().toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                }),
+                isTyping: true,
+              },
+            ]);
+            break;
+
+          case "butter_stream":
+            // Append streaming content
+            if (data.payload?.content) {
+              currentStreamMessageRef.current += data.payload.content;
+              
+              setMessages((prev) =>
+                prev.map((msg) =>
+                  msg.id === streamingMessageIdRef.current
+                    ? {
+                        ...msg,
+                        content: currentStreamMessageRef.current,
+                        isTyping: true,
+                      }
+                    : msg,
+                ),
+              );
+            }
+            break;
+
+          case "butter_typing_end":
+            setIsAiTyping(false);
+            // Mark the streaming message as complete
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === streamingMessageIdRef.current
+                  ? { ...msg, isTyping: false }
+                  : msg,
+              ),
+            );
+            currentStreamMessageRef.current = "";
+            streamingMessageIdRef.current = null;
+            break;
+
+          case "connection_established":
+            console.log("WebSocket connection established");
+            break;
+
+          default:
+            console.log("Unhandled message type:", data.type);
+        }
+      } catch (error) {
+        console.error("Failed to parse socket message:", error);
+      }
+    };
+
+    socket.addEventListener("message", handleMessage);
+
+    return () => {
+      socket.removeEventListener("message", handleMessage);
+    };
+  }, [socket]);
+
+  const sendMessage = (content: string) => {
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      console.error("WebSocket is not connected");
+      return;
+    }
+
+    const message: SocketMessage = {
+      type: "butter_chat",
+      payload: {
+        sender_type: "Human-Agent",
+        content: content,
+      },
+    };
+
+    socket.send(JSON.stringify(message));
+    console.log("Sent message:", message);
+  };
 
   const handleSend = (content?: string) => {
     const messageContent = content || inputValue.trim();
     if (messageContent) {
+      // Add user message to UI
       const userMessage: Message = {
         id: Date.now().toString(),
-        type: "user",
+        sender_type: "Human-Agent",
         content: messageContent,
         timestamp: new Date().toLocaleTimeString("en-US", {
           hour: "numeric",
@@ -59,36 +171,11 @@ export default function ChatBox() {
         }),
       };
 
-      const aiMessageId = (Date.now() + 1).toString();
-      const aiMessage: Message = {
-        id: aiMessageId,
-        type: "ai",
-        content: "typing...",
-        timestamp: new Date().toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        }),
-      };
-
-      // both messages at the same time
-      setMessages((prev) => [...prev, userMessage, aiMessage]);
+      setMessages((prev) => [...prev, userMessage]);
       setInputValue("");
 
-      // Update AI message after delay
-      setTimeout(() => {
-        setMessages((prev) =>
-          prev.map((msg) =>
-            msg.id === aiMessageId
-              ? {
-                  ...msg,
-                  content:
-                    "Thanks for your message! I'm processing your request.",
-                }
-              : msg,
-          ),
-        );
-      }, 2000);
+      // Send message via WebSocket
+      sendMessage(messageContent);
     }
   };
 
@@ -133,10 +220,10 @@ export default function ChatBox() {
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex ${message.sender_type === "Human-Agent" ? "justify-end" : "justify-start"}`}
                 >
                   <div className="flex max-w-md gap-2">
-                    {message.type === "ai" && (
+                    {message.sender_type === "AI-AGENT" && (
                       <div className="flex-shrink-0">
                         <BotMessageSquare className="h-5 w-6 text-muted-foreground" />
                       </div>
@@ -144,17 +231,26 @@ export default function ChatBox() {
                     <div className={`flex flex-col gap-1`}>
                       <div
                         className={`rounded-lg px-3 py-2 text-sm ${
-                          message.type === "user"
+                          message.sender_type === "Human-Agent"
                             ? "bg-primary text-primary-foreground"
                             : "bg-muted text-foreground"
                         }`}
                       >
-                        <p className="break-all whitespace-pre-wrap">
-                          {message.content}
-                        </p>
+                        {message.isTyping && !message.content ? (
+                          <div className="flex items-center gap-1">
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                            <span className="text-muted-foreground">
+                              Typing...
+                            </span>
+                          </div>
+                        ) : (
+                          <p className="break-all whitespace-pre-wrap">
+                            {message.content}
+                          </p>
+                        )}
                       </div>
                       <div className="flex items-center justify-between gap-2 px-1 text-xs text-muted-foreground">
-                        {message.type === "user" ? (
+                        {message.sender_type === "Human-Agent" ? (
                           <>
                             <button className="hover:text-foreground">
                               Translate
@@ -171,7 +267,7 @@ export default function ChatBox() {
                         )}
                       </div>
                     </div>
-                    {message.type === "user" && (
+                    {message.sender_type === "Human-Agent" && (
                       <div className="flex-shrink-0">
                         <User className="h-5 w-6 text-muted-foreground" />
                       </div>
@@ -202,6 +298,7 @@ export default function ChatBox() {
                 minRows={1}
                 maxRows={8}
                 className="w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none scrollbar-hide"
+                disabled={isAiTyping}
               />
             </div>
 
@@ -212,6 +309,7 @@ export default function ChatBox() {
                   variant="ghost"
                   size="icon"
                   className="h-8 rounded-full w-8"
+                  disabled={isAiTyping}
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
@@ -219,6 +317,7 @@ export default function ChatBox() {
                   variant="ghost"
                   size="sm"
                   className="h-8 gap-1.5 text-muted-foreground"
+                  disabled={isAiTyping}
                 >
                   <Settings2 className="h-4 w-4" />
                   <span>Tools</span>
@@ -229,6 +328,7 @@ export default function ChatBox() {
                   variant="ghost"
                   size="icon"
                   className="h-8 rounded-full w-8"
+                  disabled={isAiTyping}
                 >
                   <Mic className="h-4 w-4" />
                 </Button>
@@ -237,8 +337,13 @@ export default function ChatBox() {
                   size="icon"
                   className="h-8 rounded-full w-8"
                   onClick={() => handleSend()}
+                  disabled={isAiTyping || !inputValue.trim()}
                 >
-                  <Send className="h-4 w-4" />
+                  {isAiTyping ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
             </div>
