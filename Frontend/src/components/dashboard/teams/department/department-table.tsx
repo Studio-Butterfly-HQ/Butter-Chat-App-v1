@@ -177,8 +177,8 @@ export function DepartmentTable() {
   });
 
   return (
-    <div className="space-y-8 p-4">
-      <div className="flex items-center justify-between gap-4">
+    <div className="h-full p-4 pb-0 flex flex-col gap-4">
+      <div className="flex items-center justify-between gap-4 shrink-0">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -207,14 +207,16 @@ export function DepartmentTable() {
           rowRounded: false,
         }}
       >
-        <div className="w-full flex flex-col justify-between min-h-[calc(100vh-16.1rem)] space-y-2.5">
-          <DataGridContainer border={false}>
+        <div className="w-full flex-1 flex flex-col">
+          <DataGridContainer border={false} className="flex-1 min-h-0">
             <ScrollArea>
               <DataGridTable />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </DataGridContainer>
-          <DataGridPagination />
+          <div className="shrink-0 py-2">
+            <DataGridPagination />
+          </div>
         </div>
       </DataGrid>
     </div>

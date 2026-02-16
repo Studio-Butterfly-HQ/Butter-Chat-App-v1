@@ -249,8 +249,8 @@ export default function CustomerTable() {
   });
 
   return (
-    <div className="h-full p-4 space-y-4">
-      <div className="flex items-center justify-between gap-4">
+    <div className="h-full p-4 pb-0 flex flex-col gap-4">
+      <div className="flex items-center justify-between gap-4 shrink-0">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -347,14 +347,16 @@ export default function CustomerTable() {
         }}
         onRowClick={(row) => navigate(`/customers/details`)}
       >
-        <div className="w-full min-h-[calc(100vh-11.2rem)] flex flex-col justify-between space-y-2.5">
-          <DataGridContainer border={false}>
-            <ScrollArea className="h-full w-full">
+        <div className="w-full flex-1 flex flex-col">
+          <DataGridContainer border={false} className="flex-1 min-h-0">
+            <ScrollArea>
               <DataGridTable />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </DataGridContainer>
-          <DataGridPagination />
+          <div className="shrink-0 py-2">
+            <DataGridPagination />
+          </div>
         </div>
       </DataGrid>
     </div>

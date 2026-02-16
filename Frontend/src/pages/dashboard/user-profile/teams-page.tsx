@@ -73,16 +73,16 @@ const TeamsPage = () => {
           </TabsTrigger>
         </TabsList>
 
-        <div className="flex-1 pt-4 min-h-0 overflow-y-auto scrollbar-hide">
-          <TabsContent value="employees" className="mt-0">
+        <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
+          <TabsContent value="employees" className="mt-0 h-full">
             <EmployeeTable />
           </TabsContent>
 
-          <TabsContent value="departments" className="mt-0">
+          <TabsContent value="departments" className="mt-0 h-full">
             <DepartmentTable />
           </TabsContent>
 
-          <TabsContent value="shifts" className="mt-0">
+          <TabsContent value="shifts" className="mt-0 h-full">
             <ShiftTable />
           </TabsContent>
         </div>
