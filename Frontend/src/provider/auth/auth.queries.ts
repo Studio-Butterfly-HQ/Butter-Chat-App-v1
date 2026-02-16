@@ -2,7 +2,7 @@ import { useMutation, } from "@tanstack/react-query"
 import { loginApi, signupApi, resetPasswordApi} from "./auth.api"
 import { toast } from "sonner"
 import { useAppDispatch } from "@/store/hooks"
-import { setAuth } from "@/store/slices/auth/auth-slice"
+import { setAuth, completeOnboarding} from "@/store/slices/auth/auth-slice"
 import { DUMMY_TOKEN } from "@/constants"
 
 
@@ -19,9 +19,10 @@ export const useLogin = () => {
         dispatch(
           setAuth({
             token: res.data.accessToken,
-            })
-          )
-        toast.success(res.message)
+          }),
+        );
+        dispatch(completeOnboarding());
+        toast.success(res.message);
       }
     },
     

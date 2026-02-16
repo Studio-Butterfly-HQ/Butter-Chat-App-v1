@@ -21,6 +21,7 @@ export type AuthState = {
   user: CompanyUser | null;
   token: string | null;
   isAuthenticated: boolean;
+  isOnboardingComplete: boolean;
   company: Company | null;
 };
 
@@ -28,5 +29,6 @@ export const initialState: AuthState = {
   user: null,
   token: null,
   isAuthenticated: false,
+  isOnboardingComplete: false,
   company: null,
 };

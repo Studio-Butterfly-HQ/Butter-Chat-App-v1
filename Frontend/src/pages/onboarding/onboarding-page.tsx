@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Header from "@/components/onboarding/header";
 import PaginationDots from "@/components/onboarding/pagination-dots";
 import ProfileUpdateCard from "@/components/onboarding/profile/profile-update-card";
@@ -11,6 +10,7 @@ import {
   setOnboardingStep,
   resetOnboardingStep,
 } from "@/store/slices/ui/ui-slice";
+import { completeOnboarding } from "@/store/slices/auth/auth-slice";
 
 interface OnboardingStepProps {
   isFirst: boolean;
@@ -40,6 +40,7 @@ export default function Onboarding() {
     if (!isLast) {
       dispatch(setOnboardingStep(currentPage + 1));
     } else {
+      dispatch(completeOnboarding());
       dispatch(resetOnboardingStep());
       navigate("/");
     }
@@ -48,12 +49,6 @@ export default function Onboarding() {
   const prev = () => {
     if (!isFirst) dispatch(setOnboardingStep(currentPage - 1));
   };
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetOnboardingStep());
-    };
-  }, [dispatch]);
 
   const CurrentPage = pages[currentPage - 1];
   return (
