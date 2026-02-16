@@ -7,16 +7,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Eye, Inbox, Ban, LogOut } from "lucide-react";
+import type { Customer } from "@/provider/customer";
 
 interface CustomerActionsProps {
-  customer: {
-    id: string;
-    user: { name: string; email: string; avatar: string };
-    source: string;
-    lastUpdated: string;
-    created: string;
-    conversations: number;
-  };
+  customer: Customer;
 }
 
 export const CustomerActions = ({ customer }: CustomerActionsProps) => {

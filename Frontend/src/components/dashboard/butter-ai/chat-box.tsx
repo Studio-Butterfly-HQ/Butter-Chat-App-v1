@@ -69,7 +69,7 @@ export default function ChatBox() {
             const newMessageId = `stream-${Date.now()}`;
             streamingMessageIdRef.current = newMessageId;
             currentStreamMessageRef.current = "";
-            
+
             setMessages((prev) => [
               ...prev,
               {
@@ -90,7 +90,7 @@ export default function ChatBox() {
             // Append streaming content
             if (data.payload?.content) {
               currentStreamMessageRef.current += data.payload.content;
-              
+
               setMessages((prev) =>
                 prev.map((msg) =>
                   msg.id === streamingMessageIdRef.current
@@ -244,7 +244,7 @@ export default function ChatBox() {
                             </span>
                           </div>
                         ) : (
-                          <p className="break-all whitespace-pre-wrap">
+                          <p className="break-words whitespace-pre-wrap">
                             {message.content}
                           </p>
                         )}

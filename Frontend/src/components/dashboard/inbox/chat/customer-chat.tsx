@@ -213,7 +213,7 @@ export default function CustomerChat() {
                         : "bg-muted text-foreground"
                     }`}
                   >
-                    <p className="break-all whitespace-pre-wrap">
+                    <p className="break-words whitespace-pre-wrap">
                       {message.content}
                     </p>
                   </div>

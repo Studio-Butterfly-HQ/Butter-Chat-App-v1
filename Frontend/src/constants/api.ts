@@ -42,6 +42,10 @@ export const AGENT_API = {
   CREATE_AGENT: `${BACKEND_BASE_URL}/ai-agents`,
 };
 
+export const CUSTOMER_API = {
+  GET_CUSTOMERS: `${BACKEND_BASE_URL}/customer/list`,
+};
+
 export const USER_API = {
   INVITE_USER: `${BACKEND_BASE_URL}/users/invite`,
   GET_USERS: `${BACKEND_BASE_URL}/users`,

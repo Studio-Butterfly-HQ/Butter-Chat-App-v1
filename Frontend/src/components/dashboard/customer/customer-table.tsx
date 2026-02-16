@@ -1,4 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
+import { useGetCustomers } from "@/provider/customer";
+import type { Customer } from "@/provider/customer";
 import { CustomerActions } from "./customer-actions";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -48,16 +50,6 @@ import {
 } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import customerListData from "@/constants/dummy/customer-list.json";
-
-interface CustomerListData {
-  id: string;
-  user: { name: string; email: string; avatar: string };
-  source: string;
-  lastUpdated: string;
-  created: string;
-  conversations: number;
-}
 
 const SourceIcon = ({ source }: { source: string }) => {
   const iconClass = "h-3.5 w-3.5";
@@ -87,6 +79,7 @@ const SourceIcon = ({ source }: { source: string }) => {
 
 export default function CustomerTable() {
   const navigate = useNavigate();
+  const { data: customerResponse, isLoading } = useGetCustomers();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [selectedSources, setSelectedSources] = useState<string[]>([]);
@@ -94,6 +87,8 @@ export default function CustomerTable() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const customerListData: Customer[] = customerResponse?.data ?? [];
 
   const handleSourceChange = (checked: boolean, value: string) => {
     const newSelectedSources = checked
@@ -108,7 +103,7 @@ export default function CustomerTable() {
       );
   };
 
-  const columns: ColumnDef<CustomerListData>[] = [
+  const columns: ColumnDef<Customer>[] = [
     {
       accessorKey: "id",
       header: () => <DataGridTableRowSelectAll />,
@@ -121,25 +116,25 @@ export default function CustomerTable() {
     },
     {
       id: "user",
-      accessorFn: (row) => `${row.user.name} ${row.user.email}`,
+      accessorFn: (row) => `${row.name} ${row.contact}`,
       header: "User",
       size: 250,
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
-            <AvatarImage src={row.original.user.avatar} />
+            <AvatarImage src={row.original.profile_uri || ""} />
             <AvatarFallback className="text-[10px]">
-              {row.original.user.name
-                ? row.original.user.name.charAt(0).toUpperCase()
+              {row.original.name
+                ? row.original.name.charAt(0).toUpperCase()
                 : "U"}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <div className="font-medium text-foreground">
-              {row.original.user.name}
+              {row.original.name}
             </div>
             <div className="text-sm text-muted-foreground">
-              {row.original.user.email}
+              {row.original.contact}
             </div>
           </div>
         </div>
@@ -184,12 +179,12 @@ export default function CustomerTable() {
       },
     },
     {
-      accessorKey: "lastUpdated",
+      accessorKey: "updatedDate",
       header: "Last Updated",
       size: 140,
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
-          {row.original.lastUpdated}
+          {new Date(row.original.updatedDate).toLocaleDateString()}
         </span>
       ),
       meta: {
@@ -198,12 +193,12 @@ export default function CustomerTable() {
       },
     },
     {
-      accessorKey: "created",
+      accessorKey: "createdDate",
       header: "Created",
       size: 140,
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
-          {row.original.created}
+          {new Date(row.original.createdDate).toLocaleDateString()}
         </span>
       ),
       meta: {
@@ -212,12 +207,12 @@ export default function CustomerTable() {
       },
     },
     {
-      accessorKey: "conversations",
+      accessorKey: "conversation_count",
       header: "Conversation",
       size: 120,
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
-          {row.original.conversations}
+          {row.original.conversation_count}
         </span>
       ),
       meta: {
@@ -235,7 +230,7 @@ export default function CustomerTable() {
   ];
 
   const table = useReactTable({
-    data: customerListData as CustomerListData[],
+    data: customerListData,
     columns,
     state: {
       pagination,
@@ -342,6 +337,7 @@ export default function CustomerTable() {
       </div>
       <DataGrid
         table={table}
+        isLoading={isLoading}
         recordCount={table.getFilteredRowModel().rows.length}
         tableLayout={{
           headerBackground: false,
