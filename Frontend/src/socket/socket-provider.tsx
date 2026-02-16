@@ -15,17 +15,18 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    const ws = createSocketConnection(token);
-    setSocket(ws);
-
-    ws.onmessage = (event) => {
+    const handleMessage = (event: MessageEvent) => {
       try {
-        const data = JSON.parse(event.data);
-        handleSocketEvent(data);
+        //const data = JSON.parse(event.data);
+        //handleSocketEvent(data);
+        console.log(event)
       } catch (error) {
         console.error("Failed to parse socket message:", error);
       }
     };
+
+    const ws = createSocketConnection(token, handleMessage);
+    setSocket(ws);
 
     return () => {
       closeSocket();
