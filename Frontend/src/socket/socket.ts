@@ -9,7 +9,7 @@ export const createSocketConnection = (
     return socket;
   }
 
-  const wsUrl = `ws://168.231.120.192:4646/human-agent?token=${token}`;
+  const wsUrl = `wss://socket.studiobutterfly.io/human-agent?token=${token}`;
   const customerUrl = `ws://localhost:4646/customer?token=""`
   
   console.log("Creating new WebSocket connection...");
