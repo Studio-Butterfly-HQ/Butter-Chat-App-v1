@@ -129,7 +129,7 @@ export default function UnassignedTable() {
             {row.original.summary}
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {row.original.tags.map((tag) => (
+            {(row.original.tags ?? []).map((tag) => (
               <Badge
                 key={tag}
                 variant="secondary"

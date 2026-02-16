@@ -36,7 +36,12 @@ export function usePhotoUpload(options: UsePhotoUploadOptions = {}) {
     }
     setAvatarFile(file);
     const reader = new FileReader();
-    reader.onload = (ev) => setProfilePhoto(ev.target?.result as string);
+    reader.onload = (ev) => {
+      const result = ev.target?.result;
+      if (typeof result === "string") {
+        setProfilePhoto(result);
+      }
+    };
     reader.onerror = () => {
       toast.error("Failed to read the selected image");
       setAvatarFile(null);
