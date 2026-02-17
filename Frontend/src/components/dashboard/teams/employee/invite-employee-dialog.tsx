@@ -87,7 +87,7 @@ export const InviteEmployeeDialog = memo(function InviteEmployeeDialog({
         </DialogHeader>
         <Form {...inviteForm}>
           <form onSubmit={inviteForm.handleSubmit(handleFormSubmit)}>
-            <div className="space-y-5 mt-2">
+            <div className="space-y-4 mt-2">
               {/* Employee Email */}
               <FormField
                 control={inviteForm.control}
@@ -97,12 +97,7 @@ export const InviteEmployeeDialog = memo(function InviteEmployeeDialog({
                     <FormLabel className="font-normal text-primary">
                       Employee Email <span className="text-red-500">*</span>
                     </FormLabel>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder="user@example.com"
-                      className="h-10"
-                    />
+                    <Input {...field} type="email" placeholder="user@example.com" />
                     <FormMessage className="text-sm" />
                   </FormItem>
                 )}
@@ -118,7 +113,7 @@ export const InviteEmployeeDialog = memo(function InviteEmployeeDialog({
                       Department <span className="text-red-500">*</span>
                     </FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="h-10">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select a Department" />
                       </SelectTrigger>
                       <SelectContent>
@@ -144,7 +139,7 @@ export const InviteEmployeeDialog = memo(function InviteEmployeeDialog({
                       Shift <span className="text-red-500">*</span>
                     </FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="h-10">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select a Shift" />
                       </SelectTrigger>
                       <SelectContent>

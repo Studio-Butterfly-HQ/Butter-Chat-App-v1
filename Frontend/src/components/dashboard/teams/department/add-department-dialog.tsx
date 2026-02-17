@@ -73,7 +73,7 @@ export const AddDepartmentDialog = memo(function AddDepartmentDialog({
 
         <Form {...departmentForm}>
           <form onSubmit={departmentForm.handleSubmit(onDepartmentFormSubmit)}>
-            <div className="space-y-5 mt-2">
+            <div className="space-y-4 mt-2">
               {/* Department Name */}
               <FormField
                 control={departmentForm.control}
@@ -83,11 +83,7 @@ export const AddDepartmentDialog = memo(function AddDepartmentDialog({
                     <FormLabel className="font-normal text-primary">
                       Department Name <span className="text-red-500">*</span>
                     </FormLabel>
-                    <Input
-                      {...field}
-                      placeholder="Sales Department"
-                      className="h-10"
-                    />
+                    <Input {...field} placeholder="Sales Department" />
                     <FormMessage className="text-sm" />
                   </FormItem>
                 )}

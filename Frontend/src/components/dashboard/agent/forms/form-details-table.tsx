@@ -17,6 +17,7 @@ import {
 } from "@tanstack/react-table";
 import { useDebounce } from "@/hooks/use-debounce";
 import formRecordsData from "@/constants/dummy/form-records.json";
+import { AddRecordDialog } from "@/components/dashboard/agent/forms/add-record-dialog";
 
 export type FormRecord = {
   id: string;
@@ -32,6 +33,7 @@ export function FormDetailsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
+  const [isAddRecordOpen, setIsAddRecordOpen] = useState(false);
 
   // Use dummy data directly
   const allRecords = formRecordsData as FormRecord[];
@@ -58,7 +60,7 @@ export function FormDetailsTable() {
       size: 300,
       cell: ({ row }) => (
         <div
-          className="text-sm line-clamp-2"
+          className="text-sm text-muted-foreground line-clamp-2"
           title={row.original.address}
         >
           {row.original.address}
@@ -76,7 +78,7 @@ export function FormDetailsTable() {
       header: "Phone Number",
       size: 150,
       cell: ({ row }) => (
-        <div className="text-sm">{row.original.phoneNumber}</div>
+        <div className="text-sm text-muted-foreground">{row.original.phoneNumber}</div>
       ),
       meta: {
         skeleton: <Skeleton className="h-4 w-24" />,
@@ -90,7 +92,7 @@ export function FormDetailsTable() {
       header: "Opening Hour",
       size: 120,
       cell: ({ row }) => (
-        <div className="text-sm">{row.original.openingHour}</div>
+        <div className="text-sm text-muted-foreground">{row.original.openingHour}</div>
       ),
       meta: {
         skeleton: <Skeleton className="h-4 w-16" />,
@@ -104,7 +106,7 @@ export function FormDetailsTable() {
       header: "Closing Hour",
       size: 120,
       cell: ({ row }) => (
-        <div className="text-sm">{row.original.closingHour}</div>
+        <div className="text-sm text-muted-foreground">{row.original.closingHour}</div>
       ),
       meta: {
         skeleton: <Skeleton className="h-4 w-16" />,
@@ -119,7 +121,7 @@ export function FormDetailsTable() {
       size: 200,
       cell: ({ row }) => (
         <div
-          className="text-sm line-clamp-1"
+          className="text-sm text-muted-foreground line-clamp-1"
           title={row.original.openDays}
         >
           {row.original.openDays}
@@ -176,10 +178,17 @@ export function FormDetailsTable() {
               className="pl-10 h-10 bg-transparent border-input"
             />
           </div>
-          <Button className="h-10 bg-white text-black hover:bg-gray-200">
+          <Button
+            className="h-10"
+            onClick={() => setIsAddRecordOpen(true)}
+          >
             <Plus className="mr-2 h-4 w-4" />
             Add Record
           </Button>
+          <AddRecordDialog
+            open={isAddRecordOpen}
+            onOpenChange={setIsAddRecordOpen}
+          />
         </div>
 
         <DataGrid

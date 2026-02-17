@@ -104,7 +104,7 @@ export const AddShiftDialog = memo(function AddShiftDialog({
 
         <Form {...shiftForm}>
           <form onSubmit={shiftForm.handleSubmit(onShiftFormSubmit)}>
-            <div className="space-y-5 mt-2">
+            <div className="space-y-4 mt-2">
               {/* Shift Name */}
               <FormField
                 control={shiftForm.control}
@@ -114,11 +114,7 @@ export const AddShiftDialog = memo(function AddShiftDialog({
                     <FormLabel className="font-normal text-primary">
                       Shift Name <span className="text-red-500">*</span>
                     </FormLabel>
-                    <Input
-                      {...field}
-                      placeholder="Morning Shift"
-                      className="h-10"
-                    />
+                    <Input {...field} placeholder="Morning Shift" />
                     <FormMessage className="text-sm" />
                   </FormItem>
                 )}
@@ -134,12 +130,7 @@ export const AddShiftDialog = memo(function AddShiftDialog({
                       Start Time <span className="text-red-500">*</span>
                     </FormLabel>
                     <div className="relative">
-                      <Input
-                        {...field}
-                        type="time"
-                        placeholder="00:00 am"
-                        className="h-10"
-                      />
+                      <Input {...field} type="time" placeholder="00:00 am" />
                       <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                     </div>
                     <FormMessage className="text-sm" />
@@ -157,12 +148,7 @@ export const AddShiftDialog = memo(function AddShiftDialog({
                       End Time <span className="text-red-500">*</span>
                     </FormLabel>
                     <div className="relative">
-                      <Input
-                        {...field}
-                        type="time"
-                        placeholder="00:00 am"
-                        className="h-10"
-                      />
+                      <Input {...field} type="time" placeholder="00:00 am" />
                       <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                     </div>
                     <FormMessage className="text-sm" />
