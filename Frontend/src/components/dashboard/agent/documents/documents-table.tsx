@@ -125,7 +125,7 @@ export function DocumentsTable() {
       header: "",
       size: 120,
       cell: ({ row }) => (
-        <div className="flex items-center gap-4 justify-end px-4">
+        <div className="flex items-center gap-4 justify-end pr-4">
           <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
           <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
           <Trash2

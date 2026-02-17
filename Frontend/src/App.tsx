@@ -20,6 +20,7 @@ import AuthRoute from "./routes/auth-route";
 import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
 import DocumentsPage from "./pages/dashboard/ai-agent/documents/documents-page";
 import FormsPage from "./pages/dashboard/ai-agent/forms/forms-page";
+import FormDetailsPage from "./pages/dashboard/ai-agent/forms/form-details-page";
 import InboxLayout from "./pages/dashboard/inbox/inbox-layout";
 import YourInboxPage from "./pages/dashboard/inbox/your-inbox/your-inbox-page";
 import UnassignedPage from "./pages/dashboard/inbox/unassigned/unassigned-page";
@@ -60,6 +61,7 @@ export default function App() {
               <Route path="websites" element={<WebsitePage />} />
               <Route path="documents" element={<DocumentsPage />} />
               <Route path="forms" element={<FormsPage />} />
+              <Route path="forms/:formId" element={<FormDetailsPage />} />
               <Route path="snippets" element={<SnippetsPage />} />
             </Route>
             <Route path="inbox" element={<InboxLayout />}>

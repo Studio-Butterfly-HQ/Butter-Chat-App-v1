@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DataGrid, DataGridContainer } from "@/components/ui/data-grid";
@@ -7,7 +6,7 @@ import { DataGridPagination } from "@/components/ui/data-grid-pagination";
 import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, Search, Trash2, Pencil, ChevronRight } from "lucide-react";
+import { Plus, Search, MoreVertical } from "lucide-react";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -17,32 +16,53 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useDebounce } from "@/hooks/use-debounce";
-import formsData from "@/constants/dummy/forms.json";
+import formRecordsData from "@/constants/dummy/form-records.json";
 
-export type Form = {
+export type FormRecord = {
   id: string;
-  title: string;
-  lastUpdated: string;
-  totalSubmissions: number;
+  outletName: string;
+  address: string;
+  phoneNumber: string;
+  openingHour: string;
+  closingHour: string;
+  openDays: string;
 };
 
-export function FormsTable() {
-  const navigate = useNavigate();
+export function FormDetailsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
 
   // Use dummy data directly
-  const allForms = formsData as Form[];
+  const allRecords = formRecordsData as FormRecord[];
 
-  const formColumns: ColumnDef<Form>[] = [
-    // ================= Title =================
+  const recordColumns: ColumnDef<FormRecord>[] = [
+    // ================= Outlet Name =================
     {
-      accessorKey: "title",
-      header: "Title",
-      size: 420,
+      accessorKey: "outletName",
+      header: "Outlet Name",
+      size: 200,
       cell: ({ row }) => (
-        <div className="font-medium">{row.original.title}</div>
+        <div className="font-medium text-sm">{row.original.outletName}</div>
+      ),
+      meta: {
+        skeleton: <Skeleton className="h-4 w-32" />,
+        headerClassName: "font-medium",
+      },
+    },
+
+    // ================= Address =================
+    {
+      accessorKey: "address",
+      header: "Address",
+      size: 300,
+      cell: ({ row }) => (
+        <div
+          className="text-sm line-clamp-2"
+          title={row.original.address}
+        >
+          {row.original.address}
+        </div>
       ),
       meta: {
         skeleton: <Skeleton className="h-4 w-48" />,
@@ -50,51 +70,63 @@ export function FormsTable() {
       },
     },
 
-    // ================= Last Updated =================
+    // ================= Phone Number =================
     {
-      accessorKey: "lastUpdated",
-      header: "Last Updated",
-      size: 180,
-      cell: ({ row }) => {
-        const date = new Date(row.original.lastUpdated);
-        // Calculate days ago or display date
-        const now = new Date();
-        const diffTime = Math.abs(now.getTime() - date.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        let dateString;
-        if (diffDays === 1) {
-          dateString = "1 day ago";
-        } else if (diffDays < 30) {
-          dateString = `${diffDays} days ago`;
-        } else {
-          dateString = date.toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          });
-        }
-
-        return <span className="text-muted-foreground">{dateString}</span>;
-      },
+      accessorKey: "phoneNumber",
+      header: "Phone Number",
+      size: 150,
+      cell: ({ row }) => (
+        <div className="text-sm">{row.original.phoneNumber}</div>
+      ),
       meta: {
         skeleton: <Skeleton className="h-4 w-24" />,
         headerClassName: "font-medium",
       },
     },
 
-    // ================= Total Submission =================
+    // ================= Opening Hour =================
     {
-      accessorKey: "totalSubmissions",
-      header: "Total Submission",
-      size: 180,
+      accessorKey: "openingHour",
+      header: "Opening Hour",
+      size: 120,
       cell: ({ row }) => (
-        <span className="text-muted-foreground">
-          {row.original.totalSubmissions}
-        </span>
+        <div className="text-sm">{row.original.openingHour}</div>
       ),
       meta: {
-        skeleton: <Skeleton className="h-4 w-12" />,
+        skeleton: <Skeleton className="h-4 w-16" />,
+        headerClassName: "font-medium",
+      },
+    },
+
+    // ================= Closing Hour =================
+    {
+      accessorKey: "closingHour",
+      header: "Closing Hour",
+      size: 120,
+      cell: ({ row }) => (
+        <div className="text-sm">{row.original.closingHour}</div>
+      ),
+      meta: {
+        skeleton: <Skeleton className="h-4 w-16" />,
+        headerClassName: "font-medium",
+      },
+    },
+
+    // ================= Open Days =================
+    {
+      accessorKey: "openDays",
+      header: "Open Days",
+      size: 200,
+      cell: ({ row }) => (
+        <div
+          className="text-sm line-clamp-1"
+          title={row.original.openDays}
+        >
+          {row.original.openDays}
+        </div>
+      ),
+      meta: {
+        skeleton: <Skeleton className="h-4 w-32" />,
         headerClassName: "font-medium",
       },
     },
@@ -103,35 +135,22 @@ export function FormsTable() {
     {
       id: "actions",
       header: "",
-      size: 120,
-      cell: ({ row }) => (
-        <div className="flex items-center gap-4 justify-end pr-4">
-          <Pencil className="h-4 w-4 shrink-0 cursor-pointer text-muted-foreground hover:text-foreground" />
-          <Trash2 className="h-4 w-4 shrink-0 cursor-pointer text-red-500 hover:text-red-600" />
-          <Button
-            className="h-8 w-8 rounded-full"
-            onClick={() => navigate(`${row.original.id}`)}
-          >
-            <ChevronRight />
-          </Button>
+      size: 50,
+      cell: () => (
+        <div className="flex items-center justify-end pr-4">
+          <MoreVertical className="h-4 w-4 shrink-0 cursor-pointer text-muted-foreground hover:text-foreground" />
         </div>
       ),
       meta: {
-        skeleton: (
-          <div className="flex gap-4 justify-end">
-            <Skeleton className="h-4 w-4 rounded-full" />
-            <Skeleton className="h-4 w-4 rounded-full" />
-            <Skeleton className="h-8 w-8 rounded-full" />
-          </div>
-        ),
+        skeleton: <Skeleton className="h-4 w-4 rounded-full" />,
         headerClassName: "font-medium",
       },
     },
   ];
 
   const table = useReactTable({
-    data: allForms,
-    columns: formColumns,
+    data: allRecords,
+    columns: recordColumns,
     state: {
       globalFilter: debouncedSearchTerm,
       pagination,
@@ -151,7 +170,7 @@ export function FormsTable() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search Form..."
+              placeholder="Search Form Record..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 h-10 bg-transparent border-input"
@@ -159,14 +178,14 @@ export function FormsTable() {
           </div>
           <Button className="h-10 bg-white text-black hover:bg-gray-200">
             <Plus className="mr-2 h-4 w-4" />
-            Add Form
+            Add Record
           </Button>
         </div>
 
         <DataGrid
           table={table}
           isLoading={false}
-          recordCount={allForms.length}
+          recordCount={allRecords.length}
           tableLayout={{
             headerBackground: false,
             rowBorder: true,
