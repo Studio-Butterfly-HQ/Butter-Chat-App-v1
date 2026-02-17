@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useEffect } from "react";
 
+type Personality = "friendly" | "neutral" | "professional" | "humorous";
+
 interface PersonalityFormProps {
   selectedAgent?: Agent;
   onToggle: () => void;
@@ -41,7 +43,7 @@ export const PersonalityForm = ({
   useEffect(() => {
     if (selectedAgent) {
       reset({
-        personality: (selectedAgent.personality as any) || "friendly",
+        personality: (selectedAgent.personality as Personality) || "friendly",
       });
     }
   }, [selectedAgent, reset]);
@@ -60,7 +62,7 @@ export const PersonalityForm = ({
 
   const handleCancel = () => {
     if (selectedAgent) {
-      reset({ personality: (selectedAgent.personality as any) || "friendly" });
+      reset({ personality: (selectedAgent.personality as Personality) || "friendly" });
     }
     onToggle();
   };
