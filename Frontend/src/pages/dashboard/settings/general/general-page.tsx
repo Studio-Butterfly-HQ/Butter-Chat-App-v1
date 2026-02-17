@@ -90,7 +90,7 @@ export default function GeneralSettings() {
             onClick={form.handleSubmit(onSubmit)}
           >
             {isPending ? (
-              <Spinner className="h-3 w- mr-1.5" />
+              <Spinner className="h-3 w-3 mr-1.5" />
             ) : (
               <Save className="h-3 w-3 mr-1.5" />
             )}

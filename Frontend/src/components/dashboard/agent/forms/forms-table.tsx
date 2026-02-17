@@ -60,10 +60,12 @@ export function FormsTable() {
         // Calculate days ago or display date
         const now = new Date();
         const diffTime = Math.abs(now.getTime() - date.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
         let dateString;
-        if (diffDays === 1) {
+        if (diffDays === 0) {
+          dateString = "Today";
+        } else if (diffDays === 1) {
           dateString = "1 day ago";
         } else if (diffDays < 30) {
           dateString = `${diffDays} days ago`;
@@ -74,7 +76,6 @@ export function FormsTable() {
             year: "numeric",
           });
         }
-
         return <span className="text-muted-foreground">{dateString}</span>;
       },
       meta: {
