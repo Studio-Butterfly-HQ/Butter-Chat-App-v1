@@ -161,7 +161,7 @@ export function AddRecordDialog({ open, onOpenChange }: AddRecordDialogProps) {
                         placeholder="00:00 am"
                         className="h-9"
                       />
-                      <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+                      <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                     </div>
                   <FormMessage />
                 </FormItem>
@@ -182,7 +182,7 @@ export function AddRecordDialog({ open, onOpenChange }: AddRecordDialogProps) {
                         placeholder="00:00 am"
                         className="h-9"
                       />
-                      <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+                      <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                     </div>
                   <FormMessage />
                 </FormItem>

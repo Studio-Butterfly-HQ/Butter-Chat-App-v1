@@ -131,7 +131,7 @@ export const AddShiftDialog = memo(function AddShiftDialog({
                     </FormLabel>
                     <div className="relative">
                       <Input {...field} type="time" placeholder="00:00 am" />
-                      <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+                      <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                     </div>
                     <FormMessage className="text-sm" />
                   </FormItem>
@@ -149,7 +149,7 @@ export const AddShiftDialog = memo(function AddShiftDialog({
                     </FormLabel>
                     <div className="relative">
                       <Input {...field} type="time" placeholder="00:00 am" />
-                      <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+                      <Clock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                     </div>
                     <FormMessage className="text-sm" />
                   </FormItem>
