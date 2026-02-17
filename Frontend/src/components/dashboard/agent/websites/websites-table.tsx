@@ -137,10 +137,10 @@ export function WebsitesTable() {
     // ================= Actions =================
     {
       id: "actions",
-      header: "Actions",
+      header: "",
       size: 120,
       cell: ({ row }) => (
-        <div className="flex items-center gap-4 justify-start">
+        <div className="flex items-center gap-4 justify-end px-4">
           <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
           <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
           <Trash2
@@ -151,7 +151,7 @@ export function WebsitesTable() {
       ),
       meta: {
         skeleton: (
-          <div className="flex gap-4 justify-start">
+          <div className="flex gap-4 justify-end">
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />

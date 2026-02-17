@@ -19,6 +19,7 @@ import ProtectedRoute from "./routes/protected-route";
 import AuthRoute from "./routes/auth-route";
 import WebsitePage from "./pages/dashboard/ai-agent/websites/websites-page";
 import DocumentsPage from "./pages/dashboard/ai-agent/documents/documents-page";
+import FormsPage from "./pages/dashboard/ai-agent/forms/forms-page";
 import InboxLayout from "./pages/dashboard/inbox/inbox-layout";
 import YourInboxPage from "./pages/dashboard/inbox/your-inbox/your-inbox-page";
 import UnassignedPage from "./pages/dashboard/inbox/unassigned/unassigned-page";
@@ -28,6 +29,7 @@ import SaveReplyPage from "./pages/dashboard/save-reply/save-reply-page";
 import CustomerDetailsPage from "./pages/dashboard/customer/customer-details/customer-details-page";
 import AccountPage from "./pages/dashboard/account/account-page";
 import AddReplyPage from "./pages/dashboard/save-reply/add-reply/add-reply-page";
+import SnippetsPage from "./pages/dashboard/ai-agent/snippets/snippets-page";
 
 export default function App() {
   return (
@@ -57,6 +59,8 @@ export default function App() {
               <Route index element={<AiAgentPage />} />
               <Route path="websites" element={<WebsitePage />} />
               <Route path="documents" element={<DocumentsPage />} />
+              <Route path="forms" element={<FormsPage />} />
+              <Route path="snippets" element={<SnippetsPage />} />
             </Route>
             <Route path="inbox" element={<InboxLayout />}>
               {/* <Route index element={<Navigate to="your-inbox" replace />} />

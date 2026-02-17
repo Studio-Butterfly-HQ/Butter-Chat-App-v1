@@ -112,9 +112,12 @@ export function KnowledgeBase() {
                 size="sm"
                 variant="default"
                 className="rounded-full gap-2 px-4"
+                asChild
               >
-                Manage Forms
-                <ArrowUpRight className="h-4 w-4" />
+                <Link to="/ai-agent/forms">
+                  Manage Forms
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
               </Button>
             </div>
           </div>
@@ -139,9 +142,12 @@ export function KnowledgeBase() {
                 size="sm"
                 variant="default"
                 className="rounded-full gap-2"
+                asChild
               >
-                Manage Snippets
-                <ArrowUpRight className="h-4 w-4" />
+                <Link to="/ai-agent/snippets">
+                  Manage Snippets
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
               </Button>
             </div>
           </div>

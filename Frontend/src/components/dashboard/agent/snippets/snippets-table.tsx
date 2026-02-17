@@ -7,9 +7,8 @@ import { DataGridPagination } from "@/components/ui/data-grid-pagination";
 import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, Search, Eye, RefreshCcw, Trash2 } from "lucide-react";
-import { UploadDocumentsDialog } from "@/components/dashboard/agent/documents/upload-documents-dialog";
-import { DeleteDocumentDialog } from "@/components/dashboard/agent/documents/delete-document-dialog";
+import { Plus, Search, Eye, RefreshCcw, Trash2, Pencil } from "lucide-react";
+import { DeleteSnippetDialog } from "@/components/dashboard/agent/snippets/delete-snippet-dialog";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -18,24 +17,24 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useGetDocuments } from "@/provider/document/document.queries";
-import type { Document } from "@/provider/document/document.types";
+import type { Snippet } from "@/provider/snippet/snippet.types";
 import { useDebounce } from "@/hooks/use-debounce";
+import { DUMMY_SNIPPETS } from "@/constants/snippets";
 
-export function DocumentsTable() {
+export function SnippetsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [documentToDelete, setDocumentToDelete] = useState<Document | null>(
-    null,
-  );
+  const [snippetToDelete, setSnippetToDelete] = useState<Snippet | null>(null);
 
-  const { data: documentsResponse, isLoading } = useGetDocuments();
+  // Use dummy data
+  const snippets = DUMMY_SNIPPETS;
+  const isLoading = false;
 
-  const handleDeleteClick = (document: Document) => {
-    setDocumentToDelete(document);
+  const handleDeleteClick = (snippet: Snippet) => {
+    setSnippetToDelete(snippet);
     setDeleteDialogOpen(true);
   };
 
@@ -57,19 +56,17 @@ export function DocumentsTable() {
     );
   };
 
-  const allDocuments = documentsResponse?.data?.documents || [];
-
-  const documentColumns: ColumnDef<Document>[] = [
-    // ================= Document =================
+  const snippetColumns: ColumnDef<Snippet>[] = [
+    // ================= Title =================
     {
-      accessorKey: "originalName",
-      header: "Document",
+      accessorKey: "title",
+      header: "Title",
       size: 420,
       cell: ({ row }) => (
         <div>
-          <div className="font-medium">{row.original.originalName}</div>
-          <div className="text-xs text-muted-foreground">
-            {(row.original.size / 1024).toFixed(2)} KB • {row.original.mimetype}
+          <div className="font-medium">{row.original.title}</div>
+          <div className="text-xs text-muted-foreground line-clamp-1">
+            {row.original.content}
           </div>
         </div>
       ),
@@ -89,7 +86,7 @@ export function DocumentsTable() {
       id: "status",
       header: "Status",
       size: 140,
-      cell: ({ row }) => <StatusBadge status={row.original.syncStatus} />,
+      cell: ({ row }) => <StatusBadge status={row.original.status} />,
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
         headerClassName: "font-medium",
@@ -98,11 +95,11 @@ export function DocumentsTable() {
 
     // ================= Last Updated =================
     {
-      accessorKey: "uploadedAt",
+      accessorKey: "updatedAt",
       header: "Last Updated",
       size: 180,
       cell: ({ row }) => {
-        const date = new Date(row.original.uploadedAt);
+        const date = new Date(row.original.updatedAt);
         return (
           <span className="text-muted-foreground">
             {date.toLocaleDateString("en-US", {
@@ -125,18 +122,17 @@ export function DocumentsTable() {
       header: "",
       size: 120,
       cell: ({ row }) => (
-        <div className="flex items-center gap-4 justify-end px-4">
-          <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-          <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+        <div className="flex items-center gap-4 justify-end pr-4">
+          <Pencil className="h-4 w-4 shrink-0 cursor-pointer text-muted-foreground hover:text-foreground" />
           <Trash2
-            className="h-4 w-4 cursor-pointer text-red-500 hover:text-red-600"
+            className="h-4 w-4 shrink-0 cursor-pointer text-red-500 hover:text-red-600"
             onClick={() => handleDeleteClick(row.original)}
           />
         </div>
       ),
       meta: {
         skeleton: (
-          <div className="flex gap-4 justify-end">
+          <div className="flex gap-4 justify-start">
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
@@ -148,8 +144,8 @@ export function DocumentsTable() {
   ];
 
   const table = useReactTable({
-    data: allDocuments,
-    columns: documentColumns,
+    data: snippets,
+    columns: snippetColumns,
     state: {
       globalFilter: debouncedSearchTerm,
       pagination,
@@ -169,26 +165,22 @@ export function DocumentsTable() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search..."
+              placeholder="Search Snippet..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 h-10"
             />
           </div>
           <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
-            <Plus />
-            Upload Document
+            <Plus className="mr-2 h-4 w-4" />
+            Add Snippet
           </Button>
-          <UploadDocumentsDialog
-            open={isDialogOpen}
-            onOpenChange={setIsDialogOpen}
-          />
         </div>
 
         <DataGrid
           table={table}
           isLoading={isLoading}
-          recordCount={allDocuments.length}
+          recordCount={snippets.length}
           tableLayout={{
             headerBackground: false,
             rowBorder: true,
@@ -209,10 +201,10 @@ export function DocumentsTable() {
         </DataGrid>
       </div>
 
-      <DeleteDocumentDialog
+      <DeleteSnippetDialog
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        document={documentToDelete}
+        snippet={snippetToDelete}
       />
     </>
   );
