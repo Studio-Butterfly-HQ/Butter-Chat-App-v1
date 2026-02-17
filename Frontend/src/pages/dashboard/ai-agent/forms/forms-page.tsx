@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { FormsTable } from "@/components/dashboard/agent/forms/forms-table";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { BookOpen } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,13 +11,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen } from "lucide-react";
-import AddReplyForm from "@/components/dashboard/save-reply/add-reply-form";
+import { Link } from "react-router-dom";
 
-export default function AddReplyPage() {
+export default function FormsPage() {
   return (
-    <div className="flex h-full flex-col">
+    <div className="h-full flex flex-col overflow-hidden">
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger />
@@ -28,13 +28,13 @@ export default function AddReplyPage() {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block text-sm md:text-base font-semibold">
                   <BreadcrumbLink asChild>
-                    <Link to="/save-reply">Save Reply</Link>
+                    <Link to="/ai-agent">AI Agent</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem className="text-sm md:text-base font-semibold">
+                <BreadcrumbItem className="text-sm md:text-base">
                   <BreadcrumbPage className="font-semibold">
-                    Add Reply
+                    Forms
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -51,8 +51,8 @@ export default function AddReplyPage() {
           </Badge>
         </div>
       </header>
-      <div className="flex-1 overflow-auto p-4 scrollbar-hide">
-        <AddReplyForm />
+      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
+        <FormsTable />
       </div>
     </div>
   );

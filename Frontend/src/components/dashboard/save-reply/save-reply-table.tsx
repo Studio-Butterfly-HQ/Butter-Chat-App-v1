@@ -72,8 +72,8 @@ const TypeIcon = ({ type }: { type: string }) => {
 const SaveReplyActions = ({ saveReply }: { saveReply: SaveReplyListData }) => {
   return (
     <div className="flex items-center gap-4">
-      <Trash2 className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-destructive" />
-      <Pencil className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+      <Pencil className="h-4 w-4 shrink-0 cursor-pointer text-muted-foreground hover:text-foreground" />
+      <Trash2 className="h-4 w-4 shrink-0 cursor-pointer text-red-500 hover:text-red-600" />
     </div>
   );
 };

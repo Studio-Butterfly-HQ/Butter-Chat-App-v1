@@ -37,6 +37,7 @@ import {
   Upload,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface FileUploadItem extends FileWithPreview {
   progress: number;
@@ -230,13 +231,13 @@ export default function TableUpload({
               Click to upload or drag and drop
             </h3>
             <p className="text-xs text-muted-foreground">
-              PDF, Word, TXT, CSV, JSON, MD, XML (MAX. 40MB) file
+              PDF, Word, TXT, CSV, JSON, MD, XML (MAX. 100MB) file
             </p>
           </div>
         </div>
       </div>
       {uploadFiles.length > 0 && (
-        <div className="rounded-lg border">
+        <ScrollArea className="h-[305px] w-full rounded-lg border">
           <Table className="w-full">
             <TableHeader>
               <TableRow>
@@ -308,7 +309,7 @@ export default function TableUpload({
               ))}
             </TableBody>
           </Table>
-        </div>
+        </ScrollArea>
       )}
 
       {errors.length > 0 && (

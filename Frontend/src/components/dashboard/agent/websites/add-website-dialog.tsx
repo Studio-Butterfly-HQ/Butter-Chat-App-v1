@@ -81,7 +81,7 @@ export const AddWebsiteDialog = memo(function AddWebsiteDialog({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="space-y-5 mt-2">
+            <div className="space-y-4 mt-2">
               {/* Website URL */}
               <FormField
                 control={form.control}
@@ -91,11 +91,7 @@ export const AddWebsiteDialog = memo(function AddWebsiteDialog({
                     <FormLabel className="text-primary">
                       Website URL <span className="text-red-500">*</span>
                     </FormLabel>
-                    <Input
-                      {...field}
-                      placeholder="https://domainname.com"
-                      className="h-10"
-                    />
+                    <Input {...field} placeholder="https://domainname.com" />
                     <p className="text-sm text-muted-foreground">
                       Only publicly accessible URLs are supported.
                     </p>

@@ -27,25 +27,19 @@ import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 import {
   useProfileMeta,
-  useUpdateProfile,
+  useUpdateCompanyProfile,
   useUploadAvatar,
   useDetectLocation,
 } from "@/provider/profile";
 import { ProfileFormValues, profileSchema } from "@/schemas/profileSchema";
 
 export default function ProfileUpdateCard() {
-  const { profilePhoto, avatarFile, handlePhotoUpload } = usePhotoUpload({
-    fallbackPhoto: "/placeholder.svg?height=112&width=112",
-  });
+  const { profilePhoto, avatarFile, handlePhotoUpload } = usePhotoUpload({fallbackPhoto: "/placeholder.svg?height=112&width=112",});
 
-  const { data: profileMeta, isLoading: isLoadingProfileMeta } =
-    useProfileMeta();
-  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } =
-    useUpdateProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } =
-    useUploadAvatar();
-  const { data: detectedLocation, isLoading: isDetectingLocation } =
-    useDetectLocation();
+  const { data: profileMeta, isLoading: isLoadingProfileMeta } = useProfileMeta();
+  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useUpdateCompanyProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } = useUploadAvatar();
+  const { data: detectedLocation, isLoading: isDetectingLocation } = useDetectLocation();
 
   const isPending = isUpdatingProfile || isUploadingAvatar;
 
@@ -81,26 +75,40 @@ export default function ProfileUpdateCard() {
   useEffect(() => {
     if (!profileMeta || !detectedLocation) return;
 
-    if (!form.getValues("country") && detectedLocation.country) {
-      const c = profileMeta.countries.find(
-        (x) => x.value === detectedLocation.country,
-      );
-      c && form.setValue("country", c.value);
-    }
+    // Use setTimeout to avoid race conditions with initial render/mounting
+    // to ensure they run after the component has fully mounted and rendered.
+    const timer = setTimeout(() => {
+      const currentValues = form.getValues();
 
-    if (!form.getValues("timezone") && detectedLocation.timezone) {
-      const t = profileMeta.timezones.find(
-        (x) => x.value === detectedLocation.timezone,
-      );
-      t && form.setValue("timezone", t.value);
-    }
+      if (!currentValues.country && detectedLocation.country) {
+        const c = profileMeta.countries.find(
+          (x) => x.value === detectedLocation.country,
+        );
+        if (c) {
+          form.setValue("country", c.value);
+        }
+      }
 
-    if (!form.getValues("language") && detectedLocation.language) {
-      const l = profileMeta.languages.find((x) =>
-        x.value.startsWith(detectedLocation.language!),
-      );
-      l && form.setValue("language", l.value);
-    }
+      if (!currentValues.timezone && detectedLocation.timezone) {
+        const t = profileMeta.timezones.find(
+          (x) => x.value === detectedLocation.timezone,
+        );
+        if (t) {
+          form.setValue("timezone", t.value);
+        }
+      }
+
+      if (!currentValues.language && detectedLocation.language) {
+        const l = profileMeta.languages.find((x) =>
+          x.value.startsWith(detectedLocation.language!),
+        );
+        if (l) {
+          form.setValue("language", l.value);
+        }
+      }
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, [profileMeta, detectedLocation, form]);
   return (
     <Card className="bg-background border-0 shadow-none">

@@ -7,9 +7,8 @@ import { DataGridPagination } from "@/components/ui/data-grid-pagination";
 import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, Search, Eye, RefreshCcw, Trash2 } from "lucide-react";
-import { AddWebsiteDialog } from "@/components/dashboard/agent/websites/add-website-dialog";
-import { DeleteWebsiteDialog } from "@/components/dashboard/agent/websites/delete-website-dialog";
+import { Plus, Search, Eye, RefreshCcw, Trash2, Pencil } from "lucide-react";
+import { DeleteSnippetDialog } from "@/components/dashboard/agent/snippets/delete-snippet-dialog";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -18,22 +17,24 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useGetWeburis } from "@/provider/weburi/weburi.queries";
-import type { Weburi } from "@/provider/weburi/weburi.types";
+import type { Snippet } from "@/provider/snippet/snippet.types";
 import { useDebounce } from "@/hooks/use-debounce";
+import { DUMMY_SNIPPETS } from "@/constants/snippets";
 
-export function WebsitesTable() {
+export function SnippetsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [weburiToDelete, setWeburiToDelete] = useState<Weburi | null>(null);
+  const [snippetToDelete, setSnippetToDelete] = useState<Snippet | null>(null);
 
-  const { data: weburisResponse, isLoading } = useGetWeburis();
+  // Use dummy data
+  const snippets = DUMMY_SNIPPETS;
+  const isLoading = false;
 
-  const handleDeleteClick = (weburi: Weburi) => {
-    setWeburiToDelete(weburi);
+  const handleDeleteClick = (snippet: Snippet) => {
+    setSnippetToDelete(snippet);
     setDeleteDialogOpen(true);
   };
 
@@ -55,37 +56,20 @@ export function WebsitesTable() {
     );
   };
 
-  // Use API data directly
-  const allWeburis = weburisResponse?.data || [];
-
-  const websiteColumns: ColumnDef<Weburi>[] = [
-    // ================= Website =================
+  const snippetColumns: ColumnDef<Snippet>[] = [
+    // ================= Title =================
     {
-      accessorKey: "uri",
-      header: "Website URL",
+      accessorKey: "title",
+      header: "Title",
       size: 420,
-      cell: ({ row }) => {
-        // Extract domain name from URI for display
-        const getDomainName = (uri: string) => {
-          try {
-            const url = new URL(uri);
-            return url.hostname.replace("www.", "");
-          } catch {
-            return uri;
-          }
-        };
-
-        return (
-          <div>
-            <div className="font-medium truncate">
-              {getDomainName(row.original.uri)}
-            </div>
-            <div className="text-sm text-muted-foreground truncate">
-              {row.original.uri}
-            </div>
+      cell: ({ row }) => (
+        <div>
+          <div className="font-medium">{row.original.title}</div>
+          <div className="text-xs text-muted-foreground line-clamp-1">
+            {row.original.content}
           </div>
-        );
-      },
+        </div>
+      ),
       meta: {
         skeleton: (
           <div className="space-y-1">
@@ -99,12 +83,10 @@ export function WebsitesTable() {
 
     // ================= Status =================
     {
-      accessorKey: "status",
+      id: "status",
       header: "Status",
       size: 140,
-      cell: ({ row }) => (
-        <StatusBadge status={row.original.status} />
-      ),
+      cell: ({ row }) => <StatusBadge status={row.original.status} />,
       meta: {
         skeleton: <Skeleton className="h-6 w-20 rounded-full" />,
         headerClassName: "font-medium",
@@ -113,11 +95,11 @@ export function WebsitesTable() {
 
     // ================= Last Updated =================
     {
-      accessorKey: "updatedDate",
+      accessorKey: "updatedAt",
       header: "Last Updated",
       size: 180,
       cell: ({ row }) => {
-        const date = new Date(row.original.updatedDate);
+        const date = new Date(row.original.updatedAt);
         return (
           <span className="text-muted-foreground">
             {date.toLocaleDateString("en-US", {
@@ -141,17 +123,16 @@ export function WebsitesTable() {
       size: 120,
       cell: ({ row }) => (
         <div className="flex items-center gap-4 justify-end pr-4">
-          <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-          <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+          <Pencil className="h-4 w-4 shrink-0 cursor-pointer text-muted-foreground hover:text-foreground" />
           <Trash2
-            className="h-4 w-4 cursor-pointer text-red-500 hover:text-red-600"
+            className="h-4 w-4 shrink-0 cursor-pointer text-red-500 hover:text-red-600"
             onClick={() => handleDeleteClick(row.original)}
           />
         </div>
       ),
       meta: {
         skeleton: (
-          <div className="flex gap-4 justify-end">
+          <div className="flex gap-4 justify-start">
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
@@ -163,8 +144,8 @@ export function WebsitesTable() {
   ];
 
   const table = useReactTable({
-    data: allWeburis,
-    columns: websiteColumns,
+    data: snippets,
+    columns: snippetColumns,
     state: {
       globalFilter: debouncedSearchTerm,
       pagination,
@@ -184,26 +165,22 @@ export function WebsitesTable() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search..."
+              placeholder="Search Snippet..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 h-10"
             />
           </div>
           <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
-            <Plus />
-            Add Website
+            <Plus className="mr-2 h-4 w-4" />
+            Add Snippet
           </Button>
-          <AddWebsiteDialog
-            open={isDialogOpen}
-            onOpenChange={setIsDialogOpen}
-          />
         </div>
 
         <DataGrid
           table={table}
           isLoading={isLoading}
-          recordCount={allWeburis.length}
+          recordCount={snippets.length}
           tableLayout={{
             headerBackground: false,
             rowBorder: true,
@@ -224,10 +201,10 @@ export function WebsitesTable() {
         </DataGrid>
       </div>
 
-      <DeleteWebsiteDialog
+      <DeleteSnippetDialog
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        weburi={weburiToDelete}
+        snippet={snippetToDelete}
       />
     </>
   );

@@ -48,7 +48,7 @@ export const useUploadAvatar = (tokenOverride?: string | null) => {
   });
 };
 
-export const useUpdateProfile = () => {
+export const useUpdateCompanyProfile = () => {
   const queryClient = useQueryClient();
   const token = useAppSelector((state) => state.auth.token);
   const company = useAppSelector((state) => state.auth.company);
@@ -68,7 +68,7 @@ export const useUpdateProfile = () => {
         return;
       }
       toast.success(res.message);
-      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["company-profile"] });
 
       if (company) {
         dispatch(
@@ -92,6 +92,7 @@ export const useCompanyProfile = () => {
   const navigate = useNavigate();
 
   const token = useAppSelector((state) => state.auth.token);
+  const user = useAppSelector((state) => state.auth.user);
 
   const query = useQuery({
     queryKey: ["company-profile", token],
@@ -125,7 +126,17 @@ export const useCompanyProfile = () => {
       return;
     }
     dispatch(setCompany(query.data.data));
-  }, [query.isSuccess, query.data, dispatch, navigate]);
+
+    if (!user) {
+      const defaultUser =
+        query.data.data.users?.find((u: any) => u.role === "OWNER") ??
+        query.data.data.users?.[0];
+
+      if (defaultUser) {
+        dispatch(setUser(defaultUser));
+      }
+    }
+  }, [query.isSuccess, query.data, dispatch, navigate, user]);
 
   /* Handle HTTP / Network errors */
   useEffect(() => {
@@ -157,11 +168,6 @@ export const useDetectLocation = () =>
   useQuery({
     queryKey: ["location-defaults"],
     queryFn: fetchLocationDefaultsApi,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    gcTime: 1000 * 60 * 10, // 10 minutes
-    retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
   });
 
 export const useUserProfile = () => {
@@ -202,7 +208,7 @@ export const useUpdateUserProfile = () => {
       }
       toast.success(res.message);
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
-      // @ts-ignore
+      queryClient.invalidateQueries({ queryKey: ["company-profile"] });
       dispatch(setUser(res.data));
     },
     onError: (error: any) => {

@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { profileSchema, type ProfileFormValues } from "@/schemas/profileSchema";
 import {
   useProfileMeta,
-  useUpdateProfile,
+  useUpdateCompanyProfile,
 } from "@/provider/profile/profile.queries";
 import { useAppSelector } from "@/store/hooks";
 import { Input } from "@/components/ui/input";
@@ -29,15 +29,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { BookOpen, Loader2, Save } from "lucide-react";
+import { BookOpen, Save } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner";
 
 export default function GeneralSettings() {
   const { data: profileMeta, isLoading: isMetaLoading } = useProfileMeta();
-  const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
+  const { mutateAsync: updateProfile, isPending } = useUpdateCompanyProfile();
 
   const company = useAppSelector((state) => state.auth.company);
 
@@ -56,10 +55,10 @@ export default function GeneralSettings() {
   });
 
   async function onSubmit(data: ProfileFormValues) {
-    if (!form.formState.isDirty) {
-      toast.error("No changes to save");
-      return;
-    }
+    // if (!form.formState.isDirty) {
+    //   toast.error("No changes to save");
+    //   return;
+    // }
     try {
       await updateProfile(data);
       form.reset(data);
@@ -91,7 +90,7 @@ export default function GeneralSettings() {
             onClick={form.handleSubmit(onSubmit)}
           >
             {isPending ? (
-              <Loader2 className="h-3 w-3 mr-1.5 animate-spin" />
+              <Spinner className="h-3 w-3 mr-1.5" />
             ) : (
               <Save className="h-3 w-3 mr-1.5" />
             )}
