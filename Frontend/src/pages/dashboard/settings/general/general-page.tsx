@@ -29,11 +29,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { BookOpen, Loader2, Save } from "lucide-react";
+import { BookOpen, Save } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner";
 
 export default function GeneralSettings() {
   const { data: profileMeta, isLoading: isMetaLoading } = useProfileMeta();
@@ -91,7 +90,7 @@ export default function GeneralSettings() {
             onClick={form.handleSubmit(onSubmit)}
           >
             {isPending ? (
-              <Loader2 className="h-3 w-3 mr-1.5 animate-spin" />
+              <Spinner className="h-3 w- mr-1.5" />
             ) : (
               <Save className="h-3 w-3 mr-1.5" />
             )}

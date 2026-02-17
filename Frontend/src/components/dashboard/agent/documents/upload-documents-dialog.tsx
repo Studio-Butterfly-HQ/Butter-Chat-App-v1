@@ -60,8 +60,8 @@ export const UploadDocumentsDialog = memo(function UploadDocumentsDialog({
 
         {/* File uploader */}
         <TableUpload
-          maxFiles={10}
-          maxSize={40 * 1024 * 1024} // 40MB
+          maxFiles={100}
+          maxSize={100 * 1024 * 1024} // 100MB
           accept=".pdf,.doc,.docx,.txt,.csv,.json,.md,.xml"
           multiple
           onFilesChange={setSelectedFiles}

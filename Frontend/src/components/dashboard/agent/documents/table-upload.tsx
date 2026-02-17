@@ -231,7 +231,7 @@ export default function TableUpload({
               Click to upload or drag and drop
             </h3>
             <p className="text-xs text-muted-foreground">
-              PDF, Word, TXT, CSV, JSON, MD, XML (MAX. 40MB) file
+              PDF, Word, TXT, CSV, JSON, MD, XML (MAX. 100MB) file
             </p>
           </div>
         </div>

@@ -44,8 +44,6 @@ export default function CreateAgentCard() {
     mode: "onBlur",
   });
 
-  const { setValue } = form;
-
   const handleSubmit = async (data: CreateAgentFormValues) => {
     try {
       const payload = {

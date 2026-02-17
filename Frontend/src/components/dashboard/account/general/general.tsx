@@ -63,10 +63,6 @@ export default function General() {
   }, [userProfile, form]);
 
   const onSubmit = async (data: GeneralFormValues) => {
-    // if (!form.formState.isDirty && !avatarFile) {
-    //   toast.error("No changes to save");
-    //   return;
-    // }
     try {
       let profileUri = userProfile?.profile_uri;
 
