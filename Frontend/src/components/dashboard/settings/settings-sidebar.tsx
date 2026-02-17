@@ -65,7 +65,7 @@ export function SettingsSidebar() {
                     }
                   >
                     <NavLink to={`/settings/${item.path}`}>
-                      <item.icon className="h-4 w-4 mr-2" />
+                      <item.icon className="h-4 w-4" />
                       <span className="text-sm">{item.name}</span>
                     </NavLink>
                   </SidebarMenuButton>

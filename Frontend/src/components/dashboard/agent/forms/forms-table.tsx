@@ -159,7 +159,7 @@ export function FormsTable() {
             />
           </div>
           <Button className="h-10 bg-white text-black hover:bg-gray-200">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="h-4 w-4" />
             Add Form
           </Button>
         </div>

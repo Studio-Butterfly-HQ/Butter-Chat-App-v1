@@ -172,7 +172,7 @@ export function SnippetsTable() {
             />
           </div>
           <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="h-4 w-4" />
             Add Snippet
           </Button>
         </div>
