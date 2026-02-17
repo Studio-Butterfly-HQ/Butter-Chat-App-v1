@@ -11,15 +11,15 @@ export default function ProtectedRoute() {
     return <Navigate to="/login" replace />;
   }
 
-  // if onboarding is not done
-  if (!isOnboardingComplete && location.pathname !== "/onboarding") {
-    return <Navigate to="/onboarding" replace />;
-  }
+  // // if onboarding is not done
+  // if (!isOnboardingComplete && location.pathname !== "/onboarding") {
+  //   return <Navigate to="/onboarding" replace />;
+  // }
 
-  // if onboarding is done
-  if (isOnboardingComplete && location.pathname === "/onboarding") {
-    return <Navigate to="/" replace />;
-  }
+  // // if onboarding is done
+  // if (isOnboardingComplete && location.pathname === "/onboarding") {
+  //   return <Navigate to="/" replace />;
+  // }
 
   return <Outlet />
 }
