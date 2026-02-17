@@ -27,10 +27,18 @@ import { Spinner } from "@/components/ui/spinner";
 
 export default function General() {
   const { data: userProfile, isLoading } = useUserProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar();
-  const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateUserProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploading } =
+    useUploadAvatar();
+  const { mutateAsync: updateProfile, isPending: isUpdating } =
+    useUpdateUserProfile();
 
-  const {profilePhoto, setProfilePhoto, avatarFile, setAvatarFile, handlePhotoUpload} = usePhotoUpload();
+  const {
+    profilePhoto,
+    setProfilePhoto,
+    avatarFile,
+    setAvatarFile,
+    handlePhotoUpload,
+  } = usePhotoUpload();
 
   const form = useForm<GeneralFormValues>({
     resolver: zodResolver(generalSchema),
@@ -55,10 +63,10 @@ export default function General() {
   }, [userProfile, form]);
 
   const onSubmit = async (data: GeneralFormValues) => {
-    if (!form.formState.isDirty && !avatarFile) {
-      toast.error("No changes to save");
-      return;
-    }
+    // if (!form.formState.isDirty && !avatarFile) {
+    //   toast.error("No changes to save");
+    //   return;
+    // }
     try {
       let profileUri = userProfile?.profile_uri;
 

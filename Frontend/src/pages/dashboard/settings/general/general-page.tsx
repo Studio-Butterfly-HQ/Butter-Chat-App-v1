@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { profileSchema, type ProfileFormValues } from "@/schemas/profileSchema";
 import {
   useProfileMeta,
-  useUpdateProfile,
+  useUpdateCompanyProfile,
 } from "@/provider/profile/profile.queries";
 import { useAppSelector } from "@/store/hooks";
 import { Input } from "@/components/ui/input";
@@ -37,7 +37,7 @@ import { toast } from "sonner";
 
 export default function GeneralSettings() {
   const { data: profileMeta, isLoading: isMetaLoading } = useProfileMeta();
-  const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
+  const { mutateAsync: updateProfile, isPending } = useUpdateCompanyProfile();
 
   const company = useAppSelector((state) => state.auth.company);
 
@@ -56,10 +56,10 @@ export default function GeneralSettings() {
   });
 
   async function onSubmit(data: ProfileFormValues) {
-    if (!form.formState.isDirty) {
-      toast.error("No changes to save");
-      return;
-    }
+    // if (!form.formState.isDirty) {
+    //   toast.error("No changes to save");
+    //   return;
+    // }
     try {
       await updateProfile(data);
       form.reset(data);

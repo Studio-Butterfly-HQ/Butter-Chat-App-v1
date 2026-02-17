@@ -27,7 +27,7 @@ import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 import {
   useProfileMeta,
-  useUpdateProfile,
+  useUpdateCompanyProfile,
   useUploadAvatar,
   useDetectLocation,
 } from "@/provider/profile";
@@ -41,7 +41,7 @@ export default function ProfileUpdateCard() {
   const { data: profileMeta, isLoading: isLoadingProfileMeta } =
     useProfileMeta();
   const { mutateAsync: updateProfile, isPending: isUpdatingProfile } =
-    useUpdateProfile();
+    useUpdateCompanyProfile();
   const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } =
     useUploadAvatar();
   const { data: detectedLocation, isLoading: isDetectingLocation } =

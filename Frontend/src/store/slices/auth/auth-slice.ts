@@ -12,11 +12,6 @@ const authSlice = createSlice({
     },
     setCompany(state, action: PayloadAction<Company>) {
       state.company = action.payload;
-      //first it trys to find the owner if not found it takes the first user
-      state.user =
-        action.payload.users?.find((u) => u.role === "OWNER") ?? //todo: handle this case
-        action.payload.users?.[0] ??
-        null;
     },
     completeOnboarding(state) {
       state.isOnboardingComplete = true;
