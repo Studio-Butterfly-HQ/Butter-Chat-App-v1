@@ -117,7 +117,7 @@ export const useCompanyProfile = () => {
     if (!query.data?.success) {
       console.error(
         "Company profile error details:",
-        query.data?.error?.details,
+        query.data?.error,
       );
       dispatch(logout());
       persistor.purge().then(() => {
@@ -142,10 +142,8 @@ export const useCompanyProfile = () => {
   useEffect(() => {
     if (!query.isError) return;
 
-    console.error(
-      "Company profile request failed:",
-      (query.error as any)?.error?.details ?? query.error,
-    );
+    console.error("Company profile request failed:",(query.error as any)?.error);
+    console.log("Forcing logout due to profile request failure");
 
     dispatch(logout());
     persistor.purge().then(() => {
