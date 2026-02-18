@@ -32,6 +32,8 @@ import AccountPage from "./pages/dashboard/account/account-page";
 import AddReplyPage from "./pages/dashboard/save-reply/add-reply/add-reply-page";
 import SnippetsPage from "./pages/dashboard/ai-agent/snippets/snippets-page";
 import TestAgentPage from "./pages/dashboard/test-agent/test-agent-page";
+import ProvideInfoPage from "./pages/dashboard/test-agent/provide-info-page";
+import ChatPage from "./pages/dashboard/test-agent/chat-page";
 
 export default function App() {
   return (
@@ -53,7 +55,10 @@ export default function App() {
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingsGeneral />} />
-              <Route path="connect-accounts" element={<SettingsConnectAccounts />} />
+              <Route
+                path="connect-accounts"
+                element={<SettingsConnectAccounts />}
+              />
               <Route path="notifications" element={<SettingsNotifications />} />
               <Route path="security" element={<SettingsSecurity />} />
             </Route>
@@ -78,6 +83,8 @@ export default function App() {
             <Route path="customers/details" element={<CustomerDetailsPage />} />
             <Route path="account" element={<AccountPage />} />
             <Route path="test-agent" element={<TestAgentPage />} />
+            <Route path="test-agent/:companyId" element={<ProvideInfoPage />} />
+            <Route path="test-agent/chat/:companyId" element={<ChatPage />} />
           </Route>
         </Route>
         {/* 404 */}
