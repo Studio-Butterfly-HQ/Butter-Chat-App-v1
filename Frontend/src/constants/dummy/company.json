@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "name": "Aarong",
+    "domain": "aarong.studiobutterfly.io",
+    "agentStatus": "Retail",
+    "group": "Active",
+    "joined": "Jan 21, 2026"
+  },
+  {
+    "id": "2",
+    "name": "Bengal Bites",
+    "domain": "bengalbites.com",
+    "agentStatus": "Restaurant",
+    "group": "Active",
+    "joined": "Feb 15, 2026"
+  },
+  {
+    "id": "3",
+    "name": "Choco Delight",
+    "domain": "chocodelight.com",
+    "agentStatus": "E-commerce",
+    "group": "Active",
+    "joined": "Mar 10, 2026"
+  },
+  {
+    "id": "4",
+    "name": "EcoWear",
+    "domain": "ecowear.com",
+    "agentStatus": "Clothing",
+    "group": "Active",
+    "joined": "Apr 08, 2026"
+  },
+  {
+    "id": "5",
+    "name": "Floral Bliss",
+    "domain": "floralbliss.com",
+    "agentStatus": "Florist",
+    "group": "Active",
+    "joined": "May 12, 2026"
+  }
+]

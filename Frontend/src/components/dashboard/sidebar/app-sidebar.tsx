@@ -150,6 +150,11 @@ const data = {
       url: "/ai-agent",
       icon: BotMessageSquare,
     },
+    {
+      title: "Test Agent",
+      url: "/test-agent",
+      icon: Lightbulb,
+    },
   ],
   projects: [
     {

@@ -31,6 +31,7 @@ import CustomerDetailsPage from "./pages/dashboard/customer/customer-details/cus
 import AccountPage from "./pages/dashboard/account/account-page";
 import AddReplyPage from "./pages/dashboard/save-reply/add-reply/add-reply-page";
 import SnippetsPage from "./pages/dashboard/ai-agent/snippets/snippets-page";
+import TestAgentPage from "./pages/dashboard/test-agent/test-agent-page";
 
 export default function App() {
   return (
@@ -76,6 +77,7 @@ export default function App() {
             <Route path="save-reply/add-reply" element={<AddReplyPage />} />
             <Route path="customers/details" element={<CustomerDetailsPage />} />
             <Route path="account" element={<AccountPage />} />
+            <Route path="test-agent" element={<TestAgentPage />} />
           </Route>
         </Route>
         {/* 404 */}
