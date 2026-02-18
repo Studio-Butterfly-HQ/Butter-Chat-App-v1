@@ -11,6 +11,8 @@ import {
   Settings2,
   ArrowDownRight,
   Loader2,
+  Pause,
+  ArrowUp,
 } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "@/store/hooks";
@@ -281,11 +283,10 @@ export default function ChatBox() {
                         }`}
                       >
                         {message.isTyping && !message.content ? (
-                          <div className="flex items-center gap-1">
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                            <span className="text-muted-foreground">
-                              Typing...
-                            </span>
+                          <div className="flex items-center gap-1 h-5 px-1 text-muted-foreground">
+                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce"></div>
                           </div>
                         ) : (
                           <p className="break-words whitespace-pre-wrap">
@@ -296,17 +297,19 @@ export default function ChatBox() {
                       <div className="flex items-center justify-between gap-2 px-1 text-xs text-muted-foreground">
                         {message.sender_type === "Human-Agent" ? (
                           <>
-                            <button className="hover:text-foreground">
+                            {/* <button className="hover:text-foreground">
                               Translate
-                            </button>
+                            </button> */}
                             <span>{message.timestamp}</span>
                           </>
                         ) : (
                           <>
                             <span>{message.timestamp}</span>
-                            <button className="hover:text-foreground">
-                              Translate
-                            </button>
+                            {!isAiTyping && (
+                              <button className="hover:text-foreground">
+                                Translate
+                              </button>
+                            )}
                           </>
                         )}
                       </div>
@@ -377,16 +380,18 @@ export default function ChatBox() {
                   <Mic className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant="ghost"
+                  variant="default"
                   size="icon"
                   className="h-8 rounded-full w-8"
                   onClick={() => handleSend()}
                   disabled={isAiTyping || !inputValue.trim()}
                 >
                   {isAiTyping ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <div className="w-full h-full rounded-full bg-muted-foreground flex items-center justify-center">
+                      <div className="h-3.5 w-3.5 rounded-sm bg-primary animate-pulse"></div>
+                    </div>
                   ) : (
-                    <Send className="h-4 w-4" />
+                    <ArrowUp className="h-4 w-4" />
                   )}
                 </Button>
               </div>
