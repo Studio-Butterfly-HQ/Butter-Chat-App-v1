@@ -132,7 +132,7 @@ const data = {
     },
     {
       title: "Analytics",
-      url: "#",
+      url: "/activity",
       icon: TrendingUp,
     },
     {
