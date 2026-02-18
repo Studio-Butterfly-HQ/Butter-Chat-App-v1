@@ -20,3 +20,10 @@ export interface CompanyListResponse {
   data: Company[];
   timestamp: string;
 }
+
+export interface CompanyResponse {
+  success: boolean;
+  message: string;
+  data: Company;
+  timestamp: string;
+}

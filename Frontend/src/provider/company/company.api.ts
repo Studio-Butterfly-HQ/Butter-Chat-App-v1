@@ -1,5 +1,5 @@
 import { COMPANY_API } from "@/constants/api";
-import { CompanyListResponse } from "./company.types";
+import { CompanyListResponse, Company } from "./company.types";
 
 export const fetchCompanyListApi = async (
   token: string,
@@ -19,4 +19,25 @@ export const fetchCompanyListApi = async (
   }
 
   return data;
+};
+
+export const fetchCompanyByIdApi = async (
+  token: string,
+  id: string,
+): Promise<Company> => {
+  const res = await fetch(`${COMPANY_API.GET_COMPANIES}/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw data;
+  }
+
+  return data.data;
 };
