@@ -12,6 +12,7 @@ import TableUpload from "@/components/dashboard/agent/documents/table-upload";
 import { useUploadDocuments } from "@/provider/document/document.queries";
 import type { FileWithPreview } from "@/hooks/use-file-upload";
 import { Spinner } from "@/components/ui/spinner";
+import { MAX_DOCUMENTS_UPLOAD } from "@/constants";
 
 interface UploadDocumentsDialogProps {
   open: boolean;
@@ -60,7 +61,7 @@ export const UploadDocumentsDialog = memo(function UploadDocumentsDialog({
 
         {/* File uploader */}
         <TableUpload
-          maxFiles={100}
+          maxFiles={MAX_DOCUMENTS_UPLOAD}
           maxSize={100 * 1024 * 1024} // 100MB
           accept=".pdf,.doc,.docx,.txt,.csv,.json,.md,.xml"
           multiple

@@ -19,7 +19,7 @@ import {
 } from "@tanstack/react-table";
 import type { Snippet } from "@/provider/snippet/snippet.types";
 import { useDebounce } from "@/hooks/use-debounce";
-import { DUMMY_SNIPPETS } from "@/constants/snippets";
+import { DUMMY_SNIPPETS } from "@/constants/dummy/snippets";
 import { useNavigate } from "react-router-dom";
 
 export function SnippetsTable() {
