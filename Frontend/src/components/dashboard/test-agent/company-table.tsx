@@ -7,14 +7,7 @@ import { DataGridPagination } from "@/components/ui/data-grid-pagination";
 import { DataGridTable } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Plus,
-  Search,
-  Trash2,
-  Pencil,
-  ChevronRight,
-  Circle,
-} from "lucide-react";
+import { Plus, Search, ChevronRight } from "lucide-react";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -24,38 +17,56 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useDebounce } from "@/hooks/use-debounce";
-import companyData from "@/constants/dummy/company.json";
-
-export type Company = {
-  id: string;
-  name: string;
-  domain: string;
-  agentStatus: string;
-  group: "Active" | "Inactive";
-  joined: string;
-};
-
-const dummyCompanies = companyData as Company[];
+import { useCompanyList } from "@/provider/company/company.queries";
+import { Company } from "@/provider/company/company.types";
+import { format } from "date-fns";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function CompanyTable() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
+  const { data: companyData, isLoading } = useCompanyList();
+
+  const companies = companyData?.data || [];
 
   const companyColumns: ColumnDef<Company>[] = [
+    // ================= Logo =================
+    {
+      accessorKey: "logo",
+      header: "",
+      size: 40,
+      cell: ({ row }) => (
+        <Avatar className="rounded-md">
+          <AvatarImage
+            src={row.original.logo || undefined}
+            alt={row.original.company_name}
+            className="object-cover"
+          />
+          <AvatarFallback className="rounded-md">
+            {row.original.company_name?.substring(0, 2).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      ),
+      meta: {
+        skeleton: <Skeleton className="h-10 w-10 rounded-md" />,
+        headerClassName: "font-medium",
+      },
+    },
+
     // ================= Company Name =================
     {
-      accessorKey: "name",
+      accessorKey: "company_name",
       header: "Company Name",
       size: 300,
       cell: ({ row }) => (
         <div className="flex flex-col">
           <span className="font-medium text-foreground">
-            {row.original.name}
+            {row.original.company_name}
           </span>
           <span className="text-xs text-muted-foreground">
-            {row.original.domain}
+            {row.original.subdomain}
           </span>
         </div>
       ),
@@ -65,34 +76,15 @@ export default function CompanyTable() {
       },
     },
 
-    // ================= Agent Status =================
+    // ================= Company Category =================
     {
-      accessorKey: "agentStatus",
-      header: "Agent Status",
+      accessorKey: "company_category",
+      header: "Category",
       size: 150,
       cell: ({ row }) => (
         <span className="text-muted-foreground">
-          {row.original.agentStatus}
+          {row.original.company_category || "-"}
         </span>
-      ),
-      meta: {
-        skeleton: <Skeleton className="h-4 w-24" />,
-        headerClassName: "font-medium",
-      },
-    },
-
-    // ================= Group =================
-    {
-      accessorKey: "group",
-      header: "Group",
-      size: 150,
-      cell: ({ row }) => (
-        <div className="flex items-center gap-2">
-          <Circle
-            className={`h-2.5 w-2.5 fill-current ${row.original.group === "Active" ? "text-green-500" : "text-gray-400"}`}
-          />
-          <span className="text-muted-foreground">{row.original.group}</span>
-        </div>
       ),
       meta: {
         skeleton: <Skeleton className="h-4 w-24" />,
@@ -102,11 +94,31 @@ export default function CompanyTable() {
 
     // ================= Joined =================
     {
-      accessorKey: "joined",
+      accessorKey: "createdDate",
       header: "Joined",
       size: 150,
       cell: ({ row }) => (
-        <span className="text-muted-foreground">{row.original.joined}</span>
+        <span className="text-muted-foreground">
+          {row.original.createdDate
+            ? format(new Date(row.original.createdDate), "dd MMM, yyyy")
+            : "-"}
+        </span>
+      ),
+      meta: {
+        skeleton: <Skeleton className="h-4 w-24" />,
+        headerClassName: "font-medium",
+      },
+    },
+
+    // ================= Status =================
+    {
+      accessorKey: "status",
+      header: "Status",
+      size: 150,
+      cell: ({ row }) => (
+        <span className="text-muted-foreground capitalize">
+          {row.original.status?.toLowerCase()}
+        </span>
       ),
       meta: {
         skeleton: <Skeleton className="h-4 w-24" />,
@@ -132,8 +144,6 @@ export default function CompanyTable() {
       meta: {
         skeleton: (
           <div className="flex gap-4 justify-end">
-            <Skeleton className="h-4 w-4 rounded-full" />
-            <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-8 w-8 rounded-full" />
           </div>
         ),
@@ -143,7 +153,7 @@ export default function CompanyTable() {
   ];
 
   const table = useReactTable({
-    data: dummyCompanies,
+    data: companies,
     columns: companyColumns,
     state: {
       globalFilter: debouncedSearchTerm,
@@ -178,8 +188,8 @@ export default function CompanyTable() {
 
         <DataGrid
           table={table}
-          isLoading={false}
-          recordCount={dummyCompanies.length}
+          isLoading={isLoading}
+          recordCount={companies.length}
           tableLayout={{
             headerBackground: false,
             rowBorder: true,

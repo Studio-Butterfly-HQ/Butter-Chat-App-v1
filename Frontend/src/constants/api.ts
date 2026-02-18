@@ -9,6 +9,7 @@ export const AUTH_API = {
 export const COMPANY_API = {
   UPDATE_PROFILE: `${BACKEND_BASE_URL}/company/update`,
   GET_PROFILE: `${BACKEND_BASE_URL}/company/profile`,
+  GET_COMPANIES: `${BACKEND_BASE_URL}/company/list`,
 };
 
 export const CONNECTIONS_API = {

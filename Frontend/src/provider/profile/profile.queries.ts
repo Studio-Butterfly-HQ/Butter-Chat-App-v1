@@ -92,6 +92,7 @@ export const useCompanyProfile = () => {
   const navigate = useNavigate();
 
   const token = useAppSelector((state) => state.auth.token);
+  console.log("token", token);
   const user = useAppSelector((state) => state.auth.user);
 
   const query = useQuery({
