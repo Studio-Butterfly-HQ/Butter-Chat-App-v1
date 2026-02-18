@@ -14,8 +14,6 @@ import {
 } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "@/store/hooks";
-import { useSocket } from "@/socket/socket-provider";
-import { SocketMessage } from "@/socket/socket-types";
 
 interface Message {
   id: string;
@@ -33,14 +31,11 @@ const suggestedPrompts = [
 
 export default function ChatBox() {
   const userName = useAppSelector((state) => state.auth.user?.user_name);
-  const socket = useSocket();
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isAiTyping, setIsAiTyping] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const currentStreamMessageRef = useRef<string>("");
-  const streamingMessageIdRef = useRef<string | null>(null);
-
   // Auto-scroll to bottom
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -52,109 +47,6 @@ export default function ChatBox() {
       }
     }
   }, [messages, isAiTyping]);
-
-  // Handle WebSocket messages
-  useEffect(() => {
-    if (!socket) return;
-
-    const handleMessage = (event: MessageEvent) => {
-      try {
-        const data: SocketMessage = JSON.parse(event.data);
-        console.log("Received socket message:", data);
-
-        switch (data.type) {
-          case "butter_typing_start":
-            setIsAiTyping(true);
-            // Create a new streaming message
-            const newMessageId = `stream-${Date.now()}`;
-            streamingMessageIdRef.current = newMessageId;
-            currentStreamMessageRef.current = "";
-
-            setMessages((prev) => [
-              ...prev,
-              {
-                id: newMessageId,
-                sender_type: "AI-AGENT",
-                content: "",
-                timestamp: new Date().toLocaleTimeString("en-US", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true,
-                }),
-                isTyping: true,
-              },
-            ]);
-            break;
-
-          case "butter_stream":
-            // Append streaming content
-            if (data.payload?.content) {
-              currentStreamMessageRef.current += data.payload.content;
-
-              setMessages((prev) =>
-                prev.map((msg) =>
-                  msg.id === streamingMessageIdRef.current
-                    ? {
-                        ...msg,
-                        content: currentStreamMessageRef.current,
-                        isTyping: true,
-                      }
-                    : msg,
-                ),
-              );
-            }
-            break;
-
-          case "butter_typing_end":
-            setIsAiTyping(false);
-            // Mark the streaming message as complete
-            setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === streamingMessageIdRef.current
-                  ? { ...msg, isTyping: false }
-                  : msg,
-              ),
-            );
-            currentStreamMessageRef.current = "";
-            streamingMessageIdRef.current = null;
-            break;
-
-          case "connection_established":
-            console.log("WebSocket connection established");
-            break;
-
-          default:
-            console.log("Unhandled message type:", data.type);
-        }
-      } catch (error) {
-        console.error("Failed to parse socket message:", error);
-      }
-    };
-
-    socket.addEventListener("message", handleMessage);
-
-    return () => {
-      socket.removeEventListener("message", handleMessage);
-    };
-  }, [socket]);
-
-  const sendMessage = (content: string) => {
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
-      console.error("WebSocket is not connected");
-      return;
-    }
-
-    const message: SocketMessage = {
-      type: "butter_chat",
-      payload: {
-        sender_type: "Human-Agent",
-        content: content,
-      },
-    };
-
-    socket.send(JSON.stringify(message));
-    console.log("Sent message:", message);
-  };
 
   const handleSend = (content?: string) => {
     const messageContent = content || inputValue.trim();
@@ -173,9 +65,23 @@ export default function ChatBox() {
 
       setMessages((prev) => [...prev, userMessage]);
       setInputValue("");
+      setIsAiTyping(true);
 
-      // Send message via WebSocket
-      sendMessage(messageContent);
+      // Simulate AI response
+      setTimeout(() => {
+        const aiMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          sender_type: "AI-AGENT",
+          content: "This is a dummy AI message",
+          timestamp: new Date().toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          }),
+        };
+        setIsAiTyping(false);
+        setMessages((prev) => [...prev, aiMessage]);
+      }, 1000);
     }
   };
 

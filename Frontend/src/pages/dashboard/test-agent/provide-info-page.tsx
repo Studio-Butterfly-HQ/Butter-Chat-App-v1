@@ -106,6 +106,7 @@ export default function ProvideInfoPage() {
               <Button
                 size="lg"
                 className="w-full"
+                onClick={() => navigate(`/test-agent/chat/${companyId}`)}
               >
                 Start Conversation
               </Button>
