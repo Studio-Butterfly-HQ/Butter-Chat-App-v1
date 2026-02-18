@@ -90,7 +90,7 @@ export function FormDetailsTable() {
     {
       accessorKey: "openingHour",
       header: "Opening Hour",
-      size: 120,
+      size: 130,
       cell: ({ row }) => (
         <div className="text-sm text-muted-foreground">{row.original.openingHour}</div>
       ),

@@ -8,7 +8,7 @@ import DashboardLayout from "./pages/dashboard/dashboard-layout";
 import DashboardHome from "./pages/dashboard/home/dashboard-home";
 import AiAgentPage from "./pages/dashboard/ai-agent/ai-agent-page";
 import AiAgentLayout from "./pages/dashboard/ai-agent/ai-agent-layout";
-import TeamsPage from "./pages/dashboard/user-profile/teams-page";
+import TeamsPage from "./pages/dashboard/teams/teams-page";
 import SettingsLayout from "./pages/dashboard/settings/settings-layout";
 import SettingsGeneral from "./pages/dashboard/settings/general/general-page";
 import SettingsSecurity from "./pages/dashboard/settings/security/security-page";
@@ -32,6 +32,7 @@ import AccountPage from "./pages/dashboard/account/account-page";
 import AddReplyPage from "./pages/dashboard/save-reply/add-reply/add-reply-page";
 import SnippetsPage from "./pages/dashboard/ai-agent/snippets/snippets-page";
 import AddNewSnippetsPage from "./pages/dashboard/ai-agent/snippets/add-new-snippets-page";
+import ActivityLogPage from "./pages/dashboard/activity-log/activity-log-page";
 
 export default function App() {
   return (
@@ -78,6 +79,7 @@ export default function App() {
             <Route path="save-reply/add-reply" element={<AddReplyPage />} />
             <Route path="customers/details" element={<CustomerDetailsPage />} />
             <Route path="account" element={<AccountPage />} />
+            <Route path="activity" element={<ActivityLogPage />} />
           </Route>
         </Route>
         {/* 404 */}
