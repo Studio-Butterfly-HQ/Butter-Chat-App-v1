@@ -31,6 +31,7 @@ import CustomerDetailsPage from "./pages/dashboard/customer/customer-details/cus
 import AccountPage from "./pages/dashboard/account/account-page";
 import AddReplyPage from "./pages/dashboard/save-reply/add-reply/add-reply-page";
 import SnippetsPage from "./pages/dashboard/ai-agent/snippets/snippets-page";
+import AddNewSnippetsPage from "./pages/dashboard/ai-agent/snippets/add-new-snippets-page";
 
 export default function App() {
   return (
@@ -63,6 +64,7 @@ export default function App() {
               <Route path="forms" element={<FormsPage />} />
               <Route path="forms/:formId" element={<FormDetailsPage />} />
               <Route path="snippets" element={<SnippetsPage />} />
+              <Route path="snippets/new" element={<AddNewSnippetsPage />} />
             </Route>
             <Route path="inbox" element={<InboxLayout />}>
               {/* <Route index element={<Navigate to="your-inbox" replace />} />
