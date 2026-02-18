@@ -31,6 +31,49 @@ const suggestedPrompts = [
   "Let customers know that our outlet will be closed on upcoming Friday due to Puja 2025",
 ];
 
+function parseMultipleJSON(raw: string): SocketMessage[] {
+  const results: SocketMessage[] = [];
+  let depth = 0;
+  let start = 0;
+  let inString = false;
+  let escape = false;
+
+  for (let i = 0; i < raw.length; i++) {
+    const ch = raw[i];
+
+    if (escape) {
+      escape = false;
+      continue;
+    }
+    if (ch === "\\" && inString) {
+      escape = true;
+      continue;
+    }
+    if (ch === '"') {
+      inString = !inString;
+      continue;
+    }
+    if (inString) continue;
+
+    if (ch === "{") {
+      if (depth === 0) start = i;
+      depth++;
+    } else if (ch === "}") {
+      depth--;
+      if (depth === 0) {
+        try {
+          const obj = JSON.parse(raw.slice(start, i + 1));
+          results.push(obj);
+        } catch {
+          // skip malformed chunk
+        }
+      }
+    }
+  }
+
+  return results;
+}
+
 export default function ChatBox() {
   const userName = useAppSelector((state) => state.auth.user?.user_name);
   const socket = useSocket();
@@ -58,14 +101,15 @@ export default function ChatBox() {
     if (!socket) return;
 
     const handleMessage = (event: MessageEvent) => {
-      try {
-        const data: SocketMessage = JSON.parse(event.data);
+      // Parse one or more JSON objects from the raw message
+      const packets = parseMultipleJSON(event.data as string);
+
+      for (const data of packets) {
         console.log("Received socket message:", data);
 
         switch (data.type) {
-          case "butter_typing_start":
+          case "butter_typing_start": {
             setIsAiTyping(true);
-            // Create a new streaming message
             const newMessageId = `stream-${Date.now()}`;
             streamingMessageIdRef.current = newMessageId;
             currentStreamMessageRef.current = "";
@@ -85,9 +129,9 @@ export default function ChatBox() {
               },
             ]);
             break;
+          }
 
-          case "butter_stream":
-            // Append streaming content
+          case "butter_stream": {
             if (data.payload?.content) {
               currentStreamMessageRef.current += data.payload.content;
 
@@ -104,10 +148,10 @@ export default function ChatBox() {
               );
             }
             break;
+          }
 
-          case "butter_typing_end":
+          case "butter_typing_end": {
             setIsAiTyping(false);
-            // Mark the streaming message as complete
             setMessages((prev) =>
               prev.map((msg) =>
                 msg.id === streamingMessageIdRef.current
@@ -118,6 +162,11 @@ export default function ChatBox() {
             currentStreamMessageRef.current = "";
             streamingMessageIdRef.current = null;
             break;
+          }
+
+          // case "butter_stream_full_reply":
+          //   console.log("Full reply:", data.payload);
+          //   break;
 
           case "connection_established":
             console.log("WebSocket connection established");
@@ -126,8 +175,6 @@ export default function ChatBox() {
           default:
             console.log("Unhandled message type:", data.type);
         }
-      } catch (error) {
-        console.error("Failed to parse socket message:", error);
       }
     };
 
@@ -159,7 +206,6 @@ export default function ChatBox() {
   const handleSend = (content?: string) => {
     const messageContent = content || inputValue.trim();
     if (messageContent) {
-      // Add user message to UI
       const userMessage: Message = {
         id: Date.now().toString(),
         sender_type: "Human-Agent",
@@ -173,8 +219,6 @@ export default function ChatBox() {
 
       setMessages((prev) => [...prev, userMessage]);
       setInputValue("");
-
-      // Send message via WebSocket
       sendMessage(messageContent);
     }
   };
