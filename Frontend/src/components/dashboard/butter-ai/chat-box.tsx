@@ -19,6 +19,7 @@ import { useAppSelector } from "@/store/hooks";
 import { useSocket } from "@/socket/socket-provider";
 import { SocketMessage } from "@/socket/socket-types";
 import AIMessageRenderer from "./aI-message-renderer";
+import { useSocketParser } from "@/hooks/use-socket-parser";
 
 interface Message {
   id: string;
@@ -34,49 +35,6 @@ const suggestedPrompts = [
   "Let customers know that our outlet will be closed on upcoming Friday due to Puja 2025",
 ];
 
-function parseMultipleJSON(raw: string): SocketMessage[] {
-  const results: SocketMessage[] = [];
-  let depth = 0;
-  let start = 0;
-  let inString = false;
-  let escape = false;
-
-  for (let i = 0; i < raw.length; i++) {
-    const ch = raw[i];
-
-    if (escape) {
-      escape = false;
-      continue;
-    }
-    if (ch === "\\" && inString) {
-      escape = true;
-      continue;
-    }
-    if (ch === '"') {
-      inString = !inString;
-      continue;
-    }
-    if (inString) continue;
-
-    if (ch === "{") {
-      if (depth === 0) start = i;
-      depth++;
-    } else if (ch === "}") {
-      depth--;
-      if (depth === 0) {
-        try {
-          const obj = JSON.parse(raw.slice(start, i + 1));
-          results.push(obj);
-        } catch {
-          // skip malformed chunk
-        }
-      }
-    }
-  }
-
-  return results;
-}
-
 export default function ChatBox() {
   const userName = useAppSelector((state) => state.auth.user?.user_name);
   const socket = useSocket();
@@ -86,6 +44,7 @@ export default function ChatBox() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const currentStreamMessageRef = useRef<string>("");
   const streamingMessageIdRef = useRef<string | null>(null);
+  const { parseMultipleJSON } = useSocketParser();
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -309,11 +268,11 @@ export default function ChatBox() {
                         ) : (
                           <>
                             <span>{message.timestamp}</span>
-                            {!isAiTyping && (
+                            {/* {!isAiTyping && (
                               <button className="hover:text-foreground">
                                 Translate
                               </button>
-                            )}
+                            )} */}
                           </>
                         )}
                       </div>

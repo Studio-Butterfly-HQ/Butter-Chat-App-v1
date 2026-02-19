@@ -27,8 +27,8 @@ export interface Conversation {
 }
 
 export interface ChatState {
-  unassigned: Conversation[];
-  active: Conversation[];
+  unassigned: Record<string, Conversation>;
+  active: Record<string, Conversation>;
   messages: Record<string, any[]>; // an object where: key = string value = array
   // messages = {
   // "conversation_id1": [msg1, msg2],

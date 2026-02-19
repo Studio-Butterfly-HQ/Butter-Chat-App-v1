@@ -2,8 +2,8 @@ import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
 import { ChatState } from "./chat-types";
 
 const initialState: ChatState = {
-  unassigned: [],
-  active: [],
+  unassigned: {},
+  active: {},
   messages: {},
 };
 
@@ -12,24 +12,16 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     addUnassignedChat(state, action: PayloadAction<any>) {
-      state.unassigned.unshift(action.payload);
-      console.log("addUnassignedChat", {
-        unassigned: current(state.unassigned),
-        active: current(state.active),
-        messages: current(state.messages),
-      });
+      state.unassigned[action.payload.id] = action.payload;
+      console.log("addUnassignedChat", current(state));
     },
 
     moveToActive(state, action: PayloadAction<any>) {
-      state.unassigned = state.unassigned.filter(
-        (c) => c.id !== action.payload.id,
-      );
-      state.active.unshift(action.payload);
-      console.log("moveToActive", {
-        unassigned: current(state.unassigned),
-        active: current(state.active),
-        messages: current(state.messages),
-      });
+      const id = action.payload.id;
+      const { [id]: removed, ...rest } = current(state.unassigned);
+      state.unassigned = rest;
+      state.active[id] = action.payload;
+      console.log("moveToActive", current(state));
     },
 
     addMessage(state, action: PayloadAction<any>) {
@@ -39,21 +31,13 @@ const chatSlice = createSlice({
         state.messages[msg.conversation_id] = [];
       }
       state.messages[msg.conversation_id].push(msg);
-      console.log("addMessage", {
-        unassigned: current(state.unassigned),
-        active: current(state.active),
-        messages: current(state.messages),
-      });
+      // console.log("addMessage", current(state));
     },
 
     endChat(state, action: PayloadAction<string>) {
       delete state.messages[action.payload];
-      state.active = state.active.filter((c) => c.id !== action.payload);
-      console.log("endChat", {
-        unassigned: current(state.unassigned),
-        active: current(state.active),
-        messages: current(state.messages),
-      });
+      delete state.active[action.payload];
+      // console.log("endChat", current(state));
     },
   },
 });
