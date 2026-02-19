@@ -18,6 +18,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "@/store/hooks";
 import { useSocket } from "@/socket/socket-provider";
 import { SocketMessage } from "@/socket/socket-types";
+import AIMessageRenderer from "./aI-message-renderer";
 
 interface Message {
   id: string;
@@ -288,6 +289,8 @@ export default function ChatBox() {
                             <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce [animation-delay:-0.15s]"></div>
                             <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce"></div>
                           </div>
+                        ) : message.sender_type === "AI-AGENT" ? (
+                          <AIMessageRenderer content={message.content} />
                         ) : (
                           <p className="break-words whitespace-pre-wrap">
                             {message.content}
@@ -300,6 +303,7 @@ export default function ChatBox() {
                             {/* <button className="hover:text-foreground">
                               Translate
                             </button> */}
+                            <span></span>
                             <span>{message.timestamp}</span>
                           </>
                         ) : (
