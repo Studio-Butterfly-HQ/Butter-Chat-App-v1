@@ -1,11 +1,12 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileSchema, type ProfileFormValues } from "@/schemas/profileSchema";
 import {
   useProfileMeta,
   useUpdateCompanyProfile,
+  useCompanyProfile,
 } from "@/provider/profile/profile.queries";
-import { useAppSelector } from "@/store/hooks";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -37,22 +38,38 @@ import { Spinner } from "@/components/ui/spinner";
 export default function GeneralSettings() {
   const { data: profileMeta, isLoading: isMetaLoading } = useProfileMeta();
   const { mutateAsync: updateProfile, isPending } = useUpdateCompanyProfile();
+  const { data: companyData, isLoading: isCompanyLoading } =
+    useCompanyProfile();
 
-  const company = useAppSelector((state) => state.auth.company);
+  const company = companyData?.data;
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    values: company
-      ? {
+    defaultValues: {
+      company_name: "",
+      company_category: "",
+      country: "",
+      language: "",
+      timezone: "",
+    },
+    mode: "onBlur",
+  });
+
+  useEffect(() => {
+    if (company) {
+      const timer = setTimeout(() => {
+        form.reset({
           company_name: company.company_name || "",
           company_category: company.company_category || "",
           country: company.country || "",
           language: company.language || "",
           timezone: company.timezone || "",
-        }
-      : undefined,
-    mode: "onBlur",
-  });
+        });
+      }, 0);
+
+      return () => clearTimeout(timer);
+    }
+  }, [company, form, profileMeta]);
 
   async function onSubmit(data: ProfileFormValues) {
     // if (!form.formState.isDirty) {

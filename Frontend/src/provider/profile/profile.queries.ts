@@ -70,14 +70,14 @@ export const useUpdateCompanyProfile = () => {
       toast.success(res.message);
       queryClient.invalidateQueries({ queryKey: ["company-profile"] });
 
-      if (company) {
-        dispatch(
-          setCompany({
-            ...company,
-            ...variables,
-          }),
-        );
-      }
+      // if (company) {
+      //   dispatch(
+      //     setCompany({
+      //       ...company,
+      //       ...variables,
+      //     }),
+      //   );
+      // }
     },
 
     onError: (error: any) => {
@@ -92,7 +92,6 @@ export const useCompanyProfile = () => {
   const navigate = useNavigate();
 
   const token = useAppSelector((state) => state.auth.token);
-  const user = useAppSelector((state) => state.auth.user);
 
   const query = useQuery({
     queryKey: ["company-profile", token],
@@ -112,44 +111,31 @@ export const useCompanyProfile = () => {
 
   /* Handle SUCCESS (including success:false) */
   useEffect(() => {
-    if (!query.isSuccess) return;
+    if (!query.isError) return;
 
-    if (!query.data?.success) {
-      console.error(
-        "Company profile error details:",
-        query.data?.error,
-      );
+    const error: any = query.error;
+
+    console.error("Company profile failed:", error);
+
+    if (error?.status === 401) {
+      console.log("Unauthorized → logging out");
+
       dispatch(logout());
       persistor.purge().then(() => {
         navigate("/login", { replace: true });
       });
-      return;
     }
-    dispatch(setCompany(query.data.data));
-
-    if (!user) {
-      const defaultUser =
-        query.data.data.users?.find((u: any) => u.role === "OWNER") ??
-        query.data.data.users?.[0];
-
-      if (defaultUser) {
-        dispatch(setUser(defaultUser));
-      }
-    }
-  }, [query.isSuccess, query.data, dispatch, navigate, user]);
+  }, [query.isError, query.error, dispatch, navigate]);
 
   /* Handle HTTP / Network errors */
   useEffect(() => {
     if (!query.isError) return;
 
-    console.error("Company profile request failed:",(query.error as any)?.error);
-    console.log("Forcing logout due to profile request failure");
-
-    dispatch(logout());
-    persistor.purge().then(() => {
-      navigate("/login", { replace: true });
-    });
-  }, [query.isError, query.error, dispatch, navigate]);
+    console.error(
+      "Company profile request failed:",
+      (query.error as any)?.error,
+    );
+  }, [query.isError, query.error]);
 
   return query;
 };
@@ -207,7 +193,6 @@ export const useUpdateUserProfile = () => {
       toast.success(res.message);
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
       queryClient.invalidateQueries({ queryKey: ["company-profile"] });
-      dispatch(setUser(res.data));
     },
     onError: (error: any) => {
       toast.error(error.message || "Failed to update profile");

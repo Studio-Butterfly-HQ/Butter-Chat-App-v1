@@ -59,7 +59,7 @@ export const createSocketConnection = (token: string, onMessage: (event: Message
       console.log("Message received!");
       console.log("Data:", event.data);
       // console.log("Timestamp:", new Date().toISOString());
-      // onMessage(event);
+      onMessage(event);
     };
 
     socket.onclose = (event) => {

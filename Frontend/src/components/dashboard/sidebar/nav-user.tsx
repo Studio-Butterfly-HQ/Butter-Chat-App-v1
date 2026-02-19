@@ -33,21 +33,19 @@ import { logout } from "@/store/slices/auth/auth-slice";
 import { persistor } from "@/store";
 import { useTheme } from "@/provider/theme-provider";
 import { useQueryClient } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useCompanyProfile } from "@/provider/profile/profile.queries";
 
-type NavUserProps = {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-};
-
-export function NavUser({ user }: NavUserProps) {
+export function NavUser() {
   const { isMobile } = useSidebar();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { setTheme, theme } = useTheme();
   const queryClient = useQueryClient();
+  const { data, isLoading } = useCompanyProfile();
+
+  // Extract the first user from the company profile data
+  const user = data?.data?.users?.[0];
 
   const handleLogout = async () => {
     // Clear all React Query cache to prevent old user data from persisting
@@ -56,6 +54,26 @@ export function NavUser({ user }: NavUserProps) {
     await persistor.purge();
     navigate("/login", { replace: true });
   };
+
+  if (isLoading) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg" className="cursor-default">
+            <Skeleton className="h-8 w-8 rounded-sm" />
+            <div className="grid flex-1 gap-1.5 text-left text-sm leading-tight">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-3 w-32" />
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <SidebarMenu>
@@ -67,13 +85,17 @@ export function NavUser({ user }: NavUserProps) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-sm">
-                <AvatarImage className="object-cover" src={user.avatar} alt={user.name} />
+                <AvatarImage
+                  className="object-cover"
+                  src={user.profile_uri || ""}
+                  alt={user.user_name}
+                />
                 <AvatarFallback className="rounded-lg">
-                  {user.name?.[0] ?? "U"}
+                  {user.user_name?.[0] ?? "U"}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
+                <span className="truncate font-semibold">{user.user_name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -89,13 +111,19 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5">
                 <Avatar className="h-8 w-8 rounded-sm">
-                  <AvatarImage className="object-cover" src={user.avatar} alt={user.name} />
+                  <AvatarImage
+                    className="object-cover"
+                    src={user.profile_uri || ""}
+                    alt={user.user_name}
+                  />
                   <AvatarFallback className="rounded-lg">
-                    {user.name?.[0] ?? "U"}
+                    {user.user_name?.[0] ?? "U"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
+                  <span className="truncate font-semibold">
+                    {user.user_name}
+                  </span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
