@@ -38,6 +38,7 @@ import {
   openCustomerChat,
   setSelectedInboxUserId,
 } from "@/store/slices/ui/ui-slice";
+import { InboxEmptyState } from "@/components/dashboard/inbox/inbox-empty-state";
 import {
   TicketStatus,
   StatusBadge,
@@ -55,6 +56,10 @@ export default function UnassignedTable() {
   const unassigned = useAppSelector((state) => state.chat.unassigned);
 
   const isCompactMode = isCustomerChatOpen || isUserSidebarOpen;
+
+  if (unassigned.length === 0) {
+    return <InboxEmptyState />;
+  }
 
   useEffect(() => {
     const selectedRowIds = Object.keys(rowSelection);
@@ -97,7 +102,10 @@ export default function UnassignedTable() {
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
           <Avatar className="h-6 w-6">
-            <AvatarImage src={row.original.customer.picture} className="object-cover"/>
+            <AvatarImage
+              src={row.original.customer.picture}
+              className="object-cover"
+            />
             <AvatarFallback className="text-[10px]">
               {row.original.customer.name
                 ? row.original.customer.name.charAt(0).toUpperCase()

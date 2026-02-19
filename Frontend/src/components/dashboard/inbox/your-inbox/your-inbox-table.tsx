@@ -38,6 +38,7 @@ import {
   openCustomerChat,
   setSelectedInboxUserId,
 } from "@/store/slices/ui/ui-slice";
+import { InboxEmptyState } from "@/components/dashboard/inbox/inbox-empty-state";
 
 export type TicketStatus =
   | "OPEN"
@@ -115,6 +116,10 @@ export default function YourInboxTable() {
   const active = useAppSelector((state) => state.chat.active);
 
   const isCompactMode = isCustomerChatOpen || isUserSidebarOpen;
+
+  if (active.length === 0) {
+    return <InboxEmptyState />;
+  }
 
   useEffect(() => {
     const selectedRowIds = Object.keys(rowSelection);
