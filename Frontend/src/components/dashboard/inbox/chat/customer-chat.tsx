@@ -41,13 +41,6 @@ export default function CustomerChat() {
     );
   }, [selectedInboxUserId, unassignedRecord, activeRecord]);
 
-  useEffect(() => {
-    if (!selectedConversation) {
-      dispatch(closeCustomerChat());
-      dispatch(closeUserSidebar());
-    }
-  }, [selectedConversation, dispatch]);
-
   const isWaiting = selectedInboxUserId
     ? Boolean(unassignedRecord[selectedInboxUserId])
     : false;
@@ -73,6 +66,15 @@ export default function CustomerChat() {
   const [inputValue, setInputValue] = useState("");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!selectedConversation) {
+      dispatch(closeCustomerChat());
+      dispatch(closeUserSidebar());
+    }
+  }, [selectedConversation, dispatch]);
+  
+  if (!selectedConversation) return null;
 
   useEffect(() => {
     if (selectedInboxUserId) {
@@ -167,8 +169,6 @@ export default function CustomerChat() {
       toast.success("Chat ended successfully");
     }
   };
-
-  if (!selectedConversation) return null;
 
   return (
     <div className="flex h-full border dark:border-0 flex-col rounded-xl bg-popover overflow-hidden">

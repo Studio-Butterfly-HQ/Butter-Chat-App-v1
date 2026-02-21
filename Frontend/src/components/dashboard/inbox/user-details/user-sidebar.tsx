@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ChevronDown, ArrowUpRight, User, Users, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -137,6 +137,12 @@ export function UserSidebar() {
       null
     );
   }, [selectedInboxUserId, unassignedRecord, activeRecord]);
+
+  useEffect(() => {
+    if (!selectedConversation) {
+      dispatch(closeUserSidebar());
+    }
+  }, [selectedConversation, dispatch]);
 
   if (!selectedConversation) return null;
 
