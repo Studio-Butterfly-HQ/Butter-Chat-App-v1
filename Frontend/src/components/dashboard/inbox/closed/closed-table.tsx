@@ -47,8 +47,9 @@ export default function ClosedTable() {
   const isUserSidebarOpen = useAppSelector(
     (state) => state.ui.isUserSidebarOpen,
   );
+  const closedRecord = useAppSelector((state) => state.chat.closed);
 
-  const closed = useMemo(() => closedData as Conversation[], []);
+  const closed = useMemo(() => Object.values(closedRecord), [closedRecord]);
 
   const isCompactMode = isCustomerChatOpen || isUserSidebarOpen;
 

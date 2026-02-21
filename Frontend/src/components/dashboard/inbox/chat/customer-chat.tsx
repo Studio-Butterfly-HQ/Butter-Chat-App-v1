@@ -13,6 +13,8 @@ import {
 import ChatWaitingBanner from "./chat-waiting-banner";
 import ChatMessageInput from "./chat-message-input";
 import { SidebarHeader } from "@/components/ui/sidebar";
+import { getSocket } from "@/socket/socket";
+import { toast } from "sonner";
 
 interface Message {
   id: string;
@@ -26,7 +28,6 @@ export default function CustomerChat() {
   const selectedInboxUserId = useAppSelector(
     (state) => state.ui.selectedInboxUserId,
   );
-  console.log("id", selectedInboxUserId);
 
   const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
   const activeRecord = useAppSelector((state) => state.chat.active);
@@ -39,6 +40,13 @@ export default function CustomerChat() {
       null
     );
   }, [selectedInboxUserId, unassignedRecord, activeRecord]);
+
+  useEffect(() => {
+    if (!selectedConversation) {
+      dispatch(closeCustomerChat());
+      dispatch(closeUserSidebar());
+    }
+  }, [selectedConversation, dispatch]);
 
   const isWaiting = selectedInboxUserId
     ? Boolean(unassignedRecord[selectedInboxUserId])
@@ -148,6 +156,16 @@ export default function CustomerChat() {
   const handleClose = () => {
     dispatch(closeCustomerChat());
     dispatch(closeUserSidebar());
+    const socket = getSocket();
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(
+        JSON.stringify({
+          type: "end_chat",
+          payload: selectedConversation,
+        }),
+      );
+      toast.success("Chat ended successfully");
+    }
   };
 
   if (!selectedConversation) return null;

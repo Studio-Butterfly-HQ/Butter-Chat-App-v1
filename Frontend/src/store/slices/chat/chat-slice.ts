@@ -5,6 +5,7 @@ const initialState: ChatState = {
   unassigned: {},
   active: {},
   messages: {},
+  closed: {},
 };
 
 const chatSlice = createSlice({
@@ -38,9 +39,11 @@ const chatSlice = createSlice({
       // console.log("addMessage", current(state));
     },
 
-    endChat(state, action: PayloadAction<string>) {
-      delete state.messages[action.payload];
-      delete state.active[action.payload];
+    endChat(state, action: PayloadAction<any>) {
+      const id = action.payload.id;
+      const { [id]: removed, ...rest } = current(state.active);
+      state.active = rest;
+      state.closed[id] = action.payload;
       console.log("endChat", current(state));
     },
   },
