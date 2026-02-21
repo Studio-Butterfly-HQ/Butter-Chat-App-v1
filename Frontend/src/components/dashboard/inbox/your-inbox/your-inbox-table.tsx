@@ -369,7 +369,6 @@ export default function YourInboxTable() {
         table={table}
         recordCount={active.length}
         onRowClick={(row: Conversation) => {
-          console.log("your-inbox row clicked:", row.id, row);
           dispatch(setSelectedInboxUserId(row.id));
           if (!isCustomerChatOpen) {
             dispatch(openUserSidebar());

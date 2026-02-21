@@ -139,10 +139,10 @@ export function UserSidebar() {
   }, [selectedInboxUserId, unassignedRecord, activeRecord]);
 
   useEffect(() => {
-    if (!selectedConversation) {
+    if (selectedInboxUserId && !selectedConversation) {
       dispatch(closeUserSidebar());
     }
-  }, [selectedConversation, dispatch]);
+  }, [selectedInboxUserId, selectedConversation, dispatch]);
 
   if (!selectedConversation) return null;
 

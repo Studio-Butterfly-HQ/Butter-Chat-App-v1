@@ -68,12 +68,12 @@ export default function CustomerChat() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!selectedConversation) {
+    if (selectedInboxUserId && !selectedConversation) {
       dispatch(closeCustomerChat());
       dispatch(closeUserSidebar());
     }
-  }, [selectedConversation, dispatch]);
-  
+  }, [selectedInboxUserId, selectedConversation, dispatch]);
+
   if (!selectedConversation) return null;
 
   useEffect(() => {

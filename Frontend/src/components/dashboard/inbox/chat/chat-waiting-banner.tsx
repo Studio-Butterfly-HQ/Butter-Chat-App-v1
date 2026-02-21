@@ -26,9 +26,10 @@ export default function ChatWaitingBanner({
       );
       toast.success("Chat accepted successfully");
       dispatch(setActiveInboxTab("your-inbox"));
+    } else {
+      console.error("Connection unavailable. Please try again.");
     }
   };
-
   return (
     <div className="p-4 pt-0">
       <div className="flex flex-col bg-card items-center justify-center gap-3 border border-border rounded-2xl p-4 min-h-[137px]">
