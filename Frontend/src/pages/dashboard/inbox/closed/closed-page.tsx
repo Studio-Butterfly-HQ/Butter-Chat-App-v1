@@ -1,4 +1,4 @@
-import YourInboxTable from "@/components/dashboard/inbox/your-inbox/your-inbox-table";
+import ClosedTable from "@/components/dashboard/inbox/closed/closed-table";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SlidersHorizontal, Layout } from "lucide-react";
@@ -15,7 +15,7 @@ import {
   closeUserSidebar,
 } from "@/store/slices/ui/ui-slice";
 
-export default function YourInboxPage() {
+export default function ClosedPage() {
   const dispatch = useAppDispatch();
   const isUserSidebarOpen = useAppSelector(
     (state) => state.ui.isUserSidebarOpen,
@@ -42,7 +42,7 @@ export default function YourInboxPage() {
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbPage className="text-sm md:text-base font-semibold">
-                    Inbox
+                    Closed
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -72,7 +72,7 @@ export default function YourInboxPage() {
         </div>
       </header>
       <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
-        <YourInboxTable />
+        <ClosedTable />
       </div>
     </div>
   );

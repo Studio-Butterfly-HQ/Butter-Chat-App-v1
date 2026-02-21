@@ -116,6 +116,7 @@ export const useCompanyProfile = () => {
     const error: any = query.error;
 
     console.error("Company profile failed:", error);
+    console.log("Company profile failed:", error?.status);
 
     if (error?.status === 401) {
       console.log("Unauthorized → logging out");

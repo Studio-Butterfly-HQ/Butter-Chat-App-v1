@@ -28,6 +28,7 @@ import {
   DataGridTableRowSelect,
   DataGridTableRowSelectAll,
 } from "@/components/ui/data-grid-table";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Conversation } from "@/store/slices/chat/chat-types";
@@ -126,7 +127,7 @@ export default function YourInboxTable() {
       {
         accessorKey: "status",
         header: "Status",
-        size: 110,
+        size: 100,
         cell: ({ row }) => (
           <StatusBadge status={normalizeStatus(row.original.status)} />
         ),
@@ -170,10 +171,10 @@ export default function YourInboxTable() {
       {
         accessorKey: "summary",
         header: "Summary",
-        size: 350,
+        size: 290,
         cell: ({ row }) => (
           <div className="space-y-1.5 py-2">
-            <div className="text-sm text-foreground line-clamp-1">
+            <div className="text-sm text-foreground line-clamp-2">
               {row.original.summary}
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -349,7 +350,7 @@ export default function YourInboxTable() {
       pagination,
       rowSelection,
     },
-    // onPaginationChange: setPagination,
+    onPaginationChange: setPagination,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -385,12 +386,15 @@ export default function YourInboxTable() {
           header: isCompactMode ? "hidden" : "",
         }}
       >
-        <div className="w-full flex-1 min-h-0 overflow-y-auto scrollbar-hide">
-          <DataGridContainer border={false}>
-            <DataGridTable />
+        <div className="w-full flex-1 flex flex-col">
+          <DataGridContainer border={false} className="flex-1 min-h-0">
+            <ScrollArea>
+              <DataGridTable />
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           </DataGridContainer>
           <div className={`py-2 ${isCompactMode ? "px-4" : ""}`}>
-            {/* <DataGridPagination /> */}
+            <DataGridPagination />
           </div>
         </div>
       </DataGrid>

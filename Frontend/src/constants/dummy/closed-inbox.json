@@ -1,0 +1,407 @@
+[
+  {
+    "id": "closed-001",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-101",
+      "name": "Sarah Mitchell",
+      "picture": "",
+      "contact": "sarah.mitchell@email.com",
+      "source": "facebook",
+      "company_id": "comp-1"
+    },
+    "summary": "Issue with order delivery delay resolved",
+    "tags": ["delivery", "resolved"],
+    "messages": [],
+    "assigned_to": {
+      "name": "John Smith",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-1",
+      "department_name": "Support"
+    },
+    "metadata": {
+      "created_at": "2026-02-10T08:00:00Z",
+      "last_updated": "2 days ago"
+    }
+  },
+  {
+    "id": "closed-002",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-102",
+      "name": "David Chen",
+      "picture": "",
+      "contact": "david.chen@email.com",
+      "source": "whatsapp",
+      "company_id": "comp-1"
+    },
+    "summary": "Refund processed for defective product",
+    "tags": ["refund", "product"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Emily Davis",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-2",
+      "department_name": "eCommerce"
+    },
+    "metadata": {
+      "created_at": "2026-02-09T14:30:00Z",
+      "last_updated": "3 days ago"
+    }
+  },
+  {
+    "id": "closed-003",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-103",
+      "name": "Priya Sharma",
+      "picture": "",
+      "contact": "priya.sharma@email.com",
+      "source": "instagram",
+      "company_id": "comp-1"
+    },
+    "summary": "Account password reset completed successfully",
+    "tags": ["account", "password"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Michael Brown",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-1",
+      "department_name": "Support"
+    },
+    "metadata": {
+      "created_at": "2026-02-08T09:15:00Z",
+      "last_updated": "4 days ago"
+    }
+  },
+  {
+    "id": "closed-004",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-104",
+      "name": "James Wilson",
+      "picture": "",
+      "contact": "james.wilson@email.com",
+      "source": "messenger",
+      "company_id": "comp-1"
+    },
+    "summary": "Subscription plan upgrade assistance provided",
+    "tags": ["subscription", "upgrade"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Lisa Anderson",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-3",
+      "department_name": "General"
+    },
+    "metadata": {
+      "created_at": "2026-02-07T11:00:00Z",
+      "last_updated": "5 days ago"
+    }
+  },
+  {
+    "id": "closed-005",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-105",
+      "name": "Maria Garcia",
+      "picture": "",
+      "contact": "maria.garcia@email.com",
+      "source": "facebook",
+      "company_id": "comp-1"
+    },
+    "summary": "Billing discrepancy clarified and resolved",
+    "tags": ["billing", "resolved"],
+    "messages": [],
+    "assigned_to": {
+      "name": "John Smith",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-2",
+      "department_name": "eCommerce"
+    },
+    "metadata": {
+      "created_at": "2026-02-06T16:45:00Z",
+      "last_updated": "6 days ago"
+    }
+  },
+  {
+    "id": "closed-006",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-106",
+      "name": "Robert Taylor",
+      "picture": "",
+      "contact": "robert.taylor@email.com",
+      "source": "whatsapp",
+      "company_id": "comp-1"
+    },
+    "summary": "Technical issue with app login fixed",
+    "tags": ["technical", "login"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Emily Davis",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-1",
+      "department_name": "Support"
+    },
+    "metadata": {
+      "created_at": "2026-02-05T10:20:00Z",
+      "last_updated": "1 week ago"
+    }
+  },
+  {
+    "id": "closed-007",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-107",
+      "name": "Aisha Khan",
+      "picture": "",
+      "contact": "aisha.khan@email.com",
+      "source": "instagram",
+      "company_id": "comp-1"
+    },
+    "summary": "Product exchange request completed",
+    "tags": ["exchange", "product"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Michael Brown",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-2",
+      "department_name": "eCommerce"
+    },
+    "metadata": {
+      "created_at": "2026-02-04T13:30:00Z",
+      "last_updated": "1 week ago"
+    }
+  },
+  {
+    "id": "closed-008",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-108",
+      "name": "Thomas Lee",
+      "picture": "",
+      "contact": "thomas.lee@email.com",
+      "source": "messenger",
+      "company_id": "comp-1"
+    },
+    "summary": "Shipping address update confirmed",
+    "tags": ["shipping", "address"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Lisa Anderson",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-3",
+      "department_name": "General"
+    },
+    "metadata": {
+      "created_at": "2026-02-03T08:45:00Z",
+      "last_updated": "1 week ago"
+    }
+  },
+  {
+    "id": "closed-009",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-109",
+      "name": "Emma Johnson",
+      "picture": "",
+      "contact": "emma.johnson@email.com",
+      "source": "facebook",
+      "company_id": "comp-1"
+    },
+    "summary": "Warranty claim approved and processed",
+    "tags": ["warranty", "claim"],
+    "messages": [],
+    "assigned_to": {
+      "name": "John Smith",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-1",
+      "department_name": "Support"
+    },
+    "metadata": {
+      "created_at": "2026-02-02T15:10:00Z",
+      "last_updated": "2 weeks ago"
+    }
+  },
+  {
+    "id": "closed-010",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-110",
+      "name": "Carlos Rodriguez",
+      "picture": "",
+      "contact": "carlos.rodriguez@email.com",
+      "source": "whatsapp",
+      "company_id": "comp-1"
+    },
+    "summary": "Payment method updated successfully",
+    "tags": ["payment", "account"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Emily Davis",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-2",
+      "department_name": "eCommerce"
+    },
+    "metadata": {
+      "created_at": "2026-02-01T12:00:00Z",
+      "last_updated": "2 weeks ago"
+    }
+  },
+  {
+    "id": "closed-011",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-111",
+      "name": "Sophie Martin",
+      "picture": "",
+      "contact": "sophie.martin@email.com",
+      "source": "instagram",
+      "company_id": "comp-1"
+    },
+    "summary": "Feedback on new feature acknowledged",
+    "tags": ["feedback", "feature"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Michael Brown",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-3",
+      "department_name": "General"
+    },
+    "metadata": {
+      "created_at": "2026-01-31T09:30:00Z",
+      "last_updated": "2 weeks ago"
+    }
+  },
+  {
+    "id": "closed-012",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-112",
+      "name": "Ahmed Hassan",
+      "picture": "",
+      "contact": "ahmed.hassan@email.com",
+      "source": "messenger",
+      "company_id": "comp-1"
+    },
+    "summary": "Order cancellation and refund completed",
+    "tags": ["cancellation", "refund"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Lisa Anderson",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-2",
+      "department_name": "eCommerce"
+    },
+    "metadata": {
+      "created_at": "2026-01-30T14:20:00Z",
+      "last_updated": "3 weeks ago"
+    }
+  },
+  {
+    "id": "closed-013",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-113",
+      "name": "Olivia Brown",
+      "picture": "",
+      "contact": "olivia.brown@email.com",
+      "source": "facebook",
+      "company_id": "comp-1"
+    },
+    "summary": "Promotional code issue resolved",
+    "tags": ["promo", "discount"],
+    "messages": [],
+    "assigned_to": {
+      "name": "John Smith",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-1",
+      "department_name": "Support"
+    },
+    "metadata": {
+      "created_at": "2026-01-29T11:15:00Z",
+      "last_updated": "3 weeks ago"
+    }
+  },
+  {
+    "id": "closed-014",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-114",
+      "name": "Liam Nguyen",
+      "picture": "",
+      "contact": "liam.nguyen@email.com",
+      "source": "whatsapp",
+      "company_id": "comp-1"
+    },
+    "summary": "Integration setup assistance completed",
+    "tags": ["integration", "setup"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Emily Davis",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-3",
+      "department_name": "General"
+    },
+    "metadata": {
+      "created_at": "2026-01-28T16:00:00Z",
+      "last_updated": "3 weeks ago"
+    }
+  },
+  {
+    "id": "closed-015",
+    "status": "COMPLETE",
+    "customer": {
+      "id": "cust-115",
+      "name": "Isabella Kim",
+      "picture": "",
+      "contact": "isabella.kim@email.com",
+      "source": "instagram",
+      "company_id": "comp-1"
+    },
+    "summary": "Data export request fulfilled",
+    "tags": ["data", "export"],
+    "messages": [],
+    "assigned_to": {
+      "name": "Michael Brown",
+      "profile_uri": ""
+    },
+    "department": {
+      "department_id": "dept-1",
+      "department_name": "Support"
+    },
+    "metadata": {
+      "created_at": "2026-01-27T10:45:00Z",
+      "last_updated": "3 weeks ago"
+    }
+  }
+]
