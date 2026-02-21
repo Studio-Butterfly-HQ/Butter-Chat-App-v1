@@ -3,29 +3,15 @@ import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  X,
-  Send,
-  Paperclip,
-  Smile,
-  EllipsisVertical,
-  Tag,
-  Bookmark,
-  Image as ImageIcon,
-  Sparkles,
-  ChevronDown,
-  PanelLeft,
-  MessageSquare,
-  Check,
-  Forward,
-} from "lucide-react";
+import { X, EllipsisVertical, Tag, Sparkles, PanelLeft } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   closeCustomerChat,
   openUserSidebar,
   closeUserSidebar,
 } from "@/store/slices/ui/ui-slice";
-import TextareaAutosize from "react-textarea-autosize";
+import ChatWaitingBanner from "./chat-waiting-banner";
+import ChatMessageInput from "./chat-message-input";
 import { SidebarHeader } from "@/components/ui/sidebar";
 
 interface Message {
@@ -50,10 +36,6 @@ export default function CustomerChat() {
     return (
       unassignedRecord[selectedInboxUserId] ??
       activeRecord[selectedInboxUserId] ??
-      Object.values(unassignedRecord).find(
-        (c) => c.id === selectedInboxUserId,
-      ) ??
-      Object.values(activeRecord).find((c) => c.id === selectedInboxUserId) ??
       null
     );
   }, [selectedInboxUserId, unassignedRecord, activeRecord]);
@@ -196,14 +178,16 @@ export default function CustomerChat() {
           <Button variant="ghost" size="icon" className="h-7 w-7">
             <EllipsisVertical className="h-4 w-4" />
           </Button>
-          {!isWaiting && <Button
-            variant="default"
-            onClick={handleClose}
-            className="h-7 gap-1 px-3 text-xs rounded-full font-semibold"
-          >
-            <X className="h-3 w-3" />
-            Resolve
-          </Button>}
+          {!isWaiting && (
+            <Button
+              variant="default"
+              onClick={handleClose}
+              className="h-7 gap-1 px-3 text-xs rounded-full font-semibold"
+            >
+              <X className="h-3 w-3" />
+              Resolve
+            </Button>
+          )}
         </div>
       </SidebarHeader>
 
@@ -263,9 +247,7 @@ export default function CustomerChat() {
                 {message.type === "user" && (
                   <Avatar className="h-6 w-6 flex-shrink-0">
                     <AvatarImage src="/user-avatar.png" />
-                    <AvatarFallback className="text-xs">
-                      U
-                    </AvatarFallback>
+                    <AvatarFallback className="text-xs">U</AvatarFallback>
                   </Avatar>
                 )}
               </div>
@@ -293,105 +275,14 @@ export default function CustomerChat() {
       </ScrollArea>
 
       {/* Input Area / shown when status is waiting */}
-      {isWaiting? (
-        <div className="p-4 pt-0">
-          <div className="flex flex-col bg-card items-center justify-center gap-3 border border-border rounded-2xl p-4 min-h-[137px]">
-            <p className="text-sm text-muted-foreground">
-              You have been assigned a new conversation
-            </p>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="default"
-                size="sm"
-                className="h-8 gap-1.5 px-4 rounded-full"
-              >
-                <Check className="h-3.5 w-3.5" />
-                Accept
-              </Button>
-              <Button
-                variant="default"
-                size="sm"
-                className="h-8 gap-1.5 px-4 rounded-full"
-              >
-                <Forward className="h-3.5 w-3.5" />
-                Forward
-              </Button>
-            </div>
-          </div>
-        </div>
+      {isWaiting ? (
+        <ChatWaitingBanner conversation={selectedConversation} />
       ) : (
-        <div className="p-4 pt-0">
-          <div className="border bg-card border-border rounded-2xl p-4 transition-all focus-within:ring-1 focus-within:ring-primary/20">
-            <div className="flex items-center  gap-2 mb-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-7 px-2 text-sm font-medium gap-2 mt-[-10px]"
-              >
-                <MessageSquare className="h-4 w-4" />
-                Message
-                <ChevronDown className="h-3 w-3" />
-              </Button>
-            </div>
-
-            <TextareaAutosize
-              placeholder="Type your message..."
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              minRows={1}
-              maxRows={6}
-              className="w-full min-h-10 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 scrollbar-hide"
-            />
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-0">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-                >
-                  <Bookmark className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-                >
-                  <Smile className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-                >
-                  <ImageIcon className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-                >
-                  <Sparkles className="h-4 w-4" />
-                </Button>
-              </div>
-
-              <Button
-                onClick={handleSend}
-                size="sm"
-                className="h-7 px-4 rounded-full"
-              >
-                Send Reply
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
+        <ChatMessageInput
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          handleSend={handleSend}
+        />
       )}
     </div>
   );

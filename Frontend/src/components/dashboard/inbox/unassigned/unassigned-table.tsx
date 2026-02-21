@@ -40,6 +40,8 @@ import {
   openCustomerChat,
   setSelectedInboxUserId,
 } from "@/store/slices/ui/ui-slice";
+import { getSocket } from "@/socket/socket";
+import { toast } from "sonner";
 import { InboxEmptyState } from "@/components/dashboard/inbox/inbox-empty-state";
 import {
   TicketStatus,
@@ -218,7 +220,7 @@ export default function UnassignedTable() {
               className="h-8 w-8 rounded-full"
               onClick={(e) => {
                 e.stopPropagation();
-                // TODO: handle transfer/forward action
+                // TODO: handle transfer action
               }}
             >
               <ArrowRight className="h-4 w-4" />
@@ -229,7 +231,16 @@ export default function UnassignedTable() {
               className="h-8 w-8 rounded-full"
               onClick={(e) => {
                 e.stopPropagation();
-                // TODO: handle accept/complete action
+                const socket = getSocket();
+                if (socket && socket.readyState === WebSocket.OPEN) {
+                  socket.send(
+                    JSON.stringify({
+                      type: "accept_chat",
+                      payload: row.original,
+                    }),
+                  );
+                  toast.success("Chat accepted successfully");
+                }
               }}
             >
               <Check className="h-4 w-4" />

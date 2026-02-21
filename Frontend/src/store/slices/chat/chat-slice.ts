@@ -41,7 +41,7 @@ const chatSlice = createSlice({
     endChat(state, action: PayloadAction<string>) {
       delete state.messages[action.payload];
       delete state.active[action.payload];
-      // console.log("endChat", current(state));
+      console.log("endChat", current(state));
     },
   },
 });

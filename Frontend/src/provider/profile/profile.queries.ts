@@ -92,6 +92,7 @@ export const useCompanyProfile = () => {
   const navigate = useNavigate();
 
   const token = useAppSelector((state) => state.auth.token);
+  console.log("token: ", token);
 
   const query = useQuery({
     queryKey: ["company-profile", token],

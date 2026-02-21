@@ -134,10 +134,6 @@ export function UserSidebar() {
     return (
       unassignedRecord[selectedInboxUserId] ??
       activeRecord[selectedInboxUserId] ??
-      Object.values(unassignedRecord).find(
-        (c) => c.id === selectedInboxUserId,
-      ) ??
-      Object.values(activeRecord).find((c) => c.id === selectedInboxUserId) ??
       null
     );
   }, [selectedInboxUserId, unassignedRecord, activeRecord]);
