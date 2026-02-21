@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -16,6 +16,8 @@ import {
   ChevronDown,
   PanelLeft,
   MessageSquare,
+  Check,
+  Forward,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -25,7 +27,6 @@ import {
 } from "@/store/slices/ui/ui-slice";
 import TextareaAutosize from "react-textarea-autosize";
 import { SidebarHeader } from "@/components/ui/sidebar";
-import userData from "@/constants/dummy/user.json";
 
 interface Message {
   id: string;
@@ -39,9 +40,27 @@ export default function CustomerChat() {
   const selectedInboxUserId = useAppSelector(
     (state) => state.ui.selectedInboxUserId,
   );
-  const selectedUser = (userData as any[]).find(
-    (u) => u.id === selectedInboxUserId,
-  );
+  console.log("id", selectedInboxUserId);
+
+  const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
+  const activeRecord = useAppSelector((state) => state.chat.active);
+
+  const selectedConversation = useMemo(() => {
+    if (!selectedInboxUserId) return null;
+    return (
+      unassignedRecord[selectedInboxUserId] ??
+      activeRecord[selectedInboxUserId] ??
+      Object.values(unassignedRecord).find(
+        (c) => c.id === selectedInboxUserId,
+      ) ??
+      Object.values(activeRecord).find((c) => c.id === selectedInboxUserId) ??
+      null
+    );
+  }, [selectedInboxUserId, unassignedRecord, activeRecord]);
+
+  const isWaiting = selectedInboxUserId
+    ? Boolean(unassignedRecord[selectedInboxUserId])
+    : false;
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -149,7 +168,7 @@ export default function CustomerChat() {
     dispatch(closeUserSidebar());
   };
 
-  if (!selectedUser) return null;
+  if (!selectedConversation) return null;
 
   return (
     <div className="flex h-full border dark:border-0 flex-col rounded-xl bg-popover overflow-hidden">
@@ -167,30 +186,30 @@ export default function CustomerChat() {
             onClick={() => dispatch(openUserSidebar())}
             className="text-sm md:text-xl font-semibold text-foreground cursor-pointer"
           >
-            {selectedUser.user.name}
+            {selectedConversation.customer.name}
           </h1>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="h-7 w-7">
-            <EllipsisVertical className="h-4 w-4" />
-          </Button>
+        <div className="flex items-center gap-1">
           <Button variant="ghost" size="icon" className="h-7 w-7">
             <Tag className="h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
+          <Button variant="ghost" size="icon" className="h-7 w-7">
+            <EllipsisVertical className="h-4 w-4" />
+          </Button>
+          {!isWaiting && <Button
+            variant="default"
             onClick={handleClose}
             className="h-7 gap-1 px-3 text-xs rounded-full font-semibold"
           >
             <X className="h-3 w-3" />
-            Close
-          </Button>
+            Resolve
+          </Button>}
         </div>
       </SidebarHeader>
 
       {/* Messages */}
       <ScrollArea ref={scrollAreaRef} className="flex-1">
-        <div className="space-y-4 p-6">
+        <div className="space-y-4 p-4">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -199,9 +218,9 @@ export default function CustomerChat() {
               <div className="flex max-w-md gap-2">
                 {message.type === "external" && (
                   <Avatar className="h-6 w-6 flex-shrink-0">
-                    <AvatarImage src={selectedUser.user.avatar} />
-                    <AvatarFallback>
-                      {selectedUser.user.name.charAt(0)}
+                    <AvatarImage src={selectedConversation.customer.picture} />
+                    <AvatarFallback className="text-xs">
+                      {selectedConversation.customer.name?.charAt(0) || "U"}
                     </AvatarFallback>
                   </Avatar>
                 )}
@@ -244,88 +263,136 @@ export default function CustomerChat() {
                 {message.type === "user" && (
                   <Avatar className="h-6 w-6 flex-shrink-0">
                     <AvatarImage src="/user-avatar.png" />
-                    <AvatarFallback>U</AvatarFallback>
+                    <AvatarFallback className="text-xs">
+                      U
+                    </AvatarFallback>
                   </Avatar>
                 )}
               </div>
             </div>
           ))}
+
+          {/* Chat Summary - shown when status is waiting */}
+          {isWaiting && selectedConversation.summary && (
+            <div className="mt-4 rounded-lg border border-border p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="h-4 w-4 text-foreground" />
+                <span className="text-sm font-semibold text-foreground">
+                  Chat Summary
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  | AI generated
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {selectedConversation.summary}
+              </p>
+            </div>
+          )}
         </div>
       </ScrollArea>
 
-      {/* Input Area */}
-      <div className="p-4 pt-0 bg-popover">
-        <div className="border border-border rounded-2xl p-4 transition-all focus-within:ring-1 focus-within:ring-primary/20">
-          <div className="flex items-center gap-2 mb-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2 text-sm font-medium gap-2 mt-[-10px]"
-            >
-              <MessageSquare className="h-4 w-4" />
-              Message
-              <ChevronDown className="h-3 w-3" />
-            </Button>
+      {/* Input Area / shown when status is waiting */}
+      {isWaiting? (
+        <div className="p-4 pt-0">
+          <div className="flex flex-col bg-card items-center justify-center gap-3 border border-border rounded-2xl p-4 min-h-[137px]">
+            <p className="text-sm text-muted-foreground">
+              You have been assigned a new conversation
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="default"
+                size="sm"
+                className="h-8 gap-1.5 px-4 rounded-full"
+              >
+                <Check className="h-3.5 w-3.5" />
+                Accept
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                className="h-8 gap-1.5 px-4 rounded-full"
+              >
+                <Forward className="h-3.5 w-3.5" />
+                Forward
+              </Button>
+            </div>
           </div>
-
-          <TextareaAutosize
-            placeholder="Type your message..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-              }
-            }}
-            minRows={1}
-            maxRows={6}
-            className="w-full min-h-10 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 scrollbar-hide"
-          />
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-0">
+        </div>
+      ) : (
+        <div className="p-4 pt-0">
+          <div className="border bg-card border-border rounded-2xl p-4 transition-all focus-within:ring-1 focus-within:ring-primary/20">
+            <div className="flex items-center  gap-2 mb-2">
               <Button
                 variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
+                size="sm"
+                className="h-7 px-2 text-sm font-medium gap-2 mt-[-10px]"
               >
-                <Bookmark className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <Smile className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <ImageIcon className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <Sparkles className="h-4 w-4" />
+                <MessageSquare className="h-4 w-4" />
+                Message
+                <ChevronDown className="h-3 w-3" />
               </Button>
             </div>
 
-            <Button
-              onClick={handleSend}
-              size="sm"
-              className="h-7 px-4 rounded-full"
-            >
-              Send Reply
-              <Send className="h-4 w-4" />
-            </Button>
+            <TextareaAutosize
+              placeholder="Type your message..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
+              minRows={1}
+              maxRows={6}
+              className="w-full min-h-10 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 scrollbar-hide"
+            />
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-0">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
+                >
+                  <Bookmark className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
+                >
+                  <Smile className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
+                >
+                  <ImageIcon className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
+                >
+                  <Sparkles className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <Button
+                onClick={handleSend}
+                size="sm"
+                className="h-7 px-4 rounded-full"
+              >
+                Send Reply
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

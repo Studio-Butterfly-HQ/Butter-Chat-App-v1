@@ -18,6 +18,10 @@ const chatSlice = createSlice({
 
     moveToActive(state, action: PayloadAction<any>) {
       const id = action.payload.id;
+      // if (!id) {
+      //   console.warn("moveToActive: no valid id found", action.payload);
+      //   return;
+      // }
       const { [id]: removed, ...rest } = current(state.unassigned);
       state.unassigned = rest;
       state.active[id] = action.payload;

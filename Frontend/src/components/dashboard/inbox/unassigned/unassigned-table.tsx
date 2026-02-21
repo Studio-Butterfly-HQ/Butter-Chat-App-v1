@@ -169,28 +169,28 @@ export default function UnassignedTable() {
           ),
         },
       },
-      {
-        accessorKey: "department",
-        header: "Department",
-        size: 150,
-        cell: ({ row }) => (
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-blue-500" />
-            <span className="text-sm">
-              {row.original.department?.department_name || "General"}
-            </span>
-          </div>
-        ),
-        meta: {
-          headerClassName: "font-medium",
-          skeleton: (
-            <div className="flex items-center gap-2">
-              <Skeleton className="h-2 w-2 rounded-full" />
-              <Skeleton className="h-4 w-20" />
-            </div>
-          ),
-        },
-      },
+      // {
+      //   accessorKey: "department",
+      //   header: "Department",
+      //   size: 150,
+      //   cell: ({ row }) => (
+      //     <div className="flex items-center gap-2">
+      //       <div className="h-2 w-2 rounded-full bg-blue-500" />
+      //       <span className="text-sm">
+      //         {row.original.department?.department_name || "General"}
+      //       </span>
+      //     </div>
+      //   ),
+      //   meta: {
+      //     headerClassName: "font-medium",
+      //     skeleton: (
+      //       <div className="flex items-center gap-2">
+      //         <Skeleton className="h-2 w-2 rounded-full" />
+      //         <Skeleton className="h-4 w-20" />
+      //       </div>
+      //     ),
+      //   },
+      // },
       {
         accessorKey: "metadata",
         header: "Last Updated",
@@ -299,7 +299,6 @@ export default function UnassignedTable() {
                           {row.original.assigned_to?.name?.charAt(0) || "U"}
                         </AvatarFallback>
                       </Avatar>
-                      <Inbox className="h-3 w-3 text-muted-foreground" />
                       <ShoppingBag className="h-3 w-3 text-muted-foreground" />
                       {sourceIcon(row.original.customer.source)}
                     </div>
@@ -349,11 +348,11 @@ export default function UnassignedTable() {
         table={table}
         recordCount={unassigned.length}
         onRowClick={(row: Conversation) => {
-          // dispatch(setSelectedInboxUserId(row.id));
-          // if (!isCustomerChatOpen) {
-          //   dispatch(openUserSidebar());
-          // }
-          // dispatch(openCustomerChat());
+          dispatch(setSelectedInboxUserId(row.id));
+          if (!isCustomerChatOpen) {
+            dispatch(openUserSidebar());
+          }
+          dispatch(openCustomerChat());
         }}
         tableLayout={{
           headerBackground: false,

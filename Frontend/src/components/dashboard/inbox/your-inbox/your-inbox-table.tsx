@@ -320,7 +320,6 @@ export default function YourInboxTable() {
                           {row.original.assigned_to?.name?.charAt(0) || "U"}
                         </AvatarFallback>
                       </Avatar>
-                      <Inbox className="h-3 w-3 text-muted-foreground" />
                       <ShoppingBag className="h-3 w-3 text-muted-foreground" />
                       {sourceIcon(row.original.customer.source)}
                     </div>
@@ -370,11 +369,12 @@ export default function YourInboxTable() {
         table={table}
         recordCount={active.length}
         onRowClick={(row: Conversation) => {
-          // dispatch(setSelectedInboxUserId(row.id));
-          // if (!isCustomerChatOpen) {
-          //   dispatch(openUserSidebar());
-          // }
-          // dispatch(openCustomerChat());
+          console.log("your-inbox row clicked:", row.id, row);
+          dispatch(setSelectedInboxUserId(row.id));
+          if (!isCustomerChatOpen) {
+            dispatch(openUserSidebar());
+          }
+          dispatch(openCustomerChat());
         }}
         tableLayout={{
           headerBackground: false,
