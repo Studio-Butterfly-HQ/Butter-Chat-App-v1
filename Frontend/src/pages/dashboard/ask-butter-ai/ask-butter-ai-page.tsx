@@ -9,7 +9,7 @@ import { toggleAskButterAiSidebar } from "@/store/slices/ui/ui-slice";
 export default function AskButterAiPage() {
   const dispatch = useAppDispatch();
   return (
-    <div className="flex dark:h-[calc(100vh-1.5rem)] h-[calc(100vh-1.6rem)] flex-col justify-center overflow-hidden">
+    <div className="flex h-[100dvh] md:h-full flex-col justify-center overflow-hidden">
       <header className="flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger />

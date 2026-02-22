@@ -188,7 +188,7 @@ export default function ChatBox() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex z-50 flex-1 min-h-0 flex-col overflow-hidden p-4">
+    <div className="flex flex-1 min-h-0 flex-col overflow-hidden p-4">
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {!hasMessages ? (
           /* Welcome State */
@@ -199,10 +199,10 @@ export default function ChatBox() {
                   <Sparkles className="h-12 w-12 text-primary" />
                 </div>
               </div>
-              <h1 className="text-2xl font-semibold text-foreground mb-1">
+              <h1 className="md:text-2xl  text-xl font-semibold text-foreground mb-1">
                 Hello, {userName || "there"}
               </h1>
-              <h1 className="text-2xl font-semibold">
+              <h1 className="md:text-2xl text-xl font-semibold">
                 What do you need help with today?
               </h1>
             </div>
@@ -214,7 +214,7 @@ export default function ChatBox() {
                   className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card hover:bg-accent text-sm text-foreground transition-colors"
                 >
                   <span>{prompt}</span>
-                  <ArrowDownRight className="h-4 w-4" />
+                  <ArrowDownRight className="h-4 w-4 shrink-0" />
                 </button>
               ))}
             </div>
