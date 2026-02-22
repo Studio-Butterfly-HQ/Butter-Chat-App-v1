@@ -29,7 +29,7 @@ export const handleSocketEvent = (event: SocketMessage) => {
       break;
 
     case "end_chat":
-      store.dispatch(endChat(payload?.id));
+      store.dispatch(endChat(payload));
       break;
 
     default:

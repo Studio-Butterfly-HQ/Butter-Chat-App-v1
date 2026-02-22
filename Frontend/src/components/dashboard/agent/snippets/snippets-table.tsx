@@ -19,7 +19,8 @@ import {
 } from "@tanstack/react-table";
 import type { Snippet } from "@/provider/snippet/snippet.types";
 import { useDebounce } from "@/hooks/use-debounce";
-import { DUMMY_SNIPPETS } from "@/constants/snippets";
+import { DUMMY_SNIPPETS } from "@/constants/dummy/snippets";
+import { useNavigate } from "react-router-dom";
 
 export function SnippetsTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +29,7 @@ export function SnippetsTable() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [snippetToDelete, setSnippetToDelete] = useState<Snippet | null>(null);
+  const navigate = useNavigate();
 
   // Use dummy data
   const snippets = DUMMY_SNIPPETS;
@@ -171,7 +173,7 @@ export function SnippetsTable() {
               className="pl-10 h-10"
             />
           </div>
-          <Button className="h-10" onClick={() => setIsDialogOpen(true)}>
+          <Button className="h-10" onClick={() => navigate("/ai-agent/snippets/new")}>
             <Plus className="h-4 w-4" />
             Add Snippet
           </Button>

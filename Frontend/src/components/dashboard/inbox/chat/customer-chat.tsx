@@ -1,31 +1,21 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  X,
-  Send,
-  Paperclip,
-  Smile,
-  EllipsisVertical,
-  Tag,
-  Bookmark,
-  Image as ImageIcon,
-  Sparkles,
-  ChevronDown,
-  PanelLeft,
-  MessageSquare,
-} from "lucide-react";
+import { X, EllipsisVertical, Tag, Sparkles, PanelLeft } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   closeCustomerChat,
   openUserSidebar,
   closeUserSidebar,
 } from "@/store/slices/ui/ui-slice";
-import TextareaAutosize from "react-textarea-autosize";
+import ChatWaitingBanner from "./chat-waiting-banner";
+import ChatMessageInput from "./chat-message-input";
 import { SidebarHeader } from "@/components/ui/sidebar";
-import userData from "@/constants/dummy/user.json";
+import { getSocket } from "@/socket/socket";
+import { toast } from "sonner";
+import { addMessage } from "@/store/slices/chat/chat-slice";
 
 interface Message {
   id: string;
@@ -36,56 +26,53 @@ interface Message {
 }
 
 export default function CustomerChat() {
-  const selectedInboxUserId = useAppSelector(
-    (state) => state.ui.selectedInboxUserId,
-  );
-  const selectedUser = (userData as any[]).find(
-    (u) => u.id === selectedInboxUserId,
-  );
+  const selectedInboxUserId = useAppSelector((state) => state.ui.selectedInboxUserId);
+  const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
+  const activeRecord = useAppSelector((state) => state.chat.active);
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      type: "external",
-      content:
-        "Hi, I have a question about my recent invoice. It seems higher than usual.",
-      timestamp: "7:48 AM",
-    },
-    {
-      id: "2",
-      type: "user",
-      content:
-        "Hi, I have a question about my recent invoice. It seems higher than usual.",
-      timestamp: "8:02 AM",
-      date: "Dec 18",
-    },
-  ]);
+  const chatMessages = useAppSelector((state) => state.chat.messages);
+
+  const messages = useMemo(() => {
+    console.log("chatMessages", chatMessages);
+    if (!selectedInboxUserId || !chatMessages[selectedInboxUserId]) {
+      console.log("No messages found for user", selectedInboxUserId);
+      return [];
+    }
+    return chatMessages[selectedInboxUserId].map((msg: any, index: number) => ({
+      id: msg.id || `${selectedInboxUserId}-${index}`,
+      type: msg.sender_type === "Human-Agent" ? "user" : "external",
+      content: msg.content,
+      timestamp: new Date(msg.created_at).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }),
+    })) as Message[];
+  }, [selectedInboxUserId, chatMessages]);
 
   const [inputValue, setInputValue] = useState("");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
+  const selectedConversation = useMemo(() => {
+    if (!selectedInboxUserId) return null;
+    return (
+      unassignedRecord[selectedInboxUserId] ??
+      activeRecord[selectedInboxUserId] ??
+      null
+    );
+  }, [selectedInboxUserId, unassignedRecord, activeRecord]);
+  
+  const isWaiting = selectedInboxUserId ? Boolean(unassignedRecord[selectedInboxUserId]) : false;
+
   useEffect(() => {
-    if (selectedInboxUserId) {
-      setMessages([
-        {
-          id: "1",
-          type: "external",
-          content:
-            "Hi, I have a question about my recent invoice. It seems higher than usual.",
-          timestamp: "7:48 AM",
-        },
-        {
-          id: "2",
-          type: "user",
-          content:
-            "Hi, I have a question about my recent invoice. It seems higher than usual.",
-          timestamp: "8:02 AM",
-          date: "Dec 18",
-        },
-      ]);
+    if (selectedInboxUserId && !selectedConversation) {
+      dispatch(closeCustomerChat());
+      dispatch(closeUserSidebar());
     }
-  }, [selectedInboxUserId]);
+  }, [selectedInboxUserId, selectedConversation, dispatch]);
+
+  if (!selectedConversation) return null;
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -100,56 +87,50 @@ export default function CustomerChat() {
 
   const handleSend = () => {
     if (inputValue.trim()) {
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        type: "user",
-        content: inputValue,
-        timestamp: new Date().toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        }),
-      };
+      const socket = getSocket();
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        const messagePayload = {
+          receiver_id: selectedConversation.customer.id,
+          conversation_id: selectedConversation.id,
+          content: inputValue,
+          sender_type: "Human-Agent",
+          created_at: new Date().toISOString(),
+        };
 
-      const externalMessageId = (Date.now() + 1).toString();
-      const externalMessage: Message = {
-        id: externalMessageId,
-        type: "external",
-        content: "typing...",
-        timestamp: new Date().toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        }),
-      };
-
-      // Both messages at the same time
-      setMessages((prev) => [...prev, userMessage, externalMessage]);
-      setInputValue("");
-
-      // Update external message after delay
-      setTimeout(() => {
-        setMessages((prev) =>
-          prev.map((msg) =>
-            msg.id === externalMessageId
-              ? {
-                  ...msg,
-                  content:
-                    "Thanks for your message! I'll get back to you shortly.",
-                }
-              : msg,
-          ),
+        socket.send(
+          JSON.stringify({
+            type: "message",
+            payload: {
+              receiver_id: selectedConversation.customer.id,
+              conversation_id: selectedConversation.id,
+              content: inputValue,
+            },
+          }),
         );
-      }, 2000);
+
+        // update in the store and in the UI
+        //dispatch(addMessage(messagePayload));
+        setInputValue("");
+      } else {
+        toast.error("Failed to send message: Connection lost");
+      }
     }
   };
 
   const handleClose = () => {
     dispatch(closeCustomerChat());
     dispatch(closeUserSidebar());
+    const socket = getSocket();
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(
+        JSON.stringify({
+          type: "end_chat",
+          payload: selectedConversation,
+        }),
+      );
+      toast.success("Chat ended successfully");
+    }
   };
-
-  if (!selectedUser) return null;
 
   return (
     <div className="flex h-full border dark:border-0 flex-col rounded-xl bg-popover overflow-hidden">
@@ -167,30 +148,32 @@ export default function CustomerChat() {
             onClick={() => dispatch(openUserSidebar())}
             className="text-sm md:text-xl font-semibold text-foreground cursor-pointer"
           >
-            {selectedUser.user.name}
+            {selectedConversation.customer.name}
           </h1>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="h-7 w-7">
-            <EllipsisVertical className="h-4 w-4" />
-          </Button>
+        <div className="flex items-center gap-1">
           <Button variant="ghost" size="icon" className="h-7 w-7">
             <Tag className="h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
-            onClick={handleClose}
-            className="h-7 gap-1 px-3 text-xs rounded-full font-semibold"
-          >
-            <X className="h-3 w-3" />
-            Close
+          <Button variant="ghost" size="icon" className="h-7 w-7">
+            <EllipsisVertical className="h-4 w-4" />
           </Button>
+          {!isWaiting && (
+            <Button
+              variant="default"
+              onClick={handleClose}
+              className="h-7 gap-1 px-3 text-xs rounded-full font-semibold"
+            >
+              <X className="h-3 w-3" />
+              Resolve
+            </Button>
+          )}
         </div>
       </SidebarHeader>
 
       {/* Messages */}
       <ScrollArea ref={scrollAreaRef} className="flex-1">
-        <div className="space-y-4 p-6">
+        <div className="space-y-4 p-4">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -199,9 +182,9 @@ export default function CustomerChat() {
               <div className="flex max-w-md gap-2">
                 {message.type === "external" && (
                   <Avatar className="h-6 w-6 flex-shrink-0">
-                    <AvatarImage src={selectedUser.user.avatar} />
-                    <AvatarFallback>
-                      {selectedUser.user.name.charAt(0)}
+                    <AvatarImage src={selectedConversation.customer.picture} />
+                    <AvatarFallback className="text-xs">
+                      {selectedConversation.customer.name?.charAt(0) || "U"}
                     </AvatarFallback>
                   </Avatar>
                 )}
@@ -220,9 +203,10 @@ export default function CustomerChat() {
                   <div className="flex items-center justify-between gap-2 px-1 text-xs text-muted-foreground">
                     {message.type === "user" ? (
                       <>
-                        <button className="hover:text-foreground">
+                        {/* <button className="hover:text-foreground">
                           Translate
-                        </button>
+                        </button> */}
+                        <div></div>
                         <span>
                           {message.date && `${message.date}, `}
                           {message.timestamp}
@@ -234,9 +218,9 @@ export default function CustomerChat() {
                           {message.date && `${message.date}, `}
                           {message.timestamp}
                         </span>
-                        <button className="hover:text-foreground">
+                        {/* <button className="hover:text-foreground">
                           Translate
-                        </button>
+                        </button> */}
                       </>
                     )}
                   </div>
@@ -244,88 +228,43 @@ export default function CustomerChat() {
                 {message.type === "user" && (
                   <Avatar className="h-6 w-6 flex-shrink-0">
                     <AvatarImage src="/user-avatar.png" />
-                    <AvatarFallback>U</AvatarFallback>
+                    <AvatarFallback className="text-xs">U</AvatarFallback>
                   </Avatar>
                 )}
               </div>
             </div>
           ))}
+
+          {/* Chat Summary - shown when status is waiting */}
+          {isWaiting && selectedConversation.summary && (
+            <div className="mt-4 rounded-lg border border-border p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="h-4 w-4 text-foreground" />
+                <span className="text-sm font-semibold text-foreground">
+                  Chat Summary
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  | AI generated
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {selectedConversation.summary}
+              </p>
+            </div>
+          )}
         </div>
       </ScrollArea>
 
-      {/* Input Area */}
-      <div className="p-4 pt-0 bg-popover">
-        <div className="border border-border rounded-2xl p-4 transition-all focus-within:ring-1 focus-within:ring-primary/20">
-          <div className="flex items-center gap-2 mb-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2 text-sm font-medium gap-2 mt-[-10px]"
-            >
-              <MessageSquare className="h-4 w-4" />
-              Message
-              <ChevronDown className="h-3 w-3" />
-            </Button>
-          </div>
-
-          <TextareaAutosize
-            placeholder="Type your message..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-              }
-            }}
-            minRows={1}
-            maxRows={6}
-            className="w-full min-h-10 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 scrollbar-hide"
-          />
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-0">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <Bookmark className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <Smile className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <ImageIcon className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <Sparkles className="h-4 w-4" />
-              </Button>
-            </div>
-
-            <Button
-              onClick={handleSend}
-              size="sm"
-              className="h-7 px-4 rounded-full"
-            >
-              Send Reply
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </div>
+      {/* Input Area / shown when status is waiting */}
+      {isWaiting ? (
+        <ChatWaitingBanner conversation={selectedConversation} />
+      ) : (
+        <ChatMessageInput
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          handleSend={handleSend}
+        />
+      )}
     </div>
   );
 }

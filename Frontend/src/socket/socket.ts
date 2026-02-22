@@ -1,6 +1,47 @@
+import { MAX_RECONNECT_ATTEMPTS, BASE_RECONNECT_DELAY_MS } from "@/constants";
+
 let socket: WebSocket | null = null;
+let reconnectTimeout: ReturnType<typeof setTimeout> | null = null;
+let reconnectAttempts = 0;
+let manualClose = false;
+
+let savedToken = "";
+let savedOnMessage: ((event: MessageEvent) => void) | null = null;
+
+const retryConnection = () => {
+  socket = null;
+  const delay = Math.min(
+    BASE_RECONNECT_DELAY_MS * 2 ** reconnectAttempts,
+    30000,
+  );
+  reconnectAttempts++;
+
+  console.log(
+    `Reconnecting in ${delay}ms (attempt ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})`,
+  );
+
+  reconnectTimeout = setTimeout(() => {
+    if (savedToken && savedOnMessage) {
+      createSocketConnection(savedToken, savedOnMessage);
+    }
+  }, delay);
+};
+
+const scheduleReconnect = () => {
+  if (manualClose) return;
+  if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+    console.error("Max reconnect attempts reached. Giving up.");
+    return;
+  }
+
+  retryConnection();
+};
 
 export const createSocketConnection = (token: string, onMessage: (event: MessageEvent) => void) => {
+  savedToken = token;
+  savedOnMessage = onMessage;
+  manualClose = false;
+
   if (socket) {
     console.log("Socket already exists, readyState:", socket.readyState);
     return socket;
@@ -8,21 +49,19 @@ export const createSocketConnection = (token: string, onMessage: (event: Message
 
   const wsUrl = `wss://socket.studiobutterfly.io/human-agent?token=${token}`;
   //const wsUrl = `ws://localhost:4646/human-agent?token=${token}`;
-  
-  const customerUrl = `ws://localhost:4646/customer?token=""`
-  
-  // console.log("Creating new WebSocket connection...");
-  // console.log("URL:", wsUrl);
+
+  const customerUrl = `ws://localhost:4646/customer?token=""`;
 
   try {
     socket = new WebSocket(wsUrl);
-    // console.log("WebSocket object created, readyState:", socket.readyState);
 
     socket.onopen = () => {
       console.log("Socket connected successfully!");
-      // console.log("ReadyState:", socket?.readyState);
-      // console.log("Protocol:", socket?.protocol);
-      // console.log("URL:", socket?.url);
+      reconnectAttempts = 0;
+      if (reconnectTimeout) {
+        clearTimeout(reconnectTimeout);
+        reconnectTimeout = null;
+      }
     };
 
     socket.onmessage = (event) => {
@@ -37,7 +76,7 @@ export const createSocketConnection = (token: string, onMessage: (event: Message
       console.log("Close Code:", event.code);
       console.log("Close Reason:", event.reason || "No reason provided");
       console.log("Was Clean:", event.wasClean);
-      socket = null;
+      scheduleReconnect();
     };
 
     socket.onerror = (err) => {
@@ -46,11 +85,10 @@ export const createSocketConnection = (token: string, onMessage: (event: Message
       console.error("ReadyState at error:", socket?.readyState);
       console.error("URL:", socket?.url);
     };
-
   } catch (error) {
     console.error("Failed to create WebSocket:");
     console.error(error);
-    socket = null;
+    scheduleReconnect();
   }
 
   return socket;
@@ -66,6 +104,13 @@ export const getSocket = () => {
 };
 
 export const closeSocket = () => {
+  manualClose = true;
+
+  if (reconnectTimeout) {
+    clearTimeout(reconnectTimeout);
+    reconnectTimeout = null;
+  }
+
   if (socket) {
     console.log("Closing socket...");
     console.log("Current ReadyState:", socket.readyState);
@@ -75,4 +120,6 @@ export const closeSocket = () => {
   } else {
     console.log("No socket to close");
   }
+
+  reconnectAttempts = 0;
 };

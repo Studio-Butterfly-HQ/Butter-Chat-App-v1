@@ -27,10 +27,8 @@ import { Spinner } from "@/components/ui/spinner";
 
 export default function General() {
   const { data: userProfile, isLoading } = useUserProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploading } =
-    useUploadAvatar();
-  const { mutateAsync: updateProfile, isPending: isUpdating } =
-    useUpdateUserProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar();
+  const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateUserProfile();
 
   const {
     profilePhoto,

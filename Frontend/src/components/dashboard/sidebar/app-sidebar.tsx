@@ -17,7 +17,7 @@ import {
   ShoppingBag,
   ListChecks,
   BellRing,
-  FileText
+  FileText,
 } from "lucide-react";
 
 import { NavMain } from "@/components/dashboard/sidebar/nav-main";
@@ -31,13 +31,6 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar";
-import { useAppSelector } from "@/store/hooks";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
 // This is sample data.
@@ -132,7 +125,7 @@ const data = {
     },
     {
       title: "Analytics",
-      url: "#",
+      url: "/activity",
       icon: TrendingUp,
     },
     {
@@ -175,12 +168,7 @@ const data = {
   ],
 };
 
-export function AppSidebar({
-  isLoading,
-  ...props
-}: React.ComponentProps<typeof Sidebar> & { isLoading?: boolean }) {
-  const company = useAppSelector((state) => state.auth.company);
-  const user = useAppSelector((state) => state.auth.user);
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="py-1" collapsible="icon" {...props}>
       <SidebarHeader>
@@ -194,27 +182,7 @@ export function AppSidebar({
         <Separator />
       </div>
       <SidebarFooter>
-        {isLoading ? (
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton size="lg" className="cursor-default">
-                <Skeleton className="h-8 w-8 rounded-sm" />
-                <div className="grid flex-1 gap-1.5 text-left text-sm leading-tight">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-3 w-32" />
-                </div>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        ) : user && (
-          <NavUser
-            user={{
-              name: user.user_name,
-              email: user.email,
-              avatar: user.profile_uri || "",
-            }}
-          />
-        )}
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

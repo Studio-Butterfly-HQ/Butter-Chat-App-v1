@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 
 import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { useCompanyProfile } from "@/provider/profile/profile.queries";
 import { TestAiAgentWrapper } from "@/components/dashboard/agent/test-ai-agent/test-ai-agent-wrapper";
 import { SettingsSidebarWrapper } from "@/components/dashboard/settings/settings-sidebar-wrapper";
 import { InboxSidebarWrapper } from "@/components/dashboard/inbox/sidebar/inbox-sidebar-wrapper";
@@ -12,11 +11,9 @@ import { CustomerChatWrapper } from "@/components/dashboard/inbox/chat/customer-
 import { ButterAiSidebarWrapper } from "@/components/dashboard/butter-ai/butter-ai-sidebar-wrapper";
 
 export default function DashboardLayout() {
-  const { isLoading } = useCompanyProfile();
-
   return (
     <SidebarProvider>
-      <AppSidebar isLoading={isLoading} />
+      <AppSidebar />
       <InboxSidebarWrapper />
       <SettingsSidebarWrapper />
       <SidebarInset className="max-h-svh overflow-hidden">

@@ -20,6 +20,9 @@ export default function UnassignedPage() {
   const isUserSidebarOpen = useAppSelector(
     (state) => state.ui.isUserSidebarOpen,
   );
+  const isCustomerChatOpen = useAppSelector(
+    (state) => state.ui.isCustomerChatOpen,
+  );
 
   const handleViewClick = () => {
     if (isUserSidebarOpen) {
@@ -57,7 +60,7 @@ export default function UnassignedPage() {
               className="h-7 gap-1.5 px-2 bg-transparent"
             >
               <SlidersHorizontal className="h-3 w-3" />
-              Filter
+              {!isCustomerChatOpen && "Filter"}
             </Button>
             <Button
               variant="default"
@@ -66,12 +69,12 @@ export default function UnassignedPage() {
               onClick={handleViewClick}
             >
               <Layout className="h-3 w-3" />
-              View
+              {!isCustomerChatOpen && "View"}
             </Button>
           </div>
         </div>
       </header>
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
         <UnassignedTable />
       </div>
     </div>

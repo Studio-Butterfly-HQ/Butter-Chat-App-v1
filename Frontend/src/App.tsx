@@ -8,7 +8,7 @@ import DashboardLayout from "./pages/dashboard/dashboard-layout";
 import DashboardHome from "./pages/dashboard/home/dashboard-home";
 import AiAgentPage from "./pages/dashboard/ai-agent/ai-agent-page";
 import AiAgentLayout from "./pages/dashboard/ai-agent/ai-agent-layout";
-import TeamsPage from "./pages/dashboard/user-profile/teams-page";
+import TeamsPage from "./pages/dashboard/teams/teams-page";
 import SettingsLayout from "./pages/dashboard/settings/settings-layout";
 import SettingsGeneral from "./pages/dashboard/settings/general/general-page";
 import SettingsSecurity from "./pages/dashboard/settings/security/security-page";
@@ -34,6 +34,8 @@ import SnippetsPage from "./pages/dashboard/ai-agent/snippets/snippets-page";
 import CompanyPage from "./pages/dashboard/test-agent/company-page";
 import ProvideInfoPage from "./pages/dashboard/test-agent/provide-info-page";
 import ChatPage from "./pages/dashboard/test-agent/chat-page";
+import AddNewSnippetsPage from "./pages/dashboard/ai-agent/snippets/add-new-snippets-page";
+import ActivityLogPage from "./pages/dashboard/activity-log/activity-log-page";
 
 export default function App() {
   return (
@@ -69,6 +71,7 @@ export default function App() {
               <Route path="forms" element={<FormsPage />} />
               <Route path="forms/:formId" element={<FormDetailsPage />} />
               <Route path="snippets" element={<SnippetsPage />} />
+              <Route path="snippets/new" element={<AddNewSnippetsPage />} />
             </Route>
             <Route path="inbox" element={<InboxLayout />}>
               {/* <Route index element={<Navigate to="your-inbox" replace />} />
@@ -85,6 +88,7 @@ export default function App() {
             <Route path="test-agent" element={<CompanyPage />} />
             <Route path="test-agent/:companyId" element={<ProvideInfoPage />} />
             <Route path="test-agent/chat/:companyId" element={<ChatPage />} />
+            <Route path="activity" element={<ActivityLogPage />} />
           </Route>
         </Route>
         {/* 404 */}

@@ -1,4 +1,4 @@
-export const BACKEND_BASE_URL_LOCAL = "http://localhost:5599";
+//export const BACKEND_BASE_URL = "http://localhost:5599";
 export const BACKEND_BASE_URL = "https://api.studiobutterfly.io";
 
 export const AUTH_API = {

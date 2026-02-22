@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -16,12 +15,8 @@ import {
   ShoppingBag,
   Facebook,
   Globe,
-  MoreHorizontal,
-  Mail,
   Instagram,
   MessageCircle,
-  ArrowRight,
-  Check,
 } from "lucide-react";
 import { DataGrid, DataGridContainer } from "@/components/ui/data-grid";
 import { DataGridPagination } from "@/components/ui/data-grid-pagination";
@@ -32,42 +27,29 @@ import {
 } from "@/components/ui/data-grid-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  openUserSidebar,
-  openCustomerChat,
-  setSelectedInboxUserId,
-} from "@/store/slices/ui/ui-slice";
-import { getSocket } from "@/socket/socket";
-import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { Conversation } from "@/store/slices/chat/chat-types";
+import { useAppSelector } from "@/store/hooks";
 import { InboxEmptyState } from "@/components/dashboard/inbox/inbox-empty-state";
+import closedData from "@/constants/dummy/closed-inbox.json";
 import {
-  TicketStatus,
   StatusBadge,
   normalizeStatus,
 } from "@/components/dashboard/inbox/your-inbox/your-inbox-table";
-import { Conversation } from "@/store/slices/chat/chat-types";
 
-export default function UnassignedTable() {
+export default function ClosedTable() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const dispatch = useAppDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
   const isCustomerChatOpen = useAppSelector(
     (state) => state.ui.isCustomerChatOpen,
   );
   const isUserSidebarOpen = useAppSelector(
     (state) => state.ui.isUserSidebarOpen,
   );
-  const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
+  const closedRecord = useAppSelector((state) => state.chat.closed);
 
-  const unassigned = useMemo(
-    () => Object.values(unassignedRecord),
-    [unassignedRecord],
-  );
+  const closed = useMemo(() => Object.values(closedRecord), [closedRecord]);
 
   const isCompactMode = isCustomerChatOpen || isUserSidebarOpen;
 
@@ -146,7 +128,7 @@ export default function UnassignedTable() {
               {row.original.summary}
             </div>
             <div className="flex flex-wrap gap-1.5">
-              {(row.original.tags ?? []).map((tag) => (
+              {row.original.tags.map((tag) => (
                 <Badge
                   key={tag}
                   variant="secondary"
@@ -171,28 +153,55 @@ export default function UnassignedTable() {
           ),
         },
       },
-      // {
-      //   accessorKey: "department",
-      //   header: "Department",
-      //   size: 150,
-      //   cell: ({ row }) => (
-      //     <div className="flex items-center gap-2">
-      //       <div className="h-2 w-2 rounded-full bg-blue-500" />
-      //       <span className="text-sm">
-      //         {row.original.department?.department_name || "General"}
-      //       </span>
-      //     </div>
-      //   ),
-      //   meta: {
-      //     headerClassName: "font-medium",
-      //     skeleton: (
-      //       <div className="flex items-center gap-2">
-      //         <Skeleton className="h-2 w-2 rounded-full" />
-      //         <Skeleton className="h-4 w-20" />
-      //       </div>
-      //     ),
-      //   },
-      // },
+      {
+        accessorKey: "assigned_to",
+        header: "Assignee",
+        size: 180,
+        cell: ({ row }) => (
+          <div className="flex items-center gap-2">
+            <Avatar className="h-6 w-6">
+              <AvatarImage src={row.original.assigned_to?.profile_uri || ""} />
+              <AvatarFallback className="text-[10px]">
+                {row.original.assigned_to?.name?.charAt(0) || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-sm">
+              {row.original.assigned_to?.name || "Unassigned"}
+            </span>
+          </div>
+        ),
+        meta: {
+          headerClassName: "font-medium",
+          skeleton: (
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-6 w-6 rounded-full" />
+              <Skeleton className="h-4 w-24" />
+            </div>
+          ),
+        },
+      },
+      {
+        accessorKey: "department",
+        header: "Department",
+        size: 150,
+        cell: ({ row }) => (
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-blue-500" />
+            <span className="text-sm">
+              {row.original.department?.department_name || "General"}
+            </span>
+          </div>
+        ),
+        meta: {
+          headerClassName: "font-medium",
+          skeleton: (
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-2 w-2 rounded-full" />
+              <Skeleton className="h-4 w-20" />
+            </div>
+          ),
+        },
+      },
       {
         accessorKey: "metadata",
         header: "Last Updated",
@@ -205,56 +214,6 @@ export default function UnassignedTable() {
         meta: {
           headerClassName: "font-medium",
           skeleton: <Skeleton className="h-4 w-16" />,
-        },
-      },
-      {
-        id: "action",
-        header: "Action",
-        size: 120,
-        enableSorting: false,
-        cell: ({ row }) => (
-          <div className="flex items-center gap-2">
-            <Button
-              variant="default"
-              size="icon"
-              className="h-8 w-8 rounded-full"
-              onClick={(e) => {
-                e.stopPropagation();
-                // TODO: handle transfer action
-              }}
-            >
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="default"
-              size="icon"
-              className="h-8 w-8 rounded-full"
-              onClick={(e) => {
-                e.stopPropagation();
-                const socket = getSocket();
-                if (socket && socket.readyState === WebSocket.OPEN) {
-                  socket.send(
-                    JSON.stringify({
-                      type: "accept_chat",
-                      payload: row.original,
-                    }),
-                  );
-                  toast.success("Chat accepted successfully");
-                }
-              }}
-            >
-              <Check className="h-4 w-4" />
-            </Button>
-          </div>
-        ),
-        meta: {
-          headerClassName: "font-medium",
-          skeleton: (
-            <div className="flex items-center gap-2">
-              <Skeleton className="h-8 w-8 rounded-full" />
-              <Skeleton className="h-8 w-8 rounded-full" />
-            </div>
-          ),
         },
       },
     ],
@@ -305,11 +264,13 @@ export default function UnassignedTable() {
                       <Avatar className="h-4 w-4 border border-background flex-shrink-0">
                         <AvatarImage
                           src={row.original.assigned_to?.profile_uri || ""}
+                          className="object-cover"
                         />
                         <AvatarFallback className="text-[6px]">
                           {row.original.assigned_to?.name?.charAt(0) || "U"}
                         </AvatarFallback>
                       </Avatar>
+                      <Inbox className="h-3 w-3 text-muted-foreground" />
                       <ShoppingBag className="h-3 w-3 text-muted-foreground" />
                       {sourceIcon(row.original.customer.source)}
                     </div>
@@ -330,11 +291,11 @@ export default function UnassignedTable() {
     [],
   );
 
-  const unassignedColumns = isCompactMode ? compactColumns : columns;
+  const activeColumns = isCompactMode ? compactColumns : columns;
 
   const table = useReactTable({
-    data: unassigned,
-    columns: unassignedColumns,
+    data: closed,
+    columns: activeColumns,
     state: {
       pagination,
       rowSelection,
@@ -347,7 +308,7 @@ export default function UnassignedTable() {
     getSortedRowModel: getSortedRowModel(),
   });
 
-  if (unassigned.length === 0) {
+  if (closed.length === 0) {
     return <InboxEmptyState />;
   }
 
@@ -357,14 +318,7 @@ export default function UnassignedTable() {
     >
       <DataGrid
         table={table}
-        recordCount={unassigned.length}
-        onRowClick={(row: Conversation) => {
-          dispatch(setSelectedInboxUserId(row.id));
-          if (!isCustomerChatOpen) {
-            dispatch(openUserSidebar());
-          }
-          dispatch(openCustomerChat());
-        }}
+        recordCount={closed.length}
         tableLayout={{
           headerBackground: false,
           rowBorder: isCompactMode ? false : true,

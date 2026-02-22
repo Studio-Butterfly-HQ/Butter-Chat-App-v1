@@ -316,7 +316,7 @@ export default function TableUpload({
         <Alert variant="destructive" className="mt-2">
           <div className="flex items-center gap-2">
             <TriangleAlert className="size-4" />
-            <AlertTitle>Upload error</AlertTitle>
+            <AlertTitle>File upload error</AlertTitle>
           </div>
           <AlertDescription className="pl-6">
             {errors.map((error, index) => (

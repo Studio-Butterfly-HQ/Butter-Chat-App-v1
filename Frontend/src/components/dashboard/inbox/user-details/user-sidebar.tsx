@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ChevronDown, ArrowUpRight, User, Users, X } from "lucide-react";
-import messageData from "@/constants/dummy/user.json";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -52,25 +51,100 @@ const Tag = ({ label }: { label: string }) => (
   </Badge>
 );
 
+// Dummy data
+const dummyRecentConversations = [
+  {
+    timestamp: "03:05 AM - Dec 17, 2025",
+    message: "Thanks for trying that. I'm going to check again.",
+  },
+  {
+    timestamp: "10:15 AM - Jan 14, 2026",
+    message: "I have a question about my last invoice.",
+  },
+  {
+    timestamp: "06:45 PM - Jan 10, 2026",
+    message: "The product arrived damaged. Can I get a replacement?",
+  },
+];
+
+const dummyInteractedProducts = [
+  {
+    id: 1,
+    name: "Strawberry Watermelon Flavor",
+    price: "b1,188.00",
+    timestamp: "03:05 AM - Dec 17, 2025",
+    image:
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+    url: "#",
+  },
+  {
+    id: 2,
+    name: "Mango Ice",
+    price: "b1,150.00",
+    timestamp: "02:40 AM - Dec 16, 2025",
+    image:
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+    url: "#",
+  },
+  {
+    id: 3,
+    name: "Grape Blast",
+    price: "b1,200.00",
+    timestamp: "01:20 AM - Dec 15, 2025",
+    image:
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=60&h=60&fit=crop",
+    url: "#",
+  },
+];
+
+const dummyRecentOrders = [
+  {
+    id: "#18756",
+    timestamp: "03:05 AM - Dec 17, 2025",
+    productName: "Strawberry Watermelon Flavor",
+    image: null as string | null,
+    url: "#",
+  },
+  {
+    id: "#18720",
+    timestamp: "11:30 PM - Dec 16, 2025",
+    productName: "Mango Ice",
+    image: null as string | null,
+    url: "#",
+  },
+  {
+    id: "#18698",
+    timestamp: "09:10 PM - Dec 15, 2025",
+    productName: "Grape Blast",
+    image: null as string | null,
+    url: "#",
+  },
+];
+
 export function UserSidebar() {
-  const selectedInboxUserId = useAppSelector(
-    (state) => state.ui.selectedInboxUserId,
-  );
-  const selectedUser =
-    (messageData as any[]).find((u) => u.id === selectedInboxUserId) ||
-    (messageData as any[])[0];
+  const selectedInboxUserId = useAppSelector((state) => state.ui.selectedInboxUserId);
+  const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
+  const activeRecord = useAppSelector((state) => state.chat.active);
   const dispatch = useAppDispatch();
 
-  if (!selectedUser) return null;
+  const selectedConversation = useMemo(() => {
+    if (!selectedInboxUserId) return null;
+    return (
+      unassignedRecord[selectedInboxUserId] ??
+      activeRecord[selectedInboxUserId] ??
+      null
+    );
+  }, [selectedInboxUserId, unassignedRecord, activeRecord]);
 
-  const {
-    user,
-    assignment,
-    tags,
-    recentConversations,
-    interactedProducts,
-    recentOrders,
-  } = selectedUser;
+  useEffect(() => {
+    if (selectedInboxUserId && !selectedConversation) {
+      dispatch(closeUserSidebar());
+    }
+  }, [selectedInboxUserId, selectedConversation, dispatch]);
+
+  if (!selectedConversation) return null;
+
+  const { customer, assigned_to, department, tags } = selectedConversation;
 
   return (
     <div className="flex bg-popover rounded-xl border border-border dark:border-none h-full flex-col">
@@ -96,18 +170,20 @@ export function UserSidebar() {
           <div className="pb-4 space-y-4">
             <div className="flex items-center gap-3">
               <Avatar className="h-16 w-16">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                <AvatarImage src={customer.picture} alt={customer.name} />
+                <AvatarFallback>
+                  {customer.name?.charAt(0) || "U"}
+                </AvatarFallback>
               </Avatar>
               <div>
                 <h3 className="text-lg font-bold text-foreground">
-                  {user.name}
+                  {customer.name}
                 </h3>
                 <a
-                  href={user.sourceUrl}
+                  href="#"
                   className="inline-flex items-center gap-1 text-base font-semibold text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  Source: {user.source}
+                  Source: {customer.source}
                   <ArrowUpRight className="h-4 w-4 flex-shrink-0" />
                 </a>
               </div>
@@ -121,7 +197,7 @@ export function UserSidebar() {
                 </span>
                 <div className="flex items-center gap-1.5 text-foreground font-medium">
                   <User className="h-4 w-4 text-muted-foreground" />
-                  {assignment.assignedTo}
+                  {assigned_to?.name || "Unassigned"}
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -130,14 +206,14 @@ export function UserSidebar() {
                 </span>
                 <div className="flex items-center gap-1.5 text-foreground font-medium">
                   <div className="h-3 w-3 rounded-full bg-blue-500" />
-                  {assignment.group}
+                  {department?.department_name || "General"}
                 </div>
               </div>
             </div>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
-              {tags.map((tag: string, index: number) => (
+              {(tags ?? []).map((tag: string, index: number) => (
                 <Tag key={index} label={tag} />
               ))}
             </div>
@@ -145,7 +221,7 @@ export function UserSidebar() {
           {/* Recent Conversation */}
           <CollapsibleSection title="Recent Conversation">
             <div className="space-y-4">
-              {recentConversations.map((conv: any, index: number) => (
+              {dummyRecentConversations.map((conv, index) => (
                 <div key={index} className="space-y-1">
                   <p className="text-sm font-medium uppercase">
                     {conv.timestamp}
@@ -161,7 +237,7 @@ export function UserSidebar() {
           {/* Interacted Products */}
           <CollapsibleSection title="Interacted Products">
             <div className="space-y-4">
-              {interactedProducts.map((product: any) => (
+              {dummyInteractedProducts.map((product) => (
                 <div key={product.id} className="flex items-center gap-3 group">
                   <Avatar className="h-12 w-12 rounded-lg border border-border">
                     <AvatarImage
@@ -196,11 +272,11 @@ export function UserSidebar() {
           {/* Recent Orders */}
           <CollapsibleSection title="Recent Orders">
             <div className="space-y-4">
-              {recentOrders.map((order: any, index: number) => (
+              {dummyRecentOrders.map((order, index) => (
                 <div key={index} className="flex items-center gap-3 group">
                   <Avatar className="h-12 w-12 rounded-lg border border-border">
                     <AvatarImage
-                      src={order.image}
+                      src={order.image || ""}
                       alt={order.productName}
                       className="object-cover"
                     />

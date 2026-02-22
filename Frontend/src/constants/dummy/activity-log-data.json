@@ -1,0 +1,57 @@
+[
+  {
+    "id": "#12CG475DC",
+    "actionType": "Login",
+    "detailedDescription": "New member added: Sarah Jenkins",
+    "performedBy": {
+      "name": "Tom Hargreaves",
+      "avatar": "https://github.com/shadcn.png"
+    },
+    "timestamp": "Jan 3, 2026, 10:00 AM",
+    "status": "Success"
+  },
+  {
+    "id": "#12CG475DD",
+    "actionType": "Logout",
+    "detailedDescription": "User logged out successfully",
+    "performedBy": {
+      "name": "Sarah Jenkins",
+      "avatar": "https://github.com/shadcn.png"
+    },
+    "timestamp": "Jan 3, 2026, 06:30 PM",
+    "status": "Success"
+  },
+  {
+    "id": "#12CG475DE",
+    "actionType": "Update Profile",
+    "detailedDescription": "Updated contact information",
+    "performedBy": {
+      "name": "Michael Chen",
+      "avatar": "https://github.com/shadcn.png"
+    },
+    "timestamp": "Jan 4, 2026, 09:15 AM",
+    "status": "Warning"
+  },
+  {
+    "id": "#12CG475DF",
+    "actionType": "Delete Data",
+    "detailedDescription": "Deleted old records from 2024",
+    "performedBy": {
+      "name": "Admin User",
+      "avatar": "https://github.com/shadcn.png"
+    },
+    "timestamp": "Jan 5, 2026, 11:45 AM",
+    "status": "Failed"
+  },
+  {
+    "id": "#12CG475DG",
+    "actionType": "View Report",
+    "detailedDescription": "Generated monthly activity report",
+    "performedBy": {
+      "name": "Lisa Wong",
+      "avatar": "https://github.com/shadcn.png"
+    },
+    "timestamp": "Jan 6, 2026, 02:20 PM",
+    "status": "Success"
+  }
+]

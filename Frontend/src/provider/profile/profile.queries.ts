@@ -23,7 +23,6 @@ import {
   fetchLocationDefaultsApi,
 } from "./profile.api";
 import { useAppDispatch } from "@/store/hooks";
-import { setCompany, setUser } from "@/store/slices/auth/auth-slice";
 import { logout } from "@/store/slices/auth/auth-slice";
 import { persistor } from "@/store/index";
 import { useNavigate } from "react-router-dom";
@@ -51,8 +50,6 @@ export const useUploadAvatar = (tokenOverride?: string | null) => {
 export const useUpdateCompanyProfile = () => {
   const queryClient = useQueryClient();
   const token = useAppSelector((state) => state.auth.token);
-  const company = useAppSelector((state) => state.auth.company);
-  const dispatch = useAppDispatch();
 
   return useMutation({
     mutationFn: (payload: ProfilePayload) => {
@@ -70,14 +67,14 @@ export const useUpdateCompanyProfile = () => {
       toast.success(res.message);
       queryClient.invalidateQueries({ queryKey: ["company-profile"] });
 
-      if (company) {
-        dispatch(
-          setCompany({
-            ...company,
-            ...variables,
-          }),
-        );
-      }
+      // if (company) {
+      //   dispatch(
+      //     setCompany({
+      //       ...company,
+      //       ...variables,
+      //     }),
+      //   );
+      // }
     },
 
     onError: (error: any) => {
@@ -92,8 +89,7 @@ export const useCompanyProfile = () => {
   const navigate = useNavigate();
 
   const token = useAppSelector((state) => state.auth.token);
-  console.log("token", token);
-  const user = useAppSelector((state) => state.auth.user);
+  // console.log("token: ", token);
 
   const query = useQuery({
     queryKey: ["company-profile", token],
@@ -105,51 +101,38 @@ export const useCompanyProfile = () => {
       }
       return fetchCompanyProfileApi(token);
     },
-
-    retry: false,
-    staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 10,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 10, // 10 minutes
   });
 
   /* Handle SUCCESS (including success:false) */
   useEffect(() => {
-    if (!query.isSuccess) return;
+    if (!query.isError) return;
 
-    if (!query.data?.success) {
-      console.error(
-        "Company profile error details:",
-        query.data?.error,
-      );
+    const error: any = query.error;
+
+    console.error("Company profile failed:", error);
+    console.log("Company profile failed:", error?.status);
+
+    if (error?.status === 401) {
+      console.log("Unauthorized → logging out");
+
       dispatch(logout());
       persistor.purge().then(() => {
         navigate("/login", { replace: true });
       });
-      return;
     }
-    dispatch(setCompany(query.data.data));
-
-    if (!user) {
-      const defaultUser =
-        query.data.data.users?.find((u: any) => u.role === "OWNER") ??
-        query.data.data.users?.[0];
-
-      if (defaultUser) {
-        dispatch(setUser(defaultUser));
-      }
-    }
-  }, [query.isSuccess, query.data, dispatch, navigate, user]);
+  }, [query.isError, query.error, dispatch, navigate]);
 
   /* Handle HTTP / Network errors */
   useEffect(() => {
     if (!query.isError) return;
 
-    console.error("Company profile request failed:",(query.error as any)?.error);
-
-    dispatch(logout());
-    persistor.purge().then(() => {
-      navigate("/login", { replace: true });
-    });
-  }, [query.isError, query.error, dispatch, navigate]);
+    console.error(
+      "Company profile request failed:",
+      (query.error as any)?.error,
+    );
+  }, [query.isError, query.error]);
 
   return query;
 };
@@ -190,7 +173,6 @@ export const useUserProfile = () => {
 export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
   const token = useAppSelector((state) => state.auth.token);
-  const dispatch = useAppDispatch();
 
   return useMutation({
     mutationFn: (payload: Partial<User>) => {
@@ -207,7 +189,6 @@ export const useUpdateUserProfile = () => {
       toast.success(res.message);
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
       queryClient.invalidateQueries({ queryKey: ["company-profile"] });
-      dispatch(setUser(res.data));
     },
     onError: (error: any) => {
       console.error("Update profile error details:", error?.error?.details);

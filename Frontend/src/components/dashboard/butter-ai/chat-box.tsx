@@ -11,11 +11,15 @@ import {
   Settings2,
   ArrowDownRight,
   Loader2,
+  Pause,
+  ArrowUp,
 } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "@/store/hooks";
 import { useSocket } from "@/socket/socket-provider";
 import { SocketMessage } from "@/socket/socket-types";
+import AIMessageRenderer from "./aI-message-renderer";
+import { useSocketParser } from "@/hooks/use-socket-parser";
 
 interface Message {
   id: string;
@@ -40,6 +44,7 @@ export default function ChatBox() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const currentStreamMessageRef = useRef<string>("");
   const streamingMessageIdRef = useRef<string | null>(null);
+  const { parseMultipleJSON } = useSocketParser();
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -58,14 +63,15 @@ export default function ChatBox() {
     if (!socket) return;
 
     const handleMessage = (event: MessageEvent) => {
-      try {
-        const data: SocketMessage = JSON.parse(event.data);
+      // Parse one or more JSON objects from the raw message
+      const packets = parseMultipleJSON(event.data as string);
+
+      for (const data of packets) {
         console.log("Received socket message:", data);
 
         switch (data.type) {
-          case "butter_typing_start":
+          case "butter_typing_start": {
             setIsAiTyping(true);
-            // Create a new streaming message
             const newMessageId = `stream-${Date.now()}`;
             streamingMessageIdRef.current = newMessageId;
             currentStreamMessageRef.current = "";
@@ -85,9 +91,9 @@ export default function ChatBox() {
               },
             ]);
             break;
+          }
 
-          case "butter_stream":
-            // Append streaming content
+          case "butter_stream": {
             if (data.payload?.content) {
               currentStreamMessageRef.current += data.payload.content;
 
@@ -104,10 +110,10 @@ export default function ChatBox() {
               );
             }
             break;
+          }
 
-          case "butter_typing_end":
+          case "butter_typing_end": {
             setIsAiTyping(false);
-            // Mark the streaming message as complete
             setMessages((prev) =>
               prev.map((msg) =>
                 msg.id === streamingMessageIdRef.current
@@ -118,6 +124,11 @@ export default function ChatBox() {
             currentStreamMessageRef.current = "";
             streamingMessageIdRef.current = null;
             break;
+          }
+
+          // case "butter_stream_full_reply":
+          //   console.log("Full reply:", data.payload);
+          //   break;
 
           case "connection_established":
             console.log("WebSocket connection established");
@@ -126,8 +137,6 @@ export default function ChatBox() {
           default:
             console.log("Unhandled message type:", data.type);
         }
-      } catch (error) {
-        console.error("Failed to parse socket message:", error);
       }
     };
 
@@ -159,7 +168,6 @@ export default function ChatBox() {
   const handleSend = (content?: string) => {
     const messageContent = content || inputValue.trim();
     if (messageContent) {
-      // Add user message to UI
       const userMessage: Message = {
         id: Date.now().toString(),
         sender_type: "Human-Agent",
@@ -173,8 +181,6 @@ export default function ChatBox() {
 
       setMessages((prev) => [...prev, userMessage]);
       setInputValue("");
-
-      // Send message via WebSocket
       sendMessage(messageContent);
     }
   };
@@ -237,12 +243,13 @@ export default function ChatBox() {
                         }`}
                       >
                         {message.isTyping && !message.content ? (
-                          <div className="flex items-center gap-1">
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                            <span className="text-muted-foreground">
-                              Typing...
-                            </span>
+                          <div className="flex items-center gap-1 h-5 px-1 text-muted-foreground">
+                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce"></div>
                           </div>
+                        ) : message.sender_type === "AI-AGENT" ? (
+                          <AIMessageRenderer content={message.content} />
                         ) : (
                           <p className="break-words whitespace-pre-wrap">
                             {message.content}
@@ -252,17 +259,20 @@ export default function ChatBox() {
                       <div className="flex items-center justify-between gap-2 px-1 text-xs text-muted-foreground">
                         {message.sender_type === "Human-Agent" ? (
                           <>
-                            <button className="hover:text-foreground">
+                            {/* <button className="hover:text-foreground">
                               Translate
-                            </button>
+                            </button> */}
+                            <span></span>
                             <span>{message.timestamp}</span>
                           </>
                         ) : (
                           <>
                             <span>{message.timestamp}</span>
-                            <button className="hover:text-foreground">
-                              Translate
-                            </button>
+                            {/* {!isAiTyping && (
+                              <button className="hover:text-foreground">
+                                Translate
+                              </button>
+                            )} */}
                           </>
                         )}
                       </div>
@@ -333,16 +343,18 @@ export default function ChatBox() {
                   <Mic className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant="ghost"
+                  variant="default"
                   size="icon"
                   className="h-8 rounded-full w-8"
                   onClick={() => handleSend()}
                   disabled={isAiTyping || !inputValue.trim()}
                 >
                   {isAiTyping ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <div className="w-full h-full rounded-full bg-muted-foreground flex items-center justify-center">
+                      <div className="h-3.5 w-3.5 rounded-sm bg-primary animate-pulse"></div>
+                    </div>
                   ) : (
-                    <Send className="h-4 w-4" />
+                    <ArrowUp className="h-4 w-4" />
                   )}
                 </Button>
               </div>

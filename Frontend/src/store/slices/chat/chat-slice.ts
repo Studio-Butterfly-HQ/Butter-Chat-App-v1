@@ -2,9 +2,10 @@ import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
 import { ChatState } from "./chat-types";
 
 const initialState: ChatState = {
-  unassigned: [],
-  active: [],
+  unassigned: {},
+  active: {},
   messages: {},
+  closed: {},
 };
 
 const chatSlice = createSlice({
@@ -12,48 +13,49 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     addUnassignedChat(state, action: PayloadAction<any>) {
-      state.unassigned.unshift(action.payload);
-      console.log("addUnassignedChat", {
-        unassigned: current(state.unassigned),
-        active: current(state.active),
-        messages: current(state.messages),
-      });
+      state.unassigned[action.payload.id] = action.payload;
+      console.log("addUnassignedChat", current(state));
     },
 
     moveToActive(state, action: PayloadAction<any>) {
-      state.unassigned = state.unassigned.filter(
-        (c) => c.id !== action.payload.id,
-      );
-      state.active.unshift(action.payload);
-      console.log("moveToActive", {
-        unassigned: current(state.unassigned),
-        active: current(state.active),
-        messages: current(state.messages),
-      });
+      const id = action.payload.id;
+      if (!id) {
+        console.warn("moveToActive: no valid id found", action.payload);
+        return;
+      }
+      const { [id]: removed, ...rest } = current(state.unassigned);
+      state.unassigned = rest;
+      state.active[id] = action.payload;
+      console.log("moveToActive", current(state));
     },
 
     addMessage(state, action: PayloadAction<any>) {
       const msg = action.payload;
-      if (!state.messages[msg.conversation_id]) {
-        //if this is the first message of that chat
-        state.messages[msg.conversation_id] = [];
+      const conversation_id = msg.conversation_id;
+      if (!conversation_id) {
+        console.warn("addMessage: no valid conversation_id found", action.payload);
+        return;
       }
-      state.messages[msg.conversation_id].push(msg);
-      console.log("addMessage", {
-        unassigned: current(state.unassigned),
-        active: current(state.active),
-        messages: current(state.messages),
-      });
+
+      if (!state.messages[conversation_id]) {
+        state.messages[conversation_id] = [];
+      }
+      state.messages[conversation_id].push(msg);
+      console.log("addMessage", current(state));
     },
 
-    endChat(state, action: PayloadAction<string>) {
-      delete state.messages[action.payload];
-      state.active = state.active.filter((c) => c.id !== action.payload);
-      console.log("endChat", {
-        unassigned: current(state.unassigned),
-        active: current(state.active),
-        messages: current(state.messages),
-      });
+    endChat(state, action: PayloadAction<any>) {
+      const id = action.payload.id;
+      if (!id) {
+        console.warn("endChat: no valid id found", action.payload);
+        return;
+      }
+      const { [id]: removed, ...rest } = current(state.active);
+      const { [id]: removed2, ...rest2 } = current(state.messages);
+      state.active = rest;
+      state.closed[id] = action.payload;
+      state.messages = rest2;
+      console.log("endChat", current(state));
     },
   },
 });
