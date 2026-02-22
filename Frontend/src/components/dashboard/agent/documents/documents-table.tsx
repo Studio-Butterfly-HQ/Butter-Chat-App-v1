@@ -125,11 +125,11 @@ export function DocumentsTable() {
       header: "",
       size: 120,
       cell: ({ row }) => (
-        <div className="flex items-center gap-4 shrink-0 justify-end pr-4">
-          <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-          <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+        <div className="flex items-center gap-4 justify-end pr-4">
+          <Eye className="h-4 w-4 cursor-pointer shrink-0 text-muted-foreground hover:text-foreground" />
+          <RefreshCcw className="h-4 w-4 cursor-pointer shrink-0 text-muted-foreground hover:text-foreground" />
           <Trash2
-            className="h-4 w-4 cursor-pointer text-red-500 hover:text-red-600"
+            className="h-4 w-4 cursor-pointer shrink-0 text-red-500 hover:text-red-600"
             onClick={() => handleDeleteClick(row.original)}
           />
         </div>
