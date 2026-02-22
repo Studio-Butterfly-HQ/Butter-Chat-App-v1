@@ -1,19 +1,59 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import {
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  customerLoginSchema,
+  CustomerLoginFormValues,
+} from "@/schemas/customerLoginSchema";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useCustomerLogin } from "@/provider/customer";
+import { useNavigate } from "react-router-dom";
+import { Spinner } from "@/components/ui/spinner";
 
 interface LoginFormProps {
   onToggle: () => void;
-  onSubmit: () => void;
+  companyId: string;
 }
 
-export function LoginForm({ onToggle, onSubmit }: LoginFormProps) {
+export function LoginForm({ onToggle, companyId }: LoginFormProps) {
+  const navigate = useNavigate();
+  const { mutateAsync, isPending } = useCustomerLogin();
+
+  const form = useForm<CustomerLoginFormValues>({
+    resolver: zodResolver(customerLoginSchema),
+    defaultValues: {
+      contact: "",
+      password: "",
+      source: "WEB",
+      company_id: companyId,
+    },
+    mode: "onBlur",
+  });
+
+  const handleSubmit = async (data: CustomerLoginFormValues) => {
+    try {
+      const res = await mutateAsync(data);
+      if (res.success) {
+        navigate(`/test-agent/chat/${companyId}`);
+      }
+    } catch (error) {
+      console.error("Error in customer login: ", error);
+    }
+  };
+
   return (
     <>
       <CardHeader className="text-start">
@@ -23,26 +63,60 @@ export function LoginForm({ onToggle, onSubmit }: LoginFormProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 text-left">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            placeholder="Enter your email"
-            className="bg-muted/50 border-0"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            className="bg-muted/50 border-0"
-          />
-        </div>
-        <Button size="lg" className="w-full" onClick={onSubmit}>
-          Start Conversation
-        </Button>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="contact"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary">Email</FormLabel>
+                  <Input
+                    {...field}
+                    placeholder="Enter your email"
+                    className="bg-muted/50 border-0"
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary">Password</FormLabel>
+                  <Input
+                    {...field}
+                    type="password"
+                    placeholder="Enter your password"
+                    className="bg-muted/50 border-0"
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              size="lg"
+              className="w-full"
+              type="submit"
+              disabled={isPending}
+            >
+              {isPending ? (
+                <>
+                  <Spinner /> Please wait...
+                </>
+              ) : (
+                <>Start Conversation</>
+              )}
+            </Button>
+          </form>
+        </Form>
 
         <div className="text-center text-sm text-muted-foreground mt-4">
           Don't have an account?{" "}

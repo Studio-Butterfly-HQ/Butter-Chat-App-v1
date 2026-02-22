@@ -11,7 +11,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Card, CardContent } from "@/components/ui/card";
 
 import { useNavigate } from "react-router-dom";
 import { LoginForm } from "@/components/dashboard/test-agent/login-form";
@@ -23,10 +22,9 @@ import { Loader2 } from "lucide-react";
 export default function ProvideInfoPage() {
   const navigate = useNavigate();
   const { companyId } = useParams();
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const { data: company, isLoading, isError } = useCompanyById(companyId);
-  console.log("this is data", company);
 
   if (isLoading) {
     return (
@@ -81,7 +79,7 @@ export default function ProvideInfoPage() {
               {isLogin ? (
                 <LoginForm
                   onToggle={() => setIsLogin(false)}
-                  onSubmit={handleSubmit}
+                  companyId={companyId!}
                 />
               ) : (
                 <SignUpForm
@@ -125,8 +123,7 @@ export default function ProvideInfoPage() {
                 <h3 className="text-xl font-semibold">Welcome to Support</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   Please fill out the form to get connected with our support
-                  agents. We'll match you with the right team based on your
-                  needs.
+                  agents.
                 </p>
               </div>
 

@@ -36,7 +36,7 @@ export default function CompanyTable() {
     {
       accessorKey: "logo",
       header: "",
-      size: 40,
+      size: 45,
       cell: ({ row }) => (
         <Avatar className="rounded-md">
           <AvatarImage

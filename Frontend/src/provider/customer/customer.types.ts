@@ -21,3 +21,10 @@ export interface ApiResponse<T> {
   timestamp?: string;
   path?: string;
 }
+
+export interface CustomerLoginPayload {
+  contact: string;
+  password: string;
+  source: string;
+  company_id: string;
+}

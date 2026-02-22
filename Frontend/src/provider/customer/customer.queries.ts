@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { getCustomerListApi } from "./customer.api";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { getCustomerListApi, customerLoginApi } from "./customer.api";
 import { useAppSelector } from "@/store/hooks";
+import { toast } from "sonner";
 
 export const useGetCustomers = () => {
   const token = useAppSelector((state) => state.auth.token);
@@ -17,5 +18,24 @@ export const useGetCustomers = () => {
     gcTime: 30 * 60 * 1000,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
+  });
+};
+
+export const useCustomerLogin = () => {
+  return useMutation({
+    mutationFn: customerLoginApi,
+
+    onSuccess: (res: any) => {
+      if (!res.success) {
+        toast.error(res.message);
+      } else {
+        toast.success(res.message);
+      }
+    },
+
+    onError: (error: any) => {
+      console.error("Customer login error:", error);
+      toast.error(error.message);
+    },
   });
 };

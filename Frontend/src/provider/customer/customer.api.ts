@@ -1,4 +1,8 @@
-import type { ApiResponse, Customer } from "./customer.types";
+import type {
+  ApiResponse,
+  Customer,
+  CustomerLoginPayload,
+} from "./customer.types";
 import { CUSTOMER_API } from "@/constants/api";
 
 export const getCustomerListApi = async (
@@ -19,6 +23,23 @@ export const getCustomerListApi = async (
       throw data;
     }
 
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const customerLoginApi = async (payload: CustomerLoginPayload) => {
+  try {
+    const res = await fetch(CUSTOMER_API.CUSTOMER_LOGIN, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw data;
+    }
     return data;
   } catch (error) {
     throw error;
