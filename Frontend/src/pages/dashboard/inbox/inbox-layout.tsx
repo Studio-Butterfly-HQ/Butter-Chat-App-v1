@@ -15,7 +15,7 @@ export default function InboxLayout() {
 
   const INBOX_VIEWS: Record<string, ReactNode> = {
     "your-inbox": <YourInboxPage />,
-    unassigned: <UnassignedPage />,
+    "unassigned": <UnassignedPage />,
     "closed-box": <ClosedPage />,
     "closed-chat": <Placeholder title="Closed Chat Content" />,
     "category-ecommerce": <Placeholder title="Category: eCommerce" />,

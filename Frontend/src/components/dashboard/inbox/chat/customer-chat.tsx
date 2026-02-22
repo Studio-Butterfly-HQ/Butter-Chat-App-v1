@@ -25,25 +25,9 @@ interface Message {
 }
 
 export default function CustomerChat() {
-  const selectedInboxUserId = useAppSelector(
-    (state) => state.ui.selectedInboxUserId,
-  );
-
+  const selectedInboxUserId = useAppSelector((state) => state.ui.selectedInboxUserId);
   const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
   const activeRecord = useAppSelector((state) => state.chat.active);
-
-  const selectedConversation = useMemo(() => {
-    if (!selectedInboxUserId) return null;
-    return (
-      unassignedRecord[selectedInboxUserId] ??
-      activeRecord[selectedInboxUserId] ??
-      null
-    );
-  }, [selectedInboxUserId, unassignedRecord, activeRecord]);
-
-  const isWaiting = selectedInboxUserId
-    ? Boolean(unassignedRecord[selectedInboxUserId])
-    : false;
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -67,6 +51,17 @@ export default function CustomerChat() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
+  const selectedConversation = useMemo(() => {
+    if (!selectedInboxUserId) return null;
+    return (
+      unassignedRecord[selectedInboxUserId] ??
+      activeRecord[selectedInboxUserId] ??
+      null
+    );
+  }, [selectedInboxUserId, unassignedRecord, activeRecord]);
+  
+  const isWaiting = selectedInboxUserId ? Boolean(unassignedRecord[selectedInboxUserId]) : false;
+
   useEffect(() => {
     if (selectedInboxUserId && !selectedConversation) {
       dispatch(closeCustomerChat());
@@ -75,7 +70,7 @@ export default function CustomerChat() {
   }, [selectedInboxUserId, selectedConversation, dispatch]);
 
   if (!selectedConversation) return null;
-
+  
   useEffect(() => {
     if (selectedInboxUserId) {
       setMessages([

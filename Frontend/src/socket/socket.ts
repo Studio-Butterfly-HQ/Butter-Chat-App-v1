@@ -1,13 +1,31 @@
+import { MAX_RECONNECT_ATTEMPTS, BASE_RECONNECT_DELAY_MS } from "@/constants";
+
 let socket: WebSocket | null = null;
 let reconnectTimeout: ReturnType<typeof setTimeout> | null = null;
 let reconnectAttempts = 0;
 let manualClose = false;
 
-const MAX_RECONNECT_ATTEMPTS = 10;
-const BASE_RECONNECT_DELAY_MS = 1000;
-
 let savedToken = "";
 let savedOnMessage: ((event: MessageEvent) => void) | null = null;
+
+const retryConnection = () => {
+  socket = null;
+  const delay = Math.min(
+    BASE_RECONNECT_DELAY_MS * 2 ** reconnectAttempts,
+    30000,
+  );
+  reconnectAttempts++;
+
+  console.log(
+    `Reconnecting in ${delay}ms (attempt ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})`,
+  );
+
+  reconnectTimeout = setTimeout(() => {
+    if (savedToken && savedOnMessage) {
+      createSocketConnection(savedToken, savedOnMessage);
+    }
+  }, delay);
+};
 
 const scheduleReconnect = () => {
   if (manualClose) return;
@@ -16,16 +34,7 @@ const scheduleReconnect = () => {
     return;
   }
 
-  const delay = Math.min(BASE_RECONNECT_DELAY_MS * 2 ** reconnectAttempts, 30000);
-  reconnectAttempts++;
-
-  console.log(`Reconnecting in ${delay}ms... (attempt ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})`);
-
-  reconnectTimeout = setTimeout(() => {
-    if (savedToken && savedOnMessage) {
-      createSocketConnection(savedToken, savedOnMessage);
-    }
-  }, delay);
+  retryConnection();
 };
 
 export const createSocketConnection = (token: string, onMessage: (event: MessageEvent) => void) => {
@@ -40,8 +49,8 @@ export const createSocketConnection = (token: string, onMessage: (event: Message
 
   const wsUrl = `wss://socket.studiobutterfly.io/human-agent?token=${token}`;
   //const wsUrl = `ws://localhost:4646/human-agent?token=${token}`;
-  
-  const customerUrl = `ws://localhost:4646/customer?token=""`
+
+  const customerUrl = `ws://localhost:4646/customer?token=""`;
 
   try {
     socket = new WebSocket(wsUrl);
@@ -67,7 +76,6 @@ export const createSocketConnection = (token: string, onMessage: (event: Message
       console.log("Close Code:", event.code);
       console.log("Close Reason:", event.reason || "No reason provided");
       console.log("Was Clean:", event.wasClean);
-      socket = null;
       scheduleReconnect();
     };
 
@@ -77,11 +85,9 @@ export const createSocketConnection = (token: string, onMessage: (event: Message
       console.error("ReadyState at error:", socket?.readyState);
       console.error("URL:", socket?.url);
     };
-
   } catch (error) {
     console.error("Failed to create WebSocket:");
     console.error(error);
-    socket = null;
     scheduleReconnect();
   }
 

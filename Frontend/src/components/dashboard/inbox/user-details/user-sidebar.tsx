@@ -122,9 +122,7 @@ const dummyRecentOrders = [
 ];
 
 export function UserSidebar() {
-  const selectedInboxUserId = useAppSelector(
-    (state) => state.ui.selectedInboxUserId,
-  );
+  const selectedInboxUserId = useAppSelector((state) => state.ui.selectedInboxUserId);
   const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
   const activeRecord = useAppSelector((state) => state.chat.active);
   const dispatch = useAppDispatch();
