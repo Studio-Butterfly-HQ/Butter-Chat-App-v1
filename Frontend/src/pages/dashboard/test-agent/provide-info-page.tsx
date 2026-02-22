@@ -53,7 +53,7 @@ export default function ProvideInfoPage() {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block text-sm md:text-base font-semibold">
                   <BreadcrumbLink asChild>
-                    <Link to="/test-agent">Test Agent</Link>
+                    <Link to="/test-agent">Companie</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />

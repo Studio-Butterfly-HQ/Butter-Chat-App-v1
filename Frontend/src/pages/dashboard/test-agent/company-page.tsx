@@ -1,4 +1,3 @@
-import { FormsTable } from "@/components/dashboard/agent/forms/forms-table";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { BookOpen } from "lucide-react";
@@ -6,15 +5,12 @@ import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Link } from "react-router-dom";
 import CompanyTable from "@/components/dashboard/test-agent/company-table";
 
-export default function TestAgentPage() {
+export default function CompanyPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -29,7 +25,7 @@ export default function TestAgentPage() {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block text-sm md:text-base font-semibold">
                   <BreadcrumbPage className="font-semibold">
-                    Test Agent
+                    Companie
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>

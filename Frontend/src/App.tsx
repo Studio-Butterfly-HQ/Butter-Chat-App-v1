@@ -31,7 +31,7 @@ import CustomerDetailsPage from "./pages/dashboard/customer/customer-details/cus
 import AccountPage from "./pages/dashboard/account/account-page";
 import AddReplyPage from "./pages/dashboard/save-reply/add-reply/add-reply-page";
 import SnippetsPage from "./pages/dashboard/ai-agent/snippets/snippets-page";
-import TestAgentPage from "./pages/dashboard/test-agent/test-agent-page";
+import CompanyPage from "./pages/dashboard/test-agent/company-page";
 import ProvideInfoPage from "./pages/dashboard/test-agent/provide-info-page";
 import ChatPage from "./pages/dashboard/test-agent/chat-page";
 
@@ -82,7 +82,7 @@ export default function App() {
             <Route path="save-reply/add-reply" element={<AddReplyPage />} />
             <Route path="customers/details" element={<CustomerDetailsPage />} />
             <Route path="account" element={<AccountPage />} />
-            <Route path="test-agent" element={<TestAgentPage />} />
+            <Route path="test-agent" element={<CompanyPage />} />
             <Route path="test-agent/:companyId" element={<ProvideInfoPage />} />
             <Route path="test-agent/chat/:companyId" element={<ChatPage />} />
           </Route>
