@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -69,28 +70,32 @@ export default function ProvideInfoPage() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-8 flex items-center scrollbar-hide justify-center">
+      <div className="flex-1 h-0 min-h-0 p-4 md:p-4 flex items-center justify-center">
         {isError || !company ? (
           <div className="text-muted-foreground">Company not found</div>
         ) : (
           <div className="flex flex-col md:flex-row gap-8 items-stretch justify-center w-full h-full">
-            {/* left - Forms */}
-            <div className="flex-1 flex flex-col max-w-lg justify-center w-full">
-              {isLogin ? (
-                <LoginForm
-                  onToggle={() => setIsLogin(false)}
-                  companyId={companyId!}
-                />
-              ) : (
-                <SignUpForm
-                  onToggle={() => setIsLogin(true)}
-                  companyId={companyId!}
-                />
-              )}
+            {/* left - Forms (scrollable) */}
+            <div className="flex-1 flex flex-col justify-center max-w-lg w-full h-full">
+              <ScrollArea className="">
+                <div className="flex flex-col justify-center min-h-full">
+                  {isLogin ? (
+                    <LoginForm
+                      onToggle={() => setIsLogin(false)}
+                      companyId={companyId!}
+                    />
+                  ) : (
+                    <SignUpForm
+                      onToggle={() => setIsLogin(true)}
+                      companyId={companyId!}
+                    />
+                  )}
+                </div>
+              </ScrollArea>
             </div>
 
             {/* right - Company Info */}
-            <div className="flex-1 flex flex-col justify-center space-y-8 max-w-lg mx-auto p-6 md:mx-0">
+            <div className="flex-1 flex flex-col justify-center space-y-8 max-w-lg mx-auto p-4 md:mx-0">
               <div className="flex items-start gap-4">
                 <Avatar className="h-16 w-16 rounded-lg border">
                   <AvatarImage
