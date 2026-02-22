@@ -1,5 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slices/auth/auth-slice";
+import customerAuthReducer from "./slices/customer-auth/customer-auth-slice";
+import customerChatReducer from "./slices/customer-chat/customer-chat-slice";
 import uiReducer from "./slices/ui/ui-slice";
 import chatReducer from "./slices/chat/chat-slice";
 
@@ -19,6 +21,8 @@ import storage from "redux-persist/lib/storage";
 // Combine reducers
 const appReducer = combineReducers({
   auth: authReducer,
+  customerAuth: customerAuthReducer,
+  customerChat: customerChatReducer,
   ui: uiReducer,
   chat: chatReducer,
 });
@@ -35,7 +39,7 @@ const rootReducer = (state: any, action: any) => {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "ui"], //persist auth and ui slices
+  whitelist: ["auth", "customerAuth", "customerChat", "ui"], //persist auth, customerAuth, customerChat and ui slices
 };
 
 // Persisted reducer

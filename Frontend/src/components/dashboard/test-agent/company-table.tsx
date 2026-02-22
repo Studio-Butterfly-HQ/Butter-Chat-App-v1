@@ -30,6 +30,7 @@ export default function CompanyTable() {
   const { data: companyData, isLoading } = useCompanyList();
 
   const companies = companyData?.data || [];
+  // console.log(companies);
 
   const companyColumns: ColumnDef<Company>[] = [
     // ================= Logo =================
@@ -40,7 +41,7 @@ export default function CompanyTable() {
       cell: ({ row }) => (
         <Avatar className="rounded-md">
           <AvatarImage
-            src={row.original.logo || undefined}
+            src={row.original?.logo || undefined}
             alt={row.original.company_name}
             className="object-cover"
           />

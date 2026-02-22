@@ -11,20 +11,23 @@ import { queryClient } from './lib/react-query'
 import { PersistGate } from "redux-persist/integration/react"
 import { ThemeProvider } from "@/provider/theme-provider"
 import { SocketProvider } from "./socket/socket-provider"
+import { CustomerSocketProvider } from "./socket/customer-socket-provider"
 
 createRoot(document.getElementById('root')!).render(
   // <StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <SocketProvider>
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <SocketProvider>
+            <CustomerSocketProvider>
               <App />
-            </SocketProvider>
-            <Toaster />
-          </PersistGate>
-        </Provider>
-      </QueryClientProvider>
+            </CustomerSocketProvider>
+          </SocketProvider>
+          <Toaster />
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
     </ThemeProvider>
   // </StrictMode>,
 )

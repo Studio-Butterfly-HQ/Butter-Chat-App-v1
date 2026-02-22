@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "@/store/hooks";
+import { useCustomerSocket } from "@/socket/customer-socket-provider";
+import { useParams } from "react-router-dom";
 
 interface Message {
   id: string;
@@ -30,12 +32,26 @@ const suggestedPrompts = [
 ];
 
 export default function ChatBox() {
-  const userName = useAppSelector((state) => state.auth.user?.user_name);
+  const customerName = useAppSelector(
+    (state) => state.customerAuth.customer?.name,
+  );
+  const customerToken = useAppSelector((state) => state.customerAuth.token);
+  const messages = useAppSelector((state) => state.customerChat.messages);
+  const { companyId } = useParams();
+  const socket = useCustomerSocket();
 
-  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isAiTyping, setIsAiTyping] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  // Handle typing state
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.sender_type === "AI-AGENT") {
+      setIsAiTyping(false);
+    }
+  }, [messages]);
+
   // Auto-scroll to bottom
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -50,38 +66,18 @@ export default function ChatBox() {
 
   const handleSend = (content?: string) => {
     const messageContent = content || inputValue.trim();
-    if (messageContent) {
-      // Add user message to UI
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        sender_type: "Human-Agent",
-        content: messageContent,
-        timestamp: new Date().toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        }),
+    if (messageContent && socket?.readyState === WebSocket.OPEN) {
+      const payload = {
+        type: "message",
+        payload: {
+          content: messageContent,
+          company_id: companyId,
+        },
       };
 
-      setMessages((prev) => [...prev, userMessage]);
+      socket.send(JSON.stringify(payload));
       setInputValue("");
       setIsAiTyping(true);
-
-      // Simulate AI response
-      setTimeout(() => {
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          sender_type: "AI-AGENT",
-          content: "This is a dummy AI message",
-          timestamp: new Date().toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          }),
-        };
-        setIsAiTyping(false);
-        setMessages((prev) => [...prev, aiMessage]);
-      }, 1000);
     }
   };
 
@@ -100,7 +96,7 @@ export default function ChatBox() {
                 </div>
               </div>
               <h1 className="text-2xl font-semibold text-foreground mb-1">
-                Hello, {userName || "there"}
+                Hello, {customerName || "there"}
               </h1>
               <h1 className="text-2xl font-semibold">
                 What do you need help with today?
@@ -144,7 +140,6 @@ export default function ChatBox() {
                       >
                         {message.isTyping && !message.content ? (
                           <div className="flex items-center gap-1">
-                            <Loader2 className="h-3 w-3 animate-spin" />
                             <span className="text-muted-foreground">
                               Typing...
                             </span>

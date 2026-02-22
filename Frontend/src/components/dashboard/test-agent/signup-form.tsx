@@ -64,6 +64,9 @@ export function SignUpForm({ onToggle, companyId }: SignUpFormProps) {
         ...data,
         profile_uri: profileUri,
       });
+      form.reset();
+      setAvatarFile(null);
+      navigate(`/test-agent/chat/${companyId}`);
     } catch (error) {
       console.error("Error in customer register: ", error);
     }
@@ -147,7 +150,7 @@ export function SignUpForm({ onToggle, companyId }: SignUpFormProps) {
                   <Spinner /> Please wait...
                 </>
               ) : (
-                <>Sign Up</>
+                <>Start Conversation</>
               )}
             </Button>
           </form>

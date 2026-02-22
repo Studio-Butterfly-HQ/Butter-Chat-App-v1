@@ -4,8 +4,9 @@ import {
   customerLoginApi,
   customerRegisterApi,
 } from "./customer.api";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { toast } from "sonner";
+import { setCustomerAuth } from "@/store/slices/customer-auth/customer-auth-slice";
 
 export const useGetCustomers = () => {
   const token = useAppSelector((state) => state.auth.token);
@@ -26,6 +27,7 @@ export const useGetCustomers = () => {
 };
 
 export const useCustomerLogin = () => {
+  const dispatch = useAppDispatch();
   return useMutation({
     mutationFn: customerLoginApi,
 
@@ -33,6 +35,12 @@ export const useCustomerLogin = () => {
       if (!res.success) {
         toast.error(res.message);
       } else {
+        dispatch(
+          setCustomerAuth({
+            token: res.data.access_token,
+            customer: res.data.customer,
+          }),
+        );
         toast.success(res.message);
       }
     },
@@ -45,6 +53,7 @@ export const useCustomerLogin = () => {
 };
 
 export const useCustomerRegister = () => {
+  const dispatch = useAppDispatch();
   return useMutation({
     mutationFn: customerRegisterApi,
 
@@ -52,6 +61,12 @@ export const useCustomerRegister = () => {
       if (!res.success) {
         toast.error(res.message);
       } else {
+        dispatch(
+          setCustomerAuth({
+            token: res.data.access_token,
+            customer: res.data.customer,
+          }),
+        );
         toast.success(res.message);
       }
     },

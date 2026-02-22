@@ -3,7 +3,6 @@ import { loginApi, signupApi, resetPasswordApi} from "./auth.api"
 import { toast } from "sonner"
 import { useAppDispatch } from "@/store/hooks"
 import { setAuth, completeOnboarding} from "@/store/slices/auth/auth-slice"
-import { DUMMY_TOKEN } from "@/constants"
 
 
 export const useLogin = () => {

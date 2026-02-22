@@ -1,8 +1,9 @@
+import { useState, useRef, useEffect } from "react";
 import ChatBox from "@/components/dashboard/test-agent/chat-box";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,14 +12,28 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useCompanyById } from "@/provider/company/company.queries";
-import { RefreshCcw, X, Loader2 } from "lucide-react";
+import { LogOut, X, Loader2 } from "lucide-react";
+import { logoutCustomer } from "@/store/slices/customer-auth/customer-auth-slice";
 
 export default function AskButterAiPage() {
   const { companyId } = useParams();
   const { data: company, isLoading } = useCompanyById(companyId);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const token = useAppSelector((state) => state.customerAuth.token);
+
+  useEffect(() => {
+    if (!token) {
+      navigate(`/test-agent/${companyId}`);
+    }
+  }, [token, navigate, companyId]);
+
+  const handleLogout = () => {
+    dispatch(logoutCustomer());
+    navigate(`/test-agent/${companyId}`);
+  };
   return (
     <div className="flex dark:h-[calc(100vh-1.5rem)] h-[calc(100vh-1.6rem)] flex-col justify-center overflow-hidden">
       <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -38,7 +53,10 @@ export default function AskButterAiPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbLink asChild className="font-semibold text-sm md:text-base">
+                  <BreadcrumbLink
+                    asChild
+                    className="font-semibold text-sm md:text-base"
+                  >
                     <Link to={`/test-agent/${companyId}`}>
                       {company?.company_name}
                     </Link>
@@ -58,14 +76,16 @@ export default function AskButterAiPage() {
           <Button
             variant="outline"
             size="sm"
+            onClick={handleLogout}
             className="h-8 rounded-full bg-transparent font-normal"
           >
-            <RefreshCcw className="h-4 w-4" />
-            Reset Chat
+            <LogOut className="h-4 w-4" />
+            Logout
           </Button>
           <Button
             variant="outline"
             size="sm"
+            onClick={handleLogout}
             className="h-8 rounded-full bg-transparent font-normal"
           >
             <X className="h-4 w-4" />
