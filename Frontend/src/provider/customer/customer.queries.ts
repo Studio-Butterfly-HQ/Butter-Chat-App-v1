@@ -1,5 +1,9 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { getCustomerListApi, customerLoginApi } from "./customer.api";
+import {
+  getCustomerListApi,
+  customerLoginApi,
+  customerRegisterApi,
+} from "./customer.api";
 import { useAppSelector } from "@/store/hooks";
 import { toast } from "sonner";
 
@@ -34,7 +38,26 @@ export const useCustomerLogin = () => {
     },
 
     onError: (error: any) => {
-      console.error("Customer login error:", error);
+      console.error("Customer login error details:", error?.error?.details);
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useCustomerRegister = () => {
+  return useMutation({
+    mutationFn: customerRegisterApi,
+
+    onSuccess: (res: any) => {
+      if (!res.success) {
+        toast.error(res.message);
+      } else {
+        toast.success(res.message);
+      }
+    },
+
+    onError: (error: any) => {
+      console.error("Customer register error details:", error?.error?.details);
       toast.error(error.message);
     },
   });

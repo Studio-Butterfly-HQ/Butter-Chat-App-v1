@@ -28,3 +28,12 @@ export interface CustomerLoginPayload {
   source: string;
   company_id: string;
 }
+
+export interface CustomerRegisterPayload {
+  name: string;
+  contact: string;
+  password: string;
+  source: string;
+  profile_uri?: string;
+  company_id: string;
+}

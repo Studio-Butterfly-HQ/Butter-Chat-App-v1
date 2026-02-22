@@ -46,6 +46,7 @@ export const AGENT_API = {
 export const CUSTOMER_API = {
   GET_CUSTOMERS: `${BACKEND_BASE_URL}/customer/list`,
   CUSTOMER_LOGIN: `${BACKEND_BASE_URL}/customer/login`,
+  CUSTOMER_REGISTER: `${BACKEND_BASE_URL}/customer/register`,
 };
 
 export const USER_API = {

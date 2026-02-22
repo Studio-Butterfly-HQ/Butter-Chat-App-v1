@@ -69,7 +69,7 @@ export default function ProvideInfoPage() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-8 flex items-center justify-center">
+      <div className="flex-1 overflow-y-auto p-4 md:p-8 flex items-center scrollbar-hide justify-center">
         {isError || !company ? (
           <div className="text-muted-foreground">Company not found</div>
         ) : (
@@ -84,7 +84,7 @@ export default function ProvideInfoPage() {
               ) : (
                 <SignUpForm
                   onToggle={() => setIsLogin(true)}
-                  onSubmit={handleSubmit}
+                  companyId={companyId!}
                 />
               )}
             </div>

@@ -313,10 +313,12 @@ export default function TableUpload({
       )}
 
       {errors.length > 0 && (
-        <Alert variant="destructive" className="mt-4">
-          <TriangleAlert className="h-4 w-4" />
-          <AlertTitle>Upload error</AlertTitle>
-          <AlertDescription>
+        <Alert variant="destructive" className="mt-2">
+          <div className="flex items-center gap-2">
+            <TriangleAlert className="size-4" />
+            <AlertTitle>Upload error</AlertTitle>
+          </div>
+          <AlertDescription className="pl-6">
             {errors.map((error, index) => (
               <p key={index} className="last:mb-0">
                 {error}

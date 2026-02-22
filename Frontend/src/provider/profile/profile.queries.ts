@@ -210,6 +210,7 @@ export const useUpdateUserProfile = () => {
       dispatch(setUser(res.data));
     },
     onError: (error: any) => {
+      console.error("Update profile error details:", error?.error?.details);
       toast.error(error.message || "Failed to update profile");
     },
   });
@@ -233,6 +234,7 @@ export const useUpdatePassword = () => {
       toast.success(res.message);
     },
     onError: (error: any) => {
+      console.error("Update password error details:", error?.error?.details);
       toast.error(error.message || "Failed to update password");
     },
   });

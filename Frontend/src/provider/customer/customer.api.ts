@@ -2,6 +2,7 @@ import type {
   ApiResponse,
   Customer,
   CustomerLoginPayload,
+  CustomerRegisterPayload,
 } from "./customer.types";
 import { CUSTOMER_API } from "@/constants/api";
 
@@ -32,6 +33,23 @@ export const getCustomerListApi = async (
 export const customerLoginApi = async (payload: CustomerLoginPayload) => {
   try {
     const res = await fetch(CUSTOMER_API.CUSTOMER_LOGIN, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw data;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const customerRegisterApi = async (payload: CustomerRegisterPayload) => {
+  try {
+    const res = await fetch(CUSTOMER_API.CUSTOMER_REGISTER, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
