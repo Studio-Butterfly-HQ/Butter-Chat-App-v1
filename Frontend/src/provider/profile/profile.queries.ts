@@ -23,7 +23,6 @@ import {
   fetchLocationDefaultsApi,
 } from "./profile.api";
 import { useAppDispatch } from "@/store/hooks";
-import { setCompany, setUser } from "@/store/slices/auth/auth-slice";
 import { logout } from "@/store/slices/auth/auth-slice";
 import { persistor } from "@/store/index";
 import { useNavigate } from "react-router-dom";
@@ -51,8 +50,6 @@ export const useUploadAvatar = (tokenOverride?: string | null) => {
 export const useUpdateCompanyProfile = () => {
   const queryClient = useQueryClient();
   const token = useAppSelector((state) => state.auth.token);
-  const company = useAppSelector((state) => state.auth.company);
-  const dispatch = useAppDispatch();
 
   return useMutation({
     mutationFn: (payload: ProfilePayload) => {
@@ -92,7 +89,7 @@ export const useCompanyProfile = () => {
   const navigate = useNavigate();
 
   const token = useAppSelector((state) => state.auth.token);
-  console.log("token: ", token);
+  // console.log("token: ", token);
 
   const query = useQuery({
     queryKey: ["company-profile", token],
@@ -104,10 +101,8 @@ export const useCompanyProfile = () => {
       }
       return fetchCompanyProfileApi(token);
     },
-
-    retry: false,
-    staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 10,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 10, // 10 minutes
   });
 
   /* Handle SUCCESS (including success:false) */
@@ -178,7 +173,6 @@ export const useUserProfile = () => {
 export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
   const token = useAppSelector((state) => state.auth.token);
-  const dispatch = useAppDispatch();
 
   return useMutation({
     mutationFn: (payload: Partial<User>) => {

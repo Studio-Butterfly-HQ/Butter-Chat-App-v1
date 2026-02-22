@@ -31,12 +31,17 @@ const chatSlice = createSlice({
 
     addMessage(state, action: PayloadAction<any>) {
       const msg = action.payload;
-      if (!state.messages[msg.conversation_id]) {
-        //if this is the first message of that chat
-        state.messages[msg.conversation_id] = [];
+      const conversation_id = msg.conversation_id;
+      if (!conversation_id) {
+        console.warn("addMessage: no valid conversation_id found", action.payload);
+        return;
       }
-      state.messages[msg.conversation_id].push(msg);
-      // console.log("addMessage", current(state));
+
+      if (!state.messages[conversation_id]) {
+        state.messages[conversation_id] = [];
+      }
+      state.messages[conversation_id].push(msg);
+      console.log("addMessage", current(state));
     },
 
     endChat(state, action: PayloadAction<any>) {
@@ -46,8 +51,10 @@ const chatSlice = createSlice({
         return;
       }
       const { [id]: removed, ...rest } = current(state.active);
+      const { [id]: removed2, ...rest2 } = current(state.messages);
       state.active = rest;
       state.closed[id] = action.payload;
+      state.messages = rest2;
       console.log("endChat", current(state));
     },
   },

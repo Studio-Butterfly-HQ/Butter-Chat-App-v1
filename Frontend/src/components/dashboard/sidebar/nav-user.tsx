@@ -55,26 +55,6 @@ export function NavUser() {
     navigate("/login", { replace: true });
   };
 
-  if (isLoading) {
-    return (
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton size="lg" className="cursor-default">
-            <Skeleton className="h-8 w-8 rounded-sm" />
-            <div className="grid flex-1 gap-1.5 text-left text-sm leading-tight">
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-3 w-32" />
-            </div>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -85,18 +65,35 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-sm">
-                <AvatarImage
-                  className="object-cover"
-                  src={user.profile_uri || ""}
-                  alt={user.user_name}
-                />
-                <AvatarFallback className="rounded-lg">
-                  {user.user_name?.[0] ?? "U"}
-                </AvatarFallback>
+                {user ? (
+                  <>
+                    <AvatarImage
+                      className="object-cover"
+                      src={user.profile_uri || ""}
+                      alt={user.user_name}
+                    />
+                    <AvatarFallback className="rounded-lg">
+                      {user.user_name?.[0] ?? "U"}
+                    </AvatarFallback>
+                  </>
+                ) : (
+                  <Skeleton className="h-8 w-8 rounded-sm" />
+                )}
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.user_name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                {user ? (
+                  <>
+                    <span className="truncate font-semibold">
+                      {user.user_name}
+                    </span>
+                    <span className="truncate text-xs">{user.email}</span>
+                  </>
+                ) : (
+                  <>
+                    <Skeleton className="h-4 w-24 mb-1" />
+                    <Skeleton className="h-3 w-32" />
+                  </>
+                )}
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -111,20 +108,35 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5">
                 <Avatar className="h-8 w-8 rounded-sm">
-                  <AvatarImage
-                    className="object-cover"
-                    src={user.profile_uri || ""}
-                    alt={user.user_name}
-                  />
-                  <AvatarFallback className="rounded-lg">
-                    {user.user_name?.[0] ?? "U"}
-                  </AvatarFallback>
+                  {user ? (
+                    <>
+                      <AvatarImage
+                        className="object-cover"
+                        src={user.profile_uri || ""}
+                        alt={user.user_name}
+                      />
+                      <AvatarFallback className="rounded-lg">
+                        {user.user_name?.[0] ?? "U"}
+                      </AvatarFallback>
+                    </>
+                  ) : (
+                    <Skeleton className="h-8 w-8 rounded-sm" />
+                  )}
                 </Avatar>
                 <div className="grid text-sm leading-tight">
-                  <span className="truncate font-semibold">
-                    {user.user_name}
-                  </span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  {user ? (
+                    <>
+                      <span className="truncate font-semibold">
+                        {user.user_name}
+                      </span>
+                      <span className="truncate text-xs">{user.email}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Skeleton className="h-4 w-24 mb-1" />
+                      <Skeleton className="h-3 w-32" />
+                    </>
+                  )}
                 </div>
               </div>
             </DropdownMenuLabel>

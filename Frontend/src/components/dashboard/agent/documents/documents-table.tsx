@@ -125,7 +125,7 @@ export function DocumentsTable() {
       header: "",
       size: 120,
       cell: ({ row }) => (
-        <div className="flex items-center gap-4 justify-end pr-4">
+        <div className="flex items-center gap-4 shrink-0 justify-end pr-4">
           <Eye className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
           <RefreshCcw className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
           <Trash2
@@ -136,7 +136,7 @@ export function DocumentsTable() {
       ),
       meta: {
         skeleton: (
-          <div className="flex gap-4 justify-end">
+          <div className="flex gap-4 justify-end shrink-0">
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
             <Skeleton className="h-4 w-4 rounded-full" />
