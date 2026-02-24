@@ -7,6 +7,7 @@ import {
   addMessage,
   endChat,
 } from "@/store/slices/chat/chat-slice";
+import { addNotification } from "@/store/slices/ui/notification-slice";
 
 export const handleSocketEvent = (event: SocketMessage) => {
   const { type, payload } = event;
@@ -18,6 +19,15 @@ export const handleSocketEvent = (event: SocketMessage) => {
 
     case "transfer_chat":
       store.dispatch(addUnassignedChat(payload));
+      store.dispatch(
+        addNotification({
+          id: crypto.randomUUID(),
+          title: "New Chat Transferred",
+          description: `A new chat from ${payload.customer?.contact || "Unknown"} has been transferred.`,
+          time: new Date().toISOString(),
+          type: "transfer",
+        }),
+      );
       break;
 
     case "accept_chat":
@@ -26,6 +36,18 @@ export const handleSocketEvent = (event: SocketMessage) => {
 
     case "message":
       store.dispatch(addMessage(payload));
+      // only if customer send message
+      if (payload.sender_type === "Customer") {
+        store.dispatch(
+          addNotification({
+            id: crypto.randomUUID(),
+            title: "New Message",
+            description: payload.content,
+            time: new Date().toISOString(),
+            type: "message",
+          }),
+        );
+      }
       break;
 
     case "end_chat":

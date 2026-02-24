@@ -1,6 +1,6 @@
 //export const BACKEND_BASE_URL = "http://localhost:5599";
 export const BACKEND_BASE_URL = "https://api.studiobutterfly.io";
-export const FRONTEND_BASE_URL = "https://app.studiobutterfly.io";
+export const FRONTEND_BASE_URL = "https://chat.studiobutterfly.io";
 
 export const AUTH_API = {
   LOGIN: `${BACKEND_BASE_URL}/auth/login`,

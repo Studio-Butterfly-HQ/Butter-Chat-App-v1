@@ -5,9 +5,11 @@ import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
+  SidebarMenuBadge,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NotificationsMenu } from "@/components/dashboard/notifications/notifications-menu";
+import { useAppSelector } from "@/store/hooks";
 
 export function NavProjects({
   projects,
@@ -19,6 +21,10 @@ export function NavProjects({
   }[];
 }) {
   const location = useLocation();
+  const notifications = useAppSelector(
+    (state) => state.notifications.notifications,
+  );
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -33,6 +39,11 @@ export function NavProjects({
                     <span>{item.name}</span>
                   </SidebarMenuButton>
                 </NotificationsMenu>
+                {unreadCount > 0 && (
+                  <SidebarMenuBadge className="text-xs bg-red-400 items-center rounded-full text-white">
+                    <span className="pb-0.5">{unreadCount > 9 ? "9+" : unreadCount}</span>
+                  </SidebarMenuBadge>
+                )}
               </SidebarMenuItem>
             );
           }

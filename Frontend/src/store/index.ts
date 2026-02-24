@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slices/auth/auth-slice";
 import uiReducer from "./slices/ui/ui-slice";
 import chatReducer from "./slices/chat/chat-slice";
+import notificationReducer from "./slices/ui/notification-slice";
 
 import {
   persistStore,
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
   auth: authReducer,
   ui: uiReducer,
   chat: chatReducer,
+  notifications: notificationReducer,
 });
 
 const rootReducer = (state: any, action: any) => {

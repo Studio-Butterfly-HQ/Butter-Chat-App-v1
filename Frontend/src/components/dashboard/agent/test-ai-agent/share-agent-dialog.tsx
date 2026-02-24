@@ -25,7 +25,7 @@ export function ShareAgentDialog({
   const [isCopied, setIsCopied] = useState(false);
   const company = useAppSelector((state) => state.auth.company);
 
-  const shareUrl = `${FRONTEND_BASE_URL}/chat/${company?.id || ""}`;
+  const shareUrl = `${FRONTEND_BASE_URL}/${company?.id || ""}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareUrl);
@@ -50,7 +50,7 @@ export function ShareAgentDialog({
           <Input
             value={shareUrl}
             readOnly
-            className="pr-10 bg-muted/50 border-border"
+            className="pr-10 border-border"
           />
           <Button
             variant="ghost"
