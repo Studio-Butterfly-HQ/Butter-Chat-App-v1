@@ -23,7 +23,7 @@ import {
   fetchLocationDefaultsApi,
 } from "./profile.api";
 import { useAppDispatch } from "@/store/hooks";
-import { logout } from "@/store/slices/auth/auth-slice";
+import { logout, setCompany } from "@/store/slices/auth/auth-slice";
 import { persistor } from "@/store/index";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -107,20 +107,25 @@ export const useCompanyProfile = () => {
 
   /* Handle SUCCESS (including success:false) */
   useEffect(() => {
-    if (!query.isError) return;
-
+    if (!query.isError) {
+      return;
+    }
     const error: any = query.error;
-
-    console.error("Company profile failed:", error);
 
     if (error?.status === 401) {
       console.log("Unauthorized → logging out");
-
       dispatch(logout());
       persistor.purge().then(() => {
         navigate("/login", { replace: true });
       });
     }
+
+    if (!query.data?.success) {
+      console.error("Company profile error details:", query.data?.error);
+      return;
+    }
+
+    // dispatch(setCompany(query.data?.data));
   }, [query.isError, query.error, dispatch, navigate]);
 
   /* Handle HTTP / Network errors */

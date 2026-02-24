@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Sidebar } from "@/components/ui/sidebar";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
@@ -14,10 +14,13 @@ export function UserSidebarWrapper({
   const isUserSidebarOpen = useAppSelector(
     (state) => state.ui.isUserSidebarOpen,
   );
-  if (!isInboxPage || !isUserSidebarOpen){
-    if (isUserSidebarOpen) {
+  useEffect(() => {
+    if (!isInboxPage && isUserSidebarOpen) {
       dispatch(closeUserSidebar());
     }
+  }, [isInboxPage, isUserSidebarOpen, dispatch]);
+
+  if (!isInboxPage || !isUserSidebarOpen) {
     return null;
   }
 

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
@@ -15,10 +15,13 @@ export function CustomerChatWrapper({
     (state) => state.ui.isCustomerChatOpen,
   );
 
-  if (!isInboxPage || !isCustomerChatOpen) {
-    if (isCustomerChatOpen) {
+  useEffect(() => {
+    if (!isInboxPage && isCustomerChatOpen) {
       dispatch(closeCustomerChat());
     }
+  }, [isInboxPage, isCustomerChatOpen, dispatch]);
+
+  if (!isInboxPage || !isCustomerChatOpen) {
     return null;
   }
 

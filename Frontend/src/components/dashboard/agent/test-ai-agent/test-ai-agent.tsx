@@ -9,11 +9,13 @@ import {
   BotMessageSquare,
   RefreshCw,
   User,
+  Share2,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { closeTestAiAgent } from "@/store/slices/ui/ui-slice";
 import TextareaAutosize from "react-textarea-autosize";
 import { SidebarHeader } from "@/components/ui/sidebar";
+import { ShareAgentDialog } from "./share-agent-dialog";
 
 interface Message {
   id: string;
@@ -41,6 +43,7 @@ export default function AIAgentChat() {
   ]);
 
   const [inputValue, setInputValue] = useState("");
+  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -114,6 +117,14 @@ export default function AIAgentChat() {
           </h1>
         </div>
         <div className="flex gap-1 items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            onClick={() => setIsShareDialogOpen(true)}
+          >
+            <Share2 className="h-4 w-4" />
+          </Button>
           <Button variant="ghost" size="icon" className="h-7 w-7">
             <RefreshCw className="h-4 w-4" />
           </Button>
@@ -233,6 +244,10 @@ export default function AIAgentChat() {
           </div>
         </div>
       </div>
+      <ShareAgentDialog
+        open={isShareDialogOpen}
+        onOpenChange={setIsShareDialogOpen}
+      />
     </div>
   );
 }

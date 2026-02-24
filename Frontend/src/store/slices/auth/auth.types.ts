@@ -7,6 +7,7 @@ export type CompanyUser = {
 };
 
 export type Company = {
+  id: string;
   company_name: string;
   subdomain: string;
   users: CompanyUser[];
