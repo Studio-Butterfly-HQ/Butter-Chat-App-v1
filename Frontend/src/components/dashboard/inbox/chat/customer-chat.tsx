@@ -33,7 +33,7 @@ export default function CustomerChat() {
   const chatMessages = useAppSelector((state) => state.chat.messages);
 
   const messages = useMemo(() => {
-    console.log("chatMessages", chatMessages);
+    // console.log("chatMessages", chatMessages);
     if (!selectedInboxUserId || !chatMessages[selectedInboxUserId]) {
       console.log("No messages found for user", selectedInboxUserId);
       return [];

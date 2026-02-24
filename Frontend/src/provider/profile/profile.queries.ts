@@ -112,7 +112,6 @@ export const useCompanyProfile = () => {
     const error: any = query.error;
 
     console.error("Company profile failed:", error);
-    console.log("Company profile failed:", error?.status);
 
     if (error?.status === 401) {
       console.log("Unauthorized → logging out");
@@ -127,11 +126,8 @@ export const useCompanyProfile = () => {
   /* Handle HTTP / Network errors */
   useEffect(() => {
     if (!query.isError) return;
-
-    console.error(
-      "Company profile request failed:",
-      (query.error as any)?.error,
-    );
+    const error: any = query.error;
+    console.error("Company profile request failed:", error);
   }, [query.isError, query.error]);
 
   return query;

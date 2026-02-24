@@ -32,7 +32,7 @@ export const uploadAvatarApi = async (
     const data = await res.json();
 
     if (!res.ok) {
-      throw data;
+      throw { ...data, status: res.status };
     }
 
     return data;
@@ -60,7 +60,7 @@ export const uploadProfileApi = async (
     const data = await res.json();
 
     if (!res.ok) {
-      throw data;
+      throw { ...data, status: res.status };
     }
 
     return data;
@@ -84,7 +84,7 @@ export const updateProfileApi = async (
     });
     const data = await res.json();
     if (!res.ok) {
-      throw data;
+      throw { ...data, status: res.status };
     }
     return data;
   } catch (error) {
@@ -105,7 +105,7 @@ export const fetchCompanyProfileApi = async (token: string) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw data;
+      throw { ...data, status: res.status };
     }
 
     return data;
@@ -186,7 +186,7 @@ export const getUserProfileApi = async (token: string): Promise<User> => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw data;
+      throw { ...data, status: res.status };
     }
 
     return data.data;
@@ -212,7 +212,7 @@ export const updateUserProfileApi = async (
     const data = await res.json();
 
     if (!res.ok) {
-      throw data;
+      throw { ...data, status: res.status };
     }
 
     return data;
@@ -238,7 +238,7 @@ export const updatePasswordApi = async (
     const data = await res.json();
 
     if (!res.ok) {
-      throw data;
+      throw { ...data, status: res.status };
     }
 
     return data;
