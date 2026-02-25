@@ -87,53 +87,47 @@ export const useUpdateCompanyProfile = () => {
 export const useCompanyProfile = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const token = useAppSelector((state) => state.auth.token);
-  // console.log("token: ", token);
 
   const query = useQuery({
     queryKey: ["company-profile", token],
     enabled: !!token,
-
-    queryFn: async () => {
-      if (!token) {
-        throw new Error("No auth token found");
-      }
-      return fetchCompanyProfileApi(token);
-    },
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    gcTime: 1000 * 60 * 10, // 10 minutes
+    queryFn: () => fetchCompanyProfileApi(token!),
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
 
-  /* Handle SUCCESS (including success:false) */
+  // Handle successful response  (including success: false)
   useEffect(() => {
-    if (!query.isError) {
+    if (!query.data) return;
+    
+    const { success, data, error, message } = query.data;
+
+    if (success === false) {
+      console.error("Company profile failed:", error);
+      // toast.error(message || "Failed to load company profile");
       return;
     }
-    const error: any = query.error;
+    dispatch(setCompany(data));
+  }, [query.data, dispatch]);
 
-    if (error?.status === 401) {
-      console.log("Unauthorized → logging out");
-      dispatch(logout());
-      persistor.purge().then(() => {
-        navigate("/login", { replace: true });
-      });
-    }
-
-    if (!query.data?.success) {
-      console.error("Company profile error details:", query.data?.error);
-      return;
-    }
-
-    // dispatch(setCompany(query.data?.data));
-  }, [query.isError, query.error, dispatch, navigate]);
-
-  /* Handle HTTP / Network errors */
+  // Handle HTTP / Network errors
   useEffect(() => {
     if (!query.isError) return;
     const error: any = query.error;
+    // unauthorized → logout
+    if (error?.status === 401) {
+      console.log("Unauthorized → logging out");
+
+      dispatch(logout());
+
+      persistor.purge().then(() => {
+        navigate("/login", { replace: true });
+      });
+      return;
+    }
     console.error("Company profile request failed:", error);
-  }, [query.isError, query.error]);
+  }, [query.isError, query.error, dispatch, navigate]);
 
   return query;
 };
