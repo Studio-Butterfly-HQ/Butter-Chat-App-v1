@@ -40,8 +40,14 @@ export function NavProjects({
                   </SidebarMenuButton>
                 </NotificationsMenu>
                 {unreadCount > 0 && (
-                  <SidebarMenuBadge className="text-xs bg-red-400 items-center rounded-full text-white">
-                    <span className="pb-0.5">{unreadCount > 9 ? "9+" : unreadCount}</span>
+                  <SidebarMenuBadge className="text-xs pb-0.5 bg-primary rounded-full text-primary-foreground peer-hover/menu-button:text-primary-foreground">
+                    {unreadCount > 9 ? (
+                      <span>
+                        9<span className="relative -top-1 text-[8px]">+</span>
+                      </span>
+                    ) : (
+                      unreadCount
+                    )}
                   </SidebarMenuBadge>
                 )}
               </SidebarMenuItem>
