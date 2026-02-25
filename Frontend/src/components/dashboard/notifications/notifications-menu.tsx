@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { markAllAsRead, clearAll } from "@/store/slices/ui/notification-slice";
 import { formatDistanceToNow } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const iconMap = {
   transfer: MessageSquare,
@@ -40,8 +41,12 @@ const colorMap = {
 export function NotificationsMenu({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
   const notifications = useSelector((state: RootState) => state.notifications.notifications);
-
+  const navigate = useNavigate();
   const unreadCount = notifications.filter((n) => !n.isRead).length;
+
+  const handleSettingsClick = () => {
+    navigate("/settings/notifications");
+  };
 
   return (
     <DropdownMenu>
@@ -59,7 +64,7 @@ export function NotificationsMenu({ children }: { children: React.ReactNode }) {
             >
               <X className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-7 w-7">
+            <Button variant="ghost" size="icon" onClick={handleSettingsClick} className="h-7 w-7">
               <Settings className="h-4 w-4" />
             </Button>
           </div>
@@ -116,11 +121,11 @@ export function NotificationsMenu({ children }: { children: React.ReactNode }) {
           )}
         </ScrollArea>
         <DropdownMenuSeparator />
-        <div className="p-2 text-right">
+        <div className="p-1 text-right">
           <Button
             variant="ghost"
             size="sm"
-            className="text-xs w-fit justify-end"
+            className="text-xs w-fit font-normal justify-end"
             onClick={() => dispatch(markAllAsRead())}
             disabled={unreadCount === 0}
           >
