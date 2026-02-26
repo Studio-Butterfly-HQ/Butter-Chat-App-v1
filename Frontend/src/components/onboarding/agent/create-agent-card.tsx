@@ -21,7 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { BotMessageSquare } from "lucide-react";
+import { ArrowLeft, BotMessageSquare } from "lucide-react";
 
 import {
   createAgentSchema,
@@ -31,7 +31,19 @@ import { useCreateAgent } from "@/provider/agent";
 import { Spinner } from "@/components/ui/spinner";
 import { useGetAgents } from "@/provider/agent";
 
-export default function CreateAgentCard() {
+interface CreateAgentCardProps {
+  onNext: () => void;
+  onPrev: () => void;
+  isFirst: boolean;
+  isLast: boolean;
+}
+
+export default function CreateAgentCard({
+  onNext,
+  onPrev,
+  isFirst,
+  isLast,
+}: CreateAgentCardProps) {
   const { mutateAsync, isPending } = useCreateAgent();
   const { refetch } = useGetAgents();
   const form = useForm<CreateAgentFormValues>({
@@ -61,13 +73,14 @@ export default function CreateAgentCard() {
       await mutateAsync(payload);
       await refetch();
       form.reset();
+      onNext();
     } catch (error) {
       console.error("Error in create agent card: ", error);
     }
   };
 
   return (
-    <Card className="bg-background border-0 shadow-none">
+    <Card className="bg-transparent border-0 shadow-none">
       <CardHeader className="text-center">
         <div className="flex justify-center mb-4">
           <BotMessageSquare size={34} />
@@ -89,9 +102,7 @@ export default function CreateAgentCard() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-primary text-base font-semibold">
-                    AI Agent Name
-                  </FormLabel>
+                  <FormLabel className="text-primary">AI Agent Name</FormLabel>
                   <Input {...field} placeholder="John Doe" />
                   <FormMessage className="text-sm" />
                 </FormItem>
@@ -104,9 +115,7 @@ export default function CreateAgentCard() {
               name="personality"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-primary text-base font-semibold">
-                    Personality
-                  </FormLabel>
+                  <FormLabel className="text-primary">Personality</FormLabel>
 
                   <ToggleGroup
                     type="single"
@@ -154,9 +163,7 @@ export default function CreateAgentCard() {
               name="instructions"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-primary font-semibold text-base">
-                    General Instructions
-                  </FormLabel>
+                  <FormLabel className="text-primary">General Instructions</FormLabel>
                   <Textarea
                     {...field}
                     placeholder="Give instructions for the AI agent..."
@@ -167,18 +174,27 @@ export default function CreateAgentCard() {
               )}
             />
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex gap-4">
             <Button
-              className="w-full font-medium"
+              type="button"
+              variant="outline"
+              className="flex-1 bg-transparent"
+              onClick={onPrev}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Go Back
+            </Button>
+            <Button
+              className="flex-1 font-medium bg-foreground text-background hover:bg-foreground/90"
               type="submit"
               disabled={isPending}
             >
               {isPending ? (
                 <>
-                  <Spinner /> Creating AI Agent...
+                  <Spinner className="mr-2" /> Creating...
                 </>
               ) : (
-                <> Create AI Agent </>
+                <>{isLast ? "Complete Setup" : "Save & Continue"}</>
               )}
             </Button>
           </CardFooter>

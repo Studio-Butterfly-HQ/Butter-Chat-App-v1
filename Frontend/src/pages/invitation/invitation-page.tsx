@@ -105,7 +105,7 @@ export default function InvitationPage() {
 
                       {/* Profile Photo Upload */}
                       <div className="relative mt-4 mb-2">
-                        <Avatar className="h-36 w-36">
+                        <Avatar className="h-28 w-28">
                           <AvatarImage
                             src={profilePhoto}
                             className="h-full w-full object-cover"

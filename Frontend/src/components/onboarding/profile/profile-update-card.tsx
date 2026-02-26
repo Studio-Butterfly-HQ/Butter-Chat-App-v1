@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePhotoUpload } from "@/hooks/use-photo-upload";
@@ -22,8 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { AvatarUpload } from "../../common/avatar-upload";
 
 import {
   useProfileMeta,
@@ -33,13 +32,23 @@ import {
 } from "@/provider/profile";
 import { ProfileFormValues, profileSchema } from "@/schemas/profileSchema";
 
-export default function ProfileUpdateCard() {
-  const { profilePhoto, avatarFile, handlePhotoUpload } = usePhotoUpload({fallbackPhoto: "/placeholder.svg?height=112&width=112",});
+interface ProfileUpdateCardProps {
+  onNext: () => void;
+}
 
-  const { data: profileMeta, isLoading: isLoadingProfileMeta } = useProfileMeta();
-  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useUpdateCompanyProfile();
-  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } = useUploadAvatar();
-  const { data: detectedLocation, isLoading: isDetectingLocation } = useDetectLocation();
+export default function ProfileUpdateCard({ onNext }: ProfileUpdateCardProps) {
+  const { profilePhoto, avatarFile, handlePhotoUpload } = usePhotoUpload({
+    fallbackPhoto: "/placeholder.svg?height=112&width=112",
+  });
+
+  const { data: profileMeta, isLoading: isLoadingProfileMeta } =
+    useProfileMeta();
+  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } =
+    useUpdateCompanyProfile();
+  const { mutateAsync: uploadAvatar, isPending: isUploadingAvatar } =
+    useUploadAvatar();
+  const { data: detectedLocation, isLoading: isDetectingLocation } =
+    useDetectLocation();
 
   const isPending = isUpdatingProfile || isUploadingAvatar;
 
@@ -67,6 +76,8 @@ export default function ProfileUpdateCard() {
         ...data,
         logo: logoUrl,
       });
+
+      onNext();
     } catch (error) {
       console.error("Error in profile update card: ", error);
     }
@@ -111,41 +122,22 @@ export default function ProfileUpdateCard() {
     return () => clearTimeout(timer);
   }, [profileMeta, detectedLocation, form]);
   return (
-    <Card className="bg-background border-0 shadow-none">
+    <Card className="bg-transparent border-0 shadow-none">
       <CardHeader className="flex flex-col items-center text-center">
-        <CardTitle className="text-3xl font-bold">Update Profile</CardTitle>
-        <CardDescription className="text-lg">
+        <CardTitle className="text-3xl">Personal Info</CardTitle>
+        <CardDescription className="text-lg mb-6">
           Add additional info to complete your profile
         </CardDescription>
-
-        <div className="relative mt-8 mb-4">
-          <Avatar className="h-36 mt-2 w-36">
-            <AvatarImage
-              src={profilePhoto}
-              className="h-full w-full object-cover"
-            />
-            <AvatarFallback>YN</AvatarFallback>
-          </Avatar>
-
-          <label
-            htmlFor="photo-upload"
-            className="absolute bottom-4 right-0 bg-blue-500 rounded-full p-2 text-white cursor-pointer"
-          >
-            <Plus className="h-4 w-4" />
-            <input
-              id="photo-upload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handlePhotoUpload}
-            />
-          </label>
-        </div>
       </CardHeader>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <CardContent className="space-y-4">
+            <AvatarUpload
+              profilePhoto={profilePhoto}
+              handlePhotoUpload={handlePhotoUpload}
+              type="user"
+            />
             {/* Category */}
             <FormField
               control={form.control}
@@ -153,7 +145,7 @@ export default function ProfileUpdateCard() {
               render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base">
+                    <FieldLabel className="font-semibold">
                       Company Category
                     </FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
@@ -181,9 +173,7 @@ export default function ProfileUpdateCard() {
               render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base">
-                      Country
-                    </FieldLabel>
+                    <FieldLabel className="font-semibold">Country</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger
                         disabled={isLoadingProfileMeta || isDetectingLocation}
@@ -217,9 +207,7 @@ export default function ProfileUpdateCard() {
               render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base">
-                      Language
-                    </FieldLabel>
+                    <FieldLabel className="font-semibold">Language</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger
                         disabled={isLoadingProfileMeta || isDetectingLocation}
@@ -253,9 +241,7 @@ export default function ProfileUpdateCard() {
               render={({ field }) => (
                 <FormItem>
                   <Field orientation="vertical">
-                    <FieldLabel className="font-semibold text-base">
-                      Timezone
-                    </FieldLabel>
+                    <FieldLabel className="font-semibold">Timezone</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger
                         disabled={isLoadingProfileMeta || isDetectingLocation}
@@ -296,7 +282,7 @@ export default function ProfileUpdateCard() {
                   <Spinner /> Please wait...
                 </>
               ) : (
-                <> Complete Profile </>
+                <> Save & Continue </>
               )}
             </Button>
           </CardFooter>
