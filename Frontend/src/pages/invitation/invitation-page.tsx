@@ -4,10 +4,16 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Eye, EyeOff, MessageCircle, Plus } from "lucide-react";
+import { Eye, EyeOff, MessageCircle } from "lucide-react";
 import {
   InputGroup,
   InputGroupAddon,
@@ -29,7 +35,7 @@ import {
 } from "@/schemas/invitationSchema";
 import { useRegisterUser } from "@/provider/user/user.queries";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { AvatarUpload } from "@/components/common/avatar-upload";
 import { useUploadAvatar } from "@/provider/profile/profile.queries";
 
 export default function InvitationPage() {
@@ -42,7 +48,8 @@ export default function InvitationPage() {
   const navigate = useNavigate();
 
   const { mutateAsync: registerUser, isPending: loading } = useRegisterUser();
-  const { mutateAsync: uploadAvatar, isPending: isUploading } = useUploadAvatar(token);
+  const { mutateAsync: uploadAvatar, isPending: isUploading } =
+    useUploadAvatar(token);
 
   const form = useForm<InvitationFormValues>({
     resolver: zodResolver(invitationSchema),
@@ -95,121 +102,103 @@ export default function InvitationPage() {
               <div className="md:p-8 pt-8 flex items-center justify-center">
                 <div className="w-full max-w-md">
                   <Card className="bg-transparent border-0 shadow-none">
-                    <div className="flex flex-col items-center gap-2 mb-6">
-                      <h1 className="text-primary text-3xl font-bold text-center">
+                    <CardHeader className="pt-0">
+                      <CardTitle className="text-primary text-3xl text-center">
                         Accept Invitation
-                      </h1>
-                      <p className="text-muted-foreground text-lg text-center">
+                      </CardTitle>
+                      <CardDescription className="text-muted-foreground text-lg text-center">
                         Complete your profile to join ButterChat
-                      </p>
-
-                      {/* Profile Photo Upload */}
-                      <div className="relative mt-4 mb-2">
-                        <Avatar className="h-28 w-28">
-                          <AvatarImage
-                            src={profilePhoto}
-                            className="h-full w-full object-cover"
-                          />
-                          <AvatarFallback>YN</AvatarFallback>
-                        </Avatar>
-
-                        <label
-                          htmlFor="profile-upload"
-                          className="absolute bottom-2 right-0 bg-blue-500 rounded-full p-2 text-white cursor-pointer"
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="px-0 pb-0">
+                      <Form {...form}>
+                        <form
+                          onSubmit={form.handleSubmit(onSubmit)}
+                          className="flex flex-col gap-4 mb-6"
                         >
-                          <Plus className="h-4 w-4" />
-                          <input
-                            id="profile-upload"
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={handlePhotoUpload}
+                          <AvatarUpload
+                            profilePhoto={profilePhoto}
+                            handlePhotoUpload={handlePhotoUpload}
+                            type="user"
                           />
-                        </label>
-                      </div>
-                    </div>
+                          <FormField
+                            control={form.control}
+                            name="user_name"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-primary font-semibold">
+                                  Username{" "}
+                                  <span className="text-red-500">*</span>
+                                </FormLabel>
+                                <Input placeholder="johndoe" {...field} />
+                                <FormMessage className="text-sm" />
+                              </FormItem>
+                            )}
+                          />
 
-                    <Form {...form}>
-                      <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex flex-col gap-4 mb-6"
-                      >
-                        <FormField
-                          control={form.control}
-                          name="user_name"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-primary text-base font-semibold">
-                                Username <span className="text-red-500">*</span>
-                              </FormLabel>
-                              <Input placeholder="johndoe" {...field} />
-                              <FormMessage className="text-sm" />
-                            </FormItem>
-                          )}
-                        />
+                          <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-primary font-semibold">
+                                  Password{" "}
+                                  <span className="text-red-500">*</span>
+                                </FormLabel>
+                                <InputGroup>
+                                  <InputGroupInput
+                                    {...field}
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="••••••••••••"
+                                  />
+                                  <InputGroupAddon
+                                    align="inline-end"
+                                    className="cursor-pointer bg-background h-full rounded-r-md"
+                                    onClick={() =>
+                                      setShowPassword(!showPassword)
+                                    }
+                                  >
+                                    {showPassword ? <EyeOff /> : <Eye />}
+                                  </InputGroupAddon>
+                                </InputGroup>
+                                <FormMessage className="text-sm" />
+                              </FormItem>
+                            )}
+                          />
 
-                        <FormField
-                          control={form.control}
-                          name="password"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-primary text-base font-semibold">
-                                Password <span className="text-red-500">*</span>
-                              </FormLabel>
-                              <InputGroup>
-                                <InputGroupInput
+                          <FormField
+                            control={form.control}
+                            name="bio"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-primary font-semibold">
+                                  Bio
+                                </FormLabel>
+                                <Textarea
+                                  placeholder="Tell us a little about yourself"
+                                  className="resize-none"
                                   {...field}
-                                  type={showPassword ? "text" : "password"}
-                                  placeholder="••••••••••••"
                                 />
-                                <InputGroupAddon
-                                  align="inline-end"
-                                  className="cursor-pointer bg-background h-full rounded-r-md"
-                                  onClick={() => setShowPassword(!showPassword)}
-                                >
-                                  {showPassword ? <EyeOff /> : <Eye />}
-                                </InputGroupAddon>
-                              </InputGroup>
-                              <FormMessage className="text-sm" />
-                            </FormItem>
-                          )}
-                        />
+                                <FormMessage className="text-sm" />
+                              </FormItem>
+                            )}
+                          />
 
-                        <FormField
-                          control={form.control}
-                          name="bio"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-primary text-base font-semibold">
-                                Bio{" "}
-                                <span className="text-muted-foreground text-sm">
-                                  (optional)
-                                </span>
-                              </FormLabel>
-                              <Textarea
-                                placeholder="Tell us a little about yourself"
-                                className="resize-none"
-                                {...field}
-                              />
-                              <FormMessage className="text-sm" />
-                            </FormItem>
-                          )}
-                        />
-
-                        <Button
-                          className="rounded-lg font-medium"
-                          disabled={isPending || !token}
-                        >
-                          {isPending ? (
-                            <>
-                              <Spinner /> Please wait...
-                            </>
-                          ) : (
-                            "Complete Setup"
-                          )}
-                        </Button>
-                      </form>
-                    </Form>
+                          <Button
+                            className="rounded-lg font-medium"
+                            disabled={isPending || !token}
+                          >
+                            {isPending ? (
+                              <>
+                                <Spinner /> Please wait...
+                              </>
+                            ) : (
+                              "Complete Setup"
+                            )}
+                          </Button>
+                        </form>
+                      </Form>
+                    </CardContent>
                   </Card>
                 </div>
               </div>
@@ -217,14 +206,6 @@ export default function InvitationPage() {
           </ScrollArea>
         </div>
       </div>
-
-      {/* <div className="hidden lg:flex w-1/2 p-2">
-        <img
-          src="/auth/login.jpg"
-          alt="Invitation"
-          className="w-full h-full object-cover rounded-2xl"
-        />
-      </div> */}
       <div className="hidden lg:flex w-1/2 p-2">
         <video
           src="/auth/butter-register-2.mp4"
