@@ -15,7 +15,7 @@ export function AvatarUpload({
   return (
     <div className="flex items-center gap-4 text-left w-full">
       <div className="relative shrink-0">
-        <Avatar className="h-28 w-28 border-2 border-border">
+        <Avatar className="h-24 w-24 border-2 border-border">
           <AvatarImage
             src={profilePhoto}
             className="h-full w-full object-cover"
@@ -27,7 +27,7 @@ export function AvatarUpload({
 
         <label
           htmlFor="photo-upload"
-          className="absolute bottom-2 right-0 bg-blue-500 rounded-full p-1.5 text-white cursor-pointer"
+          className="absolute bottom-2 right-0 bg-blue-500 rounded-full p-1 text-white cursor-pointer"
         >
           <Plus className="h-4 w-4" />
           <input
