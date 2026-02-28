@@ -6,7 +6,7 @@ import { TestAiAgentWrapper } from "@/components/dashboard/agent/test-ai-agent/t
 import { SettingsSidebarWrapper } from "@/components/dashboard/settings/settings-sidebar-wrapper";
 import { InboxSidebarWrapper } from "@/components/dashboard/inbox/sidebar/inbox-sidebar-wrapper";
 
-import { UserSidebarWrapper } from "@/components/dashboard/inbox/customer-sidebar/customer-sidebar-wrapper";
+import { CustomerSidebarWrapper } from "@/components/dashboard/inbox/customer-sidebar/customer-sidebar-wrapper";
 import { CustomerChatWrapper } from "@/components/dashboard/inbox/chat/customer-chat-wrapper";
 import { ButterAiSidebarWrapper } from "@/components/dashboard/butter-ai/butter-ai-sidebar-wrapper";
 
@@ -26,7 +26,7 @@ export default function DashboardLayout() {
       <ButterAiSidebarWrapper />
       <TestAiAgentWrapper />
       <CustomerChatWrapper />
-      <UserSidebarWrapper />
+      <CustomerSidebarWrapper />
     </SidebarProvider>
   );
 }
