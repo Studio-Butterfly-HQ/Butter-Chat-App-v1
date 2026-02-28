@@ -45,7 +45,9 @@ export default function CustomerChat() {
       id: msg.id || `${selectedInboxUserId}-${index}`,
       type: msg.sender_type === "Human-Agent" ? "user" : "external",
       content: msg.content,
-      timestamp: new Date(msg.created_at).toLocaleTimeString("en-US", {
+      timestamp: new Date(
+        msg.created_at.replace(/ m=\+[\d.]+$/, ""),
+      ).toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "2-digit",
         hour12: true,
@@ -99,13 +101,13 @@ export default function CustomerChat() {
     if (inputValue.trim()) {
       const socket = getSocket();
       if (socket && socket.readyState === WebSocket.OPEN) {
-        const messagePayload = {
-          receiver_id: selectedConversation.customer.id,
-          conversation_id: selectedConversation.id,
-          content: inputValue,
-          sender_type: "Human-Agent",
-          created_at: new Date().toISOString(),
-        };
+        // const messagePayload = {
+        //   receiver_id: selectedConversation.customer.id,
+        //   conversation_id: selectedConversation.id,
+        //   content: inputValue,
+        //   sender_type: "Human-Agent",
+        //   created_at: new Date().toISOString(),
+        // };
 
         socket.send(
           JSON.stringify({
