@@ -125,7 +125,7 @@ const data = {
     },
     {
       title: "Analytics",
-      url: "/activity",
+      url: "#",
       icon: TrendingUp,
     },
     {
