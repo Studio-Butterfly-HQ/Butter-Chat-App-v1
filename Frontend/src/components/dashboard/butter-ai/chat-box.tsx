@@ -228,13 +228,13 @@ export default function ChatBox() {
                   key={message.id}
                   className={`flex ${message.sender_type === "Human-Agent" ? "justify-end" : "justify-start"}`}
                 >
-                  <div className="flex max-w-md gap-2">
+                  <div className="flex max-w-xl gap-2">
                     {message.sender_type === "AI-AGENT" && (
                       <div className="flex-shrink-0">
                         <BotMessageSquare className="h-5 w-6 text-muted-foreground" />
                       </div>
                     )}
-                    <div className={`flex flex-col gap-1`}>
+                    <div className={`flex flex-col gap-1 min-w-0`}>
                       <div
                         className={`rounded-lg px-3 py-2 text-sm ${
                           message.sender_type === "Human-Agent"

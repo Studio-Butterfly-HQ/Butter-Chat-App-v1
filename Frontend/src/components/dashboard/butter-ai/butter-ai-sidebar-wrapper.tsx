@@ -8,7 +8,7 @@ export function ButterAiSidebarWrapper({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
-  const isButterAiPage = location.pathname.startsWith("/ask-butter-ai");
+  const isButterAiPage = location.pathname.startsWith("/butter-ai");
   const isAskButterAiSidebarOpen = useAppSelector(
     (state) => state.ui.isAskButterAiSidebarOpen,
   );
