@@ -31,7 +31,7 @@ import CustomerDetailsPage from "./pages/dashboard/customer/customer-details/cus
 import AccountPage from "./pages/dashboard/account/account-page";
 import AddReplyPage from "./pages/dashboard/save-reply/add-reply/add-reply-page";
 import SnippetsPage from "./pages/dashboard/ai-agent/snippets/snippets-page";
-import AddNewSnippetsPage from "./pages/dashboard/ai-agent/snippets/add-new-snippets-page";
+import AddNewSnippetsPage from "./pages/dashboard/ai-agent/snippets/add-snippets-page";
 import ActivityLogPage from "./pages/dashboard/activity-log/activity-log-page";
 
 export default function App() {

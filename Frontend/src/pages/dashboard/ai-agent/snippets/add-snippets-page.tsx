@@ -9,12 +9,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Link, useParams } from "react-router-dom";
+import Tiptap from "@/components/dashboard/agent/snippets/tiptap";
 
-export default function AddNewSnippetsPage() {
-
+export default function AddSnippetsPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <header className="flex mb-0.5 h-16 border-b border-border shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+      <header className="flex mb-0.5 h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger />
           <Separator
@@ -46,8 +46,8 @@ export default function AddNewSnippetsPage() {
           </div>
         </div>
       </header>
-      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
-        type here
+      <div className="flex-1 min-h-0 flex flex-col">
+        <Tiptap />
       </div>
     </div>
   );

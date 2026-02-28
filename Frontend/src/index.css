@@ -56,7 +56,6 @@ input[type="time"] {
   appearance: none;
 }
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -130,61 +129,58 @@ input[type="time"] {
   } */
 
   .dark {
-  /* Base Background */
-  --background: 0 0% 9%;        /* #1F1F1F */
-  --foreground: 0 0% 98%;
+    /* Base Background */
+    --background: 0 0% 9%; /* #1F1F1F */
+    --foreground: 0 0% 98%;
 
-  /* Surfaces */
-  --card: 0 0% 15%;
-  --card-foreground: 0 0% 98%;
+    /* Surfaces */
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 98%;
 
-  --popover: 0 0% 12%;           /* Your main bg */
-  --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 12%; /* Your main bg */
+    --popover-foreground: 0 0% 98%;
 
-  /* Secondary layers */
-  --secondary: 0 0% 16%;
-  --secondary-foreground: 0 0% 98%;
+    /* Secondary layers */
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 98%;
 
-  --muted: 0 0% 16%;
-  --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 65%;
 
-  --accent: 0 0% 18%;
-  --accent-foreground: 0 0% 98%;
+    --accent: 0 0% 18%;
+    --accent-foreground: 0 0% 98%;
 
-  /* Borders & Inputs */
-  --border: 0 0% 25%;
-  --input: 0 0% 25%;
-  --ring: 0 0% 60%;
+    /* Borders & Inputs */
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 0 0% 60%;
 
-  /* Primary */
-  --primary: 0 0% 98%;
-  --primary-foreground: 0 0% 12%;
+    /* Primary */
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 12%;
 
-  /* Destructive */
-  --destructive: 0 65% 45%;
-  --destructive-foreground: 0 0% 98%;
+    /* Destructive */
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 0 0% 98%;
 
-  /* Charts (unchanged) */
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+    /* Charts (unchanged) */
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
 
-  /* 🔒 Sidebar (UNCHANGED) */
-  --sidebar-background: 0 0% 9%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 48%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
+    /* 🔒 Sidebar (UNCHANGED) */
+    --sidebar-background: 0 0% 9%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
 }
-
-}
-
-
 
 @layer base {
   * {
@@ -195,8 +191,6 @@ input[type="time"] {
     @apply bg-background text-foreground;
   }
 }
-
-
 
 @layer utilities {
   .scrollbar-hide {
@@ -209,3 +203,69 @@ input[type="time"] {
   }
 }
 
+@layer components {
+  .tiptap-editor p.is-editor-empty:first-child::before {
+    color: hsl(var(--muted-foreground));
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+  .tiptap-editor p {
+    @apply mb-4 leading-relaxed;
+  }
+  .tiptap-editor p:last-child {
+    @apply mb-0;
+  }
+  .tiptap-editor h1 {
+    @apply text-3xl font-bold mt-8 mb-4;
+  }
+  .tiptap-editor h2 {
+    @apply text-2xl font-bold mt-6 mb-3;
+  }
+  .tiptap-editor h3 {
+    @apply text-xl font-bold mt-4 mb-2;
+  }
+  .tiptap-editor h4 {
+    @apply text-lg font-bold mt-4 mb-2;
+  }
+  .tiptap-editor ul {
+    @apply list-disc list-outside ml-5 mb-4 space-y-1;
+  }
+  .tiptap-editor ol {
+    @apply list-decimal list-outside ml-5 mb-4 space-y-1;
+  }
+  .tiptap-editor li > p {
+    @apply inline;
+  }
+  .tiptap-editor a {
+    @apply text-primary underline underline-offset-4 hover:text-primary/80 cursor-pointer;
+  }
+  .tiptap-editor blockquote {
+    @apply border-l-4 border-border pl-4 italic text-muted-foreground my-4;
+  }
+  .tiptap-editor code {
+    @apply bg-muted text-muted-foreground px-1.5 py-0.5 rounded-md text-sm font-mono;
+  }
+  .tiptap-editor pre {
+    @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+  }
+  .tiptap-editor pre code {
+    @apply bg-transparent text-foreground p-0 text-sm;
+  }
+  .tiptap-editor hr {
+    @apply border-border my-8;
+  }
+  .tiptap-editor mark {
+    @apply bg-yellow-200 dark:bg-yellow-800 text-foreground px-1 py-0.5 rounded-sm;
+  }
+  .tiptap-editor ul[data-type="taskList"] {
+    @apply list-none ml-0 p-0;
+  }
+  .tiptap-editor ul[data-type="taskList"] li {
+    @apply flex items-start gap-2 mb-1;
+  }
+  .tiptap-editor ul[data-type="taskList"] li > label {
+    @apply mt-1;
+  }
+}
