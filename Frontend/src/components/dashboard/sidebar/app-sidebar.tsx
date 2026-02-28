@@ -55,7 +55,7 @@ const data = {
   navMain: [
     {
       title: "Ask Butter AI",
-      url: "/ask-butter-ai",
+      url: "/butter-ai",
       icon: Sparkles,
       isActive: true,
     },
@@ -125,7 +125,7 @@ const data = {
     },
     {
       title: "Analytics",
-      url: "/activity",
+      url: "#",
       icon: TrendingUp,
     },
     {

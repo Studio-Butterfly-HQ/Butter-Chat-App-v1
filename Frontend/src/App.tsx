@@ -49,12 +49,15 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/" element={<DashboardLayout />}>
-            <Route index element={<Navigate to="/ask-butter-ai" replace />} />
+            <Route index element={<Navigate to="/butter-ai" replace />} />
             <Route path="dashboard" element={<DashboardHome />} />
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingsGeneral />} />
-              <Route path="connect-accounts" element={<SettingsConnectAccounts />} />
+              <Route
+                path="connect-accounts"
+                element={<SettingsConnectAccounts />}
+              />
               <Route path="notifications" element={<SettingsNotifications />} />
               <Route path="security" element={<SettingsSecurity />} />
             </Route>
@@ -72,7 +75,7 @@ export default function App() {
               <Route path="your-inbox" element={<YourInboxPage />} />
               <Route path="unassigned" element={<UnassignedPage />} /> */}
             </Route>
-            <Route path="ask-butter-ai" element={<AskButterAiPage />} />
+            <Route path="butter-ai" element={<AskButterAiPage />} />
             <Route path="teams" element={<TeamsPage />} />
             <Route path="customers" element={<CustomerPage />} />
             <Route path="save-reply" element={<SaveReplyPage />} />

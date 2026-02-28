@@ -198,7 +198,7 @@ export function NavUser() {
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
-                <NavLink to="#">
+                <NavLink to="/activity">
                   <Activity className="h-4 w-4" />
                   Activity
                 </NavLink>

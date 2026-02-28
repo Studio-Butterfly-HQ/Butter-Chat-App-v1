@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Sidebar } from "@/components/ui/sidebar";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import UserSidebar from "@/components/dashboard/inbox/user-details/user-sidebar";
+import CustomerSidebar from "@/components/dashboard/inbox/customer-sidebar/customer-sidebar";
 import { closeUserSidebar } from "@/store/slices/ui/ui-slice";
 
-export function UserSidebarWrapper({
+export function CustomerSidebarWrapper({
+  children,
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
@@ -31,7 +32,7 @@ export function UserSidebarWrapper({
       className="sticky hidden lg:flex bg-background top-0 h-svh p-2 pl-0 w-1/5"
       {...props}
     >
-      <UserSidebar />
+      <CustomerSidebar />
     </Sidebar>
   );
 }

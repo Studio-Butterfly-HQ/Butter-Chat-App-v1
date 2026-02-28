@@ -54,7 +54,8 @@ export function NavProjects({
             );
           }
 
-          const isActive = location.pathname.startsWith(item.url);
+          const isActive =
+            item.name === "Settings" ? location.pathname.startsWith("/settings") : location.pathname.startsWith(item.url);
 
           return (
             <SidebarMenuItem key={item.name}>

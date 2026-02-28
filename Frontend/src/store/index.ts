@@ -3,6 +3,7 @@ import authReducer from "./slices/auth/auth-slice";
 import uiReducer from "./slices/ui/ui-slice";
 import chatReducer from "./slices/chat/chat-slice";
 import notificationReducer from "./slices/ui/notification-slice";
+import butterAiReducer from "./slices/butter-ai/butter-ai-slice";
 
 import {
   persistStore,
@@ -23,6 +24,7 @@ const appReducer = combineReducers({
   ui: uiReducer,
   chat: chatReducer,
   notifications: notificationReducer,
+  butterAi: butterAiReducer,
 });
 
 const rootReducer = (state: any, action: any) => {
