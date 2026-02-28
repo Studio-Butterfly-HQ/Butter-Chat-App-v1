@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  Send,
   Plus,
   Mic,
   BotMessageSquare,
@@ -10,8 +9,6 @@ import {
   Sparkles,
   Settings2,
   ArrowDownRight,
-  Loader2,
-  Pause,
   ArrowUp,
 } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -20,14 +17,9 @@ import { useSocket } from "@/socket/socket-provider";
 import { SocketMessage } from "@/socket/socket-types";
 import AIMessageRenderer from "./aI-message-renderer";
 import { useSocketParser } from "@/hooks/use-socket-parser";
-
-interface Message {
-  id: string;
-  sender_type: "Human-Agent" | "AI-AGENT";
-  content: string;
-  timestamp: string;
-  isTyping?: boolean;
-}
+import { handleButterAiSocketEvent } from "@/socket/butter-ai-socket-events";
+import { addButterAiMessage } from "@/store/slices/butter-ai/butter-ai-slice";
+import { store } from "@/store";
 
 const suggestedPrompts = [
   "What's the most selling product on my store this month?",
@@ -37,13 +29,11 @@ const suggestedPrompts = [
 
 export default function ChatBox() {
   const userName = useAppSelector((state) => state.auth.user?.user_name);
+  const messages = useAppSelector((state) => state.butterAi.messages);
+  const isAiTyping = useAppSelector((state) => state.butterAi.isStreaming);
   const socket = useSocket();
-  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const [isAiTyping, setIsAiTyping] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const currentStreamMessageRef = useRef<string>("");
-  const streamingMessageIdRef = useRef<string | null>(null);
   const { parseMultipleJSON } = useSocketParser();
 
   // Auto-scroll to bottom
@@ -63,80 +53,9 @@ export default function ChatBox() {
     if (!socket) return;
 
     const handleMessage = (event: MessageEvent) => {
-      // Parse one or more JSON objects from the raw message
       const packets = parseMultipleJSON(event.data as string);
-
       for (const data of packets) {
-        console.log("Received socket message:", data);
-
-        switch (data.type) {
-          case "butter_typing_start": {
-            setIsAiTyping(true);
-            const newMessageId = `stream-${Date.now()}`;
-            streamingMessageIdRef.current = newMessageId;
-            currentStreamMessageRef.current = "";
-
-            setMessages((prev) => [
-              ...prev,
-              {
-                id: newMessageId,
-                sender_type: "AI-AGENT",
-                content: "",
-                timestamp: new Date().toLocaleTimeString("en-US", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true,
-                }),
-                isTyping: true,
-              },
-            ]);
-            break;
-          }
-
-          case "butter_stream": {
-            if (data.payload?.content) {
-              currentStreamMessageRef.current += data.payload.content;
-
-              setMessages((prev) =>
-                prev.map((msg) =>
-                  msg.id === streamingMessageIdRef.current
-                    ? {
-                        ...msg,
-                        content: currentStreamMessageRef.current,
-                        isTyping: true,
-                      }
-                    : msg,
-                ),
-              );
-            }
-            break;
-          }
-
-          case "butter_typing_end": {
-            setIsAiTyping(false);
-            setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === streamingMessageIdRef.current
-                  ? { ...msg, isTyping: false }
-                  : msg,
-              ),
-            );
-            currentStreamMessageRef.current = "";
-            streamingMessageIdRef.current = null;
-            break;
-          }
-
-          // case "butter_stream_full_reply":
-          //   console.log("Full reply:", data.payload);
-          //   break;
-
-          case "connection_established":
-            console.log("WebSocket connection established");
-            break;
-
-          default:
-            console.log("Unhandled message type:", data.type);
-        }
+        handleButterAiSocketEvent(data);
       }
     };
 
@@ -147,7 +66,20 @@ export default function ChatBox() {
     };
   }, [socket]);
 
-  const sendMessage = (content: string) => {
+  const handleSend = (content?: string) => {
+    const messageContent = content || inputValue.trim();
+    if (!messageContent) return;
+
+    store.dispatch(
+      addButterAiMessage({
+        id: crypto.randomUUID(),
+        sender_type: "Human-Agent",
+        content: messageContent,
+        created_at: new Date().toISOString(),
+        conversation_id: "",
+      }),
+    );
+
     if (!socket || socket.readyState !== WebSocket.OPEN) {
       console.error("WebSocket is not connected");
       return;
@@ -157,32 +89,13 @@ export default function ChatBox() {
       type: "butter_chat",
       payload: {
         sender_type: "Human-Agent",
-        content: content,
+        content: messageContent,
       },
     };
 
     socket.send(JSON.stringify(message));
     console.log("Sent message:", message);
-  };
-
-  const handleSend = (content?: string) => {
-    const messageContent = content || inputValue.trim();
-    if (messageContent) {
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        sender_type: "Human-Agent",
-        content: messageContent,
-        timestamp: new Date().toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        }),
-      };
-
-      setMessages((prev) => [...prev, userMessage]);
-      setInputValue("");
-      sendMessage(messageContent);
-    }
+    setInputValue("");
   };
 
   const hasMessages = messages.length > 0;
@@ -263,11 +176,31 @@ export default function ChatBox() {
                               Translate
                             </button> */}
                             <span></span>
-                            <span>{message.timestamp}</span>
+                            <span>
+                              {message.created_at
+                                ? new Date(
+                                    message.created_at,
+                                  ).toLocaleTimeString("en-US", {
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                  })
+                                : ""}
+                            </span>
                           </>
                         ) : (
                           <>
-                            <span>{message.timestamp}</span>
+                            <span>
+                              {message.created_at
+                                ? new Date(
+                                    message.created_at,
+                                  ).toLocaleTimeString("en-US", {
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                  })
+                                : ""}
+                            </span>
                             {/* {!isAiTyping && (
                               <button className="hover:text-foreground">
                                 Translate
