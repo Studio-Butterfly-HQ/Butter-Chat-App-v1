@@ -1,15 +1,35 @@
-export type User = {
-  id: string
-  name: string
-  email: string
-}
+export type CompanyUser = {
+  user_name: string;
+  email: string;
+  profile_uri: string | null;
+  bio: string | null;
+  role: string;
+};
+
+export type Company = {
+  id: string;
+  company_name: string;
+  subdomain: string;
+  users: CompanyUser[];
+  logo: string;
+  company_category?: string;
+  country?: string;
+  language?: string;
+  timezone?: string;
+};
 
 export type AuthState = {
-  user: User | null
-  isAuthenticated: boolean
-}
+  user: CompanyUser | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isOnboardingComplete: boolean;
+  company: Company | null;
+};
 
 export const initialState: AuthState = {
   user: null,
+  token: null,
   isAuthenticated: false,
-}
+  isOnboardingComplete: false,
+  company: null,
+};

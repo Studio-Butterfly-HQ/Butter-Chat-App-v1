@@ -1,0 +1,83 @@
+[
+  {
+    "type": "transfer_chat",
+    "payload": {
+      "metadata": {
+        "created_at": "Jan 02 15:04:05",
+        "last_updated": "Jan 02 15:04:05"
+      },
+      "id": "8f86f7a4-7b4e-4d70-8ef0-117ba47936ae",
+      "status": "waiting",
+      "customer": {
+        "id": "560c4823-54c3-49eb-903c-8cc45309a4bc",
+        "name": "Rahat Almas",
+        "picture": "",
+        "contact": "bmrahatalmas@gmail.com",
+        "source": "WEB",
+        "company_id": "ac0e82ac-1b29-4c91-b553-9d5568ec5faf"
+      },
+      "summary": "About tiny super processor",
+      "tags": ["innovation", "hardware"],
+      "messages": [],
+      "assigned_to": null,
+      "department": {
+        "department_id": "1",
+        "department_name": "Team Alpha"
+      }
+    }
+  },
+  {
+    "type": "transfer_chat",
+    "payload": {
+      "metadata": {
+        "created_at": "Feb 10 09:30:00",
+        "last_updated": "Feb 10 10:15:00"
+      },
+      "id": "9a75f6b3-6c3d-3e61-7de9-006ca36825bd",
+      "status": "waiting",
+      "customer": {
+        "id": "671d5934-65e4-50fc-804d-9dd56410b5cd",
+        "name": "Sarah Jones",
+        "picture": "https://github.com/shadcn.png",
+        "contact": "sarah.j@example.com",
+        "source": "FACEBOOK",
+        "company_id": "bd1f93bd-2c30-5d02-c664-0e6679fd6gbg"
+      },
+      "summary": "Login issues on mobile app",
+      "tags": ["bug", "urgent"],
+      "messages": [],
+      "assigned_to": null,
+      "department": {
+        "department_id": "2",
+        "department_name": "Support"
+      }
+    }
+  },
+  {
+    "type": "transfer_chat",
+    "payload": {
+      "metadata": {
+        "created_at": "Feb 12 14:20:00",
+        "last_updated": "Feb 12 14:45:00"
+      },
+      "id": "1b23c4d5-e6f7-8g9h-0i1j-2k3l4m5n6o7p",
+      "status": "waiting",
+      "customer": {
+        "id": "782e6045-76f5-61gd-915e-0ee67521c6de",
+        "name": "Mike Brown",
+        "picture": "",
+        "contact": "mikeb@test.com",
+        "source": "WHATSAPP",
+        "company_id": "ce2g04ce-3d41-6e13-d775-1f7780ge7hch"
+      },
+      "summary": "Inquiry about pricing plans",
+      "tags": ["sales", "inquiry"],
+      "messages": [],
+      "assigned_to": null,
+      "department": {
+        "department_id": "1",
+        "department_name": "Sales"
+      }
+    }
+  }
+]

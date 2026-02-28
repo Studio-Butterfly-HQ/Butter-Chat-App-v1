@@ -9,16 +9,22 @@ import { Toaster } from './components/ui/sonner'
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from './lib/react-query'
 import { PersistGate } from "redux-persist/integration/react"
+import { ThemeProvider } from "@/provider/theme-provider"
+import { SocketProvider } from "./socket/socket-provider"
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <App />
-          <Toaster />
-        </PersistGate>
-      </Provider>
-    </QueryClientProvider>
-  </StrictMode>,
+  // <StrictMode>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <SocketProvider>
+              <App />
+            </SocketProvider>
+            <Toaster />
+          </PersistGate>
+        </Provider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  // </StrictMode>,
 )

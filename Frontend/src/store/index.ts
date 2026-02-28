@@ -1,5 +1,9 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
-import authReducer from "./slices/auth/auth-slice"
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import authReducer from "./slices/auth/auth-slice";
+import uiReducer from "./slices/ui/ui-slice";
+import chatReducer from "./slices/chat/chat-slice";
+import notificationReducer from "./slices/ui/notification-slice";
+import butterAiReducer from "./slices/butter-ai/butter-ai-slice";
 
 import {
   persistStore,
@@ -10,24 +14,36 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist"
+} from "redux-persist";
 
-import storage from "redux-persist/lib/storage"
+import storage from "redux-persist/lib/storage";
 
 // Combine reducers
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: authReducer,
-})
+  ui: uiReducer,
+  chat: chatReducer,
+  notifications: notificationReducer,
+  butterAi: butterAiReducer,
+});
+
+const rootReducer = (state: any, action: any) => {
+  if (action.type === "auth/logout") {
+    // Reset state to undefined to trigger initialState in all reducers
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 // Persist config
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"], //persist ONLY auth slice
-}
+  whitelist: ["auth", "ui"], //persist auth and ui slices
+};
 
 // Persisted reducer
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Configure store
 export const store = configureStore({
@@ -35,21 +51,14 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [
-          FLUSH,
-          REHYDRATE,
-          PAUSE,
-          PERSIST,
-          PURGE,
-          REGISTER,
-        ],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-})
+});
 
 // Persistor
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);
 
 // Types
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

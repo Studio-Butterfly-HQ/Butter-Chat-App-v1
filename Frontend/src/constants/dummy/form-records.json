@@ -1,0 +1,101 @@
+[
+  {
+    "id": "1",
+    "outletName": "Aarong Dhanmondi 1",
+    "address": "House - 1/1, Block # A, Asad Gate, Lalmatia, Mirpur Road, Dhanmondi, Dhaka , Bangladesh",
+    "phoneNumber": "+88 02 58154710",
+    "openingHour": "10:00 AM",
+    "closingHour": "08:00 PM",
+    "openDays": "Sat, Sun, Mon, Tue, Thu, Fri"
+  },
+  {
+    "id": "2",
+    "outletName": "Cafe Mango",
+    "address": "123 Mango Street, Gulshan-1, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 12345678",
+    "openingHour": "09:00 AM",
+    "closingHour": "11:00 PM",
+    "openDays": "Mon, Tue, Wed, Thu, Fri, Sat"
+  },
+  {
+    "id": "3",
+    "outletName": "Spice Route",
+    "address": "456 Spice Lane, Uttara, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 87654321",
+    "openingHour": "11:00 AM",
+    "closingHour": "10:00 PM",
+    "openDays": "Tue, Wed, Thu, Fri, Sat, Sun"
+  },
+  {
+    "id": "4",
+    "outletName": "The Coffee House",
+    "address": "789 Coffee Blvd, Banani, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 23456789",
+    "openingHour": "08:00 AM",
+    "closingHour": "09:00 PM",
+    "openDays": "Mon, Tue, Thu, Fri, Sat"
+  },
+  {
+    "id": "5",
+    "outletName": "Bistro 45",
+    "address": "101 Bistro Rd, Mirpur, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 34567890",
+    "openingHour": "09:30 AM",
+    "closingHour": "11:30 PM",
+    "openDays": "Wed, Thu, Fri, Sat, Sun"
+  },
+  {
+    "id": "6",
+    "outletName": "Chill Out Cafe",
+    "address": "202 Chill Ave, Mohammadpur, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 45678901",
+    "openingHour": "10:00 AM",
+    "closingHour": "12:00 AM",
+    "openDays": "Mon, Tue, Fri, Sat, Sun"
+  },
+  {
+    "id": "7",
+    "outletName": "Pasta Point",
+    "address": "303 Pasta Park, Shyamoli, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 56789012",
+    "openingHour": "11:00 AM",
+    "closingHour": "11:00 PM",
+    "openDays": "Tue, Thu, Fri, Sat, Sun"
+  },
+  {
+    "id": "8",
+    "outletName": "Sushi Corner",
+    "address": "404 Sushi St, Farmgate, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 67890123",
+    "openingHour": "12:00 PM",
+    "closingHour": "10:00 PM",
+    "openDays": "Mon, Wed, Thu, Fri, Sat"
+  },
+  {
+    "id": "9",
+    "outletName": "Curry House",
+    "address": "505 Curry Drive, Malibagh, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 78901234",
+    "openingHour": "10:30 AM",
+    "closingHour": "09:30 PM",
+    "openDays": "Mon, Tue, Thu, Fri, Sun"
+  },
+  {
+    "id": "10",
+    "outletName": "Dessert Delights",
+    "address": "606 Sweet Lane, Lalbagh, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 89012345",
+    "openingHour": "01:00 PM",
+    "closingHour": "11:00 PM",
+    "openDays": "Tue, Wed, Fri, Sat, Sun"
+  },
+  {
+    "id": "11",
+    "outletName": "Grill & Chill",
+    "address": "707 Grill Rd, Tejgaon, Dhaka, Bangladesh",
+    "phoneNumber": "+88 02 90123456",
+    "openingHour": "12:00 PM",
+    "closingHour": "10:00 PM",
+    "openDays": "Mon, Thu, Fri, Sat, Sun"
+  }
+]

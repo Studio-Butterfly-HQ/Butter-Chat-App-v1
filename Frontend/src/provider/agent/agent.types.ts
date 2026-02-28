@@ -1,18 +1,40 @@
 export interface CreateAgentPayload {
-  name: string
-  personality: string
-  instructions: string
+  agent_name: string;
+  personality: string;
+  general_instructions: string;
+  choice_when_unable: string;
+  conversation_pass_instructions: string;
+  auto_transfer: string;
+  transfer_connecting_message: string;
+  avatar?: string;
 }
 
+export type UpdateAgentPayload = Partial<CreateAgentPayload>;
+
 export interface Agent {
-  id: string
-  name: string
-  personality: string
-  instructions: string
+  id: string;
+  agent_name: string;
+  personality: string;
+  general_instructions: string;
+  avatar: string;
+  choice_when_unable: string;
+  conversation_pass_instructions: string;
+  auto_transfer: string;
+  transfer_connecting_message: string;
+  company_id: string;
+  enabled: boolean;
+  createdDate: string;
+  updatedDate: string;
 }
 
 export interface ApiResponse<T> {
-  success: boolean
-  message: string
-  data: T
+  success: boolean;
+  message: string;
+  data: T;
+  error?: {
+    code?: string;
+    details?: Record<string, string[]>;
+  };
+  timestamp?: string;
+  path?: string;
 }
