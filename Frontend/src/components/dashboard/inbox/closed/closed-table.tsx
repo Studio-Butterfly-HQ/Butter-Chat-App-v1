@@ -29,24 +29,22 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Conversation } from "@/store/slices/chat/chat-types";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { InboxEmptyState } from "@/components/dashboard/inbox/inbox-empty-state";
 import closedData from "@/constants/dummy/closed-inbox.json";
 import {
   StatusBadge,
   normalizeStatus,
 } from "@/components/dashboard/inbox/your-inbox/your-inbox-table";
+import { openCustomerChat, openUserSidebar, setSelectedInboxUserId } from "@/store/slices/ui/ui-slice";
 
 export default function ClosedTable() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const isCustomerChatOpen = useAppSelector(
-    (state) => state.ui.isCustomerChatOpen,
-  );
-  const isUserSidebarOpen = useAppSelector(
-    (state) => state.ui.isUserSidebarOpen,
-  );
+  const dispatch = useAppDispatch();
+  const isCustomerChatOpen = useAppSelector((state) => state.ui.isCustomerChatOpen);
+  const isUserSidebarOpen = useAppSelector((state) => state.ui.isUserSidebarOpen);
   const closedRecord = useAppSelector((state) => state.chat.closed);
 
   const closed = useMemo(() => Object.values(closedRecord), [closedRecord]);
@@ -319,6 +317,13 @@ export default function ClosedTable() {
       <DataGrid
         table={table}
         recordCount={closed.length}
+        onRowClick={(row: Conversation) => {
+          dispatch(setSelectedInboxUserId(row.id));
+          if (!isCustomerChatOpen) {
+            dispatch(openUserSidebar());
+          }
+          dispatch(openCustomerChat());
+        }}
         tableLayout={{
           headerBackground: false,
           rowBorder: isCompactMode ? false : true,

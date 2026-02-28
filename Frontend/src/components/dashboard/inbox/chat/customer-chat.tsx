@@ -11,11 +11,11 @@ import {
   closeUserSidebar,
 } from "@/store/slices/ui/ui-slice";
 import ChatWaitingBanner from "./chat-waiting-banner";
+import ChatClosedBanner from "./chat-closed-banner";
 import ChatMessageInput from "./chat-message-input";
 import { SidebarHeader } from "@/components/ui/sidebar";
 import { getSocket } from "@/socket/socket";
 import { toast } from "sonner";
-import { addMessage } from "@/store/slices/chat/chat-slice";
 
 interface Message {
   id: string;
@@ -26,9 +26,12 @@ interface Message {
 }
 
 export default function CustomerChat() {
-  const selectedInboxUserId = useAppSelector((state) => state.ui.selectedInboxUserId);
+  const selectedInboxUserId = useAppSelector(
+    (state) => state.ui.selectedInboxUserId,
+  );
   const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
   const activeRecord = useAppSelector((state) => state.chat.active);
+  const closedRecord = useAppSelector((state) => state.chat.closed);
 
   const chatMessages = useAppSelector((state) => state.chat.messages);
 
@@ -59,11 +62,18 @@ export default function CustomerChat() {
     return (
       unassignedRecord[selectedInboxUserId] ??
       activeRecord[selectedInboxUserId] ??
+      closedRecord[selectedInboxUserId] ??
       null
     );
-  }, [selectedInboxUserId, unassignedRecord, activeRecord]);
-  
-  const isWaiting = selectedInboxUserId ? Boolean(unassignedRecord[selectedInboxUserId]) : false;
+  }, [selectedInboxUserId, unassignedRecord, activeRecord, closedRecord]);
+
+  // check if the chat is waiting or closed
+  const isWaiting = selectedInboxUserId
+    ? Boolean(unassignedRecord[selectedInboxUserId])
+    : false;
+  const isClosed = selectedInboxUserId
+    ? Boolean(closedRecord[selectedInboxUserId])
+    : false;
 
   useEffect(() => {
     if (selectedInboxUserId && !selectedConversation) {
@@ -158,7 +168,7 @@ export default function CustomerChat() {
           <Button variant="ghost" size="icon" className="h-7 w-7">
             <EllipsisVertical className="h-4 w-4" />
           </Button>
-          {!isWaiting && (
+          {!isWaiting && !isClosed && (
             <Button
               variant="default"
               onClick={handleClose}
@@ -235,8 +245,8 @@ export default function CustomerChat() {
             </div>
           ))}
 
-          {/* Chat Summary - shown when status is waiting */}
-          {isWaiting && selectedConversation.summary && (
+          {/* Chat Summary - shown when status is waiting or closed */}
+          {(isWaiting || isClosed) && selectedConversation.summary && (
             <div className="mt-4 rounded-lg border border-border p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="h-4 w-4 text-foreground" />
@@ -255,8 +265,10 @@ export default function CustomerChat() {
         </div>
       </ScrollArea>
 
-      {/* Input Area / shown when status is waiting */}
-      {isWaiting ? (
+      {/* Input Area / shown when status is waiting or closed/ present in the store */}
+      {isClosed ? (
+        <ChatClosedBanner />
+      ) : isWaiting ? (
         <ChatWaitingBanner conversation={selectedConversation} />
       ) : (
         <ChatMessageInput

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
 import { ChevronDown, ArrowUpRight, User, Users, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -125,6 +124,8 @@ export function UserSidebar() {
   const selectedInboxUserId = useAppSelector((state) => state.ui.selectedInboxUserId);
   const unassignedRecord = useAppSelector((state) => state.chat.unassigned);
   const activeRecord = useAppSelector((state) => state.chat.active);
+  const closedRecord = useAppSelector((state) => state.chat.closed);
+
   const dispatch = useAppDispatch();
 
   const selectedConversation = useMemo(() => {
@@ -132,9 +133,10 @@ export function UserSidebar() {
     return (
       unassignedRecord[selectedInboxUserId] ??
       activeRecord[selectedInboxUserId] ??
+      closedRecord[selectedInboxUserId] ??
       null
     );
-  }, [selectedInboxUserId, unassignedRecord, activeRecord]);
+  }, [selectedInboxUserId, unassignedRecord, activeRecord, closedRecord]);
 
   useEffect(() => {
     if (selectedInboxUserId && !selectedConversation) {
