@@ -34,6 +34,7 @@ import { setActiveInboxTab } from "@/store/slices/ui/ui-slice";
 export function InboxSidebar() {
   const location = useLocation();
   const activeInboxTab = useAppSelector((state) => state.ui.activeInboxTab);
+  const { unassigned, active, closed } = useAppSelector((state) => state.chat);
   const dispatch = useAppDispatch();
 
   const navigationItems = [
@@ -41,7 +42,7 @@ export function InboxSidebar() {
       title: "Your Inbox",
       url: "/inbox",
       icon: Inbox,
-      badge: 15,
+      badge: Object.keys(active).length,
       onClick: () => dispatch(setActiveInboxTab("your-inbox")),
       activeTab: "your-inbox",
     },
@@ -49,7 +50,7 @@ export function InboxSidebar() {
       title: "Unassigned",
       url: "/inbox",
       icon: Users,
-      badge: 15,
+      badge: Object.keys(unassigned).length,
       onClick: () => dispatch(setActiveInboxTab("unassigned")),
       activeTab: "unassigned",
     },
@@ -57,7 +58,7 @@ export function InboxSidebar() {
       title: "Closed",
       url: "/inbox",
       icon: Archive,
-      badge: 15,
+      badge: Object.keys(closed).length,
       onClick: () => dispatch(setActiveInboxTab("closed-box")),
       activeTab: "closed-box",
     },
@@ -169,7 +170,7 @@ export function InboxSidebar() {
                         </div>
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
-                    {item.badge && !item.items && (
+                    {item.badge !== undefined && !item.items && (
                       <SidebarMenuBadge className="text-xs text-muted-foreground">
                         {item.badge}
                       </SidebarMenuBadge>
@@ -192,7 +193,7 @@ export function InboxSidebar() {
                                     }`}
                                   >
                                     <span>{subItem.title}</span>
-                                    {subItem.badge && (
+                                    {subItem.badge !== undefined && (
                                       <span className="text-xs text-muted-foreground">
                                         {subItem.badge}
                                       </span>
