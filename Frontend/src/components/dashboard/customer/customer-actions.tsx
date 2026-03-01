@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, Eye, Inbox, Ban, LogOut } from "lucide-react";
+import { EllipsisVertical, Eye, Inbox, Ban, LogOut, Trash } from "lucide-react";
 import type { Customer } from "@/provider/customer";
 
 interface CustomerActionsProps {
@@ -38,8 +38,8 @@ export const CustomerActions = ({ customer }: CustomerActionsProps) => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogOut className="h-4 w-4" />
-          Log Out
+          <Trash className="h-4 w-4 " />
+          Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

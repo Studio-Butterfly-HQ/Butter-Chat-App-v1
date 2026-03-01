@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Plus,
@@ -29,6 +30,7 @@ const suggestedPrompts = [
 
 export default function ChatBox() {
   const userName = useAppSelector((state) => state.auth.user?.user_name);
+  const userAvatar = useAppSelector((state) => state.auth.user?.profile_uri);
   const messages = useAppSelector((state) => state.butterAi.messages);
   const isAiTyping = useAppSelector((state) => state.butterAi.isStreaming);
   const socket = useSocket();
@@ -143,8 +145,8 @@ export default function ChatBox() {
                 >
                   <div className="flex max-w-xl gap-2">
                     {message.sender_type === "AI-AGENT" && (
-                      <div className="flex-shrink-0">
-                        <BotMessageSquare className="h-5 w-6 text-muted-foreground" />
+                      <div className="flex-shrink-0 flex items-center justify-center h-7 w-7 border border-border rounded-full bg-card">
+                        <BotMessageSquare className="h-4 w-4 text-muted-foreground" />
                       </div>
                     )}
                     <div className={`flex flex-col gap-1 min-w-0`}>
@@ -212,7 +214,18 @@ export default function ChatBox() {
                     </div>
                     {message.sender_type === "Human-Agent" && (
                       <div className="flex-shrink-0">
-                        <User className="h-5 w-6 text-muted-foreground" />
+                        <Avatar className="h-7 w-7">
+                          {userAvatar && (
+                            <AvatarImage
+                              src={userAvatar}
+                              alt={userName || "User"}
+                              className="object-cover"
+                            />
+                          )}
+                          <AvatarFallback>
+                            <User className="h-4 w-4 text-muted-foreground" />
+                          </AvatarFallback>
+                        </Avatar>
                       </div>
                     )}
                   </div>

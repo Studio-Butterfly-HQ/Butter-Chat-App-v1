@@ -3,7 +3,14 @@ import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { X, EllipsisVertical, Tag, Sparkles, PanelLeft } from "lucide-react";
+import {
+  X,
+  EllipsisVertical,
+  Tag,
+  Sparkles,
+  PanelLeft,
+  User,
+} from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   closeCustomerChat,
@@ -26,6 +33,8 @@ interface Message {
 }
 
 export default function CustomerChat() {
+  const userName = useAppSelector((state) => state.auth.user?.user_name);
+  const userAvatar = useAppSelector((state) => state.auth.user?.profile_uri);
   const selectedInboxUserId = useAppSelector(
     (state) => state.ui.selectedInboxUserId,
   );
@@ -193,12 +202,17 @@ export default function CustomerChat() {
             >
               <div className="flex max-w-md gap-2">
                 {message.type === "external" && (
-                  <Avatar className="h-6 w-6 flex-shrink-0">
-                    <AvatarImage src={selectedConversation.customer.picture} />
-                    <AvatarFallback className="text-xs">
-                      {selectedConversation.customer.name?.charAt(0) || "U"}
-                    </AvatarFallback>
-                  </Avatar>
+                  <div className="flex-shrink-0">
+                    <Avatar className="h-7 w-7 rounded-full border border-border">
+                      <AvatarImage
+                        src={selectedConversation.customer.picture}
+                        className="object-cover"
+                      />
+                      <AvatarFallback className="text-xs">
+                        {selectedConversation.customer.name?.charAt(0) || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
                 )}
                 <div className={`flex flex-col gap-1`}>
                   <div
@@ -238,10 +252,20 @@ export default function CustomerChat() {
                   </div>
                 </div>
                 {message.type === "user" && (
-                  <Avatar className="h-6 w-6 flex-shrink-0">
-                    <AvatarImage src="/user-avatar.png" />
-                    <AvatarFallback className="text-xs">U</AvatarFallback>
-                  </Avatar>
+                  <div className="flex-shrink-0">
+                    <Avatar className="h-7 w-7 rounded-full border border-border">
+                      {userAvatar && (
+                        <AvatarImage
+                          src={userAvatar}
+                          alt={userName || "User"}
+                          className="object-cover"
+                        />
+                      )}
+                      <AvatarFallback>
+                        <User className="h-4 w-4 text-muted-foreground" />
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
                 )}
               </div>
             </div>

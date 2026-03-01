@@ -23,7 +23,7 @@ import {
   fetchLocationDefaultsApi,
 } from "./profile.api";
 import { useAppDispatch } from "@/store/hooks";
-import { logout, setCompany } from "@/store/slices/auth/auth-slice";
+import { logout, setCompany, setUser } from "@/store/slices/auth/auth-slice";
 import { persistor } from "@/store/index";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -100,7 +100,7 @@ export const useCompanyProfile = () => {
   // Handle successful response  (including success: false)
   useEffect(() => {
     if (!query.data) return;
-    
+
     const { success, data, error, message } = query.data;
 
     if (success === false) {
@@ -109,6 +109,11 @@ export const useCompanyProfile = () => {
       return;
     }
     dispatch(setCompany(data));
+
+    const currentUser = data?.user || (data?.users && data.users[0]);
+    if (currentUser) {
+      dispatch(setUser(currentUser));
+    }
   }, [query.data, dispatch]);
 
   // Handle HTTP / Network errors
